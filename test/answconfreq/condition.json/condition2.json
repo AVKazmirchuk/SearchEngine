@@ -1,0 +1,48 @@
+{
+  "conditions": [
+    {
+      "config.json": [
+        [
+          [ "config", "config2" ],
+          "name",
+          "string",
+          [
+            [ "!=", "" ],
+            []
+          ]
+        ],
+        [
+          [ "config", "config2" ],
+          "version",
+          "string",
+          [
+            [ "!=", "" ],
+            []
+          ]
+        ],
+        [
+          [ "config", "config2" ],
+          "max_responses",
+          "number_integer",
+          [
+            [ ">", "0" ],
+            []
+          ]
+        ]
+      ]
+    },
+    {
+      "requests.json": [
+        [
+          [ "requests" ],
+          "requests",
+          "array",
+          [
+            [ "!=", "" ],
+            []
+          ]
+        ]
+      ]
+    }
+  ]
+}

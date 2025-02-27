@@ -1,0 +1,28 @@
+{
+  "templates": [
+    {
+      "config.json": {
+        "config": {
+          "name": "",
+          "version": "",
+          "max_responses": 0,
+          "config2": {
+            "name": "",
+            "version": "",
+            "max_responses": 0
+          }
+        },
+        "files": [
+          ""
+        ]
+      }
+    },
+    {
+      "requests.json": {
+        "requests": [
+          ""
+        ]
+      }
+    }
+  ]
+}

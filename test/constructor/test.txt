@@ -1,0 +1,147 @@
+#include <iostream>
+#include <list>
+#include <deque>
+#include <fstream>
+#include <filesystem>
+#include <string>
+#include <typeinfo>
+
+#include "exceptions.h"
+#include "checkFile.h"
+#include "nlohmann/json.hpp"
+
+
+
+//Функция печати имён файлов
+void printContainer(const std::list<std::filesystem::path>& container)
+{
+    std::cout << '\n' << "Files:" << '\n';
+
+    for (const auto& fsPath : container)
+    {
+        std::cout << fsPath.filename() << '\n';
+    }
+
+    std::cout << '\n';
+}
+
+int main()
+{
+    //Переменные файлов
+    const char* chConfig = "../../test/constructor/config.json";
+    const char* chRequests = "../../test/constructor/requests.json";
+    const char* chAnswers = "../../test/constructor/answers.json";
+
+    const std::string strConfig{chConfig};
+    const std::string strRequests{chRequests};
+    const std::string strAnswers{chAnswers};
+
+    //Проверка на существование пути: нет
+    const std::filesystem::path fsPathConfig{strConfig};
+    const std::filesystem::path fsPathRequests{strRequests};
+    const std::filesystem::path fsPathAnswers{strAnswers};
+
+    const std::initializer_list<std::filesystem::path> init_lstFsPathConfigRequestsAnswers{fsPathConfig, fsPathRequests, fsPathAnswers};
+
+    const char* chDir = "../../test/constructor";
+    const std::string strDir{chDir};
+    //Проверка на существование пути: нет
+    const std::filesystem::path fsPathDir{strDir};
+    //Проверка на существование пути: да
+    const std::filesystem::directory_iterator fsDir_itDir{fsPathDir};
+
+    const std::filesystem::path massFsPathConfigRequestsAnswers[] = {fsPathConfig, fsPathRequests, fsPathAnswers};
+    const std::array<std::filesystem::path, 3> arrFsPathConfigRequestsAnswers = {fsPathConfig, fsPathRequests, fsPathAnswers};
+    const std::list<std::filesystem::path> lstFsPathConfigRequestsAnswers{fsPathConfig, fsPathRequests, fsPathAnswers};
+    const std::forward_list<std::filesystem::path> fwd_lstFsPathConfigRequestsAnswers{fsPathConfig, fsPathRequests, fsPathAnswers};
+    const std::vector<std::filesystem::path> vecFsPathConfigRequestsAnswers{fsPathConfig, fsPathRequests, fsPathAnswers};
+    const std::deque<std::filesystem::path> deqFsPathConfigRequestsAnswers{fsPathConfig, fsPathRequests, fsPathAnswers};
+
+    auto itBegMassFsPathConfigRequestsAnswers{std::cbegin(massFsPathConfigRequestsAnswers)};
+    auto itEndMassFsPathConfigRequestsAnswers{std::cend(massFsPathConfigRequestsAnswers)};
+
+    auto itBegArrFsPathConfigRequestsAnswers{arrFsPathConfigRequestsAnswers.cbegin()};
+    auto itEndArrFsPathConfigRequestsAnswers{arrFsPathConfigRequestsAnswers.cend()};
+
+    auto itBegLstFsPathConfigRequestsAnswers{lstFsPathConfigRequestsAnswers.cbegin()};
+    auto itEndLstFsPathConfigRequestsAnswers{lstFsPathConfigRequestsAnswers.cend()};
+
+    auto itBegFwd_lstFsPathConfigRequestsAnswers{fwd_lstFsPathConfigRequestsAnswers.cbegin()};
+    auto itEndFwd_lstFsPathConfigRequestsAnswers{fwd_lstFsPathConfigRequestsAnswers.cend()};
+
+    auto itBegVecFsPathConfigRequestsAnswers{vecFsPathConfigRequestsAnswers.cbegin()};
+    auto itEndVecFsPathConfigRequestsAnswers{vecFsPathConfigRequestsAnswers.cend()};
+
+    auto itBegDeqFsPathConfigRequestsAnswers{deqFsPathConfigRequestsAnswers.cbegin()};
+    auto itEndDeqFsPathConfigRequestsAnswers{deqFsPathConfigRequestsAnswers.cend()};
+
+    //Конструктор, по умолчанию
+    CheckFile cf1_1;
+    printContainer(cf1_1.getNotInitial());
+
+    CheckFile cf1_2{};
+    printContainer(cf1_2.getNotInitial());
+
+    //Конструктор (шаблонный), принимает файлы
+    CheckFile cf2_1(fsPathConfig, fsPathRequests, fsPathAnswers);
+    printContainer(cf2_1.getNotInitial());
+
+    //Конструктор, принимает список инициализации с файлами
+    CheckFile cf3_1{fsPathConfig, fsPathRequests, fsPathAnswers};
+    printContainer(cf3_1.getNotInitial());
+
+    CheckFile cf3_2{init_lstFsPathConfigRequestsAnswers};
+    printContainer(cf3_2.getNotInitial());
+
+    //Конструктор, принимает директорию с файлами
+    CheckFile cf4_1(fsDir_itDir);
+    printContainer(cf4_1.getNotInitial());
+
+    //Конструктор (шаблонный), принимает контейнер с файлами.
+    //Шаблон отключается, если передаваемый тип - путь, или может быть сконвертирован в путь
+    CheckFile cf5_1(massFsPathConfigRequestsAnswers);
+    printContainer(cf5_1.getNotInitial());
+
+    CheckFile cf5_2(arrFsPathConfigRequestsAnswers);
+    printContainer(cf5_2.getNotInitial());
+
+    CheckFile cf5_3(lstFsPathConfigRequestsAnswers);
+    printContainer(cf5_3.getNotInitial());
+
+    CheckFile cf5_4(fwd_lstFsPathConfigRequestsAnswers);
+    printContainer(cf5_4.getNotInitial());
+
+    CheckFile cf5_5(vecFsPathConfigRequestsAnswers);
+    printContainer(cf5_5.getNotInitial());
+
+    CheckFile cf5_6(deqFsPathConfigRequestsAnswers);
+    printContainer(cf5_6.getNotInitial());
+
+    //Конструктор (шаблонный), принимает диапазон контейнера с файлами
+    CheckFile cf6_1(itBegMassFsPathConfigRequestsAnswers, itEndMassFsPathConfigRequestsAnswers);
+    printContainer(cf6_1.getNotInitial());
+
+    CheckFile cf6_2(itBegArrFsPathConfigRequestsAnswers, itEndArrFsPathConfigRequestsAnswers);
+    printContainer(cf6_2.getNotInitial());
+
+    CheckFile cf6_3(itBegLstFsPathConfigRequestsAnswers, itEndLstFsPathConfigRequestsAnswers);
+    printContainer(cf6_3.getNotInitial());
+
+    CheckFile cf6_4(itBegFwd_lstFsPathConfigRequestsAnswers, itEndFwd_lstFsPathConfigRequestsAnswers);
+    printContainer(cf6_4.getNotInitial());
+
+    CheckFile cf6_5(itBegVecFsPathConfigRequestsAnswers, itEndVecFsPathConfigRequestsAnswers);
+    printContainer(cf6_5.getNotInitial());
+
+    CheckFile cf6_6(itBegDeqFsPathConfigRequestsAnswers, itEndDeqFsPathConfigRequestsAnswers);
+    printContainer(cf6_6.getNotInitial());
+
+    return 0;
+}
+
+//ПРОВЕРИТЬ С КОНСТАНТНЫМИ МЕТОДАМИ!!!
+//ДОБАВИТЬ И ПРОВЕРИТЬ КОНСТРУКТОР ПРИНИМАЮЩИЙ JSON-объект!!!
+
+
+
+
