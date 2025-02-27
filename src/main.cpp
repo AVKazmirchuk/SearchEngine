@@ -9,14 +9,10 @@
 #include "relevantResponse.h"
 #include "relativeIndex.h"
 #include "searchEngine.h"
+#include "general.h"
 #include <limits>
 
-namespace constants
-{
-    extern const char *configFilePath;
-    extern const char *requestsFilePath;
-    extern const char *answersFilePath;
-}
+
 
 //Функция печати имён файлов
 /*void printContainer(const std::list<std::pair<unsigned long, std::filesystem::path>>&& container)
