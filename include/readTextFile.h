@@ -2,8 +2,8 @@
 // Created by Alexander on 25.02.2025.
 //
 
-#ifndef SEARCH_ENGINE_READWRITETEXTFILE_H
-#define SEARCH_ENGINE_READWRITETEXTFILE_H
+#ifndef SEARCH_ENGINE_READTEXTFILE_H
+#define SEARCH_ENGINE_READTEXTFILE_H
 
 
 
@@ -12,9 +12,9 @@
 
 
 /**
- * Класс реализует чтение и запись текстовых файлов
+ * Класс реализует чтение текстовых файлов
  */
-class ReadWriteTextFile
+class ReadTextFile
 {
 
 public:
@@ -22,7 +22,7 @@ public:
     /**
      *
      */
-    ReadWriteTextFile() = default;
+    ReadTextFile() = default;
 
     /**
      * Прочитать документ
@@ -36,8 +36,8 @@ public:
      * @param filePaths Список путей документов
      * @return Документы
      */
-    std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
+    std::vector<std::string> readTextFile(std::vector<std::string> filePaths);
 
 };
 
-#endif //SEARCH_ENGINE_READWRITETEXTFILE_H
+#endif //SEARCH_ENGINE_READTEXTFILE_H

@@ -10,19 +10,19 @@
 #include <future>
 #include <list>
 
-#include "readWriteTextFile.h"
+#include "readTextFile.h"
 #include "general.h"
 
 
 
-std::string ReadWriteTextFile::readTextFile(const std::string& filePath)
+std::string ReadTextFile::readTextFile(const std::string& filePath)
 {
     std::ifstream file(filePath);
 
     return {(std::istreambuf_iterator<char>(file)), {}};
 }
 
-std::vector<std::string> ReadWriteTextFile::readTextFile(const std::vector<std::string>& filePaths)
+std::vector<std::string> ReadTextFile::readTextFile(std::vector<std::string> filePaths)
 {
     //Документы
     std::vector<std::string> documents;
@@ -35,7 +35,7 @@ std::vector<std::string> ReadWriteTextFile::readTextFile(const std::vector<std::
     {
         //Запустить чтение из файла
         asyncs.emplace_back(std::async(
-                static_cast<std::string(ReadWriteTextFile::*)(const std::string&)>(&ReadWriteTextFile::readTextFile), this,
+                static_cast<std::string(ReadTextFile::*)(const std::string&)>(&ReadTextFile::readTextFile), this,
                 std::cref(filePaths[docID])));
     }
 

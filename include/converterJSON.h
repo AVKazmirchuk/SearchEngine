@@ -30,10 +30,10 @@ class ConverterJSON
 
 public:
 
-    ConverterJSON(const nlohmann::json& in_configJSON, const nlohmann::json& in_requestsJSON)
+    ConverterJSON(ordered_float_json in_configJSON, ordered_float_json in_requestsJSON)
 
-    : configJSON(in_configJSON),
-      requestsJSON(in_requestsJSON)
+    : configJSON(std::move(in_configJSON)),
+      requestsJSON(std::move(in_requestsJSON))
 
     {}
 

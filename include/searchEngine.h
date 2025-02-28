@@ -12,12 +12,15 @@
 #include "invertedIndex.h"
 #include "requests.h"
 #include "relevantResponse.h"
-#include "readWriteTextFile.h"
+#include "readTextFile.h"
 #include "readWriteJSONFile.h"
 #include "general.h"
 
 
 
+/**
+ * Класс организует взаимодействие между другими классами
+ */
 class SearchEngine
 {
 
@@ -59,14 +62,29 @@ public:
 
 private:
 
+    /**
+     * JSON-объекты
+     */
     ConverterJSON converterJSONObj;
-    //Документы
+
+    /**
+     * Документы
+     */
     Documents documentsObj;
-    //Инвертированный индекс
+
+    /**
+     * Инвертированный индекс
+     */
     InvertedIndex invertedIndexObj;
-    //Запросы
+
+    /**
+     * Запросы
+     */
     Requests requestsObj;
-    //Релевантные ответы
+
+    /**
+     * Релевантные ответы
+     */
     RelevantResponse relevantResponseObj;
 
 };

@@ -16,7 +16,7 @@ void SearchEngine::searchModifiedAll()
     documentsObj.clearDocuments();
 
     //Обновить список документов из файлов
-    documentsObj.updateDocuments(ReadWriteTextFile().readTextFile(converterJSONObj.getFilePaths()));
+    documentsObj.updateDocuments(ReadTextFile().readTextFile(converterJSONObj.getFilePaths()));
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
