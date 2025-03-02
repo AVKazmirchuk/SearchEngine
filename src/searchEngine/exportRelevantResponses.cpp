@@ -11,20 +11,14 @@
 std::vector<std::vector<std::pair<int, float>>> SearchEngine::exportRelevantResponses()
 {
     //Временная база релевантности ответов другого типа структуры относительного индекса
-    std::vector<std::vector<std::pair<int, float>>> answers;
+    std::vector<std::vector<std::pair<int, float>>> answers(relevantResponseObj.getRelevantResponses().size());
 
     //Для каждого запроса
     for (std::size_t requestId{}; requestId < relevantResponseObj.getRelevantResponses().size(); ++requestId)
     {
-        //Добавить пустой список
-        answers.emplace_back(std::vector<std::pair<int, float>>{});
-
-        //Каждую структуру относительного индекса
-        for (auto& relativeIndex : relevantResponseObj.getRelevantResponses()[requestId])
-        {
-            //Добавить во временную базу релевантности ответов
-            answers[requestId].emplace_back(relativeIndex.docID, relativeIndex.rank);
-        }
+        //Присвоить текущему списку запросов относительные индексы  из соотвествующего списка запросов базы релевантности ответов
+        answers[requestId].assign(relevantResponseObj.getRelevantResponses()[requestId].cbegin(),
+                                  relevantResponseObj.getRelevantResponses()[requestId].cend());
     }
 
     return answers;

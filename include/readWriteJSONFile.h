@@ -27,7 +27,7 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    ordered_float_json readJSONFile(const std::string& filePath);
+    JSON readJSONFile(const std::string& filePath);
 
     /**
      * Записать JSON-файл
@@ -35,7 +35,7 @@ public:
      * @param filePath Путь JSON-файла
      * @param formatByWidth Ширина вывода
      */
-    void writeJSONFile(const ordered_float_json& objectJSON, const std::string& filePath, int formatByWidth = 2);
+    void writeJSONFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth = 2);
 
 };
 

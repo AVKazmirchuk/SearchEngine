@@ -4,11 +4,11 @@
 
 
 
-#include "initialize.h"
+#include "Initialization.h"
 
 
 
-bool Initialize::checkFileEmpty()
+bool Initialization::checkFileEmpty()
 {
     return objectJSON.contains("config");
 }

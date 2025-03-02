@@ -11,7 +11,9 @@
 
 
 
-using ordered_float_json = nlohmann::basic_json<
+//Тип объектов заменён на nlohmann::ordered_json (сохраняет порядок вставки)
+//Тип для чисел с плавающей запятой заменён на float
+using JSON = nlohmann::basic_json<
         nlohmann::ordered_map,
         std::vector,
         std::string,
@@ -20,28 +22,57 @@ using ordered_float_json = nlohmann::basic_json<
         std::uint64_t,
         float>;
 
+//Константы переменных
 namespace constants {
-    extern const int precision;
-    extern const int formatByWidth;
 
-    extern const char *configFilePath;
-    extern const char *requestsFilePath;
-    extern const char *answersFilePath;
+    //Путь файла конфигурации
+    extern const std::string configFilePath;
+    //Путь файла запросов
+    extern const std::string requestsFilePath;
+    //Путь файла ответов
+    extern const std::string answersFilePath;
 
-    extern const std::string answersStr;
-    extern const std::string requestStr;
-    extern const std::string filesStr;
+    //Имя поля "config" файла конфигурации
     extern const std::string configStr;
+    //Имя поля "name" файла конфигурации
+    extern const std::string nameStr;
+    //Имя поля "version" файла конфигурации
+    extern const std::string versionStr;
+    //Имя поля "max_responses" файла конфигурации
     extern const std::string max_responsesStr;
+    //Имя поля "files" файла конфигурации
+    extern const std::string filesStr;
+
+    //Имя поля "requests" файла запросов
     extern const std::string requestsStr;
+
+    //Имя поля "answers" файла ответов
+    extern const std::string answersStr;
+    //Имя поля "request" файла ответов
+    extern const std::string requestStr;
+    //Имя поля "result" файла ответов
     extern const std::string resultStr;
-    extern const std::string falseStr;
+    //Значение "true" поля "result" файла ответов
     extern const std::string trueStr;
+    //Значение "false" поля "result" файла ответов
+    extern const std::string falseStr;
+    //Имя поля "relevance" файла ответов
     extern const std::string relevanceStr;
+    //Имя поля "docid" файла ответов
     extern const std::string docIdStr;
+    //Имя поля "rank" файла ответов
     extern const std::string rankStr;
+
+    //Количество знаков после запятой
+    extern const int precision;
+    //Ширина вывода
+    extern const int formatByWidth;
 }
 
+/**
+ * Выйти из программы
+ * @param error Строка ошибки
+ */
 void exitProgram(const char* error);
 
 #endif //SEARCH_ENGINE_GENERAL_H

@@ -26,6 +26,11 @@ struct RelativeIndex
      */
     float rank;
 
+    operator std::pair<int, float>() const
+    {
+        return {static_cast<int>(docID), rank};
+    }
+
     bool operator ==(const RelativeIndex& other) const {
         return (docID == other.docID && rank == other.rank);
     }

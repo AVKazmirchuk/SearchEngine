@@ -10,9 +10,9 @@
 
 
 
-ordered_float_json ReadWriteJSONFile::readJSONFile(const std::string& filePath)
+JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)
 {
     std::ifstream file(filePath);
 
-    return ordered_float_json::parse(file);
+    return JSON::parse(file);
 }

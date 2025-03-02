@@ -6,7 +6,7 @@
 #define SEARCH_ENGINE_CONVERTERJSON_H
 
 
-
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -30,10 +30,17 @@ class ConverterJSON
 
 public:
 
-    ConverterJSON(ordered_float_json in_configJSON, ordered_float_json in_requestsJSON)
+    ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
 
-    : configJSON(std::move(in_configJSON)),
-      requestsJSON(std::move(in_requestsJSON))
+    : configJSON(in_configJSON),
+      requestsJSON(in_requestsJSON)
+
+    {}
+
+    ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
+
+            : configJSON(std::move(in_configJSON)),
+              requestsJSON(std::move(in_requestsJSON))
 
     {}
 
@@ -60,30 +67,30 @@ public:
      * @param answers Релевантность ответов
      * @param maxResponses Значение максимального количества ответов
      */
-    void putAnswers(std::vector<std::vector<std::pair<int , float>>> answers, int maxResponses);
+    void setAnswersJSON(const std::vector<std::vector<std::pair<int, float>>>& answers, int maxResponses);
 
     /**
      * Получить JSON-объект ответов
      * @return Ссылка на JSON-объект ответов
      */
-    ordered_float_json& getAnswersJSON();
+    JSON& getAnswersJSON();
 
 private:
 
     /**
      * JSON-объект конфигурации
      */
-    ordered_float_json configJSON;
+    JSON configJSON;
 
     /**
      * JSON-объект запросов
      */
-    ordered_float_json requestsJSON;
+    JSON requestsJSON;
 
     /**
      * JSON-объект ответов
      */
-    ordered_float_json answersJSON;
+    JSON answersJSON;
 
     /**
      * Определить суммарный ранг

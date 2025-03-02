@@ -4,15 +4,48 @@
 
 
 
-#include <iostream>
-
 #include "converterJSON.h"
 #include "general.h"
 #include "relevantResponse.h"
 
 
 
-void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> answers, int maxResponses)
+/*
+ Конструирует JSON-объект вида:
+
+{
+  "answers": {
+    "request001": {
+      "result": "true",
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": 1.0
+        },
+        {
+          "docid": 2,
+          "rank": 0.94737
+        },
+        {
+          "docid": 1,
+          "rank": 0.77193
+        }
+      ]
+    },
+    "request002": {
+      "result": "true",
+        "docid": 1,
+        "rank": 0.07018
+    },
+    "request003": {
+      "result": "false"
+    }
+  }
+}*/
+
+
+
+void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<int, float>>>& answers, int maxResponses)
 {
     //Максимальное количество ответов не должно быть меньше 1
     maxResponses = maxResponses < 1 ? 1 : maxResponses;

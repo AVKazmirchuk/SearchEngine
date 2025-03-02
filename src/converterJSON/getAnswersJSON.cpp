@@ -8,7 +8,7 @@
 
 
 
-ordered_float_json& ConverterJSON::getAnswersJSON()
+JSON& ConverterJSON::getAnswersJSON()
 {
     return answersJSON;
 }

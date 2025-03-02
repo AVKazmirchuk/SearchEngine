@@ -4,12 +4,12 @@
 
 
 
-#include "initialize.h"
+#include "Initialization.h"
 
 
 
 //Вспомогательная функция проверки файла на существование
-bool Initialize::checkFileExists()
+bool Initialization::checkFileExists()
 {
-    return std::filesystem::exists(filePath);
+    return std::filesystem::exists(configFilePath);
 }

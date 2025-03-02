@@ -25,18 +25,20 @@ public:
     ReadTextFile() = default;
 
     /**
+     * Прочитать документы в отдельных потоках
+     * @param filePaths Список путей документов
+     * @return Документы
+     */
+    std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
+
+private:
+
+    /**
      * Прочитать документ
      * @param filePath Путь документа
      * @return Документ
      */
     std::string readTextFile(const std::string& filePath);
-
-    /**
-     * Прочитать документы в отдельных потоках
-     * @param filePaths Список путей документов
-     * @return Документы
-     */
-    std::vector<std::string> readTextFile(std::vector<std::string> filePaths);
 
 };
 

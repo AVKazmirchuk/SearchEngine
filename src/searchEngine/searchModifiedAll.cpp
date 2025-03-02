@@ -30,8 +30,8 @@ void SearchEngine::searchModifiedAll()
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    //Записывает в файл answers.json результаты поиска, с учётом максимального количества ответов
-    converterJSONObj.putAnswers(exportRelevantResponses(), converterJSONObj.getMaxResponses());
+    //Записывает в JSON-объект результаты поиска, с учётом максимального количества ответов
+    converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     ReadWriteJSONFile().writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
 }

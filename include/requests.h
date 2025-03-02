@@ -26,7 +26,13 @@ public:
      * Обновить базу запросов
      * @param in_requests База запросов
      */
-    void updateRequests(std::vector<std::string> in_requests);
+    void updateRequests(const std::vector<std::string>& in_requests);
+
+    /**
+     * Обновить базу запросов
+     * @param in_requests База запросов
+     */
+    void updateRequests(std::vector<std::string>&& in_requests);
 
     /**
      * Получить ссылку на базу запросов
@@ -45,13 +51,6 @@ private:
      * База запросов
      */
     std::vector<std::string> requests;
-
-    /**
-     * Преобразовать символ в нижний регистр
-     * @param line Строка для преобразования
-     * @return Преобразованная строка
-     */
-    std::string& characterToLower(std::string& line);
 
 };
 

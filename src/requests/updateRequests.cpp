@@ -8,10 +8,12 @@
 
 
 
-void Requests::updateRequests(std::vector<std::string> in_requests)
+void Requests::updateRequests(const std::vector<std::string>& in_requests)
 {
-    for (auto& elem : in_requests)
-    {
-        requests.emplace_back(std::move(characterToLower(elem)));
-    }
+    requests = in_requests;
+}
+
+void Requests::updateRequests(std::vector<std::string>&& in_requests)
+{
+    requests = std::move(in_requests);
 }

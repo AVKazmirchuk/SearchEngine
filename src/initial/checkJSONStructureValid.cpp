@@ -4,14 +4,14 @@
 
 
 
-#include "initialize.h"
+#include "Initialization.h"
 
 
 
 //Вспомогательная функция проверки файла на неповреждённость JSON-структуры
-bool Initialize::checkFileStructureValid()
+bool Initialization::checkJSONStructureValid()
 {
-    std::ifstream inFile(filePath.string());
+    std::ifstream inFile(configFilePath.string());
 
     try
     {

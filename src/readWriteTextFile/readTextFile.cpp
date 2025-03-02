@@ -22,7 +22,7 @@ std::string ReadTextFile::readTextFile(const std::string& filePath)
     return {(std::istreambuf_iterator<char>(file)), {}};
 }
 
-std::vector<std::string> ReadTextFile::readTextFile(std::vector<std::string> filePaths)
+std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)
 {
     //Документы
     std::vector<std::string> documents;

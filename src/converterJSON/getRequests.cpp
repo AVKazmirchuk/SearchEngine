@@ -5,13 +5,7 @@
 
 
 #include "converterJSON.h"
-
-
-
-namespace constants
-{
-    extern const std::string requestsStr;
-}
+#include "general.h"
 
 
 

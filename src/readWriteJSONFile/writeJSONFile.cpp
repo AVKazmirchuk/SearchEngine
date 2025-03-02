@@ -10,7 +10,7 @@
 
 
 
-void ReadWriteJSONFile::writeJSONFile(const ordered_float_json& objectJSON, const std::string& filePath, int formatByWidth)
+void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
 {
     std::ofstream file{filePath};
 

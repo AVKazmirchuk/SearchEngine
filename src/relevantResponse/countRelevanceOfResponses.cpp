@@ -49,7 +49,6 @@ void RelevantResponse::countRelevanceOfResponses()
             maxAbsoluteRelevance = std::max(maxAbsoluteRelevance, absoluteRelevance);
         }
 
-        std::cout << "\nqwertyuiop\n";
         //Вывод временной таблицы
         std::cout << "\n\n\n";
         for (auto& request2 : IDDocumentRequest)

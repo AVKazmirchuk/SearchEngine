@@ -6,14 +6,14 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/documents.h
         ${SE_INCLUDE_DIR}/entry.h
         ${SE_INCLUDE_DIR}/exceptions.h
-        ${SE_INCLUDE_DIR}/initialize.h
+        ${SE_INCLUDE_DIR}/initialization.h
         ${SE_INCLUDE_DIR}/invertedIndex.h
         ${SE_INCLUDE_DIR}/relativeIndex.h
         ${SE_INCLUDE_DIR}/relevantResponse.h
         ${SE_INCLUDE_DIR}/requests.h
         ${SE_INCLUDE_DIR}/searchEngine.h
         ${SE_INCLUDE_DIR}/readWriteJSONFile.h
-        ${SE_INCLUDE_DIR}/readWriteTextFile.h
+        ${SE_INCLUDE_DIR}/readTextFile.h
         ${SE_INCLUDE_DIR}/general.h
 
         ${SE_INCLUDE_DIR}/parallelization.h
@@ -21,7 +21,10 @@ add_executable(search_engine main.cpp
         converterJSON/getFilePaths.cpp
         converterJSON/getMaxResponses.cpp
         converterJSON/getRequests.cpp
-        converterJSON/putAnswers.cpp
+        converterJSON/setAnswersJSON.cpp
+        converterJSON/getAnswersJSON.cpp
+        converterJSON/convertIdtoStr.cpp
+        converterJSON/accumulateRank.cpp
 
         invertedIndex/updateInvertedIndexes.cpp
         invertedIndex/getInvertedIndexes.cpp
@@ -50,19 +53,17 @@ add_executable(search_engine main.cpp
         relevantResponse/roundUpToPrecision.cpp
 
 
-        initial/checkFileStructureValid.cpp
+        initial/checkJSONStructureValid.cpp
         initial/checkFileExists.cpp
-        initial/initialize.cpp
+        initial/initialization.cpp
         initial/checkFileEmpty.cpp
 
-        documents/characterToLower.cpp
         documents/updateDocuments.cpp
         documents/getDocuments.cpp
         documents/clearDocuments.cpp
 
         requests/updateRequests.cpp
         requests/getRequests.cpp
-        requests/characterToLower.cpp
         requests/clearRequests.cpp
 
         searchEngine/searchModifiedAll.cpp
@@ -80,6 +81,6 @@ add_executable(search_engine main.cpp
 
 
 
-        parallelization/startThreads.cpp converterJSON/getAnswersJSON.cpp converterJSON/convertIdtoStr.cpp converterJSON/accumulateRank.cpp)
+        parallelization/startThreads.cpp )
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

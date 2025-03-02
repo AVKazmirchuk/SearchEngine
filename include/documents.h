@@ -26,7 +26,13 @@ public:
      * Обновить базу документов
      * @param in_documents База документов
      */
-    void updateDocuments(std::vector<std::string> in_documents);
+    void updateDocuments(const std::vector<std::string>& in_documents);
+
+    /**
+     * Обновить базу документов
+     * @param in_documents База документов
+     */
+    void updateDocuments(std::vector<std::string>&& in_documents);
 
     /**
      * Получить ссылку на базу документов
@@ -52,13 +58,6 @@ private:
 
 
     //ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ И ФУНКЦИИ
-
-    /**
-     * Преобразовать символ в нижний регистр
-     * @param line Строка для преобразования
-     * @return Преобразованная строка
-     */
-    std::string& characterToLower(std::string& line);
 
 };
 

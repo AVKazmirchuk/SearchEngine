@@ -23,7 +23,7 @@ void SearchEngine::searchModifiedDocuments()
     relevantResponseObj.updateRelevantResponses();
 
     //Записывает в файл answers.json результаты поиска, с учётом максимального количества ответов
-    converterJSONObj.putAnswers(exportRelevantResponses(), converterJSONObj.getMaxResponses());
+    converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     ReadWriteJSONFile().writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
 }
