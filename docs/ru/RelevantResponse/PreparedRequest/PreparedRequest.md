@@ -1,6 +1,6 @@
 # SearchEngine
 Документация SearchEngine на русском
 
-### [Класс RelevantResponse](./index.md)
+### [Класс RelevantResponse](./RelevantResponse/RelevantResponse.md)
 
 ## Класс PreparedRequest
