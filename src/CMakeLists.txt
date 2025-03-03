@@ -31,7 +31,7 @@ add_executable(search_engine main.cpp
         invertedIndex/clearInvertedIndexes.cpp
         invertedIndex/addWord.cpp
         invertedIndex/defineWord.cpp
-        invertedIndex/startThreads.cpp
+        invertedIndex/startInvertedIndexing.cpp
 
         relevantResponse/updateRelevantResponses.cpp
         relevantResponse/getRelevantResponses.cpp
@@ -53,10 +53,10 @@ add_executable(search_engine main.cpp
         relevantResponse/roundUpToPrecision.cpp
 
 
-        initial/checkJSONStructureValid.cpp
-        initial/checkFileExists.cpp
-        initial/initialization.cpp
-        initial/checkFileEmpty.cpp
+        initialization/checkJSONStructureValid.cpp
+        initialization/checkFileExists.cpp
+        initialization/initial.cpp
+        initialization/checkFileEmpty.cpp
 
         documents/updateDocuments.cpp
         documents/getDocuments.cpp
@@ -74,7 +74,7 @@ add_executable(search_engine main.cpp
         readWriteJSONFile/writeJSONFile.cpp
         readWriteJSONFile/readJSONFile.cpp
 
-        readWriteTextFile/readTextFile.cpp
+        readTextFile/readTextFile.cpp
 
         constants.cpp
         exitProgram.cpp

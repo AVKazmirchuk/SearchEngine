@@ -13,5 +13,5 @@ void InvertedIndex::updateInvertedIndexes()
     //Очистить базу инвертированных индексов
     clearInvertedIndexes();
     //Запустить инвертированную индексацию документов в отдельных потоках
-    startThreads();
+    startInvertedIndexing();
 }

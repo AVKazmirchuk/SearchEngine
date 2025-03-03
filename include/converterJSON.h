@@ -30,6 +30,11 @@ class ConverterJSON
 
 public:
 
+    /**
+     * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
+     * @param in_configJSON Ссылка на JSON-объект конфигурации
+     * @param in_requestsJSON Ссылка на JSON-объект запросов
+     */
     ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
 
     : configJSON(in_configJSON),
@@ -37,6 +42,11 @@ public:
 
     {}
 
+    /**
+     * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
+     * @param in_configJSON Ссылка на JSON-объект конфигурации
+     * @param in_requestsJSON Ссылка на JSON-объект запросов
+     */
     ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
 
             : configJSON(std::move(in_configJSON)),

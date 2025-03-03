@@ -10,9 +10,9 @@
 
 
 
-void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
+void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)
 {
     std::ofstream file{filePath};
 
-    file << std::setw(formatByWidth) << objectJSON;
+    file << std::setw(constants::formatByWidth) << objectJSON;
 }

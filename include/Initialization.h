@@ -16,12 +16,12 @@
 
 
 
-class Initialization
+class initialization
 {
 
 public:
 
-    Initialization(const std::string& in_configFilePath) : configFilePath{in_configFilePath}
+    initialization(const std::string& in_configFilePath) : configFilePath{in_configFilePath}
     {};
 
     void openFile();

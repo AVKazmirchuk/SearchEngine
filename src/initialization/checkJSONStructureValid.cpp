@@ -9,7 +9,7 @@
 
 
 //Вспомогательная функция проверки файла на неповреждённость JSON-структуры
-bool Initialization::checkJSONStructureValid()
+bool initialization::checkJSONStructureValid()
 {
     std::ifstream inFile(configFilePath.string());
 

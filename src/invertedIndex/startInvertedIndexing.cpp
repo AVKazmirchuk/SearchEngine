@@ -12,8 +12,11 @@ void exitProgram(const char* error);
 
 
 
-void InvertedIndex::startThreads()
+void InvertedIndex::startInvertedIndexing()
 {
+    //Контейнер результатов потоков
+    std::list<std::future<void>> asyncs;
+
     //Запустить потоки
     for (std::size_t docID{}; docID < documents.size(); ++docID)
     {
@@ -32,7 +35,4 @@ void InvertedIndex::startThreads()
     {
         exitProgram(e.what());
     }
-
-    //Очистить контейнер результатов работы потоков
-    asyncs.clear();
 }

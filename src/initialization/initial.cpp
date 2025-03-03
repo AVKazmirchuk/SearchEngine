@@ -8,7 +8,7 @@
 #include "exceptions.h"
 
 
-void Initialization::openFile()
+void initialization::openFile()
 {
     //Проверка файла на существование
     if (!checkFileExists()) throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, configFilePath.string());
@@ -19,7 +19,7 @@ void Initialization::openFile()
     if (!checkFileEmpty()) throw CheckFileException(ErrorCode::ERROR_FILE_EMPTY, configFilePath.string());
 }
 
-std::string Initialization::about()
+std::string initialization::about()
 {
     return to_string(objectJSON[constants::configStr][constants::nameStr]) + ", v." +
                      to_string(objectJSON[constants::configStr][constants::versionStr]);

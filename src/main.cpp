@@ -36,7 +36,7 @@ void pressAnyKey(const char* message)
 int main()
 {
 
-    Initialization config{constants::configFilePath};
+    initialization config{constants::configFilePath};
 
     try
     {

@@ -9,7 +9,7 @@
 
 
 //Вспомогательная функция проверки файла на существование
-bool Initialization::checkFileExists()
+bool initialization::checkFileExists()
 {
     return std::filesystem::exists(configFilePath);
 }
