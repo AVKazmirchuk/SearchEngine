@@ -2,8 +2,8 @@
 Документация SearchEngine на русском
 
 ## Оглавление
-1. [Введение](./getting-started.md)
-2. [Общее описание классов](./general-description-classes.md)
+1. [Введение](./introduction/introduction.md)
+2. [Общее описание классов](./general-description-classes/general-description-classes.md)
 3. [Класс SearchEngine](./SearchEngine/SearchEngine.md)
 4. [Класс ConverterJSON](./ConverterJSON/ConverterJSON.md)
 5. [Класс Documents](./Documents/Documents.md)
