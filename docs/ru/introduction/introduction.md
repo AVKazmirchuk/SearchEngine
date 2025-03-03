@@ -1,7 +1,7 @@
 # SearchEngine
 Документация SearchEngine на русском
 
-### [Оглавление](SearchEngine/docs/ru/index.md)
+### [Оглавление](../index.md)
 
 ## Введение
 
