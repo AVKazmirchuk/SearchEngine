@@ -5,23 +5,21 @@
 
 ## Общее описание классов
 Программа состоит из следующих классов:\
-&nbsp;1. ConverterJSON\
-&ensp;1. ConverterJSON\
 &emsp;1. ConverterJSON\
 Класс реализует работу с JSON-объектами\
-    2. Documents\
+&emsp;2. Documents\
 Класс реализует загрузку и хранение базы документов\
-    3. InvertedIndex\
+&emsp;3. InvertedIndex\
 Класс реализует инвертированную индексацию документов\
-    4. Requests\
+&emsp;4. Requests\
 Класс реализует загрузку и хранение базы запросов\
-    5. RelevantResponse\
+&emsp;5. RelevantResponse\
 Класс определяет релевантность ответов\
-        5.1 PreparedRequest\
-    Класс подготавливает базу запросов и хранит её\
-    6. ReadTextFile\
+&emsp;5.1 PreparedRequest\
+&emsp;Класс подготавливает базу запросов и хранит её\
+&emsp;6. ReadTextFile\
 Класс реализует чтение текстовых файлов\
-    7. ReadWriteJSONFile\
+&emsp;7. ReadWriteJSONFile\
 Класс реализует чтение и запись JSON-файлов\
-    8. SearchEngine\
+&emsp;8. SearchEngine\
 Класс организует взаимодействие между другими классами\
