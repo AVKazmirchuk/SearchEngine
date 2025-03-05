@@ -5,28 +5,20 @@
 ### [Оглавление](../index.md)
 
 ## Класс ReadWriteJSONFile
-Класс организует взаимодействие между другими классами\
+Класс реализует чтение и запись JSON-файлов\
 \
 &emsp;&emsp;Выполняет следующие функции:
 		
-1. Создаёт и хранит объекты классов ConverterJSON, Documents, InvertedIndex, Requests, RelevantResponse
-2. Рассчитывает релевантность ответов
-3. Рассчитывает релевантность ответов, при изменении документов
-4. Рассчитывает релевантность ответов, при изменении запросов
-5. Преобразует базу релевантности ответов в другой тип\
+1. Читает JSON-файл
+2. Записывает JSON-файл\
 \
 &emsp;Конструкторы:\
 По умолчанию\
-Инициализирует объекты классов\
 \
-&emsp;Не является копируемым и перемещаемым (содержит объект InvertedIndex (содержит мьютекс))\
+&emsp;Является: копируемым (неявно) и перемещаемым (неявно)\
 \
 &emsp;Общедоступные функции-члены:\
-Рассчитать релевантность ответов:\
-&emsp;void searchModifiedAll();\
-Рассчитать релевантность ответов, при изменении документов:\
-&emsp;void searchModifiedDocuments();\
-Рассчитать релевантность ответов, при изменении запросов\
-&emsp;void searchModifiedRequests();\
-Преобразовать базу релевантности ответов в другой тип:\
-&emsp;std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
+Прочитать JSON-файл\
+&emsp;JSON readJSONFile(const std::string& filePath);\
+Записать JSON-файл\
+&emsp;void writeJSONFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth = 2);
