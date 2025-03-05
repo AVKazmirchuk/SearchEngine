@@ -21,4 +21,4 @@
 Прочитать JSON-файл\
 &emsp;JSON readJSONFile(const std::string& filePath);\
 Записать JSON-файл\
-&emsp;void writeJSONFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth = 2);
+&emsp;void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
