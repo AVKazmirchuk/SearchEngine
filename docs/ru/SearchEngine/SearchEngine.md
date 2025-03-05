@@ -6,7 +6,7 @@
 ## Класс SearchEngine
 &emsp;Класс организует взаимодействие между другими классами\
 \
-&emsp;Выполняет следующие функции:
+&emsp;&emsp;Выполняет следующие функции:
 		
 1. Создаёт и хранит объекты классов ConverterJSON, Documents, InvertedIndex, Requests, RelevantResponse
 2. Рассчитывает релевантность ответов
