@@ -4,7 +4,7 @@
 ### [Оглавление](../index.md)
 
 ## Класс RelevantResponse
-Класс определяет релевантность ответов
+Класс определяет релевантность ответов\
 Содержит закрытый класс [PreparedRequest](./PreparedRequest/PreparedRequest.md)\
 \
 &emsp;&emsp;Выполняет следующие функции:
