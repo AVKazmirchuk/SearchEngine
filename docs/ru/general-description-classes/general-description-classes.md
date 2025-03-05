@@ -16,7 +16,7 @@
 Класс реализует загрузку и хранение базы запросов\
 &emsp;5. RelevantResponse\
 Класс определяет релевантность ответов\
-&emsp;&emsp;5.1 PreparedRequest\
+&emsp;&emsp;5.1 PreparedRequest (закрытый вложенный класс RelevantResponse)\
 &emsp;Класс подготавливает базу запросов и хранит её\
 &emsp;6. ReadTextFile\
 Класс реализует чтение текстовых файлов\
