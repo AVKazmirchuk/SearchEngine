@@ -13,14 +13,20 @@
 3. Хранит базу инвертированных индексов.
 4. Предоставляет ссылку на базу инвертированных индексов.\
 \
-&emsp;Конструкторы:\
-Инициализирует ссылку на базу документов\
+&emsp;Конструкторы:
+```cpp
 explicit InvertedIndex(const std::vector<std::string>& in_documents) : documents{in_documents} {}
+```
+Инициализирует ссылку на базу документов\
 \
 &emsp;Не является: копируемым и перемещаемым (содержит мьютекс)\
 \
 &emsp;Общедоступные функции-члены:\
-Обновить базу инвертированных индексов:\
-&emsp;void updateInvertedIndexes();\
-Получить ссылку на базу инвертированных индексов\
-&emsp;const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
+Обновить базу инвертированных индексов:
+```cpp
+void updateInvertedIndexes();
+```
+Получить ссылку на базу инвертированных индексов
+```cpp
+const std::map<std::string, std::vector<Entry>>& getInvertedIndexes()
+```
