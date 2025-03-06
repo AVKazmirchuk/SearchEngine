@@ -36,3 +36,21 @@ void updateRelevantResponses();
 ```cpp
 const std::vector<std::vector<RelativeIndex>>& getRelevantResponses();
 ```
+### Примеры
+```cpp
+#include "relevantResponse.h"
+
+int main()
+{
+    //...
+    //Получить ссылку на базу инвертированных индексов, cсылку на базу запросов
+    //...
+
+    //Создать объект класса RelevantResponse
+    RelevantResponse relevantResponseObj(in_invertedIndexes, in_requests);
+    //Рассчитать релевантность ответов
+    relevantResponseObj.updateRelevantResponses();
+    //Получить ссылку на базу релевантности ответов
+    const std::vector<std::vector<RelativeIndex>>& relevantResponses{relevantResponseObj.getRelevantResponses()};
+}
+```
