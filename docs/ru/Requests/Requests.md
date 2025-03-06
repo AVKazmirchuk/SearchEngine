@@ -31,3 +31,24 @@ const std::vector<std::string>& getRequests();
 ```cpp
 void clearRequests();
 ```
+### Примеры
+```cpp
+#include "requests.h"
+
+int main()
+{
+    //Создать объект класса Requests
+    Requests requestsObj;
+
+    //...
+    //Получить базу запросов (in_requests)
+    //...
+
+    //Обновить базу запросов
+    requestsObj.updateRequests(in_requests);
+    //Получить ссылку на базу запросов
+    const std::vector<std::string>& requests{requestsObj.getRequests()};
+    //Очистить базу запросов
+    requestsObj.clearRequests();
+}
+```
