@@ -46,3 +46,34 @@ void setAnswersJSON(const std::vector<std::vector<std::pair<int, float>>>& answe
 Получить JSON-объект ответов:
 ```cpp
 JSON& getAnswersJSON();
+```
+### Примеры
+```cpp
+#include "converterJSON.h"
+
+int main()
+{
+    //...
+    //Создать/получить JSON-объекты конфигурации и запросов (configJSON, requestsJSON)
+    //...
+
+    //Создать объект класса ConverterJSON и инициализироать JSON-объектами конфигурации и запросов
+    ConverterJSON converterJSONObj(configJSON, requestsJSON);
+
+    //Получить список файлов документов
+    std::vector<std::string> filePaths(converterJSONObj.getFilePaths());
+    //Получить запросы
+    std::vector<std::string> requests(converterJSONObj.getRequests());
+    //Получить значение максимального количества ответов
+    int maxResponses{converterJSONObj.getMaxResponses()};
+
+    //...
+    //Получить результаты поиска (answers)
+    //...
+
+    //Записать в JSON-объект результаты поиска
+    converterJSONObj.setAnswersJSON(answers, maxResponses);
+    //Получить JSON-объект ответов
+    JSON& answersJSON{converterJSONObj.getAnswersJSON()};
+}
+```
