@@ -14,17 +14,25 @@
 4. Очищает базу документов.\
 \
 &emsp;Конструкторы:\
-По умолчанию\
+```cpp
+Documents() = default;
+```
 \
 &emsp;Является: копируемым (неявно) и перемещаемым (неявно)\
 \
 Копирование - затратная операция\
 
 &emsp;Общедоступные функции-члены:\
-Обновить базу документов:\
-&emsp;void updateDocuments(const std::vector<std::string>& in_documents);\
-&emsp;void updateDocuments(std::vector<std::string>&& in_documents);\
-Получить ссылку на базу документов\
-&emsp;const std::vector<std::string>& getDocuments();\
-Очистить базу документов\
-&emsp;clearDocuments();
+Обновить базу документов:
+```cpp
+void updateDocuments(const std::vector<std::string>& in_documents);
+void updateDocuments(std::vector<std::string>&& in_documents);
+```
+Получить ссылку на базу документов
+```cpp
+const std::vector<std::string>& getDocuments();
+```
+Очистить базу документов
+```cpp
+clearDocuments();
+```
