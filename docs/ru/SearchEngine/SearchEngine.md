@@ -23,7 +23,7 @@ SearchEngine()
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
     {}
 ```
-Не является копируемым и перемещаемым (содержит объект InvertedIndex (содержит мьютекс)).
+Объект не является копируемым и перемещаемым (содержит объект InvertedIndex (содержит мьютекс)).
 ### Общедоступные функции-члены:
 Рассчитать релевантность ответов:
 ```cpp
