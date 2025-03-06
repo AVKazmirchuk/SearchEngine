@@ -34,7 +34,11 @@ RelevantResponse(const std::map<std::string, std::vector<Entry>>& in_invertedInd
 Копирование - затратная операция\
 
 &emsp;Общедоступные функции-члены:\
-Рассчитать релевантность ответов:\
-&emsp;void updateRelevantResponses();\
-Получить ссылку на базу релевантности ответов::\
-&emsp;const std::vector<std::vector<RelativeIndex>>& getRelevantResponses();
+Рассчитать релевантность ответов:
+```cpp
+void updateRelevantResponses();
+```
+Получить ссылку на базу релевантности ответов:
+```cpp
+const std::vector<std::vector<RelativeIndex>>& getRelevantResponses();
+```
