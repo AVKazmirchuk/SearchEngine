@@ -28,5 +28,26 @@ const std::vector<std::string>& getDocuments();
 ```
 Очистить базу документов:
 ```cpp
-clearDocuments();
+void clearDocuments();
+```
+### Примеры
+```cpp
+#include "documents.h"
+
+int main()
+{
+    //Создать объект класса Documents
+    Documents documentsObj;
+
+    //...
+    //Получить базу документов (in_documents)
+    //...
+
+    //Обновить базу документов
+    documentsObj.updateDocuments(in_documents);
+    //Получить ссылку на базу документов
+    const std::vector<std::string>& documents{documentsObj.getDocuments()};
+    //Очистить базу документов
+    documentsObj.clearDocuments();
+}
 ```
