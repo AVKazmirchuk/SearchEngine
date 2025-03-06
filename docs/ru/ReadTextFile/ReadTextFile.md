@@ -10,11 +10,14 @@
 		
 1. Читает текстовый файл\
 \
-&emsp;Конструкторы:\
-По умолчанию\
-\
+&emsp;Конструкторы:
+```cpp
+ReadTextFile() = default;
+```
 &emsp;Является: копируемым (неявно) и перемещаемым (неявно)\
 \
 &emsp;Общедоступные функции-члены:\
-Прочитать документы в отдельных потоках\
-&emsp;std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
+Прочитать документы в отдельных потоках
+```cpp
+std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
+```
