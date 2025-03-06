@@ -41,4 +41,40 @@ void searchModifiedRequests();
 ```cpp
 std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
 ```
-  
+### Примеры
+```cpp
+#include "searchEngine.h"
+#include "general.h"
+
+int main()
+{
+    //Создать объект
+    SearchEngine searchEngine;
+    //Рассчитать релевантность ответов
+    searchEngine.searchModifiedAll();
+
+    //...
+    //Изменение документов
+    //...
+
+    //Рассчитать релевантность ответов, при изменении документов
+    searchEngine.searchModifiedDocuments();
+
+    //...
+    //Изменение запросов
+    //...
+
+    //Рассчитать релевантность ответов, при изменении запросов
+    searchEngine.searchModifiedRequests();
+
+    //...
+    //Изменение документов и запросов
+    //...
+
+    //Рассчитать релевантность ответов
+    searchEngine.searchModifiedAll();
+
+    //Преобразовать базу релевантности ответов в другой тип
+    std::vector<std::vector<std::pair<int, float>>> baseOfRelevantResponses{searchEngine.exportRelevantResponses()};
+}
+```
