@@ -17,10 +17,17 @@
 6. Хранит базу релевантных ответов.
 7. Предоставляет ссылку на базу релевантных ответов.\
 \
-&emsp;Конструкторы:\
-Инициализирует: ссылку на базу инвертированных индексов, cсылку на базу запросов\
+&emsp;Конструкторы:
+```cpp
 RelevantResponse(const std::map<std::string, std::vector<Entry>>& in_invertedIndexes,
-                     const std::vector<std::string>& in_requests)\
+                 const std::vector<std::string>& in_requests)
+    : invertedIndexes{in_invertedIndexes},
+      requests{in_requests},
+      preparedRequestObj{in_invertedIndexes, in_requests},
+      preparedRequests{preparedRequestObj.getPreparedRequests()}
+    {}
+```
+Инициализирует: ссылку на базу инвертированных индексов, cсылку на базу запросов, объект класса PreparedRequests, ссылку на подготовленную базу запросов\
 \
 Оператор присваивания неявно удалён (содержит ссылки на базы)\
 \
