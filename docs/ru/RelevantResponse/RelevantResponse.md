@@ -43,7 +43,7 @@ const std::vector<std::vector<RelativeIndex>>& getRelevantResponses();
 int main()
 {
     //...
-    //Получить ссылку на базу инвертированных индексов, cсылку на базу запросов
+    //Получить ссылку на базу инвертированных индексов, cсылку на базу запросов (in_invertedIndexes, in_requests)
     //...
 
     //Создать объект класса RelevantResponse
