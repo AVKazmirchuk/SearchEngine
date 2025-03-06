@@ -11145,7 +11145,7 @@ class binary_reader
     @param[in,out] is_ndarray  for input, `true` means already inside an ndarray vector
                                or ndarray dimension is not allowed; `false` means ndarray
                                is allowed; for output, `true` means an ndarray is found;
-                               is_ndarray can only return `true` when its initialization value
+                               is_ndarray can only return `true` when its checkFile value
                                is `false`
     @param[in] prefix  type marker if already read, otherwise set to 0
 

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Initialization.h"
+#include "checkFile.h"
 #include "exceptions.h"
 #include "searchEngine.h"
 #include "general.h"

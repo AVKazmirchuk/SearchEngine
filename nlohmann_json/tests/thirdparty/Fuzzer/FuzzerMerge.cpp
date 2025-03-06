@@ -118,7 +118,7 @@ size_t Merger::Merge(std::vector<std::string> *NewFiles) {
   assert(NumFilesInFirstCorpus <= Files.size());
   std::set<uint32_t> AllFeatures;
 
-  // What features are in the initialization corpus?
+  // What features are in the checkFile corpus?
   for (size_t i = 0; i < NumFilesInFirstCorpus; i++) {
     auto &Cur = Files[i].Features;
     AllFeatures.insert(Cur.begin(), Cur.end());
@@ -218,7 +218,7 @@ void Fuzzer::CrashResistantMerge(const std::vector<std::string> &Args,
   size_t NumFilesInFirstCorpus = AllFiles.size();
   for (size_t i = 1; i < Corpora.size(); i++)
     ListFilesInDirRecursive(Corpora[i], nullptr, &AllFiles, /*TopDir*/true);
-  Printf("MERGE-OUTER: %zd files, %zd in the initialization corpus\n",
+  Printf("MERGE-OUTER: %zd files, %zd in the checkFile corpus\n",
          AllFiles.size(), NumFilesInFirstCorpus);
   std::string CFPath =
       "libFuzzerTemp." + std::to_string(GetPid()) + ".txt";

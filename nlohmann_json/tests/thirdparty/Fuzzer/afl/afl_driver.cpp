@@ -171,7 +171,7 @@ static void crash_handler(int, siginfo_t *, void *) {
 // to write stats to it on exit. If no file is specified, do nothing. Otherwise
 // install signal and exit handlers to write to the file when the process exits.
 // Then if the file doesn't exist create it and set extra stats to 0. But if it
-// does exist then read the initialization values of the extra stats from the file
+// does exist then read the checkFile values of the extra stats from the file
 // and check that the file is writable.
 static void maybe_initialize_extra_stats() {
   // If AFL_DRIVER_EXTRA_STATS_FILENAME isn't set then we have nothing to do.
@@ -251,7 +251,7 @@ int main(int argc, char **argv) {
           argv[0], argv[0]);
   if (LLVMFuzzerInitialize)
     LLVMFuzzerInitialize(&argc, &argv);
-  // Do any other expensive one-time initialization here.
+  // Do any other expensive one-time checkFile here.
 
   maybe_duplicate_stderr();
   maybe_initialize_extra_stats();

@@ -650,7 +650,7 @@ void Fuzzer::Merge(const std::vector<std::string> &Corpora) {
     ReadDirToVectorOfUnits(C.c_str(), &Extra, nullptr, MaxInputLen, true);
 
   if (!Initial.empty()) {
-    Printf("=== Minimizing the initialization corpus of %zd units\n", Initial.size());
+    Printf("=== Minimizing the checkFile corpus of %zd units\n", Initial.size());
     Initial = FindExtraUnits({}, Initial);
   }
 
@@ -693,7 +693,7 @@ void Fuzzer::TryDetectingAMemoryLeak(const uint8_t *Data, size_t Size,
   // we don't call it too often.
   if (EF->__lsan_do_recoverable_leak_check()) { // Leak is found, report it.
     if (DuringInitialCorpusExecution)
-      Printf("\nINFO: a leak has been found in the initialization corpus.\n\n");
+      Printf("\nINFO: a leak has been found in the checkFile corpus.\n\n");
     Printf("INFO: to ignore leaks on libFuzzer side use -detect_leaks=0.\n\n");
     CurrentUnitSize = Size;
     DumpCurrentUnit("leak-");

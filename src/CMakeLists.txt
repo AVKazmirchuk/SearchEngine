@@ -6,7 +6,7 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/documents.h
         ${SE_INCLUDE_DIR}/entry.h
         ${SE_INCLUDE_DIR}/exceptions.h
-        ${SE_INCLUDE_DIR}/initialization.h
+        ${SE_INCLUDE_DIR}/checkFile.h
         ${SE_INCLUDE_DIR}/invertedIndex.h
         ${SE_INCLUDE_DIR}/relativeIndex.h
         ${SE_INCLUDE_DIR}/relevantResponse.h
@@ -53,10 +53,10 @@ add_executable(search_engine main.cpp
         relevantResponse/roundUpToPrecision.cpp
 
 
-        initialization/checkJSONStructureValid.cpp
-        initialization/checkFileExists.cpp
-        initialization/initial.cpp
-        initialization/checkFileEmpty.cpp
+        checkFile/isJSONStructureValid.cpp
+        checkFile/isExist.cpp
+        checkFile/initial.cpp
+        checkFile/isEmpty.cpp
 
         documents/updateDocuments.cpp
         documents/getDocuments.cpp
@@ -81,6 +81,6 @@ add_executable(search_engine main.cpp
 
 
 
-        parallelization/startThreads.cpp )
+        parallelization/startThreads.cpp checkFile/isJSONStructureMatch.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

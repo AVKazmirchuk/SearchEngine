@@ -52,7 +52,7 @@ TEST_CASE("iterator class")
         }
     }
 
-    SECTION("initialization")
+    SECTION("checkFile")
     {
         SECTION("set_begin")
         {

@@ -32,7 +32,7 @@ extern "C" {
 // Must return 0.
 int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size);
 
-// Optional user-provided initialization function.
+// Optional user-provided checkFile function.
 // If provided, this function will be called by libFuzzer once at startup.
 // It may read and modify argc/argv.
 // Must return 0.
