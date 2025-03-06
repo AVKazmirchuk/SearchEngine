@@ -16,9 +16,15 @@
 \
 &emsp;Конструкторы:\
 ```cpp
-SearchEngine() = default;
+SearchEngine()
+    : converterJSONObj(ReadWriteJSONFile().readJSONFile(constants::configFilePath),
+                       ReadWriteJSONFile().readJSONFile(constants::requestsFilePath)),
+      documentsObj{},
+      invertedIndexObj(documentsObj.getDocuments()),
+      requestsObj{},
+      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
+    {}
 ```
-По умолчанию\
 Инициализирует объекты классов\
 \
 &emsp;Не является копируемым и перемещаемым (содержит объект InvertedIndex (содержит мьютекс))\
