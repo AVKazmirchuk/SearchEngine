@@ -23,5 +23,23 @@ void updateInvertedIndexes();
 ```
 Получить ссылку на базу инвертированных индексов:
 ```cpp
-const std::map<std::string, std::vector<Entry>>& getInvertedIndexes()
+const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
+```
+### Примеры
+```cpp
+#include "invertedIndex.h"
+
+int main()
+{
+    //...
+    //Получить ссылку на базу документов (in_documents)
+    //
+
+    //Создать объект класса InvertedIndex
+    InvertedIndex invertedIndexObj(in_documents);
+    //Обновить базу инвертированных индексов
+    invertedIndexObj.updateInvertedIndexes();
+    //Получить ссылку на базу инвертированных индексов
+    const std::map<std::string, std::vector<Entry>>& invertedIndexes{invertedIndexObj.getInvertedIndexes()};
+}
 ```
