@@ -17,3 +17,20 @@ ReadTextFile() = default;
 ```cpp
 std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
 ```
+### Примеры
+```cpp
+#include "readTextFile.h"
+
+int main()
+{
+    //Создать объект класса ReadTextFile
+    ReadTextFile readTextFileObj;
+
+    //...
+    //Получить cписок путей документов (filePaths)
+    //...
+
+    //Прочитать документы в отдельных потоках
+    std::vector<std::string> documents{readTextFileObj.readTextFile(filePaths)};
+}
+```
