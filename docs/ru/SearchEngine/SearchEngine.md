@@ -34,10 +34,16 @@ SearchEngine()
 ```cpp
 void searchModifiedAll();
 ```
-Рассчитать релевантность ответов, при изменении документов:\
-&emsp;void searchModifiedDocuments();\
-Рассчитать релевантность ответов, при изменении запросов\
-&emsp;void searchModifiedRequests();\
-Преобразовать базу релевантности ответов в другой тип:\
-&emsp;std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
+Рассчитать релевантность ответов, при изменении документов:
+```cpp
+void searchModifiedDocuments();
+```
+Рассчитать релевантность ответов, при изменении запросов
+```cpp
+void searchModifiedRequests();
+```
+Преобразовать базу релевантности ответов в другой тип:
+```cpp
+std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
+```
   
