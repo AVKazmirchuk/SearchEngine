@@ -1,5 +1,5 @@
 # SearchEngine
-Документация SearchEngine на русском
+Документация SearchEngine
 
 ### [Класс RelevantResponse](../RelevantResponse.md)
 
