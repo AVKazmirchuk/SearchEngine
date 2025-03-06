@@ -23,3 +23,22 @@ JSON readJSONFile(const std::string& filePath);
 ```cpp
 void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
 ```
+### Примеры
+```cpp
+#include "readWriteJSONFile.h"
+
+int main()
+{
+    //Создать объект класса Documents
+    ReadWriteJSONFile readWriteJSONFileObj;
+
+    //...
+    //Получить путь JSON-файла (filePath)
+    //...
+
+    //Прочитать JSON-файл
+    JSON JSONObj{readWriteJSONFileObj.readJSONFile(filePath)};
+    //Записать JSON-файл
+    readWriteJSONFileObj.writeJSONFile(JSONObj, filePath);
+}
+```
