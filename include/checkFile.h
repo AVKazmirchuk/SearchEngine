@@ -15,20 +15,15 @@
 #include "general.h"
 
 
-
+/**
+ * Класс реализует проверку файла и его содержимого
+ */
 class CheckFile
 {
 
 public:
 
     CheckFile() = default;
-
-
-    void checkFile(const std::string& fileName);
-
-    std::string about();
-
-private:
 
     /**
      * Проверить файл на существование
@@ -58,6 +53,10 @@ private:
      * @return
      */
     bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
+
+    std::string about();
+
+private:
 
 };
 
