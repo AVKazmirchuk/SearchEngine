@@ -16,9 +16,18 @@
 6. Хранит JSON-объекты конфигурации, запросов, ответов
 7. Предоставляет ссылку на JSON-объект ответов\
 \
-&emsp;Конструкторы:\
-ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)\
-ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)\
+&emsp;Конструкторы:
+```cpp
+ ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
+     : configJSON(in_configJSON),
+      requestsJSON(in_requestsJSON)
+    {}
+ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
+    : configJSON(std::move(in_configJSON)),
+      requestsJSON(std::move(in_requestsJSON))
+    {}
+```
+Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов\
 \
 &emsp;Является: копируемым (неявно) и перемещаемым (неявно)\
 \
