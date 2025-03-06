@@ -1,5 +1,5 @@
 # SearchEngine
-Документация SearchEngine на русском
+Документация SearchEngine
 
 ## Оглавление
 1. [Введение](./introduction/introduction.md)
