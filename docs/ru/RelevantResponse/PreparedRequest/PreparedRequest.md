@@ -32,3 +32,20 @@ void updatePreparedRequests();
 ```cpp
 const std::vector<std::vector<std::string>>& getPreparedRequests();
 ```
+### Примеры
+```cpp
+#include "preparedRequest.h"
+
+int main()
+{
+    //...
+    //Получить ссылку на базу инвертированных индексов, cсылку на базу запросов (in_invertedIndexes, in_requests)
+    //...
+
+    //Создать объект класса PreparedRequest
+    RelevantResponse preparedRequestObj(in_invertedIndexes, in_requests);
+    //Обновить подготовленную базу запросов
+    relevantResponseObj.updatePreparedRequests();
+    //Получить ссылку на подготовленную базу запросов
+    const std::vector<std::vector<std::string>>& preparedRequests{preparedRequestObj.getPreparedRequests()};
+```
