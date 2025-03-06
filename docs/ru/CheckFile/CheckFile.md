@@ -32,3 +32,31 @@ bool isEmpty(const std::string &fileName);
 ```cpp
 bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
 ```
+### Примеры
+```cpp
+#include "checkFile.h"
+
+int main()
+{
+    //Создать объект класса CheckFile
+    CheckFile checkFileObj;
+
+    //...
+    //Получить имя файла (fileName)
+    //...
+
+    //Проверить файл на существование
+    bool exist{checkFileObj.isExist(fileName)};
+    //Проверить файл на пустоту
+    bool empty{checkFileObj.isEmpty(const std::string &fileName)};
+    //Проверить файл на целостность JSON-структуры
+    bool JSONStructureValid{checkFileObj.isJSONStructureValid(fileName)};
+
+    //...
+    //Получить JSON-объекты шаблона и проверяемого (objectJSONTemplate, objectJSON)
+    //...
+
+    //Проверить JSON-структуру файла на соответствие шаблону
+    bool JSONStructureMatch{checkFileObj.isJSONStructureMatch(objectJSONTemplate, objectJSON)};
+}
+```
