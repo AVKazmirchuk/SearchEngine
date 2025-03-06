@@ -81,6 +81,6 @@ add_executable(search_engine main.cpp
 
 
 
-        parallelization/startThreads.cpp checkFile/isJSONStructureMatch.cpp)
+        parallelization/startThreads.cpp checkFile/isJSONStructureMatch.cpp converterJSON/about.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

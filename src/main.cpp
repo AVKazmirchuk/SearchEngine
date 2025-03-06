@@ -33,20 +33,47 @@ void pressAnyKey(const char* message)
     std::cin.get();
 }
 
+   /*
+    //Проверить файл на существование
+    if (!checkFileExists(fileName)) throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, configFilePath.string());
+    //Проверка файла на неповреждённость JSON-структуры
+    if (!checkJSONStructureValid()) throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, configFilePath.string());
+
+    if (!checkFileEmpty()) throw CheckFileException(ErrorCode::ERROR_FILE_EMPTY, configFilePath.string());
+    */
+
+
 int main()
 {
 
-    initialization config{constants::configFilePath};
+    CheckFile checkFile;
 
-    try
+    //Проверить файл config.json на существование
+    if (!checkFile.isExist(constants::configFilePath))
     {
-        config.openFile();
+        throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, constants::configFilePath);
     }
-    catch(const CheckFileException& e)
+
+    //Проверить файл requests.json на существование
+    if (!checkFile.isExist(constants::requestsFilePath))
     {
-        std::cout << '\n' << e.what() << '\n';
-        return static_cast<int>(e.getErrorCode());
+        throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, constants::requestsFilePath);
     }
+
+    //Проверить файл config.json на целостность JSON-структуры
+    if (!checkFile.isJSONStructureValid(constants::configFilePath))
+    {
+        CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, constants::configFilePath);
+    }
+
+    //Проверить файл requests.json на целостность JSON-структуры
+    if (!checkFile.isJSONStructureValid(constants::requestsFilePath))
+    {
+        CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, constants::requestsFilePath);
+    }
+
+
+
 
     std::cout << config.about() << '\n';
 
@@ -76,63 +103,7 @@ int main()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //JSON-объекты
-    /*nlohmann::json config = R"(
-{
-  "config": {
-    "name": "SkillboxSearchEngine",
-    "version": "0.1",
-    "max_responses": 5
-  },
-  "files": [
-    "../resources/file001.txt",
-    "../resources/file002.txt",
-    "../resources/file003.txt"
-  ]
-}
-)"_json;
-
-    nlohmann::json requests = R"(
-{
-  "requests": [
-    "of the and water is year",
-    "water another good see",
-    "music"
-  ]
-}
-)"_json;
-
-    nlohmann::json answers = R"(
+    /*nlohmann::json answers = R"(
 {
   "answers": {
     "request001": {
@@ -154,11 +125,6 @@ int main()
   }
 }
 )"_json;*/
-
-
-
-
-
 
     return 0;
 }

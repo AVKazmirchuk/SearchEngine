@@ -54,8 +54,6 @@ public:
      */
     bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
 
-    std::string about();
-
 private:
 
 };

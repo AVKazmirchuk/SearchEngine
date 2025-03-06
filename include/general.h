@@ -23,7 +23,8 @@ using JSON = nlohmann::basic_json<
         float>;
 
 //Константы переменных
-namespace constants {
+namespace constants
+{
 
     //Путь файла конфигурации
     extern const std::string configFilePath;
@@ -67,6 +68,13 @@ namespace constants {
     extern const int precision;
     //Ширина вывода
     extern const int formatByWidth;
+
+    //JSON-объект файла config.json
+    extern const JSON configTemplate;
+
+    //JSON-объект файла requests.json
+    extern const JSON requestsTemplate;
+
 }
 
 /**

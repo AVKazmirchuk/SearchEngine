@@ -37,5 +37,30 @@ namespace constants
     const int precision{5};
     const int formatByWidth{2};
 
+    const JSON configTemplate = R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1",
+        "max_responses": 5
+      },
+     "files": [
+       "../resources/file001.txt",
+       "../resources/file002.txt",
+       "../resources/file003.txt"
+     ]
+    }
+    )"_json;
+
+    const JSON requestsTemplate = R"(
+    {
+      "requests": [
+        "of the and water is year",
+        "water another good see",
+        "music"
+      ]
+    }
+    )"_json;
+
 }
 
