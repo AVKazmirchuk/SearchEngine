@@ -31,6 +31,7 @@ ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
 ```cpp
 std::vector<std::string> getFilePaths();
 ```
+Возвращаемое значение: Список файлов документов
 Получить запросы:
 ```cpp
 std::vector<std::string> getRequests();
