@@ -31,23 +31,27 @@ ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
 ```cpp
 std::vector<std::string> getFilePaths();
 ```
-Возвращаемое значение: Список файлов документов
+Возвращаемое значение: список файлов документов
 #### Получить запросы:
 ```cpp
 std::vector<std::string> getRequests();
 ```
+Возвращаемое значение: запросы
 #### Получить значение максимального количества ответов:
 ```cpp
 int getMaxResponses();
 ```
+Возвращаемое значение: максимальное количество ответов
 #### Записать в JSON-объект результаты поиска:
 ```cpp
 void setAnswersJSON(const std::vector<std::vector<std::pair<int, float>>>& answers, int maxResponses);
 ```
+Параметры: база релевантности ответов, максимальное количество ответов
 #### Получить JSON-объект ответов:
 ```cpp
 JSON& getAnswersJSON();
 ```
+Возвращаемое значение: ссылка на JSON-объект ответов
 ### Примеры
 ```cpp
 #include "converterJSON.h"
