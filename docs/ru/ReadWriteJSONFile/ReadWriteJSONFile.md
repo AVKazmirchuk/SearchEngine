@@ -15,14 +15,17 @@ ReadWriteJSONFile() = default;
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
-Прочитать JSON-файл:
+#### Прочитать JSON-файл:
 ```cpp
 JSON readJSONFile(const std::string& filePath);
 ```
-Записать JSON-файл:
+Параметры: путь JSON-файла\
+Возвращаемое значение: JSON-файл
+#### Записать JSON-файл:
 ```cpp
 void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
 ```
+Параметры: JSON-объект, путь JSON-файла
 ### Примеры
 ```cpp
 #include "readWriteJSONFile.h"
