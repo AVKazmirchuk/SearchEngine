@@ -41,6 +41,7 @@ void searchModifiedRequests();
 ```cpp
 std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
 ```
+Возвращаемое значение: база релевантности ответов
 ### Примеры
 ```cpp
 #include "searchEngine.h"
