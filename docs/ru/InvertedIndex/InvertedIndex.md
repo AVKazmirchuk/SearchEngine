@@ -17,14 +17,15 @@ explicit InvertedIndex(const std::vector<std::string>& in_documents) : documents
 ```
 Не является копируемым и перемещаемым (содержит мьютекс).
 ### Общедоступные функции-члены:
-Обновить базу инвертированных индексов:
+#### Обновить базу инвертированных индексов:
 ```cpp
 void updateInvertedIndexes();
 ```
-Получить ссылку на базу инвертированных индексов:
+#### Получить ссылку на базу инвертированных индексов:
 ```cpp
 const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
 ```
+Возвращаемое значение: ссылка на базу инвертированных индексов
 ### Примеры
 ```cpp
 #include "invertedIndex.h"
