@@ -32,6 +32,7 @@ void updatePreparedRequests();
 ```cpp
 const std::vector<std::vector<std::string>>& getPreparedRequests();
 ```
+Возвращаемое значение: ссылка на подготовленную базу запросов
 ### Примеры
 ```cpp
 #include "preparedRequest.h"
