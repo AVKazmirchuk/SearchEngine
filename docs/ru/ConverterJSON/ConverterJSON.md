@@ -27,24 +27,24 @@ ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
-Получить список файлов документов:
+#### Получить список файлов документов:
 ```cpp
 std::vector<std::string> getFilePaths();
 ```
 Возвращаемое значение: Список файлов документов
-Получить запросы:
+#### Получить запросы:
 ```cpp
 std::vector<std::string> getRequests();
 ```
-Получить значение максимального количества ответов:
+#### Получить значение максимального количества ответов:
 ```cpp
 int getMaxResponses();
 ```
-Записать в JSON-объект результаты поиска:
+#### Записать в JSON-объект результаты поиска:
 ```cpp
 void setAnswersJSON(const std::vector<std::vector<std::pair<int, float>>>& answers, int maxResponses);
 ```
-Получить JSON-объект ответов:
+#### Получить JSON-объект ответов:
 ```cpp
 JSON& getAnswersJSON();
 ```
