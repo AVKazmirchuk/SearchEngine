@@ -17,7 +17,7 @@ ReadTextFile() = default;
 ```cpp
 std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
 ```
-Параметры: список путей документов
+Параметры: список путей документов\
 Возвращаемое значение: база документов
 ### Примеры
 ```cpp
