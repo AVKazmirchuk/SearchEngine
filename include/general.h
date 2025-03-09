@@ -9,6 +9,8 @@
 
 #include "nlohmann/json.hpp"
 
+#include "logger.h"
+
 
 
 //Тип объектов заменён на nlohmann::ordered_json (сохраняет порядок вставки)
@@ -81,6 +83,6 @@ namespace constants
  * Выйти из программы
  * @param error Строка ошибки
  */
-void exitProgram(const char* error);
+void exitProgram();
 
 #endif //SEARCH_ENGINE_GENERAL_H

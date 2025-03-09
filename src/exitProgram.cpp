@@ -8,8 +8,10 @@
 
 
 
-void exitProgram(const char* error)
+/**
+ * Выйти из программы
+ */
+void exitProgram()
 {
-    std::cout << "\n\n" << "EXCEPTION: " << error << "\n\n" << std::endl;
     std::exit(EXIT_FAILURE);
 }

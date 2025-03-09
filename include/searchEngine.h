@@ -27,7 +27,9 @@ class SearchEngine
 public:
 
     /**
-     * Инициализирует объекты классов TODO: изменить инициализацию объекта
+     * Инициализирует объекты классов
+     * @param in_configJSON
+     * @param in_requestsJSON
      */
     SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
 
@@ -37,7 +39,26 @@ public:
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
 
-    {}
+    {
+        Logger().info(converterJSONObj.about());
+    }
+
+    /**
+     * Инициализирует объекты классов
+     * @param in_configJSON
+     * @param in_requestsJSON
+     */
+    SearchEngine(JSON&& in_configJSON, JSON&& in_requestsJSON)
+
+    : converterJSONObj(std::move(in_configJSON), std::move(in_requestsJSON)),
+      documentsObj{},
+      invertedIndexObj(documentsObj.getDocuments()),
+      requestsObj{},
+      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
+
+    {
+        Logger().info(converterJSONObj.about());
+    }
 
     /**
      * Рассчитать релевантность ответов

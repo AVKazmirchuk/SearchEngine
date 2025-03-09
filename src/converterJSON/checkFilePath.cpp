@@ -18,13 +18,13 @@ void ConverterJSON::checkFilePath()
             auto missingFile{configJSON[constants::filesStr][idx]};
             configJSON[constants::filesStr].erase(idx);
             --idx;
-            std::cout << '\n' << "File " << missingFile << " is missing!" << '\n';
+            Logger().error("File " + std::string(missingFile) + " is missing!");
         }
     }
 
     if (configJSON[constants::filesStr].empty())
     {
-        std::cout << '\n' << "The array of file paths is empty!" << '\n';
+        Logger().fatal("The array of file paths is empty!");
         throw CheckFileException(ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY);
     }
 }

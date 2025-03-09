@@ -8,7 +8,7 @@
 
 
 
-void exitProgram(const char* error);
+void exitProgram();
 
 
 
@@ -33,6 +33,7 @@ void InvertedIndex::startInvertedIndexing()
         //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
     {
-        exitProgram(e.what());
+        Logger().fatal("EXCEPTION: " + std::string(e.what()));
+        exitProgram();
     }
 }

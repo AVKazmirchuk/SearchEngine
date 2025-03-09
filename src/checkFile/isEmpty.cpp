@@ -14,9 +14,3 @@ bool CheckFile::isEmpty(const std::string &fileName)
     return std::filesystem::is_empty(fileName);
 }
 
-
-/*
-bool checkFileEmpty()
-{
-    return objectJSON.contains(constants::configStr);
-}*/

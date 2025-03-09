@@ -16,7 +16,7 @@
 #include <vector>
 
 #include "entry.h"
-
+#include "general.h"
 
 
 /**
@@ -40,7 +40,7 @@ public:
 
     /**
      * Получить ссылку на базу инвертированных индексов
-     * @return База инвертированных индексов
+     * @return Ссылка на базу инвертированных индексов
      */
     const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
 

@@ -50,8 +50,8 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     }
     catch (const std::exception& e)
     {
-        std::cout << "\n\n EXCEPTION: " << e.what() << std::endl;
-        exitProgram(e.what());
+        Logger().fatal("EXCEPTION: " + std::string(e.what()));
+        exitProgram();
 
     }
 

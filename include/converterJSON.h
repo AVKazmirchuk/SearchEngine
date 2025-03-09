@@ -37,14 +37,11 @@ public:
      */
     ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
 
-    : configJSON(in_configJSON),
-      requestsJSON(in_requestsJSON)
+    : configJSON(in_configJSON), requestsJSON(in_requestsJSON)
 
     {
         checkFilePath();
         checkRequests();
-
-        std::cout << about() << '\n';
     }
 
     /**
@@ -54,14 +51,11 @@ public:
      */
     ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
 
-            : configJSON(std::move(in_configJSON)),
-              requestsJSON(std::move(in_requestsJSON))
+            : configJSON(std::move(in_configJSON)), requestsJSON(std::move(in_requestsJSON))
 
     {
         checkFilePath();
         checkRequests();
-
-        std::cout << about() << '\n';
     }
 
     /**

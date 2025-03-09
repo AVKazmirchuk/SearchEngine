@@ -10,12 +10,6 @@
 
 bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {
-
-    //std::cout << objectJSON << '\n';
-    //std::cout << objectJSONTemplate << "\n\n\n";
-
-    //auto elem = objectJSON.begin();
-
     try
     {
         isJSONStructureMatchImpl(objectJSON, objectJSONTemplate);

@@ -4,26 +4,14 @@
 #include "exceptions.h"
 #include "searchEngine.h"
 #include "general.h"
+#include "logger.h"
 #include <limits>
 
 
 
-//Функция печати имён файлов
-/*void printContainer(const std::list<std::pair<unsigned long, std::filesystem::path>>&& container)
-{
-    std::cout << '\n' << "Files:" << '\n';
-
-    for (const auto& fsPath : container)
-    {
-        std::cout << fsPath.first << " - " << fsPath.second.filename() << '\n';
-    }
-
-    std::cout << '\n';
-}*/
-
 void pressAnyKey(const char* message)
 {
-    std::cout << "\n\n" << "***   " << message << "   ***" << "\n\n";
+    Logger().info("***   " + std::string(message) + "   ***");
 
     // reset any error flags
     std::cin.clear();
@@ -39,7 +27,7 @@ void pressAnyKey(const char* message)
        //Проверить файл на существование
        if (!CheckFile().isExist(filePath))
        {
-           std::cout << '\n' << "File " << filePath << " is missing!" << '\n';
+           Logger().fatal("File " + std::string(filePath) + " is missing!");
            throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
        }
 
@@ -59,6 +47,8 @@ void pressAnyKey(const char* message)
 
 int main()
 {
+
+
 
     //Проверить файл config.json
     checkFile(constants::configFilePath, constants::configTemplate);
@@ -85,34 +75,6 @@ int main()
     pressAnyKey("searchModifiedAll");*/
 
     //std::cout << "std::thread::hardware_concurrency(): " << std::thread::hardware_concurrency();
-
-
-
-
-
-
-    /*nlohmann::json answers = R"(
-{
-  "answers": {
-    "request001": {
-      "result": "true",
-      "relevance": [
-        "docid: 0, rank: 0.989",
-        "docid: 1, rank: 0.897",
-        "docid: 2, rank: 0.750",
-        "docid: 3, rank: 0.670"
-      ]
-    },
-    "request002": {
-      "result": "true",
-      "docid": 0, "rank": 0.769
-    },
-    "request003": {
-      "result": "false"
-    }
-  }
-}
-)"_json;*/
 
     return 0;
 }

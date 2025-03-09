@@ -13,7 +13,7 @@ void ConverterJSON::checkRequests()
 {
     if (requestsJSON[constants::requestsStr].empty())
     {
-        std::cout << '\n' << "The query array is empty!" << '\n';
+        Logger().fatal("The query array is empty!");
         throw CheckFileException(ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY);
     }
 }
