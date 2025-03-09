@@ -12,6 +12,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include "exceptions.h"
 #include "general.h"
 
 
@@ -52,10 +53,11 @@ public:
      * @param objectJSON
      * @return
      */
-    bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
+    bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
 private:
 
+    bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
 };
 
 

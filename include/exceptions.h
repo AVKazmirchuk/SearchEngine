@@ -13,7 +13,10 @@ enum class ErrorCode
     ERROR_FILE_PATH_EMPTY = 1,
     ERROR_FILE_MISSING,
     ERROR_FILE_STRUCTURE_CORRUPTED,
-    ERROR_FILE_EMPTY
+    ERROR_FILE_STRUCTURE_NOT_MATCH,
+    ERROR_FILE_EMPTY,
+    ERROR_FILE_PATHS_ARRAY_EMPTY,
+    ERROR_REQUESTS_ARRAY_EMPTY,
 
 };
 
@@ -23,7 +26,7 @@ private:
     std::string information{"ERROR: "};
     ErrorCode errorCode;
 public:
-    CheckFileException(ErrorCode in_errorCode, const std::string& in_information) : errorCode(in_errorCode)
+    CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
     {
         switch (errorCode)
         {
@@ -38,6 +41,15 @@ public:
                 break;
             case ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED :
                 information += "The structure of this file is corrupted: ";
+                break;
+            case ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH :
+                information += "The structure of this file does not match the required one:: ";
+                break;
+            case ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY :
+                information += "The array of file paths is empty! ";
+                break;
+            case ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY :
+                information += "The query array is empty!";
                 break;
         }
 

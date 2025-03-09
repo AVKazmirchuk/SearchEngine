@@ -11,11 +11,13 @@
 //Вспомогательная функция проверки файла на неповреждённость JSON-структуры
 bool CheckFile::isJSONStructureValid(const std::string &fileName)
 {
-    std::ifstream inFile(configFilePath.string());
+    std::ifstream inFile(fileName);
+
+    JSON tmpJSON;
 
     try
     {
-        inFile >> objectJSON;
+        inFile >> tmpJSON;
     }
     catch (const nlohmann::detail::parse_error &e)
     {

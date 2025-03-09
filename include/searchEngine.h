@@ -27,12 +27,11 @@ class SearchEngine
 public:
 
     /**
-     * Инициализирует объекты классов
+     * Инициализирует объекты классов TODO: изменить инициализацию объекта
      */
-    SearchEngine()
+    SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
 
-    : converterJSONObj(ReadWriteJSONFile().readJSONFile(constants::configFilePath),
-                       ReadWriteJSONFile().readJSONFile(constants::requestsFilePath)),
+    : converterJSONObj(in_configJSON, in_requestsJSON),
       documentsObj{},
       invertedIndexObj(documentsObj.getDocuments()),
       requestsObj{},

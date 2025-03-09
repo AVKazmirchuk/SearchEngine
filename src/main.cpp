@@ -33,52 +33,40 @@ void pressAnyKey(const char* message)
     std::cin.get();
 }
 
-   /*
-    //Проверить файл на существование
-    if (!checkFileExists(fileName)) throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, configFilePath.string());
-    //Проверка файла на неповреждённость JSON-структуры
-    if (!checkJSONStructureValid()) throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, configFilePath.string());
+   
+   void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
+   {
+       //Проверить файл на существование
+       if (!CheckFile().isExist(filePath))
+       {
+           std::cout << '\n' << "File " << filePath << " is missing!" << '\n';
+           throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
+       }
 
-    if (!checkFileEmpty()) throw CheckFileException(ErrorCode::ERROR_FILE_EMPTY, configFilePath.string());
-    */
+       //Другие проверки файла...
+       //Проверить файл на целостность JSON-структуры
+       if (!CheckFile().isJSONStructureValid(filePath))
+       {
+           throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath);
+       }
 
+       //Проверить JSON-структуру файла на соответствие шаблону
+       if (!CheckFile().isJSONStructureMatch( ReadWriteJSONFile().readJSONFile(filePath), objectJSONTemplate))
+       {
+           throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
+       }
+   }
 
 int main()
 {
 
-    CheckFile checkFile;
+    //Проверить файл config.json
+    checkFile(constants::configFilePath, constants::configTemplate);
+    //Проверить файл requests.json
+    checkFile(constants::requestsFilePath, constants::requestsTemplate);
 
-    //Проверить файл config.json на существование
-    if (!checkFile.isExist(constants::configFilePath))
-    {
-        throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, constants::configFilePath);
-    }
-
-    //Проверить файл requests.json на существование
-    if (!checkFile.isExist(constants::requestsFilePath))
-    {
-        throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, constants::requestsFilePath);
-    }
-
-    //Проверить файл config.json на целостность JSON-структуры
-    if (!checkFile.isJSONStructureValid(constants::configFilePath))
-    {
-        CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, constants::configFilePath);
-    }
-
-    //Проверить файл requests.json на целостность JSON-структуры
-    if (!checkFile.isJSONStructureValid(constants::requestsFilePath))
-    {
-        CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, constants::requestsFilePath);
-    }
-
-
-
-
-    std::cout << config.about() << '\n';
-
-
-    SearchEngine searchEngine;
+    SearchEngine searchEngine(ReadWriteJSONFile().readJSONFile(constants::configFilePath),
+                              ReadWriteJSONFile().readJSONFile(constants::requestsFilePath));
 
     searchEngine.searchModifiedAll();
 

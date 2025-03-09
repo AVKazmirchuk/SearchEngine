@@ -40,7 +40,12 @@ public:
     : configJSON(in_configJSON),
       requestsJSON(in_requestsJSON)
 
-    {}
+    {
+        checkFilePath();
+        checkRequests();
+
+        std::cout << about() << '\n';
+    }
 
     /**
      * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
@@ -52,7 +57,12 @@ public:
             : configJSON(std::move(in_configJSON)),
               requestsJSON(std::move(in_requestsJSON))
 
-    {}
+    {
+        checkFilePath();
+        checkRequests();
+
+        std::cout << about() << '\n';
+    }
 
     /**
      * О программе
@@ -107,6 +117,16 @@ private:
      * JSON-объект ответов
      */
     JSON answersJSON;
+
+    /**
+     * Проверить пути файлов документов
+     */
+    void checkFilePath();
+
+    /**
+     * Проверить запросы
+     */
+    void checkRequests();
 
     /**
      * Определить суммарный ранг
