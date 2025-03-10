@@ -10,5 +10,6 @@
 
 const std::map<std::string, std::vector<Entry>>& InvertedIndex::getInvertedIndexes()
 {
+    //Вернуть ссылку на базу инвертированных индексов
     return invertedIndexes;
 }
