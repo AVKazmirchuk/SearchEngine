@@ -60,7 +60,7 @@ public:
 
     /**
      * О программе
-     * @return
+     * @return Строка о программе
      */
     std::string about();
 
