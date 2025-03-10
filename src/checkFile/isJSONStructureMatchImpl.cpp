@@ -9,6 +9,7 @@
 
 bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {
+    //Для каждого поля JSON-объекта шаблона
     for (const auto &elemTemplate: objectJSONTemplate.items())
     {
         //Искать текущее поле шаблона в проверяемом
@@ -28,7 +29,7 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
             throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED);
         }
 
-        //Тип значения поля - JSON-объект, тогда функция вызывается рекурсивно с текущими аргументами зачений полей шаблона и проверяемого
+        //Тип значения поля - JSON-объект; функция вызывается рекурсивно с текущими аргументами зачений полей шаблона и проверяемого
         if (elemTemplate.value().is_object())
         {
             isJSONStructureMatchImpl(elem.value(), elemTemplate.value());
