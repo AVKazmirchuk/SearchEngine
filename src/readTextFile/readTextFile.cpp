@@ -17,8 +17,10 @@
 
 std::string ReadTextFile::readTextFile(const std::string& filePath)
 {
+    //Создать объект для чтения файла документа
     std::ifstream file(filePath);
 
+    //Прочитать файл документа и вернуть документ
     return {(std::istreambuf_iterator<char>(file)), {}};
 }
 
@@ -55,5 +57,6 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
 
     }
 
+    //Вернуть документы
     return documents;
 }
