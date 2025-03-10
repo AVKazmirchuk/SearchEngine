@@ -29,7 +29,7 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
             throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED);
         }
 
-        //Тип значения поля - JSON-объект; 
+        //Тип значения поля - JSON-объект
         if (elemTemplate.value().is_object())
         {
             //Проверить JSON-структуру файла на соответствие шаблону. Рекурсивный вызов
