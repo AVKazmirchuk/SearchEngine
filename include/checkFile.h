@@ -49,9 +49,9 @@ public:
 
     /**
      * Проверить JSON-структуру файла на соответствие шаблону
-     * @param objectJSONTemplate
      * @param objectJSON
-     * @return
+     * @param objectJSONTemplate
+     * @return 
      */
     bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
