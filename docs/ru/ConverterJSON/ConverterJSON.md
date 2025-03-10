@@ -19,14 +19,19 @@
  ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
      : configJSON(in_configJSON),
        requestsJSON(in_requestsJSON)
-    {}
+
 ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
     : configJSON(std::move(in_configJSON)),
       requestsJSON(std::move(in_requestsJSON))
-    {}
+
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
+#### О программе
+```cpp
+std::string about();
+```
+Возвращаемое значение: строка о программе (название, версия)
 #### Получить список файлов документов:
 ```cpp
 std::vector<std::string> getFilePaths();
