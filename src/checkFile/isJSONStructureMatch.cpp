@@ -12,12 +12,15 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
 {
     try
     {
+        //Проверить JSON-структуру файла на соответствие шаблону
         isJSONStructureMatchImpl(objectJSON, objectJSONTemplate);
     }
     catch(const CheckFileException& e)
     {
+        //JSON-структура файла не соответствует шаблону
         return false;
     }
 
+    ////JSON-структура файла соответствует шаблону
     return true;
 }
