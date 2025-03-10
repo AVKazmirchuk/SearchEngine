@@ -12,7 +12,9 @@
 
 void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)
 {
+    //Создать объект для записи
     std::ofstream file{filePath};
 
+    //Записать JSON-объект в файл
     file << std::setw(constants::formatByWidth) << objectJSON;
 }
