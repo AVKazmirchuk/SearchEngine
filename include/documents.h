@@ -55,10 +55,6 @@ private:
      */
     std::vector<std::string> documents;
 
-
-
-    //ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ И ФУНКЦИИ
-
 };
 
 
