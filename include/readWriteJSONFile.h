@@ -33,7 +33,6 @@ public:
      * Записать JSON-файл
      * @param objectJSON JSON-объект
      * @param filePath Путь JSON-файла
-     * @param formatByWidth Ширина вывода
      */
     void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
 
