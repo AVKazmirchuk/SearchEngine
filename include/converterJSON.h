@@ -97,6 +97,8 @@ public:
 
 private:
 
+    //ОСНОВНЫЕ ДАННЫЕ И ФУНКЦИИ
+
     /**
      * JSON-объект конфигурации
      */
@@ -111,6 +113,10 @@ private:
      * JSON-объект ответов
      */
     JSON answersJSON;
+
+
+
+    //ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ И ФУНКЦИИ
 
     /**
      * Проверить пути файлов документов
@@ -136,8 +142,10 @@ private:
      * @param str Начальная строка
      * @return Преобразованная строка
      */
-    std::string convertIdtoStr(const std::size_t requestId, std::string str);
+    std::string convertIdtoStr(std::size_t requestId, std::string str);
 
 };
+
+
 
 #endif //SEARCH_ENGINE_CONVERTERJSON_H
