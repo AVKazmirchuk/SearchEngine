@@ -77,6 +77,7 @@ public:
 
     /**
      * Преобразовать базу релевантности ответов в другой тип
+     * @return Преобразованная база релевантности ответов
      */
     std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
 
