@@ -11,6 +11,7 @@
 
 bool CheckFile::isEmpty(const std::string &fileName)
 {
+    //Вернуть признак существования файла
     return std::filesystem::is_empty(fileName);
 }
 
