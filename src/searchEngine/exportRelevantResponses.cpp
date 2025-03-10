@@ -21,5 +21,6 @@ std::vector<std::vector<std::pair<int, float>>> SearchEngine::exportRelevantResp
                                   relevantResponseObj.getRelevantResponses()[requestId].cend());
     }
 
+    //Вернуть преобразованную базу релевантности ответов
     return answers;
 }
