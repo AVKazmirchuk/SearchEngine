@@ -17,7 +17,7 @@
 
 
 /**
- * Класс реализует проверку файла и его содержимого
+ * Класс реализует проверку файла и его содержимого (JSON-структуру)
  */
 class CheckFile
 {
@@ -29,34 +29,40 @@ public:
     /**
      * Проверить файл на существование
      * @param fileName Имя файла
-     * @return
+     * @return Файл существует(true)/не существует(false)
      */
     bool isExist(const std::string &fileName);
 
     /**
      * Проверить файл на пустоту
      * @param fileName Имя файла
-     * @return
+     * @return Файл пустой(true)/не пустой(false)
      */
     bool isEmpty(const std::string &fileName);
 
     /**
      * Проверить файл на целостность JSON-структуры
      * @param fileName Имя файла
-     * @return
+     * @return Файл целостный(true)/не целостный(false)
      */
     bool isJSONStructureValid(const std::string &fileName);
 
     /**
      * Проверить JSON-структуру файла на соответствие шаблону
-     * @param objectJSON
-     * @param objectJSONTemplate
-     * @return 
+     * @param objectJSON JSON-объект проверяемого
+     * @param objectJSONTemplate JSON-объект шаблона
+     * @return Файл соответствуе(true)/не соответствует(false)
      */
     bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
 private:
 
+    /**
+     * Проверить JSON-структуру файла на соответствие шаблону
+     * @param objectJSON JSON-объект проверяемого
+     * @param objectJSONTemplate JSON-объект шаблона
+     * @return Файл соответствуе(true)/не соответствует(false)
+     */
     bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
 };
 
