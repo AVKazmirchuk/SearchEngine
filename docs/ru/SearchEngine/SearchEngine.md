@@ -14,14 +14,12 @@
 ### Конструкторы:
 Инициализирует объекты классов.
 ```cpp
-SearchEngine()
-    : converterJSONObj(ReadWriteJSONFile().readJSONFile(constants::configFilePath),
-                       ReadWriteJSONFile().readJSONFile(constants::requestsFilePath)),
+SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
+    : converterJSONObj(in_configJSON, in_requestsJSON),
       documentsObj{},
       invertedIndexObj(documentsObj.getDocuments()),
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
-    {}
 ```
 Объект не является копируемым и перемещаемым (содержит объект класса InvertedIndex (содержит мьютекс)).
 ### Общедоступные функции-члены:
