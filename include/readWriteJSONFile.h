@@ -31,7 +31,7 @@ public:
 
     /**
      * Записать JSON-файл
-     * @param objectJSON JSON-файл
+     * @param objectJSON JSON-объект
      * @param filePath Путь JSON-файла
      * @param formatByWidth Ширина вывода
      */
