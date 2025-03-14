@@ -89,26 +89,20 @@ searchEngine.searchModifiedDocuments();
 
 //Рассчитать релевантность ответов, при изменении запросов (изменяются только запросы)
 searchEngine.searchModifiedRequests();
+```
+Так же есть функция ...
 
 ## Тестирование
-## Разработка
-Как помочь продукту развиваться? 
-## Разработка
-Кто разрабатывает продукт?
-## Добавьте лицензию
-https://choosealicense.com/
+
+
 ## Документация
 Документацию пожно получить по [ссылке](./docs/ru/index.md)
-## Значки
+
+
+
 ## Поддержка
 
 https://goformarty.github.io/How-to-README/
 https://dan-it.gitlab.io/fe-book/teamwork/readme.html
 https://www.ionos.ca/digitalguide/websites/web-development/readme-file/
 https://doka.guide/recipes/github-add-readme/
-
-Какова была ваша мотивация?
-Зачем вы создали этот проект?
-Какую проблему это решает?
-Чему вы научились?
-Что выделяет ваш проект на фоне других? Если в вашем проекте много функций, подумайте о том, чтобы добавить раздел «Функции» и перечислить их здесь.
