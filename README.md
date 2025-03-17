@@ -103,6 +103,24 @@ searchEngine.searchModifiedRequests();
 ## Поддержка
 
 https://goformarty.github.io/How-to-README/
-https://dan-it.gitlab.io/fe-book/teamwork/readme.html
+https://dan-it.gitlab.io/fe-book/teamwork/readme.html/
 https://www.ionos.ca/digitalguide/websites/web-development/readme-file/
 https://doka.guide/recipes/github-add-readme/
+
+https://yandex.ru/search/?text=%D0%BA%D0%B0%D0%BA+%D0%BF%D1%80%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C+cmake+%D0%B2+clion+%D0%B4%D0%BB%D1%8F+gtest+%D0%B4%D0%BB%D1%8F+%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5%D0%BD%D0%BE%D0%B3%D0%BE+%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0&clid=2270455&banerid=0702004923%3A15287930302275780607%3A65fbc45a2cc6481e8c1741ae&win=638&lr=38
+
+https://github.com/fortunevictim/how-to-install-googletests-on-CLion
+
+https://stackoverflow.com/questions/33638433/setup-google-test-in-clion
+
+https://yandex.ru/search/?text=%D0%BA%D0%B0%D0%BA+%D0%B2+CLion+%D1%81+%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E+CMake+%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D1%8C+%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82+%D1%81+%D1%82%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8+%D0%BD%D0%B0+%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%B5+Google+Test+%D0%B4%D0%BB%D1%8F+%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5%D0%B2%D0%BE%D0%B9+%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B&lr=38&clid=2270455&win=638
+
+https://raymii.org/s/tutorials/Cpp_project_setup_with_cmake_and_unit_tests.html
+
+https://dev.to/basman/a-barebones-c-library-template-using-cmake-and-google-test-44hj
+
+https://nuancesprog.ru/p/15603/
+
+
+
+
