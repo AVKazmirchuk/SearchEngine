@@ -7,7 +7,7 @@
 #include "logger.h"
 #include <limits>
 
-#include "gtest/gtest.h"
+
 
 void pressAnyKey(const char* message)
 {
