@@ -98,7 +98,14 @@ searchEngine.searchModifiedRequests();
 ## Документация
 Документацию пожно получить по [ссылке](./docs/ru/index.md), где приводится архитектура проекта и подробное описание классов.
 
+## Лицензия
 
+Этот класс лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).
+Copyright (c) 2025 Alexander Kazmirchuk
+
+* * *
+
+- Проект содержит копию [nlohmann/json](https://github.com/nlohmann/json) от Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
 
 ## Поддержка
 
