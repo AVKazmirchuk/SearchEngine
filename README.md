@@ -121,6 +121,22 @@ https://dev.to/basman/a-barebones-c-library-template-using-cmake-and-google-test
 
 https://nuancesprog.ru/p/15603/
 
+https://askdev.ru/q/nastroyka-testa-google-v-clion-94004/
+
+https://www.jetbrains.com.cn/en-us/help/clion/quick-cmake-tutorial.html#cmake-debug
+
+https://dzen.ru/a/Z4QqiDatYHRrWrzX
+
+https://dev.to/yanujz/getting-started-with-googletest-and-cmake-1kgg
+
+https://www.mo4tech.com/4-use-googletest.html
+
+https://programmersought.com/article/896110219650/
+
+https://www.kaizou.org/2014/11/gtest-cmake.html
+
+https://www.tutorialspoint.com/gtest/gtest-first-test.htm
+
 
 
 
