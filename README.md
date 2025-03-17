@@ -109,6 +109,9 @@ Copyright (c) 2025 Alexander Kazmirchuk
 
 ## Поддержка
 
+Если у вас возникли сложности или вопросы по использованию пакета, создайте 
+[обсуждение](https://github.com/AVKazmirchuk/SearchEngine/issues/new) в данном репозитории или напишите на электронную почту <a_kazmirchuk@mail.ru>.
+
 https://goformarty.github.io/How-to-README/
 https://dan-it.gitlab.io/fe-book/teamwork/readme.html/
 https://www.ionos.ca/digitalguide/websites/web-development/readme-file/
