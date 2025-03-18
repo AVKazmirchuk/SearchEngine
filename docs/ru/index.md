@@ -14,4 +14,4 @@
 10. [Класс ReadWriteJSONFile](./ReadWriteJSONFile/ReadWriteJSONFile.md)
 11. [Класс CheckFile](./CheckFile/CheckFile.md)
 12. [Класс Logger](./Logger/Logger.md)
-13. [Класс Exceptions](./Exceptions/Exceptions.md)
+13. [Класс CheckFileException](./CheckFileException/CheckFileException.md)
