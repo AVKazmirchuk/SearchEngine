@@ -15,7 +15,6 @@
 ```cpp
 CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "")
 : errorCode(in_errorCode)
-{...}
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
