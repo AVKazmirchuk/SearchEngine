@@ -32,7 +32,7 @@
   },
   "files": [
     "../../resources/file001.txt",
-	"../../resources/file002.txt",
+    "../../resources/file002.txt",
     "../../resources/file003.txt"
   ]
 }
@@ -105,7 +105,7 @@ Copyright (c) 2025 Alexander Kazmirchuk
 
 * * *
 
-- Проект содержит копию [nlohmann/json](https://github.com/nlohmann/json) от Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
+- Проект содержит копию библиотеки [nlohmann/json](https://github.com/nlohmann/json) Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
 
 ## Поддержка
 
