@@ -100,7 +100,7 @@ searchEngine.searchModifiedRequests();
 
 ## Лицензия
 
-Этот класс лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).
+Этот класс лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).\
 Copyright (c) 2025 Alexander Kazmirchuk
 
 * * *
