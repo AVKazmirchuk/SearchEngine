@@ -12,7 +12,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
 
-add_executable(search_engine_test test.cpp invertedIndex.cpp)
+add_executable(search_engine_test test.cpp testInvertedIndex.cpp)
 
 target_link_libraries(search_engine_test PRIVATE gtest_main)
 

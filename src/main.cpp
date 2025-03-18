@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "checkFile.h"
-#include "exceptions.h"
+#include "checkFileException.h"
 #include "searchEngine.h"
 #include "general.h"
 #include "logger.h"
