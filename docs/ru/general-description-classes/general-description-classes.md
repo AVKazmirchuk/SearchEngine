@@ -42,4 +42,4 @@ ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
 SearchEngine
 \
 \
-#### Общая схема интерфейсов классов приведена здесь [general-scheme.odg]({{file name='./general-scheme.odg'}})
+&emsp;Общая схема интерфейсов классов приведена здесь [general-scheme.odg]({{file name='./general-scheme.odg'}})
