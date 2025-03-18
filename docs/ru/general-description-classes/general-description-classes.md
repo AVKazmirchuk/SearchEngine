@@ -42,4 +42,4 @@ ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
 SearchEngine
 \
 \
-Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme.png">Скачать general-scheme.png</a>)
+Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme.png">Общая схема интерфейсов</a>)
