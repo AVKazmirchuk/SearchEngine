@@ -40,3 +40,6 @@ ConverterJSON, Documents, InvertedIndex, Requests, RelevantResponse, PreparedReq
 ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
 #### Класс управления общей логикой:
 SearchEngine
+\
+\
+#### Общая схема интерфейсов классов приведена здесь [general-scheme.odg]({{file name='./general-scheme.odg'}})
