@@ -42,6 +42,6 @@ ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
 SearchEngine
 \
 \
-&emsp;Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/docs/ru/general-description-classes/general-scheme.odg">Скачать general-scheme.odg</a>)
+&emsp;Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme.odg">Скачать general-scheme.odg</a>)
 
 <a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/docs/ru/general-description-classes/general-scheme.odg">Download FILE</a>
