@@ -6,65 +6,49 @@
 ## Класс CheckFileException
 Класс реализует генерацию исключений.
 ### Выполняет следующие функции:
-1. Выбрасывает исключения.
-2. Возвращает описание исключения.
-3. Возвращает код ошибки исключения.
+1. Хранит исключение.
+2. Возвращает информацию по исключению.
+3. Возвращает код исключения.
 ### Конструкторы:
+Инициализирует код исключения.
 ```cpp
 CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
-#### Проверить файл на существование:
+#### Получить информацию по исключению:
 ```cpp
-bool isExist(const std::string &fileName);
+const char* what() const noexcept override;
 ```
-Параметры: имя файла
-Возвращаемое значение: существование файла
-#### Проверить файл на пустоту:
+Возвращаемое значение: информация по исключению
+#### Получить код исключения:
 ```cpp
-bool isEmpty(const std::string &fileName);
+ErrorCode getErrorCode() const;
 ```
-Параметры: имя файла
-Возвращаемое значение: пустота файла
-#### Проверить файл на целостность JSON-структуры:
-```cpp
- bool isJSONStructureValid(const std::string &fileName);
-```
-Параметры: имя файла
-Возвращаемое значение: целостность JSON-структуры 
-#### Проверить JSON-структуру файла на соответствие шаблону:
-```cpp
-bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
-```
-Параметры: JSON-объект шаблона, проверяемый JSON-объект
-Возвращаемое значение: соотвествие JSON-структуры шаблону
+Возвращаемое значение: код исключения
 ### Примеры
 ```cpp
-#include "checkFile.h"
+#include "сheckFileException.h"
 
 int main()
 {
-    //Создать объект класса CheckFile
-    CheckFile checkFileObj;
-
     //...
-    //Получить имя файла (fileName)
+    //Получить путь файла (filePath)
     //...
 
-    //Проверить файл на существование
-    bool exist{checkFileObj.isExist(fileName)};
-    //Проверить файл на пустоту
-    bool empty{checkFileObj.isEmpty(const std::string &fileName)};
-    //Проверить файл на целостность JSON-структуры
-    bool JSONStructureValid{checkFileObj.isJSONStructureValid(fileName)};
-
+    //Выбросить исключение с указанными ошибкой и путём файла
+    throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
+    
     //...
-    //Получить JSON-объекты шаблона и проверяемого (objectJSONTemplate, objectJSON)
+    //Получить объект класса CheckFileException (checkFileExceptionObj)
     //...
 
-    //Проверить JSON-структуру файла на соответствие шаблону
-    bool JSONStructureMatch{checkFileObj.isJSONStructureMatch(objectJSONTemplate, objectJSON)};
+    //Получить код исключения
+    ErrorCode errorCode{checkFileExceptionObj.getErrorCode()};
+
+    //...
+    //Что-то делать с errorCode
+    //...
 }
 ```
 
