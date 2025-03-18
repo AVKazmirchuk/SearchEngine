@@ -6,7 +6,7 @@
 
 В организациях бывает потребность поиска информации по базе документов. Программе указываются в файлах JSON пути документов и запросы. По документам строится база инвертированного индекса, на основе которого определяется релевантность ответа (содержимого документа) для каждого запроса. По завершении поиска результаты выводятся в файл JSON, где для каждого запроса указан документ со степенью релевантности.\
 \
-В проекте использована многопоточная обработка (стандартные библиотеки), - где необходимо. Использована сторонняя библиотека для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json). 
+В проекте использована многопоточная обработка (использована стандартная библиотека), - где необходимо. Использована сторонняя библиотека для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json). 
 Проект может быть использован в виде готовой программы (консольного типа) или как библиотека. Архитектура и подробное описание классов приводится в [документации](./docs/ru/index.md).
 
 ## Зависимости
@@ -21,7 +21,7 @@
 
 ## Как использовать проект
 
-Программа использует файлы конфигурации и запросов (config.json и requests.json).\
+Программа использует файлы конфигурации и запросов (config.json и requests.json). По результатам поиска в документах по запросам формируется файл answers.json, находящийся по этому же пути.\
 Файл config.json:
 ```json
 {
@@ -32,7 +32,7 @@
   },
   "files": [
     "../../resources/file001.txt",
-	"../../resources/file002.txt",
+    "../../resources/file002.txt",
     "../../resources/file003.txt"
   ]
 }
@@ -49,14 +49,43 @@
   ]
 }
 ```
-В поле "requests" прописываются сами запросы; по ним будет вестись поиск в документах
+В поле "requests" прописываются сами запросы; по ним будет вестись поиск в документах.\
+Файл answers.json:
+```json
+{
+  "answers": {
+    "request001": {
+      "result": "true",
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": 1.0
+        },
+        {
+          "docid": 2,
+          "rank": 0.94737
+        }
+      ]
+    },
+    "request002": {
+      "result": "true",
+        "docid": 0,
+        "rank": 0.03509
+      },
+    "request003": {
+      "result": "false"
+    }
+  }
+}
+```
+В этом файле для каждого запроса приводятся ID документов со значением релевантности ответа.
 
-### Скомпилированная программа
+### Программа
 
 Для запуска программы надо просто запустить файл search_engine.exe без ключей.\
 Для работы необходимо чтобы файлы конфигурации и запросов (config.json и requests.json) находились в директории с программой. В этой же директории по окончании поиска будет создан файл ответов (answers.json).
 
-### Как библиотека
+### Библиотека
 
 Для использования в самой программе (в функции main) необходимо оперировать объектом класса SearchEngine. Он уже в свою очередь управляет взаимодействием между другими классами.\
 Есть следующие функции рассчёта релевантности:
@@ -100,53 +129,17 @@ searchEngine.searchModifiedRequests();
 
 ## Лицензия
 
-Этот класс лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).
+Этот класс лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).\
 Copyright (c) 2025 Alexander Kazmirchuk
 
 * * *
 
-- Проект содержит копию [nlohmann/json](https://github.com/nlohmann/json) от Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
+- Проект содержит копию библиотеки [nlohmann/json](https://github.com/nlohmann/json) Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
 
 ## Поддержка
 
-Если у вас возникли сложности или вопросы по использованию пакета, создайте 
+Если у вас возникли сложности или вопросы по использованию программы или библиотеки, создайте 
 [обсуждение](https://github.com/AVKazmirchuk/SearchEngine/issues/new) в данном репозитории или напишите на электронную почту <a_kazmirchuk@mail.ru>.
-
-https://goformarty.github.io/How-to-README/
-https://dan-it.gitlab.io/fe-book/teamwork/readme.html/
-https://www.ionos.ca/digitalguide/websites/web-development/readme-file/
-https://doka.guide/recipes/github-add-readme/
-
-https://yandex.ru/search/?text=%D0%BA%D0%B0%D0%BA+%D0%BF%D1%80%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C+cmake+%D0%B2+clion+%D0%B4%D0%BB%D1%8F+gtest+%D0%B4%D0%BB%D1%8F+%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5%D0%BD%D0%BE%D0%B3%D0%BE+%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0&clid=2270455&banerid=0702004923%3A15287930302275780607%3A65fbc45a2cc6481e8c1741ae&win=638&lr=38
-
-https://github.com/fortunevictim/how-to-install-googletests-on-CLion
-
-https://stackoverflow.com/questions/33638433/setup-google-test-in-clion
-
-https://yandex.ru/search/?text=%D0%BA%D0%B0%D0%BA+%D0%B2+CLion+%D1%81+%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E+CMake+%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B8%D1%82%D1%8C+%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82+%D1%81+%D1%82%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8+%D0%BD%D0%B0+%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%B5+Google+Test+%D0%B4%D0%BB%D1%8F+%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5%D0%B2%D0%BE%D0%B9+%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B&lr=38&clid=2270455&win=638
-
-https://raymii.org/s/tutorials/Cpp_project_setup_with_cmake_and_unit_tests.html
-
-https://dev.to/basman/a-barebones-c-library-template-using-cmake-and-google-test-44hj
-
-https://nuancesprog.ru/p/15603/
-
-https://askdev.ru/q/nastroyka-testa-google-v-clion-94004/
-
-https://www.jetbrains.com.cn/en-us/help/clion/quick-cmake-tutorial.html#cmake-debug
-
-https://dzen.ru/a/Z4QqiDatYHRrWrzX
-
-https://dev.to/yanujz/getting-started-with-googletest-and-cmake-1kgg
-
-https://www.mo4tech.com/4-use-googletest.html
-
-https://programmersought.com/article/896110219650/
-
-https://www.kaizou.org/2014/11/gtest-cmake.html
-
-https://www.tutorialspoint.com/gtest/gtest-first-test.htm
-
 
 
 

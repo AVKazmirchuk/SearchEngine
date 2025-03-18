@@ -12,4 +12,6 @@
 8. [Класс RelevantResponse](./RelevantResponse/RelevantResponse.md)
 9. [Класс ReadTextFile](./ReadTextFile/ReadTextFile.md)
 10. [Класс ReadWriteJSONFile](./ReadWriteJSONFile/ReadWriteJSONFile.md)
-11. [Класс CheckFile](./CheckFile/CheckFile.md)    
+11. [Класс CheckFile](./CheckFile/CheckFile.md)
+12. [Класс Logger](./Logger/Logger.md)
+13. [Класс CheckFileException](./CheckFileException/CheckFileException.md)
