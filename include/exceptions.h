@@ -5,8 +5,12 @@
 #ifndef SEARCH_ENGINE_EXCEPTIONS_H
 #define SEARCH_ENGINE_EXCEPTIONS_H
 
+
+
 #include <exception>
 #include <string>
+
+
 
 enum class ErrorCode
 {
@@ -29,6 +33,12 @@ private:
     std::string information{"ERROR: "};
     ErrorCode errorCode;
 public:
+
+    /**
+     * Инициализирует код исключения
+     * @param in_errorCode Код исключения
+     * @param in_information Информация по исключению
+     */
     CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
     {
         switch (errorCode)
@@ -59,11 +69,19 @@ public:
         information += in_information;
     }
 
+    /**
+     * Получить информацию по исключению
+     * @return Информация по исключению
+     */
     const char* what() const noexcept override
     {
         return information.c_str();
     }
 
+    /**
+     * Получить код исключения
+     * @return Код исключения
+     */
     ErrorCode getErrorCode() const
     {
         return errorCode;
