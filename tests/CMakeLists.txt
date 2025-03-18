@@ -12,16 +12,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
 
-#enable_testing()
-
 add_executable(search_engine_test test.cpp invertedIndex.cpp)
 
 target_link_libraries(search_engine_test PRIVATE gtest_main)
 
-# Include directories (including where GoogleTest is built)
-#target_include_directories(search_engine_test PRIVATE ${gtest_SOURCE_DIR}/include)
-
-# Add include directories for tests to find headers
 target_include_directories(search_engine_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 include(GoogleTest)
