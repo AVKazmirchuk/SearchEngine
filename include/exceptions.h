@@ -20,6 +20,9 @@ enum class ErrorCode
 
 };
 
+/**
+ * Класс реализует генерацию исключений
+ */
 class CheckFileException : public std::exception
 {
 private:
