@@ -6,66 +6,69 @@
 ## Класс Logger
 Класс реализует логирование событий.
 ### Выполняет следующие функции:
-1. Проверяет файл на существование.
-2. Проверяет файл на пустоту.
-3. Проверяет файл на целостность JSON-структуры.
-4. Проверяет JSON-структуру файла на соответствие шаблону.
+1. Выводит события разного уровня в консоль.
 ### Конструкторы:
 ```cpp
-CheckFile() = default;
+Logger() = default;
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
-#### Проверить файл на существование:
+#### Записать сообщение уровня information:
 ```cpp
-bool isExist(const std::string &fileName);
+void info(const std::string& message);
 ```
-Параметры: имя файла
-Возвращаемое значение: существование файла
-#### Проверить файл на пустоту:
+Параметры: Сообщение
+#### Записать сообщение уровня warning:
 ```cpp
-bool isEmpty(const std::string &fileName);
+void warn(const std::string& message);
 ```
-Параметры: имя файла
-Возвращаемое значение: пустота файла
-#### Проверить файл на целостность JSON-структуры:
+Параметры: Сообщение
+#### Записать сообщение уровня error:
 ```cpp
- bool isJSONStructureValid(const std::string &fileName);
+void error(const std::string& message);
 ```
-Параметры: имя файла
-Возвращаемое значение: целостность JSON-структуры 
-#### Проверить JSON-структуру файла на соответствие шаблону:
+Параметры: Сообщение
+#### Записать сообщение уровня fatal:
 ```cpp
-bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
+void fatal(const std::string& message);
 ```
-Параметры: JSON-объект шаблона, проверяемый JSON-объект
-Возвращаемое значение: соотвествие JSON-структуры шаблону
+Параметры: Сообщение
 ### Примеры
 ```cpp
-#include "checkFile.h"
+#include "logger.h"
 
 int main()
 {
-    //Создать объект класса CheckFile
-    CheckFile checkFileObj;
+    //Создать объект класса Logger
+    Logger loggerObj;
 
     //...
-    //Получить имя файла (fileName)
+    //Получить сообщение уровня information (message)
     //...
 
-    //Проверить файл на существование
-    bool exist{checkFileObj.isExist(fileName)};
-    //Проверить файл на пустоту
-    bool empty{checkFileObj.isEmpty(const std::string &fileName)};
-    //Проверить файл на целостность JSON-структуры
-    bool JSONStructureValid{checkFileObj.isJSONStructureValid(fileName)};
+    //Записать сообщение уровня information
+    loggerObj.info(message);
 
     //...
-    //Получить JSON-объекты шаблона и проверяемого (objectJSONTemplate, objectJSON)
+    //Получить сообщение уровня warning (message)
     //...
 
-    //Проверить JSON-структуру файла на соответствие шаблону
-    bool JSONStructureMatch{checkFileObj.isJSONStructureMatch(objectJSONTemplate, objectJSON)};
+    //Записать сообщение уровня warning
+    loggerObj.warn(message);
+
+    //...
+    //Получить сообщение уровня error (message)
+    //...
+
+    //Записать сообщение уровня error
+    loggerObj.error(message);
+
+    //...
+    //Получить сообщение уровня fatal (message)
+    //...
+
+    //Записать сообщение уровня fatal
+    loggerObj.fatal(message);
 }
 ```
 
