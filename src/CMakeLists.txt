@@ -80,6 +80,6 @@ add_executable(search_engine main.cpp
 
 
 
-        parallelization/startThreads.cpp checkFile/isJSONStructureMatch.cpp converterJSON/about.cpp converterJSON/checkFilePath.cpp converterJSON/checkRequests.cpp checkFile/isJSONStructureMatchImpl.cpp ../include/logger.h Logger/info.cpp Logger/warn.cpp Logger/error.cpp Logger/fatal.cpp ../tests/invertedIndex.cpp ../tests/test.cpp)
+        parallelization/startThreads.cpp checkFile/isJSONStructureMatch.cpp converterJSON/about.cpp converterJSON/checkFilePath.cpp converterJSON/checkRequests.cpp checkFile/isJSONStructureMatchImpl.cpp ../include/logger.h Logger/info.cpp Logger/warn.cpp Logger/error.cpp Logger/fatal.cpp ../tests/testInvertedIndex.cpp ../tests/test.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
