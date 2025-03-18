@@ -4,7 +4,8 @@
 ### [Оглавление](../index.md)
 
 ## Класс CheckFileException
-Класс реализует генерацию исключений.
+Класс реализует генерацию исключений.\
+Также используется вспомогательный класс перечисления ErrorCode (содержит коды исключений).
 ### Выполняет следующие функции:
 1. Хранит исключение.
 2. Возвращает информацию по исключению.
@@ -12,7 +13,9 @@
 ### Конструкторы:
 Инициализирует код исключения.
 ```cpp
-CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
+CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "")
+: errorCode(in_errorCode)
+{...}
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
