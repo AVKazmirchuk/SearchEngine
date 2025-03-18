@@ -42,4 +42,6 @@ ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
 SearchEngine
 \
 \
-&emsp;Общая схема интерфейсов классов приведена здесь [general-scheme.odg]({{file name='./general-scheme.odg'}})
+&emsp;Общая схема интерфейсов классов приведена здесь [general-scheme.odg](<a id="raw-url" href="https://raw.githubusercontent.com/github-username/project/master/filename">Download FILE</a>)
+
+<a id="raw-url" href="https://raw.githubusercontent.com/github-username/project/master/filename">Download FILE</a>
