@@ -56,7 +56,7 @@ public:
                 information += "The structure of this file is corrupted: ";
                 break;
             case ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH :
-                information += "The structure of this file does not match the required one:: ";
+                information += "The structure of this file does not match the required one: ";
                 break;
             case ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY :
                 information += "The array of file paths is empty! ";
