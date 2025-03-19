@@ -5,6 +5,9 @@
 #include <iostream>
 
 #include "checkFile.h"
+#include <exception>
+#include <stdexcept>
+
 
 
 bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
@@ -19,14 +22,14 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
         if (elem == objectJSON.end())
         {
             //Выбросить исключение
-            throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED);
+            throw std::runtime_error();
         }
 
         //Типы значений полей шаблона и проверяемого не равны
         if (elem.value().type() != elemTemplate.value().type())
         {
             //Выбросить исключение
-            throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED);
+            throw std::runtime_error();
         }
 
         //Тип значения поля - JSON-объект
@@ -37,6 +40,6 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
         }
     }
 
-    ////JSON-структура файла соответствует шаблону
+    //JSON-структура файла соответствует шаблону
     return true;
 }

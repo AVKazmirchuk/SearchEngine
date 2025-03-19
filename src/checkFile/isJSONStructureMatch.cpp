@@ -5,6 +5,8 @@
 #include <iostream>
 
 #include "checkFile.h"
+#include <exception>
+#include <stdexcept>
 
 
 
@@ -15,7 +17,7 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
         //Проверить JSON-структуру файла на соответствие шаблону
         isJSONStructureMatchImpl(objectJSON, objectJSONTemplate);
     }
-    catch(const CheckFileException& e)
+    catch(const std::runtime_error& e)
     {
         //JSON-структура файла не соответствует шаблону
         return false;
