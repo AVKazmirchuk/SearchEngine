@@ -15,8 +15,7 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/readWriteJSONFile.h
         ${SE_INCLUDE_DIR}/readTextFile.h
         ${SE_INCLUDE_DIR}/general.h
-
-        ${SE_INCLUDE_DIR}/parallelization.h
+        ${SE_INCLUDE_DIR}/logger.h
 
         converterJSON/getFilePaths.cpp
         converterJSON/getMaxResponses.cpp
@@ -25,6 +24,9 @@ add_executable(search_engine main.cpp
         converterJSON/getAnswersJSON.cpp
         converterJSON/convertIdtoStr.cpp
         converterJSON/accumulateRank.cpp
+        converterJSON/about.cpp
+        converterJSON/checkFilePath.cpp
+        converterJSON/checkRequests.cpp
 
         invertedIndex/updateInvertedIndexes.cpp
         invertedIndex/getInvertedIndexes.cpp
@@ -56,6 +58,8 @@ add_executable(search_engine main.cpp
         checkFile/isJSONStructureValid.cpp
         checkFile/isExist.cpp
         checkFile/isEmpty.cpp
+        checkFile/isJSONStructureMatch.cpp
+        checkFile/isJSONStructureMatchImpl.cpp
 
         documents/updateDocuments.cpp
         documents/getDocuments.cpp
@@ -78,8 +82,9 @@ add_executable(search_engine main.cpp
         constants.cpp
         exitProgram.cpp
 
-
-
-        parallelization/startThreads.cpp checkFile/isJSONStructureMatch.cpp converterJSON/about.cpp converterJSON/checkFilePath.cpp converterJSON/checkRequests.cpp checkFile/isJSONStructureMatchImpl.cpp ../include/logger.h Logger/info.cpp Logger/warn.cpp Logger/error.cpp Logger/fatal.cpp ../tests/testInvertedIndex.cpp ../tests/test.cpp)
+        Logger/info.cpp
+        Logger/warn.cpp
+        Logger/error.cpp
+        Logger/fatal.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
