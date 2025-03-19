@@ -37,6 +37,6 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
         }
     }
 
-    ////JSON-структура файла соответствует шаблону
+    //JSON-структура файла соответствует шаблону
     return true;
 }
