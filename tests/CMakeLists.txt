@@ -14,10 +14,12 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(search_engine_test testInvertedIndex.cpp test.cpp)
 
-target_link_libraries(search_engine_test PRIVATE gtest_main)
+
+target_link_libraries(search_engine_test PRIVATE gtest gtest_main)
+
 
 target_include_directories(search_engine_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(search_engine_test PUBLIC ${SE_INCLUDE_DIR})
+target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
 
 include(GoogleTest)
 
