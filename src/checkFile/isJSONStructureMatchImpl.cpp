@@ -22,14 +22,14 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
         if (elem == objectJSON.end())
         {
             //Выбросить исключение
-            throw std::runtime_error();
+            throw std::runtime_error("ERROR_FILE_STRUCTURE_NOT_MATCH");
         }
 
         //Типы значений полей шаблона и проверяемого не равны
         if (elem.value().type() != elemTemplate.value().type())
         {
             //Выбросить исключение
-            throw std::runtime_error();
+            throw std::runtime_error("ERROR_FILE_STRUCTURE_NOT_MATCH");
         }
 
         //Тип значения поля - JSON-объект

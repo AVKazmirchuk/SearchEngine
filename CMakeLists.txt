@@ -14,9 +14,9 @@ add_subdirectory(tests)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(search_engine_test PRIVATE gtest_main)
+#target_link_libraries(search_engine_test PRIVATE gtest_main)
 
 
-enable_testing()
+
 
 

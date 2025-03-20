@@ -13,13 +13,13 @@
 
 
 
-std::vector<Entry> getInvertedIndexStructures(const std::map<std::string, std::vector<Entry>>& invertedIndexes, const std::string& word)
+std::vector<Entry> getInvertedIndexStructures(const std::map<std::string, std::vector<Entry>>& invertedIndexes, const std::string& request)
 {
     //Слово в базе инвертированных индексов существует
-    if (invertedIndexes.find(word) != invertedIndexes.end())
+    if (invertedIndexes.find(request) != invertedIndexes.end())
     {
         //Возвратить список структур инвертированного индекса
-        return invertedIndexes.find(word)->second;
+        return invertedIndexes.find(request)->second;
     }
     else
         //Слово в базе инвертированных индексов не существует
@@ -36,7 +36,7 @@ void TestInvertedIndexFunctionality(
 ) {
     std::vector<std::vector<Entry>> result;
     InvertedIndex idx(docs);
-    //idx.UpdateDocumentBase(docs);
+    idx.updateInvertedIndexes();
     for(auto& request : requests) {
         std::vector<Entry> word_count = getInvertedIndexStructures(idx.getInvertedIndexes(), request);
         result.push_back(word_count);
@@ -52,8 +52,8 @@ const std::vector<std::string> requests = {"london", "the"};
 const std::vector<std::vector<Entry>> expected = {
         {
                 {0, 1}
-        }, {{
-                    0, 1}, {1, 3}
+        }, {
+                {0, 1}, {1, 3}
         }
 };
 TestInvertedIndexFunctionality(docs, requests, expected);
@@ -65,12 +65,12 @@ const std::vector<std::string> docs = {
         "milk milk milk milk milk water water water water water",
         "americano cappuccino"
 };
-const std::vector<std::string> requests = {"milk", "water", "cappuchino"};
+const std::vector<std::string> requests = {"milk", "water", "cappuccino"};
 const std::vector<std::vector<Entry>> expected = {
         {
                 {0, 4}, {1, 1}, {2, 5}
         }, {
-                {0, 2}, {1, 2}, {2, 5}
+                {0, 3}, {1, 2}, {2, 5}
         }, {
                 {3, 1}
         }
