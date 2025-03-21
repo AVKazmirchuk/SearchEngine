@@ -12,7 +12,7 @@ https://mksegment.ru/d/kak-podklyuchit-gugl-testy-s-clion
 
 https://www.jetbrains.com/help/clion/code-coverage-clion.html#run-coverage
 
-
+https://stackoverflow.com/questions/20804468/cmake-multiple-line-comments-block-comment
 
 
 
