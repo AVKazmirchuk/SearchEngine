@@ -16,7 +16,7 @@ https://stackoverflow.com/questions/20804468/cmake-multiple-line-comments-block-
 
 https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/monitoring-workflows/adding-a-workflow-status-badge
 
-
+https://puresourcecode.com/tools/how-to-add-badges-to-a-github-repository/
 
 
 
