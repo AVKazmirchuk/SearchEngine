@@ -10,6 +10,8 @@ https://dzen.ru/a/Z4QqiDatYHRrWrzX
 
 https://mksegment.ru/d/kak-podklyuchit-gugl-testy-s-clion
 
+https://www.jetbrains.com/help/clion/code-coverage-clion.html#run-coverage
+
 
 
 
