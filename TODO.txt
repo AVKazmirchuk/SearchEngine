@@ -14,7 +14,7 @@ https://www.jetbrains.com/help/clion/code-coverage-clion.html#run-coverage
 
 https://stackoverflow.com/questions/20804468/cmake-multiple-line-comments-block-comment
 
-
+https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/monitoring-workflows/adding-a-workflow-status-badge
 
 
 
