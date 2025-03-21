@@ -8,6 +8,8 @@ https://www.jetbrains.com.cn/en-us/help/clion/quick-cmake-tutorial.html#cmake-de
 
 https://dzen.ru/a/Z4QqiDatYHRrWrzX
 
+https://mksegment.ru/d/kak-podklyuchit-gugl-testy-s-clion
+
 
 
 
