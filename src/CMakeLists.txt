@@ -79,8 +79,8 @@ add_executable(search_engine main.cpp
 
         readTextFile/readTextFile.cpp
 
-        constants.cpp
-        exitProgram.cpp
+        general/constants.cpp
+        general/exitProgram.cpp
 
         Logger/info.cpp
         Logger/warn.cpp
