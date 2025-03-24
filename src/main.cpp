@@ -21,7 +21,7 @@ void pressAnyKey(const char* message)
     std::cin.get();
 }
 
-   
+   //Проверить последовательно файл на существование, на целостность JSON-структуры, на соответствие шаблону
    void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
    {
        //Проверить файл на существование
@@ -31,7 +31,6 @@ void pressAnyKey(const char* message)
            throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
        }
 
-       //Другие проверки файла...
        //Проверить файл на целостность JSON-структуры
        if (!CheckFile().isJSONStructureValid(filePath))
        {

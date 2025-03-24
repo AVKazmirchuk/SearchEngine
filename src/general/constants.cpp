@@ -13,9 +13,9 @@
 namespace constants
 {
 
-    const std::string configFilePath{"../../config.json"};
-    const std::string requestsFilePath{"../../requests.json"};
-    const std::string answersFilePath{"../../answers.json"};
+    const std::string configFilePath{"config.json"};
+    const std::string requestsFilePath{"requests.json"};
+    const std::string answersFilePath{"answers.json"};
 
     const std::string configStr{"config"};
     const std::string nameStr{"name"};
@@ -34,7 +34,7 @@ namespace constants
     const std::string docIdStr{"docid"};
     const std::string rankStr{"rank"};
 
-    const int precision{5};
+    const int precision{6};
     const int formatByWidth{2};
 
     const JSON configTemplate = R"(

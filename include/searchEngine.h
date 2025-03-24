@@ -7,6 +7,10 @@
 
 #include <iostream>
 
+#include <cstdint>
+
+
+
 #include "converterJSON.h"
 #include "documents.h"
 #include "invertedIndex.h"
@@ -79,7 +83,7 @@ public:
      * Преобразовать базу релевантности ответов в другой тип
      * @return Преобразованная база релевантности ответов
      */
-    std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
+    std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
 
 private:
 

@@ -6,6 +6,7 @@
 #define SEARCH_ENGINE_CONVERTERJSON_H
 
 
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -87,7 +88,7 @@ public:
      * @param answers Релевантность ответов
      * @param maxResponses Значение максимального количества ответов
      */
-    void setAnswersJSON(const std::vector<std::vector<std::pair<int, float>>>& answers, int maxResponses);
+    void setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers, int maxResponses);
 
     /**
      * Получить JSON-объект ответов
@@ -134,7 +135,7 @@ private:
      * @param requestId ID запроса
      * @return Суммарный ранг
      */
-    float accumulateRank(const std::vector<std::vector<std::pair<int, float>>>& answers, std::size_t requestId);
+    float accumulateRank(const std::vector<std::vector<std::pair<std::uint64_t, float>>>& answers, std::size_t requestId);
 
     /**
      * Преобразовать Id запроса в строку

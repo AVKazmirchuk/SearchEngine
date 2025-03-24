@@ -16,7 +16,7 @@ void RelevantResponse::sortByDescendingRelevance()
     for (auto& request : relevantResponses)
     {
         //Сортировать документы
-        std::sort(request.begin(), request.end(),
+        std::stable_sort(request.begin(), request.end(),
                   [] (const RelativeIndex& a, const RelativeIndex& b)
                   {
                       //По убыванию релевантности

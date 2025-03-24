@@ -8,8 +8,6 @@
 
 
 
-
-
 void SearchEngine::searchModifiedAll()
 {
     //Очистить список документов
@@ -30,8 +28,9 @@ void SearchEngine::searchModifiedAll()
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    //Записывает в JSON-объект результаты поиска, с учётом максимального количества ответов
+    //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
+    //Записать в JSON-файл результаты поиска
     ReadWriteJSONFile().writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
 }

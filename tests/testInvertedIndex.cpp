@@ -8,7 +8,6 @@
 
 
 
-#include "entry.h"
 #include "invertedIndex.h"
 
 
@@ -51,8 +50,7 @@ const std::vector<std::string> docs = {
 const std::vector<std::string> requests = {"london", "the"};
 const std::vector<std::vector<Entry>> expected = {
         {
-                {0, 1}
-        }, {
+                {0, 1}        }, {
                 {0, 1}, {1, 3}
         }
 };
@@ -91,3 +89,4 @@ const std::vector<std::vector<Entry>> expected = {
 };
 TestInvertedIndexFunctionality(docs, requests, expected);
 }
+
