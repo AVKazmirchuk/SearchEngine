@@ -13,7 +13,6 @@ void ConverterJSON::checkFilePath()
 {
     if (configJSON[constants::filesStr].empty())
     {
-        Logger().fatal("The array of file paths is empty!");
         throw CheckFileException(ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY);
     }
 

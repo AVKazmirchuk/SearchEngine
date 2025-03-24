@@ -85,6 +85,6 @@ add_executable(search_engine main.cpp
         Logger/info.cpp
         Logger/warn.cpp
         Logger/error.cpp
-        Logger/fatal.cpp)
+        Logger/fatal.cpp general/pressAnyKey.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

@@ -8,10 +8,6 @@
 
 
 
-void exitProgram();
-
-
-
 void InvertedIndex::startInvertedIndexing()
 {
     //Контейнер результатов потоков

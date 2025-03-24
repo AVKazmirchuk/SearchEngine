@@ -9,17 +9,7 @@
 
 
 
-void pressAnyKey(const char* message)
-{
-    Logger().info("***   " + std::string(message) + "   ***");
 
-    // reset any error flags
-    std::cin.clear();
-    // ignore any characters in the input buffer until we find a newline
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    // get one more char from the user (waits for user to press enter)
-    std::cin.get();
-}
 
    //Проверить последовательно файл на существование, на целостность JSON-структуры, на соответствие шаблону
    void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
@@ -27,7 +17,6 @@ void pressAnyKey(const char* message)
        //Проверить файл на существование
        if (!CheckFile().isExist(filePath))
        {
-           Logger().fatal("File " + std::string(filePath) + " is missing!");
            throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
        }
 
@@ -47,7 +36,7 @@ void pressAnyKey(const char* message)
 int main()
 {
 
-
+    //std::atexit(pressAnyKey);
 
     //Проверить файл config.json
     checkFile(constants::configFilePath, constants::configTemplate);

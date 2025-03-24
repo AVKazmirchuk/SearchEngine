@@ -7,6 +7,9 @@
 
 
 
+#include <cstdlib>
+#include <iostream>
+
 #include "nlohmann/json.hpp"
 
 #include "logger.h"
@@ -84,5 +87,15 @@ namespace constants
  * @param error Строка ошибки
  */
 void exitProgram();
+
+/**
+ * Нажать любую клавишу для продолжения
+ * @param message Сообщение
+ */
+void pressAnyKey(const char* message);
+
+void pressAnyKey();
+
+
 
 #endif //SEARCH_ENGINE_GENERAL_H
