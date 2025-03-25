@@ -122,7 +122,6 @@ searchEngine.searchModifiedDocuments();
 //Рассчитать релевантность ответов, при изменении запросов (изменяются только запросы)
 searchEngine.searchModifiedRequests();
 ```
-Так же есть функция ...
 
 ## Тестирование
 
