@@ -34,7 +34,7 @@ public:
      * @param in_errorCode Код исключения
      * @param in_information Информация по исключению
      */
-    CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
+    explicit CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
     {
         switch (errorCode)
         {
@@ -62,7 +62,7 @@ public:
      * Получить информацию по исключению
      * @return Информация по исключению
      */
-    const char* what() const noexcept override
+    [[nodiscard]] const char* what() const noexcept override
     {
         return information.c_str();
     }
@@ -71,7 +71,7 @@ public:
      * Получить код исключения
      * @return Код исключения
      */
-    ErrorCode getErrorCode() const
+    [[nodiscard]] ErrorCode getErrorCode() const
     {
         return errorCode;
     }
