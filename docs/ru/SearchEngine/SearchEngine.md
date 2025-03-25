@@ -37,7 +37,7 @@ void searchModifiedRequests();
 ```
 #### Преобразовать базу релевантности ответов в другой тип:
 ```cpp
-std::vector<std::vector<std::pair<int, float>>> exportRelevantResponses();
+std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
 ```
 Возвращаемое значение: база релевантности ответов
 ### Примеры
@@ -74,6 +74,6 @@ int main()
     searchEngine.searchModifiedAll();
 
     //Преобразовать базу релевантности ответов в другой тип
-    std::vector<std::vector<std::pair<int, float>>> baseOfRelevantResponses{searchEngine.exportRelevantResponses()};
+    std::vector<std::vector<std::pair<std::uint64_t, float>>> baseOfRelevantResponses{searchEngine.exportRelevantResponses()};
 }
 ```
