@@ -5,33 +5,10 @@
 #include "searchEngine.h"
 #include "general.h"
 #include "logger.h"
-#include <limits>
 
 
 
 
-
-   //Проверить последовательно файл на существование, на целостность JSON-структуры, на соответствие шаблону
-   void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
-   {
-       //Проверить файл на существование
-       if (!CheckFile().isExist(filePath))
-       {
-           throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
-       }
-
-       //Проверить файл на целостность JSON-структуры
-       if (!CheckFile().isJSONStructureValid(filePath))
-       {
-           throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath);
-       }
-
-       //Проверить JSON-структуру файла на соответствие шаблону
-       if (!CheckFile().isJSONStructureMatch( ReadWriteJSONFile().readJSONFile(filePath), objectJSONTemplate))
-       {
-           throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
-       }
-   }
 
 int main()
 {

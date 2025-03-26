@@ -89,6 +89,13 @@ namespace constants
 void exitProgram();
 
 /**
+ * Проверить последовательно файл на существование, на целостность JSON-структуры, на соответствие шаблону
+ * @param filePath Имя файла
+ * @param objectJSONTemplate Шаблон JSON-объекта
+ */
+void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
+
+/**
  * Нажать любую клавишу для продолжения
  * @param message Сообщение
  */

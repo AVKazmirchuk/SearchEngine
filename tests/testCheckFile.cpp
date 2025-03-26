@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "gtest/gtest.h"
 
 #include "checkFile.h"
@@ -6,32 +8,59 @@
 
 
 
-void testCheckFile(const std::string& filePath, const JSON& template, ErrorCode errorCode)
+void preparedFiles()
+{
+    std::filesystem::remove("config.json");
+    std::filesystem::remove("requests.json");
+    std::filesystem::copy("../../tests/resources/config.json", "config.json");
+    std::filesystem::copy("../../tests/resources/requests.json", "requests.json");
+}
+
+bool testCheckFile(const std::string& filePath, const JSON& templateJSON, ErrorCode errorCode)
 {
     try 
     {
-    checkFile(filePath, template);
-    FAIL();
+    checkFile(filePath, templateJSON);
+    return true;
+
     }
-    catch (std::exception& e)
+    catch (const CheckFileException& e)
     {
-      ASSERT_STREQ(e.getErrorCode(), errorCode);
+        EXPECT_EQ(e.getErrorCode(), errorCode);
+        return false;
     }
 }
 
-TEST(TestCheckFile, configExist)
+TEST(TestCheckFile, fileExist)
 {
-  std::string wrongFilePath{wrongConfig.json};  
+    preparedFiles();
 
-  testCheckFile(wrongConfig.json, constants::configTemplate, ERROR_FILE_MISSING);
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_MISSING)};
+
+    ASSERT_TRUE(result);
+
+    //std::cout << "The file exists: " << filePath;
+}
+
+TEST(TestCheckFile, fileNotExist)
+{
+    preparedFiles();
+
+    std::filesystem::remove(constants::configFilePath);
+
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_MISSING)};
+
+    ASSERT_FALSE(result);
+
+    //std::cout << "The file does not exist: " << filePath;
 }
 
 TEST(TestCheckFile, configJSONStructureValid)
 {
-  testCheckFile(constants::configFilePath, constants::configTemplate, ERROR_FILE_STRUCTURE_CORRUPTED);
+  testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED);
 }
 
 TEST(TestCheckFile, configJSONStructureMatch)
 {
-  testCheckFile(constants::configFilePath, constants::configTemplate, ERROR_FILE_STRUCTURE_NOT_MATCH);
+  testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH);
 }

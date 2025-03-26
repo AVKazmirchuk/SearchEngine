@@ -27,7 +27,7 @@ file(GLOB CPP_READ_TEXT_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/readTe
 file(GLOB CPP_LOGGER CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/Logger/*.cpp")
 file(GLOB CPP_GENERAL CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/general/*.cpp")
 
-add_executable(search_engine_test testInvertedIndex.cpp test.cpp
+add_executable(search_engine_test testInvertedIndex.cpp testRelevantResponse.cpp test.cpp testCheckFile.cpp
         ${CPP_CONVERTER_JSON}
         ${CPP_INVERTED_INDEX}
         ${CPP_RELEVANT_RESPONSE}
