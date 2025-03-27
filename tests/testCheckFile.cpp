@@ -2,18 +2,25 @@
 
 #include "gtest/gtest.h"
 
-#include "checkFile.h"
 #include "checkFileException.h"
 #include "general.h"
 
 
 
-void preparedFiles()
+void putFiles()
 {
     std::filesystem::remove("config.json");
-    std::filesystem::remove("requests.json");
+    std::filesystem::remove("configNotValid.json");
+    std::filesystem::remove("configNotMatch.json");
     std::filesystem::copy("../../tests/resources/config.json", "config.json");
-    std::filesystem::copy("../../tests/resources/requests.json", "requests.json");
+    std::filesystem::copy("../../tests/resources/configNotValid.json", "configNotValid.json");
+    std::filesystem::copy("../../tests/resources/configNotMatch.json", "configNotMatch.json");
+}
+
+void deleteFiles()
+{
+    std::filesystem::remove("configNotValid.json");
+    std::filesystem::remove("configNotMatch.json");
 }
 
 bool testCheckFile(const std::string& filePath, const JSON& templateJSON, ErrorCode errorCode)
@@ -22,7 +29,6 @@ bool testCheckFile(const std::string& filePath, const JSON& templateJSON, ErrorC
     {
     checkFile(filePath, templateJSON);
     return true;
-
     }
     catch (const CheckFileException& e)
     {
@@ -33,34 +39,72 @@ bool testCheckFile(const std::string& filePath, const JSON& templateJSON, ErrorC
 
 TEST(TestCheckFile, fileExist)
 {
-    preparedFiles();
+    putFiles();
 
     bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_MISSING)};
 
-    ASSERT_TRUE(result);
+    deleteFiles();
 
-    //std::cout << "The file exists: " << filePath;
+    ASSERT_TRUE(result);
 }
 
 TEST(TestCheckFile, fileNotExist)
 {
-    preparedFiles();
+    putFiles();
 
     std::filesystem::remove(constants::configFilePath);
 
     bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_MISSING)};
 
+    deleteFiles();
+
     ASSERT_FALSE(result);
-
-    //std::cout << "The file does not exist: " << filePath;
 }
 
-TEST(TestCheckFile, configJSONStructureValid)
+TEST(TestCheckFile, fileJSONStructureValid)
 {
-  testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED);
+    putFiles();
+
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED)};
+
+    deleteFiles();
+
+    ASSERT_TRUE(result);
 }
 
-TEST(TestCheckFile, configJSONStructureMatch)
+TEST(TestCheckFile, fileJSONStructureNotValid)
 {
-  testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH);
+    putFiles();
+
+    const std::string configNotValidFilePath{"configNotValid.json"};
+
+    bool result{testCheckFile(configNotValidFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED)};
+
+    deleteFiles();
+
+    ASSERT_FALSE(result);
+}
+
+TEST(TestCheckFile, fileJSONStructureMatch)
+{
+    putFiles();
+
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH)};
+
+    deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+TEST(TestCheckFile, fileJSONStructureNotMatch)
+{
+    putFiles();
+
+    const std::string configNotMatchFilePath{"configNotMatch.json"};
+
+    bool result{testCheckFile(configNotMatchFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH)};
+
+    deleteFiles();
+
+    ASSERT_FALSE(result);
 }
