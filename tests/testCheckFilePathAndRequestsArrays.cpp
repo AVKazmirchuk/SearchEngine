@@ -33,10 +33,34 @@ TEST(TestCheckFilePathsArray, filePathsArrayFilled)
     ASSERT_TRUE(result);
 }
 
+TEST(TestCheckFilePathsArray, filePathsArrayWrongFilled)
+{
+    bool result{testCheckFilePathsAndRequestsArrays(testConstants::configWrongArray, constants::requestsTemplate,
+                                                    ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY)};
+
+    ASSERT_TRUE(result);
+}
+
 TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(testConstants::configWrongTemplate, constants::requestsTemplate,
                                                     ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY)};
+
+    ASSERT_FALSE(result);
+}
+
+TEST(TestCheckFilePathsArray, requestsArrayFilled)
+{
+    bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, constants::requestsTemplate,
+                                                    ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY)};
+
+    ASSERT_TRUE(result);
+}
+
+TEST(TestCheckFilePathsArray, requestsArrayNotFilled)
+{
+    bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, testConstants::requestsWrongTemplate,
+                                                    ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY)};
 
     ASSERT_FALSE(result);
 }

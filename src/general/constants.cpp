@@ -45,9 +45,9 @@ namespace constants
         "max_responses": 5
       },
      "files": [
-       "../resources/file001.txt",
-       "../resources/file002.txt",
-       "../resources/file003.txt"
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
      ]
     }
     )"_json;

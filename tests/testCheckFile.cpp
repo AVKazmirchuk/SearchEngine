@@ -4,24 +4,10 @@
 
 #include "checkFileException.h"
 #include "general.h"
+#include "testGeneral.h"
 
 
 
-void putFiles()
-{
-    std::filesystem::remove("config.json");
-    std::filesystem::remove("configNotValid.json");
-    std::filesystem::remove("configNotMatch.json");
-    std::filesystem::copy("../../tests/resources/config.json", "config.json");
-    std::filesystem::copy("../../tests/resources/configNotValid.json", "configNotValid.json");
-    std::filesystem::copy("../../tests/resources/configNotMatch.json", "configNotMatch.json");
-}
-
-void deleteFiles()
-{
-    std::filesystem::remove("configNotValid.json");
-    std::filesystem::remove("configNotMatch.json");
-}
 
 bool testCheckFile(const std::string& filePath, const JSON& templateJSON, ErrorCode errorCode)
 {

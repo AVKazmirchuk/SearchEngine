@@ -14,8 +14,15 @@ namespace testConstants
 
     extern const JSON requestsWrongTemplate;
 
+    extern const JSON configWrongArray;
+
+    extern const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers;
+
 }
 
+void putFiles();
+
+void deleteFiles();
 
 
 #endif //SEARCH_ENGINE_TESTGENERAL_H
