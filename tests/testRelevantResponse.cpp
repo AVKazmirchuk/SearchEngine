@@ -6,6 +6,7 @@
 
 #include "gtest/gtest.h"
 
+#include "converterJSON.h"
 #include "relevantResponse.h"
 #include "invertedIndex.h"
 
@@ -40,7 +41,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
     ASSERT_EQ(result, expected);
 }
-TEST(TestCaseRelevantResponse, TestTop5) {
+TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
     const std::vector<std::string> docs = {
             "london is the capital of great britain",
             "paris is the capital of france",
@@ -80,7 +81,7 @@ TEST(TestCaseRelevantResponse, TestTop5) {
     RelevantResponse srv(idx.getInvertedIndexes(), request);
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
-    result[0].resize(5);
+    result[0].resize(ConverterJSON(constants::configTemplate, constants::requestsTemplate).getMaxResponses());
 
     ASSERT_EQ(result, expected);
 }
