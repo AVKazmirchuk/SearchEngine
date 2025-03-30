@@ -100,7 +100,9 @@ void putFiles()
     std::filesystem::remove("requests.json");
     std::filesystem::remove("answers.json");
 
-    std::filesystem::remove("resources");
+
+    std::filesystem::remove_all("resources");
+
 
     std::filesystem::copy("../../tests/resources/config.json", "config.json");
     std::filesystem::copy("../../tests/resources/configNotValid.json", "configNotValid.json");

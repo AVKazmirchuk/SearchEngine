@@ -39,7 +39,7 @@ add_executable(search_engine_test testInvertedIndex.cpp testRelevantResponse.cpp
         ${CPP_READ_WRITE_JSON_FILE}
         ${CPP_READ_TEXT_FILE}
         ${CPP_LOGGER}
-        ${CPP_GENERAL} testRelevantResponse.cpp testGeneral.cpp testCheckFilePathAndRequestsArrays.cpp testGeneral.h testCheckSetAnswers.cpp)
+        ${CPP_GENERAL} testRelevantResponse.cpp testGeneral.cpp testCheckFilePathAndRequestsArrays.cpp testGeneral.h testCheckSetAnswers.cpp main.cpp)
 
 target_include_directories(search_engine_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
 

@@ -82,15 +82,6 @@ TEST(TestCaseRelevantResponse, TestTop5) {
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
     result[0].resize(5);
 
-    for (auto& x : result) {
-        for (auto &y: x) {
-
-            std::cout << y.docID << ", " << y.rank << " | ";
-        }
-
-        std::cout << '\n';
-    }
-
     ASSERT_EQ(result, expected);
 }
 
