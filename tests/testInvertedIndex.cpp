@@ -6,12 +6,11 @@
 
 #include "gtest/gtest.h"
 
-
-
 #include "invertedIndex.h"
 
 
 
+//Получить список структур инвертированного индекса соответствующего слова
 std::vector<Entry> getInvertedIndexStructures(const std::map<std::string, std::vector<Entry>>& invertedIndexes, const std::string& request)
 {
     //Слово в базе инвертированных индексов существует
@@ -28,6 +27,7 @@ std::vector<Entry> getInvertedIndexStructures(const std::map<std::string, std::v
     }
 }
 
+//Запустить проверку обновления базы инвертированных индексов
 void TestInvertedIndexFunctionality(
         const std::vector<std::string>& docs,
         const std::vector<std::string>& requests,
@@ -42,6 +42,8 @@ void TestInvertedIndexFunctionality(
     }
     ASSERT_EQ(result, expected);
 }
+
+//Проверить обновление базы инвертированных индексов. Тест №1. Просто тест
 TEST(TestCaseInvertedIndex, TestBasic) {
 const std::vector<std::string> docs = {
         "london is the capital of great britain",
@@ -58,6 +60,8 @@ const std::vector<std::vector<Entry>> expected = {
 };
 TestInvertedIndexFunctionality(docs, requests, expected);
 }
+
+//Проверить обновление базы инвертированных индексов. Тест №2. Один из запросов найден только в одном документе
 TEST(TestCaseInvertedIndex, TestBasic2) {
 const std::vector<std::string> docs = {
         "milk milk milk milk water water water",
@@ -79,6 +83,8 @@ const std::vector<std::vector<Entry>> expected = {
 };
 TestInvertedIndexFunctionality(docs, requests, expected);
 }
+
+//Проверить обновление базы инвертированных индексов. Тест №3. Один из запросов не найден ни в одном документе
 TEST(TestCaseInvertedIndex, TestInvertedIndexMissingWord) {
 const std::vector<std::string> docs = {
         "a b c d e f g h i j k l",
@@ -87,7 +93,8 @@ const std::vector<std::string> docs = {
 const std::vector<std::string> requests = {"m", "statement"};
 const std::vector<std::vector<Entry>> expected = {
         {
-        }, {
+        },
+        {
                 {1, 1}
         }
 };

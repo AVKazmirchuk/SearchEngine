@@ -13,14 +13,15 @@
 
 
 
+//Проверить запись в JSON-объект результатов поиска
 TEST(TestCheckConverterJSON, setAnswersJSON)
 {
     //Создать объект с фиктивными параметрами. Объект используется только для проверки соответствия записи в JSON-объект результатов поиска
-    ConverterJSON test{constants::configTemplate, constants::requestsTemplate};
+    ConverterJSON converterJsonObj{constants::configTemplate, constants::requestsTemplate};
 
-    test.setAnswersJSON(testConstants::answers, test.getMaxResponses());
+    converterJsonObj.setAnswersJSON(testConstants::answers, converterJsonObj.getMaxResponses());
 
-    bool result{test.getAnswersJSON() == testConstants::answersTest};
+    bool result{converterJsonObj.getAnswersJSON() == testConstants::answersTest};
 
     ASSERT_TRUE(result);
 }

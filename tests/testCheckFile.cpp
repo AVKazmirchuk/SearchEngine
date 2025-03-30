@@ -8,21 +8,27 @@
 
 
 
-
+//Запустить проверку файла на существование, на неповреждённость JSON-структуры, на соответствие JSON-структуры шаблону
 bool testCheckFile(const std::string& filePath, const JSON& templateJSON, ErrorCode errorCode)
 {
     try 
     {
-    checkFile(filePath, templateJSON);
-    return true;
+        //Запустить проверку файла
+        checkFile(filePath, templateJSON);
+        //Файл соответствует всем требованиям
+        return true;
     }
+    //Одно из требований не выполняется
     catch (const CheckFileException& e)
     {
+        //Если коды исключения не совпадают - тест составлен неверно
         EXPECT_EQ(e.getErrorCode(), errorCode);
+        //Файл не соответствует какому-либо требованию
         return false;
     }
 }
 
+//Запустить проверку файла на существование
 TEST(TestCheckFile, fileExist)
 {
     putFiles();
@@ -34,6 +40,7 @@ TEST(TestCheckFile, fileExist)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку файла на несуществование
 TEST(TestCheckFile, fileNotExist)
 {
     putFiles();
@@ -47,6 +54,7 @@ TEST(TestCheckFile, fileNotExist)
     ASSERT_FALSE(result);
 }
 
+//Запустить проверку файла на неповреждённость JSON-структуры
 TEST(TestCheckFile, fileJSONStructureValid)
 {
     putFiles();
@@ -58,6 +66,7 @@ TEST(TestCheckFile, fileJSONStructureValid)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку файла на повреждённость JSON-структуры
 TEST(TestCheckFile, fileJSONStructureNotValid)
 {
     putFiles();
@@ -70,7 +79,7 @@ TEST(TestCheckFile, fileJSONStructureNotValid)
 
     ASSERT_FALSE(result);
 }
-
+//Запустить проверку файла на соответствие JSON-структуры шаблону
 TEST(TestCheckFile, fileJSONStructureMatch)
 {
     putFiles();
@@ -82,6 +91,7 @@ TEST(TestCheckFile, fileJSONStructureMatch)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку файла на несоответствие JSON-структуры шаблону
 TEST(TestCheckFile, fileJSONStructureNotMatch)
 {
     putFiles();

@@ -12,6 +12,7 @@
 
 
 
+//Проверить рассчёт релевантности ответов. Тест №1. Просто тест
 TEST(TestCaseRelevantResponse, TestSimple) {
     const std::vector<std::string> docs = {
             "milk milk milk milk water water water",
@@ -25,13 +26,13 @@ TEST(TestCaseRelevantResponse, TestSimple) {
                     {2, 1},
                     {0, 0.7},
                     {1, 0.3},
-                    {3, 0}
+                    {3, 0.0}
             },
             {
-                    {0, 0},
-                    {1, 0},
-                    {2, 0},
-                    {3, 0}
+                    {0, 0.0},
+                    {1, 0.0},
+                    {2, 0.0},
+                    {3, 0.0}
             }
     };
     InvertedIndex idx(docs);
@@ -41,6 +42,8 @@ TEST(TestCaseRelevantResponse, TestSimple) {
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
     ASSERT_EQ(result, expected);
 }
+
+//Проверить рассчёт релевантности ответов. Тест №2. Ограничение количества ответов
 TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
     const std::vector<std::string> docs = {
             "london is the capital of great britain",

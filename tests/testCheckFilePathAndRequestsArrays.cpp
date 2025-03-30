@@ -11,20 +11,27 @@
 
 
 
+//Проверить пути файлов документов, запросы (соответствующие массивы в объектах)
 bool testCheckFilePathsAndRequestsArrays(const JSON& configJSON, const JSON& requestsJSON, ErrorCode errorCode)
 {
     try
     {
-        ConverterJSON test(configJSON, requestsJSON);
+        //Создать объект (косвенно проверить требования запустив проверку)
+        ConverterJSON converterJsonObj(configJSON, requestsJSON);
+        //Объект соответствует всем требованиям
         return true;
     }
+    //Одно из требований не выполняется
     catch (const CheckFileException& e)
     {
+        //Если коды исключения не совпадают - тест составлен неверно
         EXPECT_EQ(e.getErrorCode(), errorCode);
+        //Объект не соответствует какому-либо требованию
         return false;
     }
 }
 
+//Проверить массив путей файлов документов на заполненность
 TEST(TestCheckFilePathsArray, filePathsArrayFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, constants::requestsTemplate,
@@ -33,6 +40,7 @@ TEST(TestCheckFilePathsArray, filePathsArrayFilled)
     ASSERT_TRUE(result);
 }
 
+//Проверить массив путей файлов документов на отсутствие некоторых файлов (смотреть вывод в консоль)
 TEST(TestCheckFilePathsArray, filePathsArrayWrongFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(testConstants::configWrongArray, constants::requestsTemplate,
@@ -41,6 +49,7 @@ TEST(TestCheckFilePathsArray, filePathsArrayWrongFilled)
     ASSERT_TRUE(result);
 }
 
+//Проверить массив путей файлов документов на пустоту
 TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(testConstants::configWrongTemplate, constants::requestsTemplate,
@@ -49,6 +58,7 @@ TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
     ASSERT_FALSE(result);
 }
 
+//Проверить массив запросов на заполненность
 TEST(TestCheckFilePathsArray, requestsArrayFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, constants::requestsTemplate,
@@ -57,6 +67,7 @@ TEST(TestCheckFilePathsArray, requestsArrayFilled)
     ASSERT_TRUE(result);
 }
 
+//Проверить массив запросов на пустоту
 TEST(TestCheckFilePathsArray, requestsArrayNotFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, testConstants::requestsWrongTemplate,

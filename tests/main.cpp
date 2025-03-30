@@ -10,6 +10,7 @@
 
 int main()
 {
+    //Запустить все тесты
     ::testing::InitGoogleTest();
     return RUN_ALL_TESTS();
 }
