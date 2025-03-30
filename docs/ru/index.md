@@ -15,3 +15,4 @@
 11. [Класс CheckFile](./CheckFile/CheckFile.md)
 12. [Класс Logger](./Logger/Logger.md)
 13. [Класс CheckFileException](./CheckFileException/CheckFileException.md)
+14. [Тесты](./Tests/tests.md)

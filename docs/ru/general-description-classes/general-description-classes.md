@@ -4,6 +4,7 @@
 ### [Оглавление](../index.md)
 
 ## Общее описание классов
+Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme.png">Общая схема интерфейсов</a>)
 ### В программе используются следующие классы:
 
 #### 1. ConverterJSON
@@ -40,6 +41,5 @@ ConverterJSON, Documents, InvertedIndex, Requests, RelevantResponse, PreparedReq
 ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
 #### Класс управления общей логикой:
 SearchEngine
-\
-\
-Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme.png">Общая схема интерфейсов</a>)
+
+
