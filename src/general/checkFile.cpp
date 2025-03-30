@@ -13,7 +13,7 @@
 void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
 {
     //Проверить файл на существование
-    if (!CheckFile().isExist(filePath))
+    if (!std::filesystem::exists(filePath))
     {
         throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
     }

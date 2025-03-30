@@ -57,8 +57,6 @@ add_executable(search_engine main.cpp
 
 
         checkFile/isJSONStructureValid.cpp
-        checkFile/isExist.cpp
-        checkFile/isEmpty.cpp
         checkFile/isJSONStructureMatch.cpp
         checkFile/isJSONStructureMatchImpl.cpp
 
