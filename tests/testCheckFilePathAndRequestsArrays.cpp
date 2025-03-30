@@ -15,7 +15,7 @@ bool testCheckFilePathsAndRequestsArrays(const JSON& configJSON, const JSON& req
 {
     try
     {
-        ConverterJSON tmp(configJSON, requestsJSON);
+        ConverterJSON test(configJSON, requestsJSON);
         return true;
     }
     catch (const CheckFileException& e)

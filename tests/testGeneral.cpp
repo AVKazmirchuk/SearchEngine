@@ -9,7 +9,7 @@
 
 namespace testConstants {
 
-    const JSON configWrongTemplate = R"(
+    const JSON configWrongTemplate = JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -20,17 +20,17 @@ namespace testConstants {
 
      ]
     }
-    )"_json;
+    )");
 
-    const JSON requestsWrongTemplate = R"(
+    const JSON requestsWrongTemplate = JSON::parse(R"(
     {
       "requests": [
 
       ]
     }
-    )"_json;
+    )");
 
-    const JSON configWrongArray = R"(
+    const JSON configWrongArray = JSON::parse(R"(
     {
         "config": {
         "name": "SkillboxSearchEngine",
@@ -43,7 +43,7 @@ namespace testConstants {
     "resources/file003.txt"
     ]
     }
-    )"_json;
+    )");
 
     const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers =
             {
@@ -57,6 +57,38 @@ namespace testConstants {
 
                     }
             };
+
+    const JSON answersTest = JSON::parse(R"(
+    {
+        "answers": {
+            "request001": {
+                "result": "true",
+                "relevance": [
+                {
+                    "docid": 0,
+                    "rank": 1.0
+                },
+                {
+                    "docid": 2,
+                    "rank": 0.947368
+                },
+                {
+                    "docid": 1,
+                    "rank": 0.77193
+                }
+            ]
+                },
+            "request002": {
+                "result": "true",
+                "docid": 0,
+                "rank": 0.017544
+                },
+           "request003": {
+               "result": "false"
+           }
+        }
+    }
+    )");
 
 }
 

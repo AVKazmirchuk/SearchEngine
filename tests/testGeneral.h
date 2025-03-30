@@ -18,6 +18,8 @@ namespace testConstants
 
     extern const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers;
 
+    extern const JSON answersTest;
+
 }
 
 void putFiles();

@@ -37,7 +37,7 @@ namespace constants
     const int precision{6};
     const int formatByWidth{2};
 
-    const JSON configTemplate = R"(
+    const JSON configTemplate = JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -50,9 +50,9 @@ namespace constants
        "resources/file003.txt"
      ]
     }
-    )"_json;
+    )");
 
-    const JSON requestsTemplate = R"(
+    const JSON requestsTemplate = JSON::parse(R"(
     {
       "requests": [
         "of the and water is year",
@@ -60,7 +60,7 @@ namespace constants
         "music"
       ]
     }
-    )"_json;
+    )");
 
 }
 
