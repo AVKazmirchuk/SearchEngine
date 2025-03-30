@@ -14,4 +14,6 @@ void InvertedIndex::updateInvertedIndexes()
     clearInvertedIndexes();
     //Запустить инвертированную индексацию документов в отдельных потоках
     startInvertedIndexing();
+    //Сортировать базу инвертированного индекса по возрастанию ID документа
+    sortByAscendingDocumentID();
 }

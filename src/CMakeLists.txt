@@ -34,6 +34,7 @@ add_executable(search_engine main.cpp
         invertedIndex/addWord.cpp
         invertedIndex/defineWord.cpp
         invertedIndex/startInvertedIndexing.cpp
+        invertedIndex/sortByAscendingDocumentID.cpp
 
         relevantResponse/updateRelevantResponses.cpp
         relevantResponse/getRelevantResponses.cpp
@@ -81,10 +82,12 @@ add_executable(search_engine main.cpp
 
         general/constants.cpp
         general/exitProgram.cpp
+        general/pressAnyKey.cpp
+        general/checkFile.cpp
 
         Logger/info.cpp
         Logger/warn.cpp
         Logger/error.cpp
-        Logger/fatal.cpp general/pressAnyKey.cpp general/checkFile.cpp)
+        Logger/fatal.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

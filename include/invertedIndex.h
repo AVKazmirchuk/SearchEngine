@@ -96,6 +96,11 @@ private:
      */
     void addWord(const std::string& word, std::size_t docID);
 
+    /**
+     * Сортировать базу инвертированного индекса по возрастанию ID документа
+     */
+    void sortByAscendingDocumentID();
+
 };
 
 
