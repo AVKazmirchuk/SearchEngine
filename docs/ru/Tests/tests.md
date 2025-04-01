@@ -18,20 +18,20 @@
 
 | Element              | Line Coverage,%    | Branch Coverage,%     | 
 |----------------------| -------------------|---------------------- |
-| checkFile.h          |                    |                       |   
+| checkFile.h          |          -         |           -           |   
 | checkFileException.h | 88% lines covered  | 20% branches covered  | 
 | converterJSON.h      | 100% lines covered | 27% branches covered  |  
-| documents.h		       |                    |                       |
+| documents.h	       |          -         |           -           |
 | entry.h              | 100% lines covered | 50% branches covered  |
-| general.h		         |                    |                       |
+| general.h	       |          -         |           -           |
 | invertedIndex.h      | 100% lines covered | 100% branches covered |
-| logger.h		         |                    |                       |
-| readTextFile.h	     |                    |                       |
-| readWriteJSONFile.h	 |                    |                       |
+| logger.h	       |          -         |           -           |
+| readTextFile.h       |          -         |           -           |
+| readWriteJSONFile.h  |          -         |           -           |
 | relativeIndex.h      | 100% lines covered | 50% branches covered  |
 | relevantResponse.h   | 100% lines covered | 50% branches covered  |
-| requests.h		       |                    |                       |        
-| searchEngine.h	     |                    |                       |
+| requests.h	       |          -         |           -           |        
+| searchEngine.h       |          -         |           -           |
 
 
 		
