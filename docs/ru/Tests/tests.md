@@ -33,32 +33,35 @@
 | requests.h	       |          -         |           -           |        
 | searchEngine.h       |          -         |           -           |
 
+| Element              | Line Coverage,%               | Branch Coverage,%     | 
+|----------------------| ------------------------------|---------------------- |
+| checkFile            | 100% files, 96% lines covered | 57% branches covered  |   
+| converterJSON        | 100% files, 76% lines covered | 44% branches covered  | 
+| documents            | 0% files, 0% lines covered    |           -           |  
+| general	       | 100% files, 80% lines covered | 66% branches covered  |
+| invertedIndex        | 100% files, 92% lines covered | 54% branches covered  |
+| Logger	       | 100% files, 25% lines covered | 100% branches covered |
+| readTextFile         | 0% files, 0% lines covered    | 0% branches covered   |
+| readWriteJSONFile    | 100% files, 50% lines covered | 20% branches covered  |
+| relevantResponse     | 100% files, 99% lines covered | 74% branches covered  |
+| requests             | 0% files, 0% lines covered    |           -           |
+| searchEngine         | 0% files, 0% lines covered    | 0% branches covered   |
+| main.cpp             |               -               |           -           |
+
+		
+		
+
 
 		
 		
 		
-
-		
-
-		
-
-	
-
 		
 		
-
-	
-
-checkFile	100% files, 96% lines covered	57% branches covered
-converterJSON	100% files, 76% lines covered	44% branches covered
-documents	0% files, 0% lines covered	
-general	100% files, 80% lines covered	66% branches covered
-invertedIndex	100% files, 92% lines covered	54% branches covered
-Logger	100% files, 25% lines covered	100% branches covered
-readTextFile	0% files, 0% lines covered	0% branches covered
-readWriteJSONFile	100% files, 50% lines covered	20% branches covered
-relevantResponse	100% files, 99% lines covered	74% branches covered
-requests	0% files, 0% lines covered	
-searchEngine	0% files, 0% lines covered	0% branches covered
-main.cpp		
+		
+		
+		
+		
+		
+		
+		
 
