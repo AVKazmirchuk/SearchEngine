@@ -15,20 +15,39 @@
 Тесты можно запустить как по отдельности каждый, так и все сразу.\
 
 В таблицах указано покрытие кода для заголовков и исходных файлов
-checkFile.h		
-checkFileException.h	88% lines covered	20% branches covered
-converterJSON.h	100% lines covered	27% branches covered
-documents.h		
-entry.h	100% lines covered	50% branches covered
-general.h		
-invertedIndex.h	100% lines covered	100% branches covered
-logger.h		
-readTextFile.h		
-readWriteJSONFile.h		
-relativeIndex.h	100% lines covered	50% branches covered
-relevantResponse.h	100% lines covered	50% branches covered
-requests.h		
-searchEngine.h		
+
+| Element              | Line Coverage,%    | Branch Coverage,%     | 
+|----------------------| -------------------|---------------------- |
+| checkFile.h          |                    |                       |   
+| checkFileException.h | 88% lines covered  | 20% branches covered  | 
+| converterJSON.h      | 100% lines covered | 27% branches covered  |  
+| documents.h		       |                    |                       |
+| entry.h              | 100% lines covered | 50% branches covered  |
+| general.h		         |                    |                       |
+| invertedIndex.h      | 100% lines covered | 100% branches covered |
+| logger.h		         |                    |                       |
+| readTextFile.h	     |                    |                       |
+| readWriteJSONFile.h	 |                    |                       |
+| relativeIndex.h      | 100% lines covered | 50% branches covered  |
+| relevantResponse.h   | 100% lines covered | 50% branches covered  |
+| requests.h		       |                    |                       |        
+| searchEngine.h	     |                    |                       |
+
+
+		
+		
+		
+
+		
+
+		
+
+	
+
+		
+		
+
+	
 
 checkFile	100% files, 96% lines covered	57% branches covered
 converterJSON	100% files, 76% lines covered	44% branches covered
