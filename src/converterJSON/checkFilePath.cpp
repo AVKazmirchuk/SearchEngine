@@ -6,6 +6,7 @@
 
 #include "converterJSON.h"
 #include "checkFileException.h"
+#include "logger.h"
 
 
 
@@ -24,7 +25,7 @@ void ConverterJSON::checkFilePath()
 
             configJSON[constants::filesStr].erase(idx);
             --idx;
-            Logger().error("File " + std::string(missingFile) + " is missing!");
+            Logger::error("File " + std::string(missingFile) + " is missing!");
         }
     }
 }

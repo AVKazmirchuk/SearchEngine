@@ -39,7 +39,24 @@
   }
 }*/
 
+float ConverterJSON::accumulateRank(const std::vector<std::vector<std::pair<std::uint64_t, float>>>& answers, std::size_t requestId)
+{
+    return std::accumulate(answers[static_cast<std::uint64_t>(requestId)].cbegin(), answers[static_cast<std::uint64_t>(requestId)].cend(), static_cast<float>(0.0),
+                           [](float rank, const std::pair<std::uint64_t, float>& index)
+                           {
+                               return rank += index.second;
+                           });
+}
 
+std::string ConverterJSON::convertIdtoStr(std::size_t requestId, std::string str)
+{
+    //В зависимости от разрядности ID запроса добавить нули
+    if ((requestId + 1) / 10 < 1) str.append("00" + std::to_string(++requestId));
+    else if ((requestId + 1) / 100 < 1) str.append("0" + std::to_string(++requestId));
+    else if ((requestId + 1) / 1000 < 1) str.append(std::to_string(++requestId));
+
+    return str;
+}
 
 void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers, int maxResponses)
 {

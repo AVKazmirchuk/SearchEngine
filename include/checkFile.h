@@ -16,6 +16,7 @@
 #include "general.h"
 
 
+
 /**
  * Класс реализует проверку файла и его содержимого (JSON-структуру)
  */
@@ -31,7 +32,7 @@ public:
      * @param fileName Имя файла
      * @return Файл целостный(true)/не целостный(false)
      */
-    bool isJSONStructureValid(const std::string &fileName);
+    static bool isJSONStructureValid(const std::string &fileName);
 
     /**
      * Проверить JSON-структуру файла на соответствие шаблону
@@ -39,7 +40,7 @@ public:
      * @param objectJSONTemplate JSON-объект шаблона
      * @return Файл соответствуе(true)/не соответствует(false)
      */
-    bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
+    static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
 private:
 
@@ -49,7 +50,7 @@ private:
      * @param objectJSONTemplate JSON-объект шаблона
      * @return Файл соответствуе(true)/не соответствует(false)
      */
-    bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
+    static bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
 };
 
 

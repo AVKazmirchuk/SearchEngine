@@ -19,7 +19,7 @@
 #include "readTextFile.h"
 #include "readWriteJSONFile.h"
 #include "general.h"
-
+#include "logger.h"
 
 
 /**
@@ -44,7 +44,7 @@ public:
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
 
     {
-        Logger().info(converterJSONObj.about());
+        Logger::info(converterJSONObj.about());
     }
 
     /**
@@ -61,7 +61,7 @@ public:
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
 
     {
-        Logger().info(converterJSONObj.about());
+        Logger::info(converterJSONObj.about());
     }
 
     /**

@@ -7,12 +7,12 @@
 
 
 
-#include <cstdlib>
-#include <iostream>
+//#include <cstdlib>
+//#include <iostream>
 
 #include "nlohmann/json.hpp"
 
-#include "logger.h"
+#include "checkFileException.h"
 
 
 
@@ -94,14 +94,6 @@ void exitProgram();
  * @param objectJSONTemplate Шаблон JSON-объекта
  */
 void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
-
-/**
- * Нажать любую клавишу для продолжения
- * @param message Сообщение
- */
-void pressAnyKey(const char* message);
-
-void pressAnyKey();
 
 
 

@@ -12,6 +12,7 @@
 
 #include "readTextFile.h"
 #include "general.h"
+#include "logger.h"
 
 
 
@@ -52,7 +53,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     }
     catch (const std::exception& e)
     {
-        Logger().fatal("EXCEPTION: " + std::string(e.what()));
+        Logger::fatal("EXCEPTION: " + std::string(e.what()));
         exitProgram();
 
     }

@@ -1,5 +1,5 @@
 //
-// Created by Alexander on 18.02.2025.
+// Created by Alexander on 31.03.2025.
 //
 
 
@@ -9,6 +9,16 @@
 #include "relevantResponse.h"
 
 
+
+const std::vector<std::vector<std::string>>& RelevantResponse::PreparedRequest::getPreparedRequests()
+{
+    return preparedRequests;
+}
+
+void RelevantResponse::PreparedRequest::clearPreparedRequests()
+{
+    preparedRequests.clear();
+}
 
 void RelevantResponse::PreparedRequest::convertPreparedRequestsToUniqueWords()
 {

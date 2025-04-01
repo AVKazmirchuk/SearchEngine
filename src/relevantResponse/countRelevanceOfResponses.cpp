@@ -4,12 +4,50 @@
 
 
 
-#include <iostream>
+#include "algorithm"
 #include <numeric>
 
 #include "relevantResponse.h"
 
 
+
+std::vector<Entry> RelevantResponse::getInvertedIndexStructures(const std::string& word)
+{
+    //Слово в базе инвертированных индексов существует
+    if (invertedIndexes.find(word) != invertedIndexes.end())
+    {
+        //Возвратить список структур инвертированного индекса
+        return invertedIndexes.find(word)->second;
+    }
+    else
+        //Слово в базе инвертированных индексов не существует
+    {
+        //Возвратить пустой список структур инвертированного индекса
+        return std::vector<Entry>{};
+    }
+}
+
+std::size_t RelevantResponse::discoverNumberOfDocuments()
+{
+    //ID документа
+    std::size_t documentID{0};
+
+    //По каждому элементу базы инвертированных индексов
+    for (const auto& pairOfWordAndInvertedIndexStructures : invertedIndexes)
+    {
+        //Для каждой структуры инвертированного индекса
+        std::for_each(pairOfWordAndInvertedIndexStructures.second.begin(), pairOfWordAndInvertedIndexStructures.second.end(),
+                      [&documentID] (const Entry& elem)
+                      {
+                          //Определить максимальный ID документа
+                          if (elem.docID > documentID) documentID = elem.docID;
+                      }
+        );
+    }
+
+    //Возвратить количество документов
+    return ++documentID;
+}
 
 void RelevantResponse::countRelevanceOfResponses() {
     //Изменить внешний размер базы релевантности ответов по количеству запросов

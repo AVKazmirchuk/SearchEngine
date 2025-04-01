@@ -17,75 +17,40 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/general.h
         ${SE_INCLUDE_DIR}/logger.h
 
-        converterJSON/getFilePaths.cpp
-        converterJSON/getMaxResponses.cpp
-        converterJSON/getRequests.cpp
         converterJSON/setAnswersJSON.cpp
-        converterJSON/getAnswersJSON.cpp
-        converterJSON/convertIdtoStr.cpp
-        converterJSON/accumulateRank.cpp
-        converterJSON/about.cpp
         converterJSON/checkFilePath.cpp
-        converterJSON/checkRequests.cpp
 
         invertedIndex/updateInvertedIndexes.cpp
-        invertedIndex/getInvertedIndexes.cpp
-        invertedIndex/clearInvertedIndexes.cpp
-        invertedIndex/addWord.cpp
-        invertedIndex/defineWord.cpp
         invertedIndex/startInvertedIndexing.cpp
-        invertedIndex/sortByAscendingDocumentID.cpp
+        invertedIndex/misc.cpp
 
         relevantResponse/updateRelevantResponses.cpp
-        relevantResponse/getRelevantResponses.cpp
         relevantResponse/countRelevanceOfResponses.cpp
         relevantResponse/evaluateRelativeRelevance.cpp
-        relevantResponse/sortByDescendingRelevance.cpp
-        relevantResponse/clearRelevantResponses.cpp
-        relevantResponse/discoverNumberOfDocuments.cpp
-        relevantResponse/getInvertedIndexStructures.cpp
 
-        relevantResponse/preparedRequest/clearPreparedRequests.cpp
-        relevantResponse/preparedRequest/getPreparedRequests.cpp
+        relevantResponse/preparedRequest/misc.cpp
         relevantResponse/preparedRequest/updatePreparedRequests.cpp
         relevantResponse/preparedRequest/separateRequestsByWords.cpp
-        relevantResponse/preparedRequest/getInvertedIndexStructures.cpp
         relevantResponse/preparedRequest/sortWordsByFrequencyOfOccurrence.cpp
-        relevantResponse/preparedRequest/convertPreparedRequestsToUniqueWords.cpp
-        relevantResponse/preparedRequest/getFrequencyOfOccurrence.cpp
-        relevantResponse/roundUpToPrecision.cpp
 
-
-        checkFile/isJSONStructureValid.cpp
-        checkFile/isJSONStructureMatch.cpp
-        checkFile/isJSONStructureMatchImpl.cpp
-
-        documents/updateDocuments.cpp
-        documents/getDocuments.cpp
-        documents/clearDocuments.cpp
 
         requests/updateRequests.cpp
-        requests/getRequests.cpp
-        requests/clearRequests.cpp
 
         searchEngine/searchModifiedAll.cpp
         searchEngine/exportRelevantResponses.cpp
         searchEngine/searchModifiedDocuments.cpp
         searchEngine/searchModifiedRequests.cpp
 
-        readWriteJSONFile/writeJSONFile.cpp
-        readWriteJSONFile/readJSONFile.cpp
-
         readTextFile/readTextFile.cpp
 
-        general/constants.cpp
-        general/exitProgram.cpp
-        general/pressAnyKey.cpp
-        general/checkFile.cpp
+        checkFile/checkFile.cpp
 
-        Logger/info.cpp
-        Logger/warn.cpp
-        Logger/error.cpp
-        Logger/fatal.cpp)
+        documents/documents.cpp
+
+        general/general.cpp
+
+        readWriteJSONFile/readWriteJSONFile.cpp
+
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp converterJSON/checkRequests.cpp Logger/logger.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

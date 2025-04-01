@@ -1,11 +1,10 @@
 //
-// Created by Alexander on 08.03.2025.
+// Created by Alexander on 31.03.2025.
 //
 
 
 
 #include "converterJSON.h"
-#include "checkFileException.h"
 
 
 
