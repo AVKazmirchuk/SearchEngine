@@ -14,7 +14,7 @@ void SearchEngine::searchModifiedAll()
     documentsObj.clearDocuments();
 
     //Обновить список документов из файлов
-    documentsObj.updateDocuments(ReadTextFile().readTextFile(converterJSONObj.getFilePaths()));
+    documentsObj.updateDocuments(ReadTextFile::readTextFile(converterJSONObj.getFilePaths()));
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
@@ -32,5 +32,5 @@ void SearchEngine::searchModifiedAll()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    ReadWriteJSONFile().writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
+    ReadWriteJSONFile::writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
 }

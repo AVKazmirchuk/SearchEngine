@@ -23,5 +23,5 @@ void SearchEngine::searchModifiedRequests()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    ReadWriteJSONFile().writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
+    ReadWriteJSONFile::writeJSONFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
 }

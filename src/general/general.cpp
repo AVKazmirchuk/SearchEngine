@@ -30,7 +30,7 @@ void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
     }
 
     //Проверить JSON-структуру файла на соответствие шаблону
-    if (!CheckFile::isJSONStructureMatch( ReadWriteJSONFile().readJSONFile(filePath), objectJSONTemplate))
+    if (!CheckFile::isJSONStructureMatch( ReadWriteJSONFile::readJSONFile(filePath), objectJSONTemplate))
     {
         throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
     }

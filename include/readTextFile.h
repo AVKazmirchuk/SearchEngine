@@ -29,16 +29,7 @@ public:
      * @param filePaths Список путей документов
      * @return Документы
      */
-    std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
-
-private:
-
-    /**
-     * Прочитать документ
-     * @param filePath Путь документа
-     * @return Документ
-     */
-    std::string readTextFile(const std::string& filePath);
+    static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
 
 };
 

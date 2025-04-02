@@ -11,8 +11,8 @@ int main()
     checkFile(constants::requestsFilePath, constants::requestsTemplate);
 
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(ReadWriteJSONFile().readJSONFile(constants::configFilePath),
-                              ReadWriteJSONFile().readJSONFile(constants::requestsFilePath));
+    SearchEngine searchEngine(ReadWriteJSONFile::readJSONFile(constants::configFilePath),
+                              ReadWriteJSONFile::readJSONFile(constants::requestsFilePath));
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
