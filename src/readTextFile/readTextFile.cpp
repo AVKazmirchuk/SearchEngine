@@ -28,7 +28,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        asyncs.emplace_back(std::async(
+        asyncs.push_back(std::async(
                 [](const std::string& filePath) -> std::string
         {
             //Создать объект для чтения файла документа
@@ -36,7 +36,8 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
             //Прочитать файл документа и вернуть документ
             return {(std::istreambuf_iterator<char>(file)), {}};
         },
-        std::cref(filePaths[docID])));
+        std::cref(filePaths[docID]))
+        );
     }
 
     try
@@ -45,7 +46,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
         for (auto &async: asyncs)
         {
             //Добавить документ
-            documents.emplace_back(async.get());
+            documents.push_back(std::move(async.get()));
         }
     }
     catch (const std::exception& e)
