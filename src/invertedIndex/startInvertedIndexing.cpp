@@ -86,19 +86,19 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document)
 void InvertedIndex::startInvertedIndexing()
 {
     //Контейнер результатов потоков
-    std::list<std::future<void>> asyncs;
+    std::list<std::future<void>> futures;
 
     //Запустить потоки
     for (std::size_t docID{}; docID < documents.size(); ++docID)
     {
         //Запустить поток для определения слова (выделения) в документе
-        asyncs.emplace_back(std::async(&InvertedIndex::defineWord, this, docID, documents[docID]));
+        futures.push_back(std::async(&InvertedIndex::defineWord, this, docID, documents[docID]));
     }
 
     try
     {
         //Ожидать завершения потоков
-        for (auto &future: asyncs)
+        for (auto &future: futures)
             future.wait();
     }
         //Обработать все исключения, выброшенные в потоках

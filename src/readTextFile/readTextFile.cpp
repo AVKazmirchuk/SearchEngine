@@ -22,13 +22,13 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     std::vector<std::string> documents;
 
     //Контейнер результатов потоков
-    std::list<std::future<std::string>> asyncs;
+    std::list<std::future<std::string>> futures;
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        asyncs.push_back(std::async(
+        futures.push_back(std::async(
                 [](const std::string& filePath) -> std::string
         {
             //Создать объект для чтения файла документа
@@ -43,10 +43,10 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     try
     {
         //Ожидать завершение потоков
-        for (auto &async: asyncs)
+        for (auto &future: futures)
         {
             //Добавить документ
-            documents.push_back(std::move(async.get()));
+            documents.push_back(future.get());
         }
     }
     catch (const std::exception& e)
