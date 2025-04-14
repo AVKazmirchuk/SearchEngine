@@ -13,6 +13,10 @@ Logger() = default;
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
+#### Инициализировать (настроить) класс
+```cpp
+void initialize(const std::string& configFilePath);
+```
 #### Записать сообщение уровня information:
 ```cpp
 void info(const std::string& message);
@@ -20,7 +24,7 @@ void info(const std::string& message);
 Параметры: Сообщение
 #### Записать сообщение уровня warning:
 ```cpp
-void warn(const std::string& message);
+void warning(const std::string& message);
 ```
 Параметры: Сообщение
 #### Записать сообщение уровня error:
@@ -41,6 +45,13 @@ int main()
 {
     //Создать объект класса Logger
     Logger loggerObj;
+
+    //...
+    //Получить путь файла настроек (configFilePath)
+    //...
+
+    //Инициализировать (настроить) класс
+    void initialize(const std::string& configFilePath);
 
     //...
     //Получить сообщение уровня information (message)
