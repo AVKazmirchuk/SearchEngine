@@ -15,19 +15,20 @@
 
 ```
 Назначение полей:
-- : интервалы времени хранения файла
-- weeksStorage: недели
-- daysStorage: дни
-- hoursStorage: часы
-- minutesStorage: минуты
-- secondsStorage: секунды
-- : интервалы времени использования файла
-- weeksUsage: недели
-- daysUsage: дни
-- hoursUsage: часы
-- minutesUsage: минуты
-- secondsUsage: секунды
-- 
+- storageTimeLimit: интервалы времени хранения файла
+- weeks: недели
+- days: дни
+- hours: часы
+- minutes: минуты
+- seconds: секунды
+  
+- usageTimeLimit: интервалы времени использования файла
+- weeks: недели
+- days: дни
+- hours: часы
+- minutes: минуты
+- seconds: секунды
+  
 - dateTimeFormat: формат даты и времени записи в файл
 - fileNameFormat: формат имени файла
 - fileSizeLimit: предельный размер файла
