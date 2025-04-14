@@ -12,6 +12,26 @@
 \
 Файл logger.json:
 ```json
+{
+	"usageTimeLimit" : {
+		"seconds" : 0,
+		"minutes" : 0,
+		"hours" : 0,
+		"days" : 1,
+		"weeks" : 0
+	},
+	"storageTimeLimit" : {
+		"seconds" : 0,
+		"minutes" : 0,
+		"hours" : 0,
+		"days" : 0,
+		"weeks" : 1
+	},
+	"dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
+	"fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
+	"fileSizeLimit" : 1 048 576,
+	"filesDirectory" : ".\\Logs\\"
+}
 
 ```
 Назначение полей:
