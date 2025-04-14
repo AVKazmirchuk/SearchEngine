@@ -4,9 +4,12 @@
 
 
 
+
+
 #include "general.h"
 #include "checkFile.h"
 #include "readWriteJSONFile.h"
+#include "logger.h"
 
 
 
@@ -20,7 +23,15 @@ void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
     //Проверить файл на существование
     if (!std::filesystem::exists(filePath))
     {
+        Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
+                      CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
+    }
+
+    //Проверить файл на открытие для чтения
+    if (!std::ifstream(filePath).is_open())
+    {
+        throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
     }
 
     //Проверить файл на целостность JSON-структуры
@@ -88,4 +99,7 @@ namespace constants
     }
     )");
 
+    const std::string configLoggerFilePath{"logger.json"};
+
 }
+

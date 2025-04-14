@@ -16,6 +16,8 @@
 enum class ErrorCode
 {
     ERROR_FILE_MISSING = 1,
+    ERROR_FILE_NOT_OPEN_READ,
+    ERROR_FILE_NOT_OPEN_WRITE,
     ERROR_FILE_STRUCTURE_CORRUPTED,
     ERROR_FILE_STRUCTURE_NOT_MATCH,
     ERROR_FILE_PATHS_ARRAY_EMPTY,
@@ -41,6 +43,12 @@ public:
             case ErrorCode::ERROR_FILE_MISSING :
                 information += "This file is missing: ";
                 break;
+            case ErrorCode::ERROR_FILE_NOT_OPEN_READ :
+                information += "This file cannot be opened for reading: ";
+                break;
+            case ErrorCode::ERROR_FILE_NOT_OPEN_WRITE :
+                information += "This file cannot be opened for writing: ";
+                break;
             case ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED :
                 information += "The structure of this file is corrupted: ";
                 break;
@@ -48,14 +56,14 @@ public:
                 information += "The structure of this file does not match the required one: ";
                 break;
             case ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY :
-                information += "The array of file paths is empty: ";
+                information += "The array of this file paths is empty: ";
                 break;
             case ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY :
-                information += "The query array is empty: ";
+                information += "The query array of this file is empty: ";
                 break;
         }
 
-        information += in_information;
+        information += in_information + '.';
     }
 
     /**
@@ -77,7 +85,7 @@ public:
     }
 private:
     ErrorCode errorCode;
-    std::string information{"ERROR: "};
+    std::string information{};
 };
 
 

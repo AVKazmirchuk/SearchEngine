@@ -10,6 +10,7 @@
 //#include <cstdlib>
 //#include <iostream>
 
+#include "windows.h"
 #include "nlohmann/json.hpp"
 
 #include "checkFileException.h"
@@ -80,21 +81,39 @@ namespace constants
     //JSON-объект файла requests.json
     extern const JSON requestsTemplate;
 
+    extern const std::string configLoggerFilePath;
+
 }
 
 /**
  * Выйти из программы
- * @param error Строка ошибки
  */
 void exitProgram();
 
 /**
- * Проверить последовательно файл на существование, на целостность JSON-структуры, на соответствие шаблону
+ * Проверить последовательно файл на существование, на возможность открытия для чтения, на целостность JSON-структуры, на соответствие шаблону
  * @param filePath Имя файла
  * @param objectJSONTemplate Шаблон JSON-объекта
  */
 void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
 
+/**
+ * Запустить независимый процесс получения и вывода сообщений
+ * @param lpApplicationName Имя процесса
+ */
+void startMonitor(LPCSTR lpApplicationName);
 
+/**
+ * Отправить сообщение другому независимому процессу
+ * @param message Сообщение
+ */
+void sendMessage(const std::string& message);
+
+/**
+ * Определить, запущен ли процесс
+ * @param processName Имя процесса
+ * @return Процесс запущен (true)/не запущен (false)
+ */
+bool isProcessRun(const char * const processName);
 
 #endif //SEARCH_ENGINE_GENERAL_H

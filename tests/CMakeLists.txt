@@ -26,6 +26,7 @@ file(GLOB CPP_READ_WRITE_JSON_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/
 file(GLOB CPP_READ_TEXT_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/readTextFile/*.cpp")
 file(GLOB CPP_LOGGER CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/Logger/*.cpp")
 file(GLOB CPP_GENERAL CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/general/*.cpp")
+file(GLOB CPP_MONITOR CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/monitor/*.cpp")
 
 add_executable(search_engine_test testInvertedIndex.cpp testRelevantResponse.cpp test.cpp testCheckFile.cpp
         ${CPP_CONVERTER_JSON}
@@ -39,6 +40,7 @@ add_executable(search_engine_test testInvertedIndex.cpp testRelevantResponse.cpp
         ${CPP_READ_WRITE_JSON_FILE}
         ${CPP_READ_TEXT_FILE}
         ${CPP_LOGGER}
+        ${CPP_MONITOR}
         ${CPP_GENERAL} testRelevantResponse.cpp testGeneral.cpp testCheckFilePathAndRequestsArrays.cpp testGeneral.h testCheckSetAnswers.cpp main.cpp)
 
 
@@ -47,7 +49,7 @@ target_include_directories(search_engine_test PRIVATE ${PROJECT_SOURCE_DIR}/incl
 
 target_link_libraries(search_engine_test PRIVATE nlohmann_json::nlohmann_json)
 
-
+target_link_libraries(search_engine_test ${Boost_LIBRARIES})
 
 target_link_libraries(search_engine_test PRIVATE gtest_main)
 

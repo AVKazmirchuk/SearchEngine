@@ -41,7 +41,6 @@ public:
     : configJSON(in_configJSON), requestsJSON(in_requestsJSON)
 
     {
-        //TODO ловить исключения, обрабатывать и бросать дальше
         checkFilePath();
         checkRequests();
     }
@@ -56,7 +55,6 @@ public:
             : configJSON(std::move(in_configJSON)), requestsJSON(std::move(in_requestsJSON))
 
     {
-        //TODO ловить исключения, обрабатывать и бросать дальше
         checkFilePath();
         checkRequests();
     }

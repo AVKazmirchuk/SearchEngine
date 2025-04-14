@@ -33,6 +33,13 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
         {
             //Создать объект для чтения файла документа
             std::ifstream file(filePath);
+
+            //Проверить файл на открытие для чтения
+            if (!file.is_open())
+            {
+                throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
+            }
+
             //Прочитать файл документа и вернуть документ
             return {(std::istreambuf_iterator<char>(file)), {}};
         },
