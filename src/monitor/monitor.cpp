@@ -106,7 +106,7 @@ void sendMessage(const std::string& message)
     //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
     // (регулируется именованным мьютексом).
     std::cout << "search_engine:search_engine_monitor is not running yet"  << std::endl;
-    startMonitor(R"(C:\Users\Alexander\CLionProjects\search_engine_monitor\cmake-build-release\search_engine_monitor.exe)");
+    startMonitor(R"(C:\Users\Alexander\CLionProjects\search_engine\cmake-build-release\monitor\search_engine_monitor.exe)");
     std::cout << "search_engine:search_engine_monitor has started" << std::endl;
 
     //TODO определиться с обработкой исключений
