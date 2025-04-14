@@ -29,7 +29,7 @@
 	},
 	"dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
 	"fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
-	"fileSizeLimit" : 1 048 576,
+	"fileSizeLimit" : 1048576,
 	"filesDirectory" : ".\\Logs\\"
 }
 
