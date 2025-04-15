@@ -13,7 +13,7 @@
 
 #include "checkFileException.h"
 #include "general.h"
-
+#include "monitorSender.h"
 
 
 /**
@@ -153,8 +153,11 @@ private:
     //Файл для записи
     static inline std::filesystem::path file{};
 
-    //Контейнер пар пути и момента времени последнего изменения файла
+    //Создать контейнер пар пути и момента времени последнего изменения файла
     inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
+
+    //Создать объект монитора отправки сообщений
+    //inline static MonitorSender monitorSender{};
 
     /**
      * Инициализировать переменные

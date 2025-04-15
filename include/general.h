@@ -104,12 +104,6 @@ void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
 void startMonitor(LPCSTR lpApplicationName);
 
 /**
- * Отправить сообщение другому независимому процессу
- * @param message Сообщение
- */
-void sendMessage(const std::string& message);
-
-/**
  * Определить, запущен ли процесс
  * @param processName Имя процесса
  * @return Процесс запущен (true)/не запущен (false)

@@ -57,6 +57,8 @@ void Logger::initializeVariables(const JSON& configJSON)
     fileSizeLimit = configJSON["fileSizeLimit"];
     //Директория с файлами
     filesDirectory = configJSON["filesDirectory"];
+
+
 }
 
 void Logger::initialize(const std::string& configFilePath)

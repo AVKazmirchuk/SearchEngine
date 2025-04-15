@@ -9,8 +9,10 @@
 #include "windows.h"
 #include <tlhelp32.h>
 
-#include "general.h"
 #include "boost/interprocess/ipc/message_queue.hpp"
+
+#include "general.h"
+#include "monitorSender.h"
 
 
 
@@ -81,7 +83,7 @@ bool isProcessRun(const char * const processName)
     return result;
 }
 
-void sendMessage(const std::string& message)
+void MonitorSender::send(const std::string& message)
 {
 
     std::cout << "search_engine:search_engine has started" << std::endl;
@@ -97,10 +99,6 @@ void sendMessage(const std::string& message)
         boost::interprocess::message_queue::remove("search_engine");
     }
 
-    //Открыть или создать очередь сообщений.
-    //Если процесс получения и вывода сообщений запущен, - значит очередь сообщений существует, - открыть очередь сообщений.
-    //Если процесс получения и вывода сообщений не запущен, - значит очередь сообщений не существует, - создать очередь сообщений.
-    boost::interprocess::message_queue mq(boost::interprocess::open_or_create, "search_engine", 100, 256);
     std::cout << "search_engine:open_or_create" << ": num_msg - " << mq.get_num_msg() << std::endl;
 
     //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
@@ -112,13 +110,10 @@ void sendMessage(const std::string& message)
     //TODO определиться с обработкой исключений
     try
     {
-        //std::string s{"qwerty йцукен"};
-
         //Отправить сообщение в очередь сообщений
         std::cout << "search_engine: before send: " << message << ": num_msg - " << mq.get_num_msg() << std::endl;
         mq.send(message.data(), message.size(), 0);
         std::cout << "search_engine: send: " << message << ": num_msg - " << mq.get_num_msg()  << std::endl;
-
     }
     catch(boost::interprocess::interprocess_exception& e)
     {
