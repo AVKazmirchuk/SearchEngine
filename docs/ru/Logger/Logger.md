@@ -36,18 +36,18 @@
 ```
 Назначение полей:
 - storageTimeLimit: интервалы времени хранения файла
-- weeks: недели
-- days: дни
-- hours: часы
-- minutes: минуты
-- seconds: секунды
+  - weeks: недели
+  - days: дни
+  - hours: часы
+  - minutes: минуты
+  - seconds: секунды
   
 - usageTimeLimit: интервалы времени использования файла
-- weeks: недели
-- days: дни
-- hours: часы
-- minutes: минуты
-- seconds: секунды
+  - weeks: недели
+  - days: дни
+  - hours: часы
+  - minutes: минуты
+  - seconds: секунды
   
 - dateTimeFormat: формат даты и времени записи в файл
 - fileNameFormat: формат имени файла
