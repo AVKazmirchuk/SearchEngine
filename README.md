@@ -57,13 +57,13 @@
 
 ## Как использовать проект
 
-Программа использует файлы конфигурации и запросов (config.json и requests.json). По результатам поиска в документах по запросам формируется файл answers.json, находящийся по этому же пути.\
+Программа использует файлы конфигурации и запросов (config.json, logger.json и requests.json). По результатам поиска в документах по запросам формируется файл answers.json, находящийся по этому же пути.\
 Файл config.json:
 ```json
 {
   "config": {
-    "name": "SkillboxSearchEngine",
-    "version": "0.1",
+    "name": "SearchEngine",
+    "version": "1.0.0",
     "max_responses": 5
   },
   "files": [
