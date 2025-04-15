@@ -13,8 +13,8 @@
 
 Программа была разработана и протестирована на С++ версии 17. Целевые ОС использования MS Windows 10, MS Windows 11. Для интеграции библиотек в проект можно воспользоваться следующими ссылками:
 - библиотека [nlohmann/json](https://github.com/nlohmann/json/#integration) для работы с JSON-форматом;
-- библиотека  [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/1_88_0/more/getting_started/windows.html).\
-\
+- библиотека  [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/1_88_0/more/getting_started/windows.html)
+
 Для запуска программы не требуется устанавливать дополнительные компоненты. Программа скомпилирована с необходимыми статическими библиотеками. 
 
 ## Установка
