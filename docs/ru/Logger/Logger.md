@@ -101,42 +101,42 @@ int main()
     //...
 
     //Инициализировать (настроить) класс
-    void initialize(const std::string& configFilePath);
+    Logger::initialize(configFilePath);
 
     //...
     //Получить сообщение уровня debug (message)
     //...
 
     //Записать сообщение уровня debug
-    loggerObj.debug(message);
+    Logger::debug(message);
 
     //...
     //Получить сообщение уровня information (message)
     //...
 
     //Записать сообщение уровня information
-    loggerObj.info(message);
+    Logger::info(message);
 
     //...
     //Получить сообщение уровня warning (message)
     //...
 
     //Записать сообщение уровня warning
-    loggerObj.warn(message);
+    Logger::warning(message);
 
     //...
     //Получить сообщение уровня error (message)
     //...
 
     //Записать сообщение уровня error
-    loggerObj.error(message);
+    Logger::error(message);
 
     //...
     //Получить сообщение уровня fatal (message)
     //...
 
     //Записать сообщение уровня fatal
-    loggerObj.fatal(message);
+    Logger::fatal(message);
 }
 ```
 
