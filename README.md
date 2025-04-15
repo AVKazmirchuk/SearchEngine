@@ -6,7 +6,7 @@
 
 В организациях бывает потребность поиска информации по базе документов. Программе указываются в файлах JSON пути документов и запросы. По документам строится база инвертированного индекса, на основе которого определяется релевантность ответа (содержимого документа) для каждого запроса. По завершении поиска результаты выводятся в файл JSON, где для каждого запроса указан документ со степенью релевантности.\
 \
-В проекте использована многопоточная обработка (использована стандартная библиотека), - где необходимо. Использована сторонняя библиотека для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json). Использована сторонняя библиотека для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue).
+В проекте использована многопоточная обработка (использована стандартная библиотека), - где необходимо. Использована сторонняя библиотека для работы с форматом JSON - [nlohmann/json]([https://github.com/nlohmann/json](https://github.com/nlohmann/json/blob/develop/README.md)). Использована сторонняя библиотека для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue).
 Проект может быть использован в виде готовой программы (консольного типа) или как библиотека. Архитектура и подробное описание классов приводится в [документации](./docs/ru/index.md).
 
 ## Зависимости
