@@ -143,7 +143,7 @@ Copyright (c) 2025 Alexander Kazmirchuk
 * * *
 
 - Проект содержит копию библиотеки [nlohmann/json](https://github.com/nlohmann/json) Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
-- Также проект использует компоненты библиотеки [boost](https://www.boost.org), лицензированную в соответствии с [The Boost Software License](https://www.boost.org/users/license.html)./
+- Также проект использует компоненты библиотеки [boost](https://www.boost.org), лицензированную в соответствии с [The Boost Software License](https://www.boost.org/users/license.html).
 
 ## Поддержка
 
