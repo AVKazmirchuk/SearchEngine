@@ -25,12 +25,12 @@ void send(const std::string& message);
 ```cpp
 boost::interprocess::message_queue& get();
 ```
-Возвращаемое значение: ссылка на объект boost::interprocess::message_queue
+Возвращаемое значение: ссылка на объект класса boost::interprocess::message_queue
 #### Получить константную ссылку на объект класса boost::interprocess::message_queue:
 ```cpp
 const boost::interprocess::message_queue& get() const;
 ```
-Возвращаемое значение: константная ссылка на объект boost::interprocess::message_queue
+Возвращаемое значение: константная ссылка на объект класса boost::interprocess::message_queue
 ### Примеры
 ```cpp
 #include <iostream>
