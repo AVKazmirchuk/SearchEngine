@@ -29,8 +29,8 @@ public:
     void receive();
 
     /**
-     * Получить объект класса boost::interprocess::message_queue
-     * @return Константная ссылка на объект boost::interprocess::message_queue
+     * Получить константную ссылку на объект класса boost::interprocess::message_queue
+     * @return Константная ссылка на объект класса boost::interprocess::message_queue
      */
     [[nodiscard]] const boost::interprocess::message_queue& get() const
     {
@@ -38,8 +38,8 @@ public:
     }
 
     /**
-     * Получить объект класса boost::interprocess::message_queue
-     * @return Ссылка на объект boost::interprocess::message_queue
+     * Получить ссылку на объект класса boost::interprocess::message_queue
+     * @return Ссылка на объект класса boost::interprocess::message_queue
      */
     boost::interprocess::message_queue& get()
     {
