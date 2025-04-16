@@ -1,1 +1,2 @@
-
+https://stackoverflow.com/questions/1197106/how-do-you-initialize-static-data-members-similar-to-static-constructors/48530698#48530698
+https://stackoverflow.com/questions/9321/how-do-you-create-a-static-class
