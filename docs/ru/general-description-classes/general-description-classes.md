@@ -42,7 +42,7 @@
 #### Основные классы:
 ConverterJSON, Documents, InvertedIndex, Requests, RelevantResponse, PreparedRequest
 #### Вспомогательные классы:
-ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, CheckFileException
+ReadTextFile, ReadWriteJSONFile, CheckFile, Logger, MonitorSender, MonitorReceiver, CheckFileException
 #### Класс управления общей логикой:
 SearchEngine
 
