@@ -3,23 +3,24 @@
 
 ### [Оглавление](../index.md)
 
-## Класс MonitorReceiver
-Класс реализует получение событий от другого процесса. Инкапсулирует открытие очереди сообщений и получение сообщений с помощью класса boost::interprocess::message_queue.
+## Класс MonitorSender
+Класс реализует отправку событий другому процессу. Инкапсулирует создание очереди сообщений и отправку сообщений с помощью класса boost::interprocess::message_queue.
 ### Выполняет следующие функции:
-1. Получает сообщения из очереди сообщений.
-2. Выводит полученные сообщения на консоль.
+1. Запускает дополнительный процесс для вывода сообщений на консоль.
+2. Отправляет сообщение в очередь сообщений для межпроцессного взаимодействия.
 ### Конструкторы:
-Инициализирует: очередь сообщений для получения сообщений от другого процесса
+Инициализирует: очередь сообщений для отправки сообщений другому процессу
 ```cpp
-MonitorReceiver() : mq{boost::interprocess::open_only, "search_engine"} {}
+MonitorSender() : mq{boost::interprocess::open_or_create, "search_engine", 100, 256} {}
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).\
 Копирование - затратная операция.
 ### Общедоступные функции-члены:
-#### Получить сообщение из очереди сообщений:
+#### Отправить сообщение в очередь сообщений:
 ```cpp
-void receive();
+void send(const std::string& message);
 ```
+Параметры: сообщение
 #### Получить ссылку на объект класса boost::interprocess::message_queue:
 ```cpp
 boost::interprocess::message_queue& get();
@@ -33,18 +34,21 @@ const boost::interprocess::message_queue& get() const;
 ### Примеры
 ```cpp
 #include <iostream>
-#include "MonitorReceiver.h"
+#include "MonitorSender.h"
 
 int main()
 {
-    //Создать объект класса MonitorReceiver
-    MonitorReceiver monitorReceiver;
-    
+    //Создать объект класса MonitorSender
+    MonitorSender monitorSender;
+
+    //...
+    //Получить сообщение (message)
+    //...
+
     //Отправить сообщение в очередь сообщений
-    monitorReceiver.receive();
+    monitorSender.send(message);
     //Получить ссылку на объект класса boost::interprocess::message_queue
-    std::cout << "Всего сообщений в очереди: " << monitorReceiver.get().get_num_msg()  << std::endl;
+    std::cout << "Всего сообщений в очереди: " << monitorSender.get().get_num_msg()  << std::endl;
 }
 ```
-
 
