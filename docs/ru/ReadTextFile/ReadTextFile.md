@@ -15,7 +15,7 @@ ReadTextFile() = default;
 ### Общедоступные функции-члены:
 #### Прочитать документы в отдельных потоках:
 ```cpp
-std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
+static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
 ```
 Параметры: список путей документов\
 Возвращаемое значение: база документов
@@ -25,14 +25,11 @@ std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths)
 
 int main()
 {
-    //Создать объект класса ReadTextFile
-    ReadTextFile readTextFileObj;
-
     //...
     //Получить cписок путей документов (filePaths)
     //...
 
     //Прочитать документы в отдельных потоках
-    std::vector<std::string> documents{readTextFileObj.readTextFile(filePaths)};
+    std::vector<std::string> documents{ReadTextFile::readTextFile(filePaths)};
 }
 ```
