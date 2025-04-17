@@ -16,29 +16,17 @@ CheckFile() = default;
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
-#### Проверить файл на существование:
-```cpp
-bool isExist(const std::string &fileName);
-```
-Параметры: имя файла
-Возвращаемое значение: существование файла
-#### Проверить файл на пустоту:
-```cpp
-bool isEmpty(const std::string &fileName);
-```
-Параметры: имя файла
-Возвращаемое значение: пустота файла
 #### Проверить файл на целостность JSON-структуры:
 ```cpp
- bool isJSONStructureValid(const std::string &fileName);
+static bool isJSONStructureValid(const std::string &fileName);
 ```
-Параметры: имя файла
+Параметры: ссылка на имя файла
 Возвращаемое значение: целостность JSON-структуры 
 #### Проверить JSON-структуру файла на соответствие шаблону:
 ```cpp
-bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON);
+static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 ```
-Параметры: JSON-объект шаблона, проверяемый JSON-объект
+Параметры: ссылка на проверяемый JSON-объект, ссылка на JSON-объект шаблона
 Возвращаемое значение: соотвествие JSON-структуры шаблону
 ### Примеры
 ```cpp
@@ -46,25 +34,18 @@ bool isJSONStructureMatch(const JSON &objectJSONTemplate, const JSON &objectJSON
 
 int main()
 {
-    //Создать объект класса CheckFile
-    CheckFile checkFileObj;
-
     //...
     //Получить имя файла (fileName)
     //...
-
-    //Проверить файл на существование
-    bool exist{checkFileObj.isExist(fileName)};
-    //Проверить файл на пустоту
-    bool empty{checkFileObj.isEmpty(const std::string &fileName)};
+    
     //Проверить файл на целостность JSON-структуры
-    bool JSONStructureValid{checkFileObj.isJSONStructureValid(fileName)};
+    bool JSONStructureValid{CheckFile::isJSONStructureValid(fileName)};
 
     //...
     //Получить JSON-объекты шаблона и проверяемого (objectJSONTemplate, objectJSON)
     //...
 
     //Проверить JSON-структуру файла на соответствие шаблону
-    bool JSONStructureMatch{checkFileObj.isJSONStructureMatch(objectJSONTemplate, objectJSON)};
+    bool JSONStructureMatch{CheckFile::isJSONStructureMatch(objectJSONTemplate, objectJSON)};
 }
 ```
