@@ -193,31 +193,34 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
         //TODO что-то делать
     }
 
-    //Сообщение не содержит исключение
-    if (!std::strcmp(exception.what(), "Exception-stub"))
-    {
-        //Записать сообщение в файл
-        outFile << timePointToString(timeEvent) << "   " << levelToString(level) << ":   " <<
-        message << std::endl;
+        //MonitorSender monitorSender{};
+        //Сообщение не содержит исключение
+        if (!std::strcmp(exception.what(), "Exception-stub")) {
+            //Записать сообщение в файл
+            outFile << timePointToString(timeEvent) << "   " << levelToString(level) << ":   " <<
+                    message << std::endl;
 
-        //Закрыть файл
-        outFile.close();
+            //Закрыть файл
+            outFile.close();
 
-        //Отправить сообщение другому процессу
-        monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message);
-    }
-    else
-        //Сообщение содержит исключение
-    {
-        //Записать сообщение в файл
-        outFile << timePointToString(timeEvent) << "   " << levelToString(level) << ":   " <<
-        "Exception: " << '"' << exception.what() << '"' << "   " << "Information: " << '"' << message << '"' << std::endl;
+            //Отправить сообщение другому процессу
+            monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message);
+        } else
+            //Сообщение содержит исключение
+        {
+            //Записать сообщение в файл
+            outFile << timePointToString(timeEvent) << "   " << levelToString(level) << ":   " <<
+                    "Exception: " << '"' << exception.what() << '"' << "   " << "Information: " << '"' << message << '"'
+                    << std::endl;
 
-        //Закрыть файл
-        outFile.close();
+            //Закрыть файл
+            outFile.close();
 
-        //Отправить сообщение другому процессу
-        monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
-                                                 "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' + message + '"');
-    }
+            //Отправить сообщение другому процессу
+            monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
+                               "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' + message +
+                               '"');
+        }
+
+
 }

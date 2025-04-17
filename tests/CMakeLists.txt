@@ -26,7 +26,7 @@ file(GLOB CPP_READ_WRITE_JSON_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/
 file(GLOB CPP_READ_TEXT_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/readTextFile/*.cpp")
 file(GLOB CPP_LOGGER CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/Logger/*.cpp")
 file(GLOB CPP_GENERAL CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/general/*.cpp")
-file(GLOB CPP_MONITOR CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/monitor/*.cpp")
+file(GLOB CPP_MONITOR CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/monitorSender/*.cpp")
 
 add_executable(search_engine_test testInvertedIndex.cpp testRelevantResponse.cpp test.cpp testCheckFile.cpp
         ${CPP_CONVERTER_JSON}
