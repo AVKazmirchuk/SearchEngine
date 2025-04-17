@@ -120,9 +120,6 @@ static void fatal(const std::string& message, const std::exception& exception);
 
 int main()
 {
-    //Создать объект класса Logger
-    Logger loggerObj;
-
     //...
     //Получить путь файла настроек (configFilePath)
     //...
@@ -138,32 +135,17 @@ int main()
     Logger::debug(message);
 
     //...
-    //Получить сообщение уровня information (message)
+    //Получить сообщение уровня debug (message)
+    //Получить исключение (exception)
     //...
 
-    //Записать сообщение уровня information
-    Logger::info(message);
+    //Записать сообщение уровня debug вместе с исключением
+    Logger::debug(message, exception);
 
     //...
-    //Получить сообщение уровня warning (message)
+    //Аналогично используются функции записи сообщений других уровней
+    //(information, warning, error, fatal) 
     //...
-
-    //Записать сообщение уровня warning
-    Logger::warning(message);
-
-    //...
-    //Получить сообщение уровня error (message)
-    //...
-
-    //Записать сообщение уровня error
-    Logger::error(message);
-
-    //...
-    //Получить сообщение уровня fatal (message)
-    //...
-
-    //Записать сообщение уровня fatal
-    Logger::fatal(message);
 }
 ```
 
