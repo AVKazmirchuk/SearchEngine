@@ -17,13 +17,13 @@ ReadWriteJSONFile() = default;
 ### Общедоступные функции-члены:
 #### Прочитать JSON-файл:
 ```cpp
-JSON readJSONFile(const std::string& filePath);
+static JSON readJSONFile(const std::string& filePath);
 ```
 Параметры: путь JSON-файла\
 Возвращаемое значение: JSON-файл
 #### Записать JSON-файл:
 ```cpp
-void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
+static void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
 ```
 Параметры: JSON-объект, путь JSON-файла
 ### Примеры
@@ -32,16 +32,13 @@ void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
 
 int main()
 {
-    //Создать объект класса Documents
-    ReadWriteJSONFile readWriteJSONFileObj;
-
     //...
     //Получить путь JSON-файла (filePath)
     //...
 
     //Прочитать JSON-файл
-    JSON JSONObj{readWriteJSONFileObj.readJSONFile(filePath)};
+    JSON JSONObj{ReadWriteJSONFile::readJSONFile(filePath)};
     //Записать JSON-файл
-    readWriteJSONFileObj.writeJSONFile(JSONObj, filePath);
+    ReadWriteJSONFile::writeJSONFile(JSONObj, filePath);
 }
 ```
