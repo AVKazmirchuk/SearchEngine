@@ -39,13 +39,13 @@ int main()
     //...
     
     //Проверить файл на целостность JSON-структуры
-    bool JSONStructureValid{checkFileObj.isJSONStructureValid(fileName)};
+    bool JSONStructureValid{CheckFile::isJSONStructureValid(fileName)};
 
     //...
     //Получить JSON-объекты шаблона и проверяемого (objectJSONTemplate, objectJSON)
     //...
 
     //Проверить JSON-структуру файла на соответствие шаблону
-    bool JSONStructureMatch{checkFileObj.isJSONStructureMatch(objectJSONTemplate, objectJSON)};
+    bool JSONStructureMatch{CheckFile::isJSONStructureMatch(objectJSONTemplate, objectJSON)};
 }
 ```
