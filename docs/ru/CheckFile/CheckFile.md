@@ -24,7 +24,7 @@ static bool isJSONStructureValid(const std::string &fileName);
 Возвращаемое значение: целостность JSON-структуры 
 #### Проверить JSON-структуру файла на соответствие шаблону:
 ```cpp
-bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
+static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 ```
 Параметры: ссылка на проверяемый JSON-объект, ссылка на JSON-объект шаблона
 Возвращаемое значение: соотвествие JSON-структуры шаблону
