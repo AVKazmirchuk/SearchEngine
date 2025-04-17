@@ -61,32 +61,59 @@ Logger() = default;
 ### Общедоступные функции-члены:
 #### Инициализировать (настроить) класс
 ```cpp
-void initialize(const std::string& configFilePath);
+static void initialize(const std::string& configFilePath);
 ```
+Параметры: путь к файлу конфигурации
 #### Записать сообщение уровня debug:
 ```cpp
-void debug(const std::string& message);
+static void debug(const std::string& message);
 ```
+Параметры: ссылка на сообщение
+#### Записать сообщение уровня debug:
+```cpp
+static void debug(const std::string& message, const std::exception& exception);
+```
+Параметры: ссылка на сообщение, ссылка на исключение
 #### Записать сообщение уровня information:
 ```cpp
-void info(const std::string& message);
+static void info(const std::string& message);
 ```
-Параметры: Сообщение
+Параметры: ссылка на сообщение
+#### Записать сообщение уровня information:
+```cpp
+static void info(const std::string& message, const std::exception& exception);
+```
+Параметры: ссылка на сообщение, ссылка на исключение
 #### Записать сообщение уровня warning:
 ```cpp
-void warning(const std::string& message);
+static void warning(const std::string& message);
 ```
-Параметры: Сообщение
+Параметры: ссылка на сообщение
+#### Записать сообщение уровня warning:
+```cpp
+static void warning(const std::string& message, const std::exception& exception);
+```
+Параметры: ссылка на сообщение, ссылка на исключение
 #### Записать сообщение уровня error:
 ```cpp
-void error(const std::string& message);
+static void error(const std::string& message);
 ```
-Параметры: Сообщение
+Параметры: ссылка на сообщение
+#### Записать сообщение уровня error:
+```cpp
+static void error(const std::string& message, const std::exception& exception);
+```
+Параметры: ссылка на сообщение, ссылка на исключение
 #### Записать сообщение уровня fatal:
 ```cpp
-void fatal(const std::string& message);
+static void fatal(const std::string& message);
 ```
-Параметры: Сообщение
+Параметры: ссылка на сообщение
+#### Записать сообщение уровня fatal:
+```cpp
+static void fatal(const std::string& message, const std::exception& exception);
+```
+Параметры: ссылка на сообщение, ссылка на исключение
 ### Примеры
 ```cpp
 #include "logger.h"
