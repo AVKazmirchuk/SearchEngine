@@ -1,2 +1,15 @@
 https://stackoverflow.com/questions/1197106/how-do-you-initialize-static-data-members-similar-to-static-constructors/48530698#48530698
 https://stackoverflow.com/questions/9321/how-do-you-create-a-static-class
+https://stackoverflow.com/questions/18208095/how-to-initialize-a-static-member-object
+
+
+
+https://cboard.cprogramming.com/cplusplus-programming/52151-console-scrolling.html
+https://www.cyberforum.ru/visual-cpp/thread8061.html
+https://habr.com/ru/articles/326578/
+https://stackoverflow.com/questions/1670891/how-can-i-print-a-string-to-the-console-at-specific-coordinates-in-c
+https://nitheeshgeorge.wordpress.com/2024/01/23/c-windows-setting-cursor-position-inside-a-console-window/
+https://www.cyberforum.ru/cpp-beginners/thread825356.html
+https://www.cyberforum.ru/cpp-beginners/thread129034.html
+https://cplusplus.com/forum/beginner/242670/
+https://codeby.net/threads/asm-skrolling-chasti-konsol-nogo-bufera-win.77009/
