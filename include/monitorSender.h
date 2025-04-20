@@ -13,6 +13,7 @@
 
 class MonitorSender
 {
+
 public:
 
     /**

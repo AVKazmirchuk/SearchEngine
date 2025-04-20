@@ -4,13 +4,12 @@
 
 
 
-#include <iostream>
-#include <string>
 #include <thread>
 
 #include "windows.h"
 
 #include "monitorReceiver.h"
+#include "monitor.h"
 
 
 
@@ -26,20 +25,19 @@ int main()
         return -1;
     }
 
-    std::cout << "search_engine_monitor:search_engine_monitor has started" << std::endl;
-    //std::cout << boost::interprocess::message_queue::remove("search_engine") << std::endl;
-    //Открыть очередь сообщений
-    //boost::interprocess::message_queue mq(boost::interprocess::open_only, "search_engine");
+    //Установить заглавие консоли
+    SetConsoleTitle("Logger Monitor");
+
     //Создать объект монитора получения сообщений
     MonitorReceiver monitorReceiver;
 
-    //outputToConsole("search_engine_monitor:open_or_create: num_msg - " + std::to_string(monitorReceiver.get().get_num_msg()));
-
-    //Ожидать новых сообщений, получать и выводить их на консоль
+    //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
     {
         //Получить сообщение
-        monitorReceiver.receive();
+        std::string message{monitorReceiver.receive()};
+        //Вывести сообщение на монитор
+        outputToConsole(message);
     }
 
     return 0;

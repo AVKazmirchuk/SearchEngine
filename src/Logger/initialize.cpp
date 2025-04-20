@@ -2,6 +2,8 @@
 // Created by Alexander on 13.04.2025.
 //
 
+
+
 #include "windows.h"
 #include <tlhelp32.h>
 
@@ -11,7 +13,27 @@
 
 
 
-void startMonitor(LPCSTR lpApplicationName)
+void Logger::deleteFilesByRetentionPeriod()
+{
+    //Вычислить интервал времени, в течение которого можно хранить файл
+    std::chrono::system_clock::duration storageTimeLimit = Weeks(weeksStorage) + Days(daysStorage) + Hours(hoursStorage) +
+                                                           Minutes(minutesStorage) + Seconds(secondsStorage);
+    //Для каждого элемента контейнера пар пути и момента времени последнего изменения файла, кроме последнего элемента
+    //(последний файл должен остаться)
+    for (auto it{logs.begin()}; it != logs.end() - 1; ++it)
+    {
+        //Определить текущий интервал хранения файла
+        std::chrono::system_clock::duration storageTimeCurrent = std::chrono::system_clock::now() - it->second;
+        //Текущий интервал хранения файла больше либо равно предельного
+        if (storageTimeCurrent >= storageTimeLimit)
+        {
+            //Удалить текущий файл из директории
+            std::filesystem::remove(it->first);
+        }
+    }
+}
+
+void Logger::startMonitor(LPCSTR lpApplicationName)
 {
     //Дополнительная информация
     STARTUPINFO si;
@@ -48,10 +70,9 @@ void startMonitor(LPCSTR lpApplicationName)
     // Close process and thread handles.
     //CloseHandle( pi.hProcess );
     //CloseHandle( pi.hThread );
-
 }
 
-bool isProcessRun(const char * const processName)
+bool Logger::isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
@@ -125,40 +146,30 @@ void Logger::initializeVariables(const JSON& configJSON)
     fileSizeLimit = configJSON["fileSizeLimit"];
     //Директория с файлами
     filesDirectory = configJSON["filesDirectory"];
-
-
 }
 
 void Logger::shouldDeleteMessageQueue()
 {
-    std::cout << "search_engine:search_engine has started" << std::endl;
-
     //Процесс получения и вывода сообщений запущен. Очередь сообщений существует
     if (isProcessRun("search_engine_monitor.exe"))
     {
-        std::cout << "search_engine:search_engine_monitor is already running"  << std::endl;
+        //std::cout << "search_engine:search_engine_monitor is already running"  << std::endl;
     }
     else
     {
         //Процесс получения и вывода сообщений не запущен. Удалить оставшуюся очередь сообщений (в любом случае)
         boost::interprocess::message_queue::remove("search_engine");
     }
-    //std::cout << boost::interprocess::message_queue::remove("search_engine") << std::endl;
-    //std::cout << boost::interprocess::message_queue::remove("search_engine") << std::endl;
-    std::cout << "search_engine:open_or_create" << ": num_msg - " << monitorSender.get().get_num_msg() << std::endl;
-
-    //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
-    // (регулируется именованным мьютексом).
-    std::cout << "search_engine:search_engine_monitor is not running yet"  << std::endl;
-    startMonitor(R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
-    std::cout << "search_engine:search_engine_monitor has started" << std::endl;
 }
 
 void Logger::initialize(const std::string& configFilePath)
 {
-
+    //Определить необходимость удалить очередь
     shouldDeleteMessageQueue();
 
+    //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
+    // (регулируется именованным мьютексом).
+    startMonitor(R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
 
     //Создать JSON-объект конфигурации
     JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);

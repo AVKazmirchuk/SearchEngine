@@ -37,6 +37,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
             //Проверить файл на открытие для чтения
             if (!file.is_open())
             {
+                Logger::fatal("std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
                 throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
             }
 

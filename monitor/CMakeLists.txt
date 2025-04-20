@@ -8,6 +8,6 @@ link_directories(${Boost_LIBRARY_DIR})
 
 #target_link_libraries(search_engine_monitor ${Boost_LIBRARIES})
 
-add_executable(search_engine_monitor main.cpp ../include/monitorSender.h monitorReceiver.h monitorReceiver.cpp termcolor.h termcolor.h)
+add_executable(search_engine_monitor main.cpp ../include/monitorSender.h monitorReceiver.h monitorReceiver.cpp termcolor.h termcolor.h monitor.cpp monitor.h)
 
 

@@ -43,11 +43,6 @@ public:
     static void initialize(const std::string& configFilePath);
 
     /**
-     * Определить необходимость удалить очередь
-     */
-    static void shouldDeleteMessageQueue();
-
-    /**
      * Записать сообщение уровня debug
      * @param message Сообщение
      */
@@ -159,6 +154,8 @@ private:
     //Файл для записи
     static inline std::filesystem::path file{};
 
+    static inline bool isFileForWriteOpen{};
+
     //Контейнер пар пути и момента времени последнего изменения файла
     inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
 
@@ -175,6 +172,11 @@ private:
      * Настроить класс
      */
     static void setupClass();
+
+    /**
+     * Определить необходимость удалить очередь
+     */
+    static void shouldDeleteMessageQueue();
 
     /**
      * Получить файл для записи
@@ -239,6 +241,19 @@ private:
     static std::string levelToString(Level level);
 
     /**
+     * Запустить независимый процесс получения и вывода сообщений
+     * @param lpApplicationName Имя процесса
+     */
+    static void startMonitor(LPCSTR lpApplicationName);
+
+   /**
+    * Определить, запущен ли процесс
+    * @param processName Имя процесса
+    * @return Процесс запущен (true)/не запущен (false)
+    */
+    static bool isProcessRun(const char * processName);
+
+    /**
      * Класс реализует генерацию исключений-заглушек
      */
     class ExceptionStub : public std::exception
@@ -272,9 +287,6 @@ private:
         }
 
     };
-
-
-
 
 };
 

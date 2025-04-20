@@ -101,7 +101,7 @@ void InvertedIndex::startInvertedIndexing()
         for (auto &future: futures)
             future.wait();
     }
-        //Обработать все исключения, выброшенные в потоках
+    //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
     {
         Logger::fatal("EXCEPTION: " + std::string(e.what()));

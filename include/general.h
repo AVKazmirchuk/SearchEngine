@@ -7,9 +7,6 @@
 
 
 
-//#include <cstdlib>
-//#include <iostream>
-
 #include "windows.h"
 #include "nlohmann/json.hpp"
 
@@ -97,17 +94,6 @@ void exitProgram();
  */
 void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
 
-/**
- * Запустить независимый процесс получения и вывода сообщений
- * @param lpApplicationName Имя процесса
- */
-void startMonitor(LPCSTR lpApplicationName);
 
-/**
- * Определить, запущен ли процесс
- * @param processName Имя процесса
- * @return Процесс запущен (true)/не запущен (false)
- */
-bool isProcessRun(const char * const processName);
 
 #endif //SEARCH_ENGINE_GENERAL_H

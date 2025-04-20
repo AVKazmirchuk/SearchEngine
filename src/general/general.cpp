@@ -31,18 +31,24 @@ void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
     //Проверить файл на открытие для чтения
     if (!std::ifstream(filePath).is_open())
     {
+        Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
+                      CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
     }
 
     //Проверить файл на целостность JSON-структуры
     if (!CheckFile::isJSONStructureValid(filePath))
     {
+        Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
+                      CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath);
     }
 
     //Проверить JSON-структуру файла на соответствие шаблону
     if (!CheckFile::isJSONStructureMatch( ReadWriteJSONFile::readJSONFile(filePath), objectJSONTemplate))
     {
+        Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
+                      CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
     }
 }

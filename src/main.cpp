@@ -1,9 +1,3 @@
-
-
-
-#include "boost/interprocess/ipc/message_queue.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
-
 #include "searchEngine.h"
 #include "general.h"
 
@@ -11,13 +5,11 @@
 
 int main()
 {
-
     //Инициализировать логирование (класс Logger)
     Logger::initialize(constants::configLoggerFilePath);
 
-
-
-
+    //Вывести в лог запуск программы
+    Logger::info("Start SearchEngine");
 
     //Проверить файл config.json
     checkFile(constants::configFilePath, constants::configTemplate);
@@ -30,6 +22,9 @@ int main()
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
+
+    //Вывести в лог завершение работы программы
+    Logger::info("Stop SearchEngine");
 
     return 0;
 }

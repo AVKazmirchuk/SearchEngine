@@ -5,6 +5,7 @@
 
 
 #include "readWriteJSONFile.h"
+#include "logger.h"
 
 
 
@@ -16,6 +17,7 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     //Проверить файл на открытие для записи
     if (!file.is_open())
     {
+        Logger::fatal("void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath);
     }
 
@@ -31,6 +33,7 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)
     //Проверить файл на открытие для чтения
     if (!file.is_open())
     {
+        Logger::fatal("JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
     }
 

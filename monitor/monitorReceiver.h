@@ -13,6 +13,7 @@
 
 class MonitorReceiver
 {
+
 public:
 
     /**
@@ -26,7 +27,7 @@ public:
      * Получить сообщение из очереди сообщений
      * @param message Сообщение
      */
-    void receive();
+    std::string receive();
 
     /**
      * Получить константную ссылку на объект класса boost::interprocess::message_queue

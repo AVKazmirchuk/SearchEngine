@@ -14,6 +14,7 @@ void ConverterJSON::checkFilePath()
 {
     if (configJSON[constants::filesStr].empty())
     {
+        Logger::fatal("void ConverterJSON::checkFilePath()", CheckFileException(ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY));
         throw CheckFileException(ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY);
     }
 
