@@ -47,7 +47,7 @@ int main()
 
     //Отправить сообщение в очередь сообщений
     monitorSender.send(message);
-    //Получить ссылку на объект класса boost::interprocess::message_queue
+    //Получить ссылку на объект класса boost::interprocess::message_queue и получить количество сообщений в очереди
     std::cout << "Всего сообщений в очереди: " << monitorSender.get().get_num_msg()  << std::endl;
 }
 ```
