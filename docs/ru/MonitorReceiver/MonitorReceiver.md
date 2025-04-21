@@ -18,8 +18,9 @@ MonitorReceiver() : mq{boost::interprocess::open_only, "search_engine"} {}
 ### Общедоступные функции-члены:
 #### Получить сообщение из очереди сообщений:
 ```cpp
-void receive();
+std::string receive();
 ```
+Возвращаемое значение: сообщение
 #### Получить ссылку на объект класса boost::interprocess::message_queue:
 ```cpp
 boost::interprocess::message_queue& get();
@@ -41,7 +42,7 @@ int main()
     MonitorReceiver monitorReceiver;
     
     //Получить сообщение из очереди сообщений
-    monitorReceiver.receive();
+    std::string message{monitorReceiver.receive()};
     //Получить ссылку на объект класса boost::interprocess::message_queue и получить количество сообщений в очереди
     std::cout << "Всего сообщений в очереди: " << monitorReceiver.get().get_num_msg()  << std::endl;
 }
