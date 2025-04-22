@@ -5,6 +5,8 @@
 
 int main()
 {
+    Logger logger{};
+
     //Инициализировать логирование (класс Logger)
     Logger::initialize(constants::configLoggerFilePath);
 

@@ -7,8 +7,14 @@
 
 
 
+#include "windows.h"
+#include <tlhelp32.h>
+
 #include "boost/interprocess/ipc/message_queue.hpp"
 
+
+
+bool isProcessRun2(const char * const processName);
 
 
 class MonitorSender
@@ -21,7 +27,10 @@ public:
      * Если процесс получения и вывода сообщений запущен, - значит очередь сообщений существует, - открыть очередь сообщений.
      * Если процесс получения и вывода сообщений не запущен, - значит очередь сообщений не существует, - создать очередь сообщений.
      */
-    MonitorSender() : mq(boost::interprocess::open_or_create, "search_engine", 100, 256) {}
+    MonitorSender() :
+    isRemoved{isProcessRun2("search_engine_monitor.exe") ? false : boost::interprocess::message_queue::remove("search_engine")},
+    mq(boost::interprocess::open_or_create, "search_engine", 100, 256)
+    {}
 
     /**
      * Отправить сообщение в очередь сообщений
@@ -49,6 +58,7 @@ public:
 
 private:
 
+    bool isRemoved{};
     boost::interprocess::message_queue mq;
 
 };

@@ -154,11 +154,12 @@ void Logger::shouldDeleteMessageQueue()
     if (isProcessRun("search_engine_monitor.exe"))
     {
         //std::cout << "search_engine:search_engine_monitor is already running"  << std::endl;
+        //boost::interprocess::message_queue::remove("search_engine");
     }
     else
     {
         //Процесс получения и вывода сообщений не запущен. Удалить оставшуюся очередь сообщений (в любом случае)
-        boost::interprocess::message_queue::remove("search_engine");
+        //boost::interprocess::message_queue::remove("search_engine");
     }
 }
 
