@@ -6,10 +6,17 @@
 #define SEARCH_ENGINE_MONITORRECEIVER_H
 
 
+#include "windows.h"
+#include <tlhelp32.h>
 
 #include "boost/interprocess/ipc/message_queue.hpp"
 
-
+/**
+ * Определить, запущен ли процесс
+ * @param processName Имя процесса
+ * @return Процесс запущен (true)/не запущен (false)
+ */
+bool isProcessRun(const char * processName);
 
 class MonitorReceiver
 {
@@ -21,7 +28,10 @@ public:
      * Если процесс получения и вывода сообщений запущен, - значит очередь сообщений существует, - открыть очередь сообщений.
      * Если процесс получения и вывода сообщений не запущен, - значит очередь сообщений не существует, - создать очередь сообщений.
      */
-    MonitorReceiver() : mq{boost::interprocess::open_or_create, "search_engine", 100, 256} {}
+    MonitorReceiver() :
+            removeMessageQueue(),
+            mq{boost::interprocess::open_or_create, "search_engine", 100, 256}
+            {}
 
     /**
      * Получить сообщение из очереди сообщений
@@ -48,6 +58,23 @@ public:
     }
 
 private:
+
+    //Вспомогательный класс для удаления оставшейся очереди сообщений (во избежание ошибок) перед инициализацией очереди
+    class RemoveMessageQueue
+    {
+    public:
+        RemoveMessageQueue()
+        {
+            //Процесс получения и вывода сообщений не запущен
+            if (!isProcessRun("search_engine.exe"))
+            {
+                //Удалить оставшуюся очередь (скорее всего, заблокированную)
+                boost::interprocess::message_queue::remove("search_engine");
+            }
+        }
+    };
+
+    RemoveMessageQueue removeMessageQueue;
 
     boost::interprocess::message_queue mq;
 

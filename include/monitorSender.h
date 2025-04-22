@@ -13,8 +13,12 @@
 #include "boost/interprocess/ipc/message_queue.hpp"
 
 
-
-bool isProcessRun2(const char * const processName);
+/**
+ * Определить, запущен ли процесс
+ * @param processName Имя процесса
+ * @return Процесс запущен (true)/не запущен (false)
+ */
+bool isProcessRun(const char * processName);
 
 
 class MonitorSender
@@ -28,7 +32,7 @@ public:
      * Если процесс получения и вывода сообщений не запущен, - значит очередь сообщений не существует, - создать очередь сообщений.
      */
     MonitorSender() :
-    isRemoved{isProcessRun2("search_engine_monitor.exe") ? false : boost::interprocess::message_queue::remove("search_engine")},
+    removeMessageQueue(),
     mq(boost::interprocess::open_or_create, "search_engine", 100, 256)
     {}
 
@@ -58,7 +62,22 @@ public:
 
 private:
 
-    bool isRemoved{};
+    //Вспомогательный класс для удаления оставшейся очереди сообщений (во избежание ошибок) перед инициализацией очереди
+    class RemoveMessageQueue
+    {
+    public:
+        RemoveMessageQueue()
+        {
+            //Процесс получения и вывода сообщений не запущен
+            if (!isProcessRun("search_engine_monitor.exe"))
+            {
+                //Удалить оставшуюся очередь (скорее всего, заблокированную)
+                boost::interprocess::message_queue::remove("search_engine");
+            }
+        }
+    };
+
+    RemoveMessageQueue removeMessageQueue;
     boost::interprocess::message_queue mq;
 
 };

@@ -8,7 +8,32 @@
 
 #include "monitorReceiver.h"
 
+bool isProcessRun(const char * const processName)
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
+    PROCESSENTRY32 pe;
+    pe.dwSize = sizeof(PROCESSENTRY32);
+    Process32First(hSnapshot, &pe);
+
+    bool result{};
+    while (true) {
+        if (strcmp(pe.szExeFile, processName) == 0)
+        {
+            result = true;
+            break;
+        }
+        if (!Process32Next(hSnapshot, &pe))
+        {
+            result = false;
+            break;
+        }
+    }
+
+    CloseHandle(hSnapshot);
+
+    return result;
+}
 
 std::string MonitorReceiver::receive()
 {

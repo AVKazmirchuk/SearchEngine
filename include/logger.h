@@ -174,11 +174,6 @@ private:
     static void setupClass();
 
     /**
-     * Определить необходимость удалить очередь
-     */
-    static void shouldDeleteMessageQueue();
-
-    /**
      * Получить файл для записи
      * @param directoryPath
      * @return Путь файла для записи
@@ -245,13 +240,6 @@ private:
      * @param lpApplicationName Имя процесса
      */
     static void startMonitor(LPCSTR lpApplicationName);
-
-   /**
-    * Определить, запущен ли процесс
-    * @param processName Имя процесса
-    * @return Процесс запущен (true)/не запущен (false)
-    */
-    static bool isProcessRun(const char * processName);
 
     /**
      * Класс реализует генерацию исключений-заглушек

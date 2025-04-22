@@ -3,7 +3,8 @@
 //
 
 
-
+#include <iostream>
+#include <filesystem>
 #include <thread>
 
 #include "windows.h"
@@ -13,8 +14,16 @@
 
 
 
-int main()
+int main(int argc, char* argv[])
 {
+    //Защита от изменения имени файла (так как при инициализации очереди сообщений проверяется этот запущенный процесс)
+    if (std::filesystem::path(argv[0]).filename() != "search_engine_monitor.exe")
+    {
+        //std::cout << argv[0] << std::endl;
+        //std::cout << std::filesystem::path(argv[0]).filename();
+        return -1;
+    }
+
     //Создать именованный мьютекс для ограничения количества запущенных экземпляров приложения (программа может быть запущена
     //только один раз)
     CreateMutexA(0, FALSE, "search_engine_monitor.exe");

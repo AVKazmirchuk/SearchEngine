@@ -72,33 +72,6 @@ void Logger::startMonitor(LPCSTR lpApplicationName)
     //CloseHandle( pi.hThread );
 }
 
-bool Logger::isProcessRun(const char * const processName)
-{
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-
-    PROCESSENTRY32 pe;
-    pe.dwSize = sizeof(PROCESSENTRY32);
-    Process32First(hSnapshot, &pe);
-
-    bool result{};
-    while (true) {
-        if (strcmp(pe.szExeFile, processName) == 0)
-        {
-            result = true;
-            break;
-        }
-        if (!Process32Next(hSnapshot, &pe))
-        {
-            result = false;
-            break;
-        }
-    }
-
-    CloseHandle(hSnapshot);
-
-    return result;
-}
-
 void Logger::setupClass()
 {
     //Получить файл для записи
@@ -148,26 +121,8 @@ void Logger::initializeVariables(const JSON& configJSON)
     filesDirectory = configJSON["filesDirectory"];
 }
 
-void Logger::shouldDeleteMessageQueue()
-{
-    //Процесс получения и вывода сообщений запущен. Очередь сообщений существует
-    if (isProcessRun("search_engine_monitor.exe"))
-    {
-        //std::cout << "search_engine:search_engine_monitor is already running"  << std::endl;
-        //boost::interprocess::message_queue::remove("search_engine");
-    }
-    else
-    {
-        //Процесс получения и вывода сообщений не запущен. Удалить оставшуюся очередь сообщений (в любом случае)
-        //boost::interprocess::message_queue::remove("search_engine");
-    }
-}
-
 void Logger::initialize(const std::string& configFilePath)
 {
-    //Определить необходимость удалить очередь
-    shouldDeleteMessageQueue();
-
     //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
     // (регулируется именованным мьютексом).
     startMonitor(R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");

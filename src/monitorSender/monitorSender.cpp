@@ -8,7 +8,7 @@
 
 #include "monitorSender.h"
 
-bool isProcessRun2(const char * const processName)
+bool isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 

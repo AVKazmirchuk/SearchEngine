@@ -3,8 +3,16 @@
 
 
 
-int main()
+int main(int argc, char* argv[])
 {
+    //Защита от изменения имени файла (так как при инициализации очереди сообщений проверяется этот запущенный процесс)
+    if (std::filesystem::path(argv[0]).filename() != "search_engine.exe")
+    {
+        //std::cout << argv[0] << std::endl;
+        //std::cout << std::filesystem::path(argv[0]).filename();
+        return -1;
+    }
+
     Logger logger{};
 
     //Инициализировать логирование (класс Logger)
