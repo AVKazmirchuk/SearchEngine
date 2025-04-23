@@ -40,6 +40,20 @@ int main(int argc, char* argv[])
     //Создать объект монитора получения сообщений
     MonitorReceiver monitorReceiver;
 
+    if (!MonitorReceiver::isProcessAlreadyRunning)
+    {
+        for (std::string messageTest{}; messageTest != "search_engine-test";) {
+            monitorReceiver.send("search_engine_monitor-test");
+
+            try {
+                messageTest = monitorReceiver.try_receive();
+            }
+            catch (const std::exception &exception) { ;
+            }
+        }
+    }
+
+
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
     {

@@ -43,6 +43,20 @@ public:
     void send(const std::string& message);
 
     /**
+     * Получить сообщение из очереди сообщений (ожидать сообщение)
+     * @return Сообщение
+     */
+    std::string receive();
+
+    /**
+     * Получить сообщение из очереди сообщений (не ожидать сообщение)
+     * @return Сообщение
+     */
+    std::string try_receive();
+
+    inline static bool isProcessAlreadyRunning{true};
+
+    /**
      * Получить объект класса boost::interprocess::message_queue
      * @return Константная ссылка на объект boost::interprocess::message_queue
      */
@@ -73,6 +87,7 @@ private:
             {
                 //Удалить оставшуюся очередь (скорее всего, заблокированную)
                 boost::interprocess::message_queue::remove("search_engine");
+                isProcessAlreadyRunning = false;
             }
         }
     };

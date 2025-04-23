@@ -4,6 +4,8 @@
 
 
 
+#include <thread>
+
 #include "windows.h"
 #include <tlhelp32.h>
 
@@ -126,6 +128,19 @@ void Logger::initialize(const std::string& configFilePath)
     //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
     // (регулируется именованным мьютексом).
     startMonitor(R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
+
+    if (!MonitorSender::isProcessAlreadyRunning)
+    {
+        for (std::string messageTest{}; messageTest != "search_engine_monitor-test";) {
+            try {
+                messageTest = monitorSender.receive();
+            }
+            catch (const std::exception &exception) { ;
+            }
+
+            monitorSender.send("search_engine-test");
+        }
+    }
 
     //Создать JSON-объект конфигурации
     JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);

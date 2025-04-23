@@ -8,6 +8,8 @@
 
 #include "monitorReceiver.h"
 
+
+
 bool isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -35,6 +37,12 @@ bool isProcessRun(const char * const processName)
     return result;
 }
 
+void MonitorReceiver::send(const std::string& message)
+{
+    //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
+    mq.send(message.data(), message.size(), 0);
+}
+
 std::string MonitorReceiver::receive()
 {
     //Подготовить данные для получения сообщения
@@ -49,6 +57,26 @@ std::string MonitorReceiver::receive()
 
     //Получить сообщение из очереди сообщений. Ожидать, пока не появится новое сообщение
     mq.receive(&message[0], message.size(), recvd_size, priority);
+    //Задать размер ожидаемого сообщения в соответствии с полученным
+    message.resize(recvd_size);
+    //Возвратить сообщение
+    return message;
+}
+
+std::string MonitorReceiver::try_receive()
+{
+    //Подготовить данные для получения сообщения
+    //Приоритет сообщения
+    unsigned int priority{0};
+    //Ожидаемое сообщение
+    std::string message;
+    //Задать размер оджидаемого сообщения
+    message.resize(256);
+    //Размер полученного сообщения
+    boost::interprocess::message_queue::size_type recvd_size;
+
+    //Получить сообщение из очереди сообщений. Ожидать, пока не появится новое сообщение
+    mq.try_receive(&message[0], message.size(), recvd_size, priority);
     //Задать размер ожидаемого сообщения в соответствии с полученным
     message.resize(recvd_size);
     //Возвратить сообщение
