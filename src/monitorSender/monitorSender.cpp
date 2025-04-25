@@ -35,17 +35,17 @@ bool isProcessRun(const char * const processName)
     return result;
 }
 
-void MonitorSender::send(const std::string& message)
+void MonitorSender::send(const std::string& message, unsigned int priority)
 {
     //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
-    mq.send(message.data(), message.size(), 0);
+    mq.send(message.data(), message.size(), priority);
 }
 
-std::string MonitorSender::receive()
+std::string MonitorSender::receive(unsigned int priority)
 {
     //Подготовить данные для получения сообщения
     //Приоритет сообщения
-    unsigned int priority{0};
+    //unsigned int priority{0};
     //Ожидаемое сообщение
     std::string message;
     //Задать размер оджидаемого сообщения

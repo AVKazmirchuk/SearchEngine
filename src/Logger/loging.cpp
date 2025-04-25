@@ -82,7 +82,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
         }
 
         //Отправить сообщение другому процессу
-        monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message);
+        monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message, 0);
     } else
         //Сообщение содержит исключение
         {
@@ -102,6 +102,6 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
             //Отправить сообщение другому процессу
             monitorSender.send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
                                "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' + message +
-                               '"');
+                               '"', 0);
         }
 }

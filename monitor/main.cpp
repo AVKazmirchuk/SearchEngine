@@ -42,14 +42,21 @@ int main(int argc, char* argv[])
 
     if (!MonitorReceiver::isProcessAlreadyRunning)
     {
-        for (std::string messageTest{}; messageTest != "search_engine-test";) {
-            monitorReceiver.send("search_engine_monitor-test");
+        monitorReceiver.send("search_engine_monitor-test", 0);
+
+        for (std::string messageTest{}; messageTest != "search_engine-test";)
+        {
+
 
             try {
-                messageTest = monitorReceiver.try_receive();
+                std::cout << "se_monitor-bef-rec" << std::endl;
+                messageTest = monitorReceiver.receive(0);
+                std::cout << "se_monitor: " << messageTest << std::endl;
+                std::cout << "se_monitor-aft-rec" << std::endl;
             }
             catch (const std::exception &exception) { ;
             }
+            if (messageTest == "search_engine_monitor-test") monitorReceiver.send("search_engine_monitor-test", 0);
         }
     }
 
@@ -58,7 +65,7 @@ int main(int argc, char* argv[])
     while (true)
     {
         //Получить сообщение
-        std::string message{monitorReceiver.receive()};
+        std::string message{monitorReceiver.receive(0)};
         //Вывести сообщение на монитор
         outputToConsole(message);
     }

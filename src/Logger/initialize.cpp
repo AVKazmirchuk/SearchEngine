@@ -131,15 +131,25 @@ void Logger::initialize(const std::string& configFilePath)
 
     if (!MonitorSender::isProcessAlreadyRunning)
     {
-        for (std::string messageTest{}; messageTest != "search_engine_monitor-test";) {
-            try {
-                messageTest = monitorSender.receive();
-            }
-            catch (const std::exception &exception) { ;
-            }
+        monitorSender.send("search_engine-test", 0);
 
-            monitorSender.send("search_engine-test");
+        for (std::string messageTest{}; messageTest != "search_engine_monitor-test";)
+        {
+            try
+            {
+                std::cout << "se-bef-rec" << std::endl;
+                messageTest = monitorSender.receive(0);
+                std::cout << "se: " << messageTest << std::endl;
+                std::cout << "se-aft-rec" << std::endl;
+
+            }
+            catch (const std::exception &exception)
+            {
+                ;
+            }
+            if (messageTest == "search_engine-test") monitorSender.send("search_engine-test", 0);
         }
+
     }
 
     //Создать JSON-объект конфигурации

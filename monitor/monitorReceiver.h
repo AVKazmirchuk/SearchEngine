@@ -37,13 +37,13 @@ public:
      * Отправить сообщение в очередь сообщений
      * @param message Сообщение
      */
-    void send(const std::string& message);
+    void send(const std::string& message, unsigned int priority);
 
     /**
      * Получить сообщение из очереди сообщений (ожидать сообщение)
      * @return Сообщение
      */
-    std::string receive();
+    std::string receive(unsigned int priority);
 
     /**
      * Получить сообщение из очереди сообщений (не ожидать сообщение)
