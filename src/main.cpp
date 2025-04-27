@@ -13,10 +13,10 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    Logger logger{};
+    MonitorSender monitorSender;
 
     //Инициализировать логирование (класс Logger)
-    Logger::initialize(constants::configLoggerFilePath);
+    Logger::initialize(constants::configLoggerFilePath, &monitorSender);
 
     //Вывести в лог запуск программы
     Logger::info("Start SearchEngine");

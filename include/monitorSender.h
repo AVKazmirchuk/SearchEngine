@@ -34,19 +34,21 @@ public:
     MonitorSender() :
     removeMessageQueue(),
     mq(boost::interprocess::open_or_create, "search_engine", 100, 256)
-    {}
+    {
+
+    }
 
     /**
      * Отправить сообщение в очередь сообщений
      * @param message Сообщение
      */
-    void send(const std::string& message, unsigned int priority);
+    void send(const std::string& message);
 
     /**
      * Получить сообщение из очереди сообщений (ожидать сообщение)
      * @return Сообщение
      */
-    std::string receive(unsigned int priority);
+    std::string receive();
 
     /**
      * Получить сообщение из очереди сообщений (не ожидать сообщение)
@@ -87,7 +89,7 @@ private:
             {
                 //Удалить оставшуюся очередь (скорее всего, заблокированную)
                 boost::interprocess::message_queue::remove("search_engine");
-                isProcessAlreadyRunning = false;
+
             }
         }
     };

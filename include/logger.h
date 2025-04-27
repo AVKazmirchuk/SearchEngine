@@ -37,10 +37,12 @@ private:
 
 public:
 
+    Logger() = default;
+
     /**
      * Инициализировать (настроить) класс
      */
-    static void initialize(const std::string& configFilePath);
+    static void initialize(const std::string& configFilePath, MonitorSender* in_monitorSender = nullptr);
 
     /**
      * Записать сообщение уровня debug
@@ -160,7 +162,7 @@ private:
     inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
 
     //Объект монитора отправки сообщений
-    inline static MonitorSender monitorSender;
+    inline static MonitorSender* monitorSender{};
 
     /**
      * Инициализировать переменные

@@ -3,8 +3,9 @@
 //
 
 
-#include <iostream>
+
 #include <filesystem>
+#include <fstream>
 #include <thread>
 
 #include "windows.h"
@@ -40,32 +41,15 @@ int main(int argc, char* argv[])
     //Создать объект монитора получения сообщений
     MonitorReceiver monitorReceiver;
 
-    if (!MonitorReceiver::isProcessAlreadyRunning)
-    {
-        monitorReceiver.send("search_engine_monitor-test", 0);
-
-        for (std::string messageTest{}; messageTest != "search_engine-test";)
-        {
-
-
-            try {
-                std::cout << "se_monitor-bef-rec" << std::endl;
-                messageTest = monitorReceiver.receive(0);
-                std::cout << "se_monitor: " << messageTest << std::endl;
-                std::cout << "se_monitor-aft-rec" << std::endl;
-            }
-            catch (const std::exception &exception) { ;
-            }
-            if (messageTest == "search_engine_monitor-test") monitorReceiver.send("search_engine_monitor-test", 0);
-        }
-    }
-
+    std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
+    std::ofstream loggerMonitorAlreadyRunning(R"(C:\Windows\Temp\search_engine_monitor)");
+    loggerMonitorAlreadyRunning.close();
 
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
     {
         //Получить сообщение
-        std::string message{monitorReceiver.receive(0)};
+        std::string message{monitorReceiver.receive()};
         //Вывести сообщение на монитор
         outputToConsole(message);
     }

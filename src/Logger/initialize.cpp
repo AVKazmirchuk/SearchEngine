@@ -7,7 +7,6 @@
 #include <thread>
 
 #include "windows.h"
-#include <tlhelp32.h>
 
 #include "logger.h"
 #include "general.h"
@@ -123,33 +122,30 @@ void Logger::initializeVariables(const JSON& configJSON)
     filesDirectory = configJSON["filesDirectory"];
 }
 
-void Logger::initialize(const std::string& configFilePath)
+void Logger::initialize(const std::string& configFilePath, MonitorSender* in_monitorSender)
 {
-    //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
-    // (регулируется именованным мьютексом).
-    startMonitor(R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
-
-    if (!MonitorSender::isProcessAlreadyRunning)
+    if (in_monitorSender)
     {
-        monitorSender.send("search_engine-test", 0);
+        monitorSender = in_monitorSender;
 
-        for (std::string messageTest{}; messageTest != "search_engine_monitor-test";)
+        if (!isProcessRun("search_engine_monitor.exe"))
         {
-            try
-            {
-                std::cout << "se-bef-rec" << std::endl;
-                messageTest = monitorSender.receive(0);
-                std::cout << "se: " << messageTest << std::endl;
-                std::cout << "se-aft-rec" << std::endl;
+            std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
 
-            }
-            catch (const std::exception &exception)
+            //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
+            // (регулируется именованным мьютексом).
+            startMonitor(
+                    R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
+
+            std::size_t numLoop{};
+            do
             {
-                ;
-            }
-            if (messageTest == "search_engine-test") monitorSender.send("search_engine-test", 0);
+                //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                ++numLoop;
+            } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
+
+            std::cout << numLoop << std::endl;
         }
-
     }
 
     //Создать JSON-объект конфигурации

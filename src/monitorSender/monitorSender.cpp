@@ -35,49 +35,10 @@ bool isProcessRun(const char * const processName)
     return result;
 }
 
-void MonitorSender::send(const std::string& message, unsigned int priority)
+void MonitorSender::send(const std::string& message)
 {
     //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
-    mq.send(message.data(), message.size(), priority);
+    mq.send(message.data(), message.size(), 0);
 }
 
-std::string MonitorSender::receive(unsigned int priority)
-{
-    //Подготовить данные для получения сообщения
-    //Приоритет сообщения
-    //unsigned int priority{0};
-    //Ожидаемое сообщение
-    std::string message;
-    //Задать размер оджидаемого сообщения
-    message.resize(256);
-    //Размер полученного сообщения
-    boost::interprocess::message_queue::size_type recvd_size;
-
-    //Получить сообщение из очереди сообщений. Ожидать, пока не появится новое сообщение
-    mq.receive(&message[0], message.size(), recvd_size, priority);
-    //Задать размер ожидаемого сообщения в соответствии с полученным
-    message.resize(recvd_size);
-    //Возвратить сообщение
-    return message;
-}
-
-std::string MonitorSender::try_receive()
-{
-    //Подготовить данные для получения сообщения
-    //Приоритет сообщения
-    unsigned int priority{0};
-    //Ожидаемое сообщение
-    std::string message;
-    //Задать размер оджидаемого сообщения
-    message.resize(256);
-    //Размер полученного сообщения
-    boost::interprocess::message_queue::size_type recvd_size;
-
-    //Получить сообщение из очереди сообщений. Ожидать, пока не появится новое сообщение
-    mq.try_receive(&message[0], message.size(), recvd_size, priority);
-    //Задать размер ожидаемого сообщения в соответствии с полученным
-    message.resize(recvd_size);
-    //Возвратить сообщение
-    return message;
-}
 
