@@ -12,6 +12,7 @@
 
 
 
+std::string& generateMessageForOutput
 std::string Logger::levelToString(Level level)
 {
     //Вернуть строку уровня логирования в зависимости от значения перечисления
@@ -53,7 +54,15 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Получить текущее время
     std::chrono::system_clock::time_point timeEvent{std::chrono::system_clock::now()};
 
-    //Создать объект для записи
+    //Сформировать сообщение для вывода без исключения
+    std::string messageForOutput{timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message};
+    //Сформировать сообщение для вывода с исключением
+    std::string messageForOutputWithException{timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
+                                    "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' +
+                                    message +
+                                    '"'};
+
+    //Создать объект для записив в файл
     std::ofstream outFile(file, std::ios::app);
 
     //Файл не открывается для записи
@@ -74,8 +83,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
         if (isFileForWriteOpen)
         {
             //Записать сообщение в файл
-            outFile << timePointToString(timeEvent) << "   " << levelToString(level) << ":   " <<
-                    message << std::endl;
+            outFile << messageForOutput << std::endl;
 
             //Закрыть файл
             outFile.close();
@@ -84,7 +92,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
         if (monitorSender)
         {
             //Отправить сообщение другому процессу
-            monitorSender->send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message);
+            monitorSender->send(messageForOutput);
         }
 
     } else
@@ -94,10 +102,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
             if (isFileForWriteOpen)
             {
                 //Записать сообщение в файл
-                outFile << timePointToString(timeEvent) << "   " << levelToString(level) << ":   " <<
-                        "Exception: " << '"' << exception.what() << '"' << "   " << "Information: " << '"' << message
-                        << '"'
-                        << std::endl;
+                outFile << messageForOutputWithException << std::endl;
 
                 //Закрыть файл
                 outFile.close();
@@ -106,10 +111,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
             if (monitorSender)
             {
                 //Отправить сообщение другому процессу
-                monitorSender->send(timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
-                                    "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' +
-                                    message +
-                                    '"');
+                monitorSender->send(messageForOutputWithException);
             }
         }
 }
