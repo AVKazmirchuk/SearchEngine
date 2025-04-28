@@ -73,7 +73,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
     
-    //Создать объект для записив в файл
+    //Создать объект для записи в файл
     std::ofstream outFile(file, std::ios::app);
 
     //Файл не открывается для записи
