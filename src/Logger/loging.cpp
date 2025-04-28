@@ -12,7 +12,7 @@
 
 
 
-std::string& generateMessageForOutput
+
 std::string Logger::levelToString(Level level)
 {
     //Вернуть строку уровня логирования в зависимости от значения перечисления
@@ -49,19 +49,30 @@ std::string Logger::timePointToString(const std::chrono::system_clock::time_poin
     return ts;
 }
 
+//Сформировать сообщение для вывода
+std::string generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent)
+{
+    //Сообщение не содержит исключение
+    if (!std::strcmp(exception.what(), "Exception-stub"))
+    {
+        return timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message;
+    }
+
+    //Сообщение содержит исключение
+    return timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
+                                    "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' +
+                                    message +
+                                    '"'
+}
+
 void Logger::log(Level level, const std::string& message, const std::exception& exception)
 {
     //Получить текущее время
     std::chrono::system_clock::time_point timeEvent{std::chrono::system_clock::now()};
 
-    //Сформировать сообщение для вывода без исключения
-    std::string messageForOutput{timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message};
-    //Сформировать сообщение для вывода с исключением
-    std::string messageForOutputWithException{timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
-                                    "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' +
-                                    message +
-                                    '"'};
-
+    //Сформировать сообщение для вывода
+    std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
+    
     //Создать объект для записив в файл
     std::ofstream outFile(file, std::ios::app);
 
