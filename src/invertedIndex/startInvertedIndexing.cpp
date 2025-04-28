@@ -92,7 +92,7 @@ void InvertedIndex::startInvertedIndexing()
     for (std::size_t docID{}; docID < documents.size(); ++docID)
     {
         //Запустить поток для определения слова (выделения) в документе
-        futures.push_back(std::async(&InvertedIndex::defineWord, this, docID, documents[docID]));
+        futures.push_back(std::async(&InvertedIndex::defineWord, this, docID, std::cref(documents[docID])));
     }
 
     try

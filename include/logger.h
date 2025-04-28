@@ -177,8 +177,7 @@ private:
 
     /**
      * Получить файл для записи
-     * @param directoryPath
-     * @return Путь файла для записи
+     * @param directoryPath Путь к директории с логами
      */
     static void getFile(const std::string& directoryPath);
 
@@ -189,10 +188,20 @@ private:
 
     /**
      * Перевести время создания файла в строку
-     * @param timePoint
+     * @param timePoint Текущее время
      * @return Строка времени создания файла
      */
     static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
+
+    /**
+     * Сформировать сообщение для вывода
+     * @param level Уровень логирования
+     * @param message Сообщение
+     * @param exception Исключение
+     * @param timeEvent Текущее время
+     * @return Сообщение для вывода
+     */
+    static std::string generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent);
 
     /**
      * Получить новый файл
@@ -202,6 +211,7 @@ private:
 
     /**
      * Определить, превышено ли  время использования файла
+     * @return
      */
     static bool isFileUsageTimeExceeded();
 
@@ -222,12 +232,29 @@ private:
 
     /**
      * Определить файлы по последнему изменению
-     * @param directoryPath
+     * @param directoryPath Путь к директории с логами
      * @return
      */
     static void identifyFilesByLastModification(const std::string& directoryPath);
 
-    //Записать информацию в лог-файл
+    /**
+     * Записать информацию в файл
+     * @param messageForOutput Сообщение для вывода
+     */
+    static void writeToFile(const std::string& messageForOutput);
+
+    /**
+     * Отправить информацию в монитор
+     * @param messageForOutput Сообщение для вывода
+     */
+    static void writeToMonitor(const std::string& messageForOutput);
+
+    /**
+     * Записать информацию в лог-файл
+     * @param level Уровень логирования
+     * @param message Сообщение
+     * @param exception Исключение
+     */
     static void log(Level level, const std::string& message, const std::exception& exception);
 
     /**
