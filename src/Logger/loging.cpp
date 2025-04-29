@@ -98,15 +98,17 @@ void Logger::writeToFileAndMonitor()
     {
         std::string messageForOutput{containerOfMessages.front()};
         containerOfMessages.pop_front();
-    }
-            lg.unlock();
-    
-    //Записать информацию в файл
+
+        lg.unlock();
+
+        //Записать информацию в файл
     writeToFile(messageForOutput);
 
     //Отправить информацию в монитор
     writeToMonitor(messageForOutput);
+    }
         }
+    
 }
 
 void Logger::log(Level level, const std::string& message, const std::exception& exception)
@@ -120,4 +122,6 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     std::unique_lock<std::mutex> lg(mutContainerOfMessages);
     containerOfMessages.push_back(messageForOutput);
     lg.unlock();
+
+    
 }
