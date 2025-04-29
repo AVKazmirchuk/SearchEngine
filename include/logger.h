@@ -175,6 +175,11 @@ private:
 
     inline static std::future<void> startThread;
 
+    inline static std::condition_variable cvPushMessage;
+    inline static std::atomic<bool> pushMessage(false);
+    inline static std::atomic<bool> stopProgram(false);
+
+
     /**
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
