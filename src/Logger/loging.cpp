@@ -7,6 +7,7 @@
 #include <chrono>
 #include <cstring>
 #include <fstream>
+#include <mutex>
 
 #include "logger.h"
 
@@ -89,30 +90,63 @@ void Logger::writeToMonitor(const std::string& messageForOutput)
     }
 }
 
-void Logger::writeToFileAndMonitor()
+void Logger::writeToFileAndMonitor(MonitorSender* in_monitorSender)
 {
-    while (!stopProgram.load())
-        {
-            
-            std::unique_lock<std::mutex> lg(mutContainerOfMessages);
-            cvPushMessage.wait(lg, [](){return pushMessage.load();});
-    if (!containerOfMessages.empty())
+    if (in_monitorSender)
     {
-        std::string messageForOutput{containerOfMessages.front()};
-        containerOfMessages.pop_front();
-        pushMessage.store(false);
+        monitorSender = in_monitorSender;
 
-        lg.unlock();
+        if (!isProcessRun("search_engine_monitor.exe"))
+        {
+            std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
 
-        //Записать информацию в файл
-    writeToFile(messageForOutput);
+            //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
+            // (регулируется именованным мьютексом).
+            startMonitor(
+                    R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
 
-    //Отправить информацию в монитор
-    writeToMonitor(messageForOutput);
-    }
+            std::size_t numLoop{};
+            do
+            {
+                //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                ++numLoop;
+            } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
+
+            std::cout << numLoop << std::endl;
         }
-    threadStop.store(true);
-    cvStopProgram.notify_one();
+    }
+
+    while (!stopProgram.load())
+    {
+        std::cout << "qwerty1" << std::endl;
+        std::unique_lock<std::mutex> uniqueLock(mutContainerOfMessages);
+        cvPushMessage.wait(uniqueLock, []() { return pushMessage.load(); });
+        if (!messageToForward.empty())
+        {
+            std::string messageForOutput{messageToForward};
+
+            messageToForward = "";
+
+            pushMessage.store(false);
+
+            uniqueLock.unlock();
+
+
+            //Записать информацию в файл
+            writeToFile(messageForOutput);
+
+
+            //Отправить информацию в монитор
+            writeToMonitor(messageForOutput);
+            std::cout << "qwerty" << std::endl;
+        }
+        std::cout << "qwerty2" << std::endl;
+    }
+
+    //threadStop.store(true);
+
+    //cvThreadStop.notify_one();
+
 }
 
 void Logger::log(Level level, const std::string& message, const std::exception& exception)
@@ -123,11 +157,11 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
-    std::unique_lock<std::mutex> lg(mutContainerOfMessages);
-    containerOfMessages.push_back(messageForOutput);
-    lg.unlock();
+    std::unique_lock<std::mutex> uniqueLock(mutContainerOfMessages);
+    messageToForward = messageForOutput;
+    uniqueLock.unlock();
 
     pushMessage.store(true);
     cvPushMessage.notify_one();
-    
+
 }

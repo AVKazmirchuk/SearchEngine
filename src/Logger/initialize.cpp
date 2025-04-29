@@ -124,31 +124,9 @@ void Logger::initializeVariables(const JSON& configJSON)
 
 void Logger::initialize(const std::string& configFilePath, MonitorSender* in_monitorSender)
 {
-    if (in_monitorSender)
-    {
-        monitorSender = in_monitorSender;
 
-        if (!isProcessRun("search_engine_monitor.exe"))
-        {
-            std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
 
-            //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
-            // (регулируется именованным мьютексом).
-            startMonitor(
-                    R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
-
-            std::size_t numLoop{};
-            do
-            {
-                //std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                ++numLoop;
-            } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
-
-            std::cout << numLoop << std::endl;
-        }
-    }
-
-    startThread = std::async(writeToFileAndMonitor);
+    startThread = std::async(writeToFileAndMonitor, in_monitorSender);
 
     //Создать JSON-объект конфигурации
     JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);

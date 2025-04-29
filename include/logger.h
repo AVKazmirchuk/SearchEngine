@@ -6,10 +6,12 @@
 #define SEARCH_ENGINE_LOGGER_H
 
 
-
+#include <atomic>
 #include <string>
 #include <filesystem>
+#include <future>
 #include <list>
+#include <mutex>
 #include <thread>
 #include <vector>
 
@@ -42,12 +44,17 @@ public:
     Logger() = default;
 
     ~Logger()
-   {
-       pushMessage.store(true);
-       stopProgram.store(true);
+    {
+        stopProgram.store(true);
 
-       std::unique_lock<std::mutex> 
-   }
+        pushMessage.store(false);
+        cvPushMessage.notify_one();
+
+        //std::unique_lock<std::mutex> uniqueLock(mutThreadStop);
+        //cvThreadStop.wait(uniqueLock, []() { return threadStop.load(); });
+
+        startThread.wait();
+    }
 
     /**
      * Инициализировать (настроить) класс
@@ -177,18 +184,21 @@ private:
     //Отдельный поток записи информации в файл и в монитор
     inline static std::thread threadOfWriteToFileAndMonitor;
 
-    inline static std::list containerOfMessages;
+    inline static std::string messageToForward;
 
     inline static std::mutex mutContainerOfMessages;
+    inline static std::mutex mutThreadStop;
 
     inline static std::future<void> startThread;
 
     inline static std::condition_variable cvPushMessage;
-    inline static std::atomic<bool> pushMessage(false);
-    inline static std::condition_variable cvStopProgram;
-    inline static std::atomic<bool> stopProgram(false);
-    inline static std::atomic<bool> threadStop(false);
+    inline static std::atomic<bool> pushMessage{false};
 
+    inline static std::condition_variable cvStopProgram;
+    inline static std::atomic<bool> stopProgram{false};
+
+    inline static std::atomic<bool> threadStop{false};
+    inline static std::condition_variable cvThreadStop;
 
     /**
      * Инициализировать переменные
@@ -274,6 +284,8 @@ private:
      * @param messageForOutput Сообщение для вывода
      */
     static void writeToMonitor(const std::string& messageForOutput);
+
+    static void writeToFileAndMonitor(MonitorSender* in_monitorSender);
 
     /**
      * Записать информацию в лог-файл

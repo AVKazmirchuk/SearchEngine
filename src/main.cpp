@@ -13,6 +13,8 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    //Logger logger{};
+
     MonitorSender monitorSender;
 
     //Инициализировать логирование (класс Logger)
