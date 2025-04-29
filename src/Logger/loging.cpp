@@ -89,6 +89,15 @@ void Logger::writeToMonitor(const std::string& messageForOutput)
     }
 }
 
+void Logger::writeToFileAndMonitor()
+{
+    //Записать информацию в файл
+    writeToFile(messageForOutput);
+
+    //Отправить информацию в монитор
+    writeToMonitor(messageForOutput);
+}
+
 void Logger::log(Level level, const std::string& message, const std::exception& exception)
 {
     //Получить текущее время
@@ -97,9 +106,5 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
-    //Записать информацию в файл
-    writeToFile(messageForOutput);
-
-    //Отправить информацию в монитор
-    writeToMonitor(messageForOutput);
+    containerOfMessages.push_back(messageForOutput);
 }
