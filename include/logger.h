@@ -9,6 +9,7 @@
 
 #include <string>
 #include <filesystem>
+#include <list>
 #include <thread>
 #include <vector>
 
@@ -167,6 +168,8 @@ private:
 
     //Отдельный поток записи информации в файл и в монитор
     inline static std::thread threadOfWriteToFileAndMonitor;
+
+    inline static std::list containerOfMessages;
 
     /**
      * Инициализировать переменные
