@@ -91,11 +91,20 @@ void Logger::writeToMonitor(const std::string& messageForOutput)
 
 void Logger::writeToFileAndMonitor()
 {
+    while (true)
+        {
+    if (!containerOfMessages.empty())
+    {
+        std::string messageForOutput{containerOfMessages.front()};
+        containerOfMessages.pop_front();
+    }
+    
     //Записать информацию в файл
     writeToFile(messageForOutput);
 
     //Отправить информацию в монитор
     writeToMonitor(messageForOutput);
+        }
 }
 
 void Logger::log(Level level, const std::string& message, const std::exception& exception)
