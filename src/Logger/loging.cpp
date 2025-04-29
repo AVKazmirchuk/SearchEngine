@@ -91,13 +91,16 @@ void Logger::writeToMonitor(const std::string& messageForOutput)
 
 void Logger::writeToFileAndMonitor()
 {
-    while (true)
+    while (!stopProgram.load())
         {
+            
             std::unique_lock<std::mutex> lg(mutContainerOfMessages);
+            cvPushMessage.wait(lg, [](){return pushMessage.load();});
     if (!containerOfMessages.empty())
     {
         std::string messageForOutput{containerOfMessages.front()};
         containerOfMessages.pop_front();
+        pushMessage.store(false);
 
         lg.unlock();
 
@@ -123,5 +126,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     containerOfMessages.push_back(messageForOutput);
     lg.unlock();
 
+    pushMessage.store(true);
+    cvPushMessage.notify_one();
     
 }
