@@ -111,7 +111,8 @@ void Logger::writeToFileAndMonitor()
     writeToMonitor(messageForOutput);
     }
         }
-    
+    threadStop.store(true);
+    cvStopProgram.notify_one();
 }
 
 void Logger::log(Level level, const std::string& message, const std::exception& exception)
