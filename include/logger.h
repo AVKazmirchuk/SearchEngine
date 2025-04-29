@@ -166,7 +166,7 @@ private:
     inline static MonitorSender* monitorSender{};
 
     //Отдельный поток записи информации в файл и в монитор
-    inline static std::thread writeToFileAndMonitor;
+    inline static std::thread threadOfWriteToFileAndMonitor;
 
     /**
      * Инициализировать переменные
