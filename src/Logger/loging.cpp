@@ -93,11 +93,13 @@ void Logger::writeToFileAndMonitor()
 {
     while (true)
         {
+            std::unique_lock lg(mutContainerOfMessages);
     if (!containerOfMessages.empty())
     {
         std::string messageForOutput{containerOfMessages.front()};
         containerOfMessages.pop_front();
     }
+            lg.unlock();
     
     //Записать информацию в файл
     writeToFile(messageForOutput);
@@ -115,5 +117,7 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
+    std::unique_lock lg(mutContainerOfMessages);
     containerOfMessages.push_back(messageForOutput);
+    lg.unlock();
 }
