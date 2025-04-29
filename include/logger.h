@@ -9,6 +9,7 @@
 
 #include <string>
 #include <filesystem>
+#include <thread>
 #include <vector>
 
 #include "checkFileException.h"
