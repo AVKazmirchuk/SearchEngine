@@ -173,6 +173,8 @@ private:
 
     inline static std::mutex mutContainerOfMessages;
 
+    inline static std::future<void> startThread;
+
     /**
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
