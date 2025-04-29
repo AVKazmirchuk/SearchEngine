@@ -41,6 +41,14 @@ public:
 
     Logger() = default;
 
+    ~Logger()
+   {
+       pushMessage.store(true);
+       stopProgram.store(true);
+
+       std::unique_lock<std::mutex> 
+   }
+
     /**
      * Инициализировать (настроить) класс
      */
@@ -177,8 +185,9 @@ private:
 
     inline static std::condition_variable cvPushMessage;
     inline static std::atomic<bool> pushMessage(false);
-    nline static std::condition_variable cvStopProgram;
+    inline static std::condition_variable cvStopProgram;
     inline static std::atomic<bool> stopProgram(false);
+    inline static std::atomic<bool> threadStop(false);
 
 
     /**
