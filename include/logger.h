@@ -164,6 +164,9 @@ private:
     //Объект монитора отправки сообщений
     inline static MonitorSender* monitorSender{};
 
+    //Отдельный поток записи информации в файл и в монитор
+    inline static std::thread writeToFileAndMonitor;
+
     /**
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
