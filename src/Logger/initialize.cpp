@@ -148,6 +148,8 @@ void Logger::initialize(const std::string& configFilePath, MonitorSender* in_mon
         }
     }
 
+    startThread = std::async()
+
     //Создать JSON-объект конфигурации
     JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
 
