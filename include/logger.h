@@ -171,6 +171,8 @@ private:
 
     inline static std::list containerOfMessages;
 
+    inline static std::mutex mutContainerOfMessages;
+
     /**
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
