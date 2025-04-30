@@ -19,7 +19,11 @@
 #include "general.h"
 #include "monitorSender.h"
 
+//void writeToFileAndMonitor();
+//void writeToMonitor();
+//void writeToFile();
 
+void startMonitor(LPCSTR lpApplicationName);
 
 /**
  * Класс реализует логирование событий
@@ -41,7 +45,39 @@ private:
 
 public:
 
-    Logger() = default;
+    Logger()
+    {
+        if (self != nullptr) throw std::runtime_error("It is impossible to create an object!");
+
+        self = this;
+
+        startThread = std::async(&Logger::writeToFileAndMonitor, this);
+
+        if (!isProcessRun("search_engine_monitor.exe"))
+        {
+            std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
+
+            //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
+            // (регулируется именованным мьютексом).
+            startMonitor(
+                    R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
+
+            std::size_t numLoop{};
+            do
+            {
+                //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                ++numLoop;
+            } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
+
+            std::cout << numLoop << std::endl;
+        }
+
+        initialize(constants::configLoggerFilePath);
+
+        //startThread = std::async(&Logger::writeToFileAndMonitor, this);
+
+
+    }
 
     ~Logger()
     {
@@ -51,7 +87,7 @@ public:
         cvPushMessage.notify_one();
 
         //std::unique_lock<std::mutex> uniqueLock(mutThreadStop);
-        //cvThreadStop.wait(uniqueLock, []() { return threadStop.load(); });
+        //cvThreadStop.wait(uniqueLock, [this]() { return threadStop.load(); });
 
         startThread.wait();
     }
@@ -59,7 +95,12 @@ public:
     /**
      * Инициализировать (настроить) класс
      */
-    static void initialize(const std::string& configFilePath, MonitorSender* in_monitorSender = nullptr);
+    static void initialize(const std::string& configFilePath);
+
+    static std::filesystem::path& getFile()
+    {
+        return file;
+    }
 
     /**
      * Записать сообщение уровня debug
@@ -128,6 +169,9 @@ public:
 
 private:
 
+    inline static Logger *self{};
+
+    //friend void writeToFileAndMonitor();
     //Типы интервалов времени
     using Seconds = std::chrono::duration<int64_t, std::ratio<1>>;
     using Minutes = std::chrono::duration<int64_t, std::ratio<60>>;
@@ -178,27 +222,24 @@ private:
     //Контейнер пар пути и момента времени последнего изменения файла
     inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
 
-    //Объект монитора отправки сообщений
-    inline static MonitorSender* monitorSender{};
-
     //Отдельный поток записи информации в файл и в монитор
     inline static std::thread threadOfWriteToFileAndMonitor;
 
-    inline static std::string messageToForward;
+    inline static std::string messageToForward{};
 
-    inline static std::mutex mutContainerOfMessages;
-    inline static std::mutex mutThreadStop;
+    std::mutex mutContainerOfMessages;
+    std::mutex mutThreadStop;
 
-    inline static std::future<void> startThread;
+    std::future<void> startThread;
 
-    inline static std::condition_variable cvPushMessage;
-    inline static std::atomic<bool> pushMessage{false};
+    std::condition_variable cvPushMessage;
+    std::atomic<bool> pushMessage{false};
 
-    inline static std::condition_variable cvStopProgram;
-    inline static std::atomic<bool> stopProgram{false};
+    std::condition_variable cvStopProgram;
+    std::atomic<bool> stopProgram{false};
 
-    inline static std::atomic<bool> threadStop{false};
-    inline static std::condition_variable cvThreadStop;
+    std::atomic<bool> threadStop{false};
+    std::condition_variable cvThreadStop;
 
     /**
      * Инициализировать переменные
@@ -277,15 +318,18 @@ private:
      * Записать информацию в файл
      * @param messageForOutput Сообщение для вывода
      */
-    static void writeToFile(const std::string& messageForOutput);
+    void writeToFile(const std::string& messageForOutput);
 
     /**
      * Отправить информацию в монитор
      * @param messageForOutput Сообщение для вывода
      */
-    static void writeToMonitor(const std::string& messageForOutput);
+    void writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender);
 
-    static void writeToFileAndMonitor(MonitorSender* in_monitorSender);
+    /**
+     * Записать информацию в файл и отправить информацию в монитор
+     */
+    void writeToFileAndMonitor();
 
     /**
      * Записать информацию в лог-файл
@@ -306,7 +350,7 @@ private:
      * Запустить независимый процесс получения и вывода сообщений
      * @param lpApplicationName Имя процесса
      */
-    static void startMonitor(LPCSTR lpApplicationName);
+    //static void startMonitor(LPCSTR lpApplicationName);
 
     /**
      * Класс реализует генерацию исключений-заглушек

@@ -65,10 +65,11 @@ std::string Logger::generateMessageForOutput(Level level, const std::string& mes
                                     '"';
 }
 
+
 void Logger::writeToFile(const std::string& messageForOutput)
 {
     //Создать объект для записи в файл
-    std::ofstream outFile(file, std::ios::app);
+    std::ofstream outFile(Logger::getFile(), std::ios::app);
 
     //Файл открывается для записи
     if (outFile.is_open())
@@ -81,46 +82,32 @@ void Logger::writeToFile(const std::string& messageForOutput)
     }
 }
 
-void Logger::writeToMonitor(const std::string& messageForOutput)
+void Logger::writeToMonitor(const std::string& messageForOutput,MonitorSender& monitorSender)
 {
-    if (monitorSender)
-    {
-        //Отправить сообщение другому процессу
-        monitorSender->send(messageForOutput);
-    }
+
+    //Отправить сообщение другому процессу
+    monitorSender.send(messageForOutput);
+
 }
 
-void Logger::writeToFileAndMonitor(MonitorSender* in_monitorSender)
+void Logger::writeToFileAndMonitor()
 {
-    if (in_monitorSender)
-    {
-        monitorSender = in_monitorSender;
+    //Объект монитора отправки сообщений
+    MonitorSender monitorSender;
+    std::cout << "qwerty100" << std::endl;
 
-        if (!isProcessRun("search_engine_monitor.exe"))
-        {
-            std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
 
-            //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
-            // (регулируется именованным мьютексом).
-            startMonitor(
-                    R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
 
-            std::size_t numLoop{};
-            do
-            {
-                //std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                ++numLoop;
-            } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
 
-            std::cout << numLoop << std::endl;
-        }
-    }
 
+
+std::cout << stopProgram.load() << std::endl;
     while (!stopProgram.load())
     {
         std::cout << "qwerty1" << std::endl;
         std::unique_lock<std::mutex> uniqueLock(mutContainerOfMessages);
-        cvPushMessage.wait(uniqueLock, []() { return pushMessage.load(); });
+        cvPushMessage.wait(uniqueLock, [this]() { return pushMessage.load(); });
+        //TODO Читать контейнер сообщений
         if (!messageToForward.empty())
         {
             std::string messageForOutput{messageToForward};
@@ -137,12 +124,13 @@ void Logger::writeToFileAndMonitor(MonitorSender* in_monitorSender)
 
 
             //Отправить информацию в монитор
-            writeToMonitor(messageForOutput);
+            writeToMonitor(messageForOutput, monitorSender);
             std::cout << "qwerty" << std::endl;
         }
         std::cout << "qwerty2" << std::endl;
     }
 
+    std::cout << "qwerty200" << std::endl;
     //threadStop.store(true);
 
     //cvThreadStop.notify_one();
@@ -157,11 +145,12 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
-    std::unique_lock<std::mutex> uniqueLock(mutContainerOfMessages);
+    //TODO Сделать контейнер сообщений
+    std::unique_lock<std::mutex> uniqueLock(self->mutContainerOfMessages);
     messageToForward = messageForOutput;
     uniqueLock.unlock();
 
-    pushMessage.store(true);
-    cvPushMessage.notify_one();
+    self->pushMessage.store(true);
+    self->cvPushMessage.notify_one();
 
 }

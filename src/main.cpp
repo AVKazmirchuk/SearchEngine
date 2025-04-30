@@ -3,6 +3,8 @@
 
 
 
+
+
 int main(int argc, char* argv[])
 {
     //Защита от изменения имени файла (так как при инициализации очереди сообщений проверяется этот запущенный процесс)
@@ -13,12 +15,15 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    //Logger logger{};
+    Logger logger{};
 
-    MonitorSender monitorSender;
+
+
+    //MonitorSender monitorSender;
 
     //Инициализировать логирование (класс Logger)
-    Logger::initialize(constants::configLoggerFilePath, &monitorSender);
+    //Logger::initialize(constants::configLoggerFilePath);
+    //std::future<void> startThread = std::async(writeToFileAndMonitor);
 
     //Вывести в лог запуск программы
     Logger::info("Start SearchEngine");
@@ -37,6 +42,10 @@ int main(int argc, char* argv[])
 
     //Вывести в лог завершение работы программы
     Logger::info("Stop SearchEngine");
+
+
+
+
 
     return 0;
 }
