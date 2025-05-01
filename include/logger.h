@@ -51,7 +51,7 @@ public:
 
         self = this;
 
-        startThread = std::async(&Logger::writeToFileAndMonitor, this);
+        //startThread = std::async(&Logger::writeToFileAndMonitor, this);
 
         if (!isProcessRun("search_engine_monitor.exe"))
         {
@@ -74,7 +74,11 @@ public:
 
         initialize(constants::configLoggerFilePath);
 
-        //startThread = std::async(&Logger::writeToFileAndMonitor, this);
+        //TODO выяснить, почему при позднем запуске потока недступна запись в монитор
+        //TODO может имеет смысл создавать MonitorSender в начале конструктора
+        //TODO надо сделать, чтобы инициализация монитора не зависела от очерёдности запуска процесса
+        //TODO может поставить цикл ожидания выше в мониторе? Для независимости очерёдности запуска процессов
+        startThread = std::async(&Logger::writeToFileAndMonitor, this);
 
 
     }
@@ -83,7 +87,7 @@ public:
     {
         stopProgram.store(true);
 
-        pushMessage.store(false);
+        pushMessage.store(true);
         cvPushMessage.notify_one();
 
         //std::unique_lock<std::mutex> uniqueLock(mutThreadStop);
@@ -225,7 +229,7 @@ private:
     //Отдельный поток записи информации в файл и в монитор
     inline static std::thread threadOfWriteToFileAndMonitor;
 
-    inline static std::string messageToForward{};
+    inline static std::list<std::string> messages;
 
     std::mutex mutContainerOfMessages;
     std::mutex mutThreadStop;
@@ -325,6 +329,13 @@ private:
      * @param messageForOutput Сообщение для вывода
      */
     void writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender);
+
+    /**
+     * Обработать очередь сообщений
+     * @param messagesForOutput
+     * @param monitorSender
+     */
+    void processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender);
 
     /**
      * Записать информацию в файл и отправить информацию в монитор

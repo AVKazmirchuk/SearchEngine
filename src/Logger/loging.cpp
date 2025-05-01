@@ -69,7 +69,7 @@ std::string Logger::generateMessageForOutput(Level level, const std::string& mes
 void Logger::writeToFile(const std::string& messageForOutput)
 {
     //Создать объект для записи в файл
-    std::ofstream outFile(Logger::getFile(), std::ios::app);
+    std::ofstream outFile(Logger::file, std::ios::app);
 
     //Файл открывается для записи
     if (outFile.is_open())
@@ -90,47 +90,57 @@ void Logger::writeToMonitor(const std::string& messageForOutput,MonitorSender& m
 
 }
 
+void Logger::processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender)
+{
+    for (const auto& message: messagesForOutput)
+    {
+
+        //Записать информацию в файл
+        writeToFile(message);
+
+        std::cout << "qwerty" << std::endl;
+        //Отправить информацию в монитор
+        writeToMonitor(message, monitorSender);
+
+        //messagesForOutput.pop_front();
+        std::cout << "qwerty" << std::endl;
+    }
+}
+
 void Logger::writeToFileAndMonitor()
 {
     //Объект монитора отправки сообщений
     MonitorSender monitorSender;
-    std::cout << "qwerty100" << std::endl;
+    //std::cout << "qwerty100" << std::endl;
 
-
-
-
-
-
-std::cout << stopProgram.load() << std::endl;
+//std::cout << stopProgram.load() << std::endl;
+    std::list<std::string> messagesForOutput;
     while (!stopProgram.load())
     {
-        std::cout << "qwerty1" << std::endl;
+        //std::cout << "qwerty1" << std::endl;
+
+        std::cout << "bef" << std::endl;
         std::unique_lock<std::mutex> uniqueLock(mutContainerOfMessages);
         cvPushMessage.wait(uniqueLock, [this]() { return pushMessage.load(); });
-        //TODO Читать контейнер сообщений
-        if (!messageToForward.empty())
-        {
-            std::string messageForOutput{messageToForward};
+        std::cout << "aft" << std::endl;
 
-            messageToForward = "";
+        messagesForOutput = messages;
+        messages.clear();
+        pushMessage.store(false);
 
-            pushMessage.store(false);
+        uniqueLock.unlock();
 
-            uniqueLock.unlock();
-
-
-            //Записать информацию в файл
-            writeToFile(messageForOutput);
-
-
-            //Отправить информацию в монитор
-            writeToMonitor(messageForOutput, monitorSender);
-            std::cout << "qwerty" << std::endl;
-        }
-        std::cout << "qwerty2" << std::endl;
+        processQueue(messagesForOutput, monitorSender);
+        std::cout << "pop1" << std::endl;
+        //std::cout << "qwerty2" << std::endl;
     }
 
-    std::cout << "qwerty200" << std::endl;
+    messagesForOutput = messages;
+    processQueue(messagesForOutput, monitorSender);
+
+    std::cout << messagesForOutput.size() << " pop2" << std::endl;
+
+    //std::cout << "qwerty200" << std::endl;
     //threadStop.store(true);
 
     //cvThreadStop.notify_one();
@@ -145,12 +155,11 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
-    //TODO Сделать контейнер сообщений
     std::unique_lock<std::mutex> uniqueLock(self->mutContainerOfMessages);
-    messageToForward = messageForOutput;
+    messages.push_back(messageForOutput);
+    self->pushMessage.store(true);
+    std::cout << "push" << std::endl;
     uniqueLock.unlock();
 
-    self->pushMessage.store(true);
     self->cvPushMessage.notify_one();
-
 }
