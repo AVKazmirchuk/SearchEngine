@@ -20,8 +20,6 @@ int main(int argc, char* argv[])
     //Защита от изменения имени файла (так как при инициализации очереди сообщений проверяется этот запущенный процесс)
     if (std::filesystem::path(argv[0]).filename() != "search_engine_monitor.exe")
     {
-        //std::cout << argv[0] << std::endl;
-        //std::cout << std::filesystem::path(argv[0]).filename();
         return -1;
     }
 
@@ -41,8 +39,11 @@ int main(int argc, char* argv[])
     //Создать объект монитора получения сообщений
     MonitorReceiver monitorReceiver;
 
+    //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
     std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
+    //Создать сигнал-файл (маркер запущенного процесса)
     std::ofstream loggerMonitorAlreadyRunning(R"(C:\Windows\Temp\search_engine_monitor)");
+    //Закрыть сигнал-файл
     loggerMonitorAlreadyRunning.close();
 
     //Ожидать новых сообщений, получать и выводить их на монитор

@@ -12,6 +12,8 @@
 
 #include "boost/interprocess/ipc/message_queue.hpp"
 
+
+
 /**
  * Определить, запущен ли процесс
  * @param processName Имя процесса
@@ -19,6 +21,9 @@
  */
 bool isProcessRun(const char * processName);
 
+
+
+//Класс получения сообщений для вывода на монитор
 class MonitorReceiver
 {
 
@@ -76,7 +81,6 @@ private:
     };
 
     RemoveMessageQueue removeMessageQueue;
-
     boost::interprocess::message_queue mq;
 
 };

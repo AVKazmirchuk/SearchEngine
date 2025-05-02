@@ -40,6 +40,7 @@ bool isProcessRun(const char * const processName)
 std::string MonitorReceiver::receive()
 {
     //Подготовить данные для получения сообщения
+
     //Приоритет сообщения
     unsigned int priority{0};
     //Ожидаемое сообщение

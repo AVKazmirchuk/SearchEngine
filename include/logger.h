@@ -6,6 +6,7 @@
 #define SEARCH_ENGINE_LOGGER_H
 
 
+
 #include <atomic>
 #include <string>
 #include <filesystem>
@@ -19,10 +20,12 @@
 #include "general.h"
 #include "monitorSender.h"
 
-//void writeToFileAndMonitor();
-//void writeToMonitor();
-//void writeToFile();
 
+
+/**
+  * Запустить независимый процесс получения и вывода сообщений
+  * @param lpApplicationName Имя процесса
+  */
 void startMonitor(LPCSTR lpApplicationName);
 
 /**
@@ -45,70 +48,38 @@ private:
 
 public:
 
-    Logger()
+    explicit Logger(const std::string &configFilePath)
     {
-        if (self != nullptr) throw std::runtime_error("It is impossible to create an object!");
+        //Условие, ограничивающее создание более одного объекта
+        if (selfObject != nullptr) throw std::runtime_error("It is impossible to create an object!");
 
-        self = this;
+        selfObject = this;
 
-        //startThread = std::async(&Logger::writeToFileAndMonitor, this);
+        //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
+        resultOfWriteToFileAndMonitor = std::async(&Logger::writeToFileAndMonitor, this);
 
-        if (!isProcessRun("search_engine_monitor.exe"))
-        {
-            std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
-
-            //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
-            // (регулируется именованным мьютексом).
-            startMonitor(
-                    R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
-
-            std::size_t numLoop{};
-            do
-            {
-                //std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                ++numLoop;
-            } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
-
-            std::cout << numLoop << std::endl;
-        }
-
-        initialize(constants::configLoggerFilePath);
-
-        //TODO выяснить, почему при позднем запуске потока недступна запись в монитор
-        //TODO может имеет смысл создавать MonitorSender в начале конструктора
-        //TODO надо сделать, чтобы инициализация монитора не зависела от очерёдности запуска процесса
-        //TODO может поставить цикл ожидания выше в мониторе? Для независимости очерёдности запуска процессов
-        startThread = std::async(&Logger::writeToFileAndMonitor, this);
-
-
+        //Инициализировать (настроить) класс
+        initialize(configFilePath);
     }
 
     ~Logger()
     {
-        stopProgram.store(true);
+        //Уведомить отдельный поток логирования о завершении работы
+        stopLogger.store(true);
 
-        pushMessage.store(true);
+        //Вывести отдельный поток логирования из ожидания
+        pushMessage = true;
         cvPushMessage.notify_one();
 
-        //std::unique_lock<std::mutex> uniqueLock(mutThreadStop);
-        //cvThreadStop.wait(uniqueLock, [this]() { return threadStop.load(); });
-
-        startThread.wait();
+        //Ждать окончания работы отдельного потока логирования
+        resultOfWriteToFileAndMonitor.wait();
     }
 
-    /**
-     * Инициализировать (настроить) класс
-     */
-    static void initialize(const std::string& configFilePath);
-
-    static std::filesystem::path& getFile()
-    {
-        return file;
-    }
+    //Общие функции логирования
 
     /**
      * Записать сообщение уровня debug
-     * @param message Сообщение
+     * @param message Ссылка на сообщение
      */
     static void debug(const std::string& message);
 
@@ -173,14 +144,21 @@ public:
 
 private:
 
-    inline static Logger *self{};
 
-    //friend void writeToFileAndMonitor();
+    //Указатель на свой объект. Используется для обращения к объекту из статических функций
+    inline static Logger *selfObject{};
+
     //Типы интервалов времени
+
+    //Интервал времени в секундах
     using Seconds = std::chrono::duration<int64_t, std::ratio<1>>;
+    //Интервал времени в минутах
     using Minutes = std::chrono::duration<int64_t, std::ratio<60>>;
+    //Интервал времени в часах
     using Hours = std::chrono::duration<int64_t, std::ratio<60*60>>;
+    //Интервал времени в днях
     using Days = std::chrono::duration<int64_t, std::ratio<60*60*24>>;
+    //Интервал времени в неделях
     using Weeks = std::chrono::duration<int64_t, std::ratio<60*60*24*7>>;
 
     //Интервалы времени хранения файла
@@ -209,41 +187,53 @@ private:
     //Интервал времени использования файла, количество секунд
     static inline std::int64_t secondsUsage{};
 
+    //Форматы даты, времени, имени файла
+
     //Формат даты и времени записи в файл
     static inline std::string dateTimeFormat{};
     //Формат имени файла
     static inline std::string fileNameFormat{};
+
     //Предельный размер файла
     static inline  uint64_t fileSizeLimit{};
-    //Директория с файлами
+
+    //Директория с лог-файлами
     static inline std::string filesDirectory{};
 
     //Файл для записи
     static inline std::filesystem::path file{};
 
-    static inline bool isFileForWriteOpen{};
-
     //Контейнер пар пути и момента времени последнего изменения файла
     inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
 
-    //Отдельный поток записи информации в файл и в монитор
-    inline static std::thread threadOfWriteToFileAndMonitor;
+    //Переменные для работы отдельного потока логирования
 
+    //Контейнер сообщений. Используется для накапливания сообщений и чтения их отдельным потоком логирования
     inline static std::list<std::string> messages;
 
-    std::mutex mutContainerOfMessages;
-    std::mutex mutThreadStop;
+    //Результат работы отдельного потока записи сообщения в лог-файл и отправки сообщения в монитор
+    std::future<void> resultOfWriteToFileAndMonitor;
 
-    std::future<void> startThread;
+    //Мьютекс чтения-записи контейнера сообщений основным потоком и отдельного потока логирования
+    std::mutex mutReadWriteMessages;
 
+    //Сигнал о добавлении сообщения в контейнер сообщений
     std::condition_variable cvPushMessage;
-    std::atomic<bool> pushMessage{false};
+    //Подтверждение добавления сообщения в контейнер сообщений
+    bool pushMessage{};
 
-    std::condition_variable cvStopProgram;
-    std::atomic<bool> stopProgram{false};
+    //Уведомление о завершении работы отдельного потока логирования
+    std::atomic<bool> stopLogger{false};
 
-    std::atomic<bool> threadStop{false};
-    std::condition_variable cvThreadStop;
+
+
+    //Функции инициализации и настройки класса
+
+    /**
+     * Инициализировать (настроить) класс
+     * @param configFilePath Ссылка на файл конфигурации логирования
+     */
+    static void initialize(const std::string& configFilePath);
 
     /**
      * Инициализировать переменные
@@ -256,45 +246,26 @@ private:
      */
     static void setupClass();
 
+
+
+    //Вспомогательные функции инициализации и настройки класса
+
     /**
-     * Получить файл для записи
+     * Определить файл для записи
      * @param directoryPath Путь к директории с логами
      */
-    static void getFile(const std::string& directoryPath);
+    static void identifyFile(const std::string& directoryPath);
 
     /**
-     * Удалить файлы по сроку хранения
+     * Определить новый файл
      */
-    static void deleteFilesByRetentionPeriod();
+    static void identifyNewFile();
 
     /**
-     * Перевести время создания файла в строку
-     * @param timePoint Текущее время
-     * @return Строка времени создания файла
+     * Определить файлы по последнему изменению
+     * @param directoryPath Ссылка на путь к директории с логами
      */
-    static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
-
-    /**
-     * Сформировать сообщение для вывода
-     * @param level Уровень логирования
-     * @param message Сообщение
-     * @param exception Исключение
-     * @param timeEvent Текущее время
-     * @return Сообщение для вывода
-     */
-    static std::string generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent);
-
-    /**
-     * Получить новый файл
-     * @return Путь нового файла
-     */
-    static std::filesystem::path getNewFile();
-
-    /**
-     * Определить, превышено ли  время использования файла
-     * @return
-     */
-    static bool isFileUsageTimeExceeded();
+    static void identifyFilesByLastModification(const std::string& directoryPath);
 
     /**
      * Преобразовать момент времени одного типа в другой
@@ -312,43 +283,37 @@ private:
     }
 
     /**
-     * Определить файлы по последнему изменению
-     * @param directoryPath Путь к директории с логами
-     * @return
+     * Определить, превышено ли  время использования файла
+     * @return Превышено (true)/ Непревышено (false)
      */
-    static void identifyFilesByLastModification(const std::string& directoryPath);
+    static bool isFileUsageTimeExceeded();
 
     /**
-     * Записать информацию в файл
-     * @param messageForOutput Сообщение для вывода
+     * Удалить файлы по сроку хранения
      */
-    void writeToFile(const std::string& messageForOutput);
+    static void deleteFilesByRetentionPeriod();
 
-    /**
-     * Отправить информацию в монитор
-     * @param messageForOutput Сообщение для вывода
-     */
-    void writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender);
 
-    /**
-     * Обработать очередь сообщений
-     * @param messagesForOutput
-     * @param monitorSender
-     */
-    void processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender);
 
-    /**
-     * Записать информацию в файл и отправить информацию в монитор
-     */
-    void writeToFileAndMonitor();
+    //Основные функции логирования (формирование сообщения)
 
     /**
      * Записать информацию в лог-файл
      * @param level Уровень логирования
-     * @param message Сообщение
-     * @param exception Исключение
+     * @param message Ссылка на сообщение
+     * @param exception Ссылка на исключение
      */
     static void log(Level level, const std::string& message, const std::exception& exception);
+
+    /**
+     * Сформировать сообщение для вывода
+     * @param level Уровень логирования
+     * @param message Сообщение
+     * @param exception Исключение
+     * @param timeEvent Текущее время
+     * @return Сообщение для вывода
+     */
+    static std::string generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent);
 
     /**
      * Получить из уровня логирования строку
@@ -358,10 +323,49 @@ private:
     static std::string levelToString(Level level);
 
     /**
-     * Запустить независимый процесс получения и вывода сообщений
-     * @param lpApplicationName Имя процесса
+     * Перевести время создания файла в строку
+     * @param timePoint Текущее время
+     * @return Строка времени создания файла
      */
-    //static void startMonitor(LPCSTR lpApplicationName);
+    static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
+
+
+
+    //Функции логирования в отдельном потоке (запись сообщения)
+
+    /**
+     * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
+     */
+    void writeToFileAndMonitor();
+
+    /**
+     * Ожидать запуска монитора (другого процесса)
+     */
+    void waitForMonitorToStart();
+
+    /**
+     * Обработать очередь сообщений в отдельном потоке
+     * @param messagesForOutput Ссылка на сообщение для вывода
+     * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
+     */
+    void processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender);
+
+    /**
+     * Записать информацию в файл в отдельном потоке
+     * @param messageForOutput Ссылка на сообщение для вывода
+     */
+    void writeToFile(const std::string& messageForOutput);
+
+    /**
+     * Отправить информацию в монитор в отдельном потоке
+     * @param messageForOutput Ссылка на сообщение для вывода
+     * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
+     */
+    void writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender);
+
+
+
+    //Вспомогательный класс
 
     /**
      * Класс реализует генерацию исключений-заглушек

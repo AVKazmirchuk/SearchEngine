@@ -34,12 +34,10 @@ void Logger::deleteFilesByRetentionPeriod()
     }
 }
 
-
-
 void Logger::setupClass()
 {
-    //Получить файл для записи
-    getFile(filesDirectory);
+    //Определить файл для записи
+    identifyFile(filesDirectory);
 
     //Удалить файлы по сроку хранения
     deleteFilesByRetentionPeriod();
@@ -87,10 +85,6 @@ void Logger::initializeVariables(const JSON& configJSON)
 
 void Logger::initialize(const std::string& configFilePath)
 {
-
-
-    //startThread = std::async(writeToFileAndMonitor);
-
     //Создать JSON-объект конфигурации
     JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
 

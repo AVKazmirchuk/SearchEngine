@@ -53,9 +53,6 @@ bool Logger::isFileUsageTimeExceeded()
 
 void Logger::identifyFilesByLastModification(const std::string& directoryPath)
 {
-    //Очистить контейнер пар пути и момента времени последнего изменения файла
-    //logs.clear();
-
     //Определить файл в директории по последнему логированию
     //Для каждого файла в директории
     for (auto& entry : std::filesystem::directory_iterator(directoryPath))
@@ -72,6 +69,7 @@ void Logger::identifyFilesByLastModification(const std::string& directoryPath)
     }
 
     using PairOfPathAndTimePoint = std::pair<std::filesystem::path, std::chrono::system_clock::time_point>;
+
     //Сортировать контейнер пар пути и момента времени последнего изменения файла
     std::stable_sort(logs.begin(), logs.end(),
                      [] (const PairOfPathAndTimePoint& a, const PairOfPathAndTimePoint& b)
@@ -84,7 +82,7 @@ void Logger::identifyFilesByLastModification(const std::string& directoryPath)
     file = logs.back().first;
 }
 
-std::filesystem::path Logger::getNewFile()
+void Logger::identifyNewFile()
 {
     std::time_t t{std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())};
 
@@ -92,16 +90,16 @@ std::filesystem::path Logger::getNewFile()
 
     ts.resize(std::strftime(&ts[0], ts.size(), fileNameFormat.c_str(), std::localtime(&t)));
 
-    return filesDirectory + ts + ".log";
+    file = filesDirectory + ts + ".log";
 }
 
-void Logger::getFile(const std::string& directoryPath)
+void Logger::identifyFile(const std::string& directoryPath)
 {
     //В директории файлов нет
     if (std::filesystem::is_empty(directoryPath))
     {
         //Заменить файл
-        file = getNewFile();
+        identifyNewFile();
     }
 
     //Определить файлы по последнему изменению
@@ -111,13 +109,13 @@ void Logger::getFile(const std::string& directoryPath)
     if (std::filesystem::file_size(file) >= fileSizeLimit)
     {
         //Заменить файл
-        file = getNewFile();
+        identifyNewFile();
     }
 
     //Время использования файла превышено
     if (isFileUsageTimeExceeded())
     {
         //Заменить файл
-        file = getNewFile();
+        identifyNewFile();
     }
 }

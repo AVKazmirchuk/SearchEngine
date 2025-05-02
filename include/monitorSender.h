@@ -13,6 +13,7 @@
 #include "boost/interprocess/ipc/message_queue.hpp"
 
 
+
 /**
  * Определить, запущен ли процесс
  * @param processName Имя процесса
@@ -21,6 +22,8 @@
 bool isProcessRun(const char * processName);
 
 
+
+//Класс отправки сообщений для вывода на монитор
 class MonitorSender
 {
 
@@ -40,23 +43,9 @@ public:
 
     /**
      * Отправить сообщение в очередь сообщений
-     * @param message Сообщение
+     * @param message Ссылка на сообщение
      */
     void send(const std::string& message);
-
-    /**
-     * Получить сообщение из очереди сообщений (ожидать сообщение)
-     * @return Сообщение
-     */
-    std::string receive();
-
-    /**
-     * Получить сообщение из очереди сообщений (не ожидать сообщение)
-     * @return Сообщение
-     */
-    std::string try_receive();
-
-    inline static bool isProcessAlreadyRunning{true};
 
     /**
      * Получить объект класса boost::interprocess::message_queue
