@@ -10,13 +10,13 @@
 
 
 
-void Logger::writeToMonitor(const std::string& messageForOutput,MonitorSender& monitorSender)
+void Logger::writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender)
 {
     //Отправить сообщение монитору (другому процессу)
     monitorSender.send(messageForOutput);
 }
 
-void Logger::writeToFile(const std::string& messageForOutput)
+void Logger::writeToFile(const std::string& messageForOutput, MonitorSender& monitorSender)
 {
     //Создать объект для записи в файл
     std::ofstream outFile(Logger::file, std::ios::app);
@@ -30,6 +30,11 @@ void Logger::writeToFile(const std::string& messageForOutput)
         //Закрыть файл
         outFile.close();
     }
+    else
+    {
+        //Отправить сообщение монитору о невозможности открытия файла для записи
+        monitorSender.send("Logger: This file cannot be opened for writing: " + file.string());
+    }
 }
 
 void Logger::processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender)
@@ -38,7 +43,7 @@ void Logger::processQueue(std::list<std::string> &messagesForOutput, MonitorSend
     for (const auto& message: messagesForOutput)
     {
         //Записать в файл
-        writeToFile(message);
+        writeToFile(message, monitorSender);
 
         //Отправить в монитор
         writeToMonitor(message, monitorSender);
@@ -48,26 +53,28 @@ void Logger::processQueue(std::list<std::string> &messagesForOutput, MonitorSend
 void Logger::waitForMonitorToStart()
 {
     //Если процесс не запущен
-    if (!isProcessRun("search_engine_monitor.exe"))
+    if (!isProcessRun(fileNameOfMonitor.c_str()))
     {
         //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
-        std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
+        std::filesystem::remove(indicatesMonitorStarting);
 
         //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
         // (регулируется именованным мьютексом).
-        startMonitor(
-                R"(C:\\Users\\Alexander\\CLionProjects\\search_engine\\cmake-build-release\\monitor\\search_engine_monitor.exe)");
+        startMonitor(fileNameOfMonitor.c_str());
 
         //Ожидать запуска процесса (маркера запущенного процесса)
         do {
-        } while (!std::filesystem::exists(R"(C:\Windows\Temp\search_engine_monitor)"));
+        } while (!std::filesystem::exists(indicatesMonitorStarting));
     }
 }
 
 void Logger::writeToFileAndMonitor()
 {
     //Создать объект монитора отправки сообщений
-    MonitorSender monitorSender;
+    MonitorSender monitorSender(nameOfQueue,
+                                maxNumberOfMessages,
+                                maxMessageSize,
+                                fileNameOfMonitor);
 
     //Ожидать запуска монитора (другого процесса)
     waitForMonitorToStart();

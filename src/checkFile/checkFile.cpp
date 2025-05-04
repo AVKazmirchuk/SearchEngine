@@ -65,7 +65,7 @@ bool CheckFile::isJSONStructureValid(const std::string &fileName)
     //Создать объект для проверки файла
     std::ifstream inFile(fileName);
 
-    //Проверить файл на открытие для чтения
+    //Файл не открывается для чтения
     if (!inFile.is_open())
     {
         Logger::fatal("bool CheckFile::isJSONStructureValid(const std::string &fileName)" ,CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, fileName));

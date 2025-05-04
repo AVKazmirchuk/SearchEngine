@@ -11,8 +11,10 @@
 
 bool Logger::isFileUsageTimeExceeded()
 {
+    //Создать объект для открытия файла
     std::ifstream inFile(file);
 
+    //Файл не открывается для чтения
     if (!inFile.is_open())
     {
         //Заменить файл

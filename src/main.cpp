@@ -15,15 +15,8 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    //Создать объект класса логирования событий
     Logger logger(constants::configLoggerFilePath);
-
-
-
-    //MonitorSender monitorSender;
-
-    //Инициализировать логирование (класс Logger)
-    //Logger::initialize(constants::configLoggerFilePath);
-    //std::future<void> startThread = std::async(writeToFileAndMonitor);
 
     //Вывести в лог запуск программы
     Logger::info("Start SearchEngine");
@@ -42,10 +35,6 @@ int main(int argc, char* argv[])
 
     //Вывести в лог завершение работы программы
     Logger::info("Stop SearchEngine");
-
-
-
-
 
     return 0;
 }

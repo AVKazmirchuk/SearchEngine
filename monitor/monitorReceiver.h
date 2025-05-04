@@ -34,9 +34,12 @@ public:
      * Если процесс получения и вывода сообщений запущен, - значит очередь сообщений существует, - открыть очередь сообщений.
      * Если процесс получения и вывода сообщений не запущен, - значит очередь сообщений не существует, - создать очередь сообщений.
      */
-    MonitorReceiver() :
-            removeMessageQueue(),
-            mq{boost::interprocess::open_or_create, "search_engine", 100, 256}
+    MonitorReceiver(const std::string& in_nameOfQueue,
+                    const boost::interprocess::message_queue::size_type in_maxNumberOfMessages,
+                    const boost::interprocess::message_queue::size_type in_maxMessageSize,
+                    const std::string& in_fileNameOfMainProgram) :
+            removeMessageQueue(in_nameOfQueue, in_fileNameOfMainProgram),
+            mq{boost::interprocess::open_or_create, in_nameOfQueue.c_str(), in_maxNumberOfMessages, in_maxMessageSize}
             {}
 
     /**
@@ -69,13 +72,13 @@ private:
     class RemoveMessageQueue
     {
     public:
-        RemoveMessageQueue()
+        RemoveMessageQueue(const std::string& in_nameOfQueue, const std::string& in_fileNameOfMainProgram)
         {
             //Процесс получения и вывода сообщений не запущен
-            if (!isProcessRun("search_engine.exe"))
+            if (!isProcessRun(in_fileNameOfMainProgram.c_str()))
             {
                 //Удалить оставшуюся очередь (скорее всего, заблокированную)
-                boost::interprocess::message_queue::remove("search_engine");
+                boost::interprocess::message_queue::remove(in_nameOfQueue.c_str());
             }
         }
     };

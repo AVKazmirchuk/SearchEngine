@@ -36,8 +36,14 @@ int main(int argc, char* argv[])
     //Установить заглавие консоли
     SetConsoleTitle("Logger Monitor");
 
+    //Создать объект класса логирования событий в монитор
+    LoggerMonitor loggerMonitor(constants::configLoggerFilePath);
+
     //Создать объект монитора получения сообщений
-    MonitorReceiver monitorReceiver;
+    MonitorReceiver monitorReceiver(LoggerMonitor::nameOfQueue,
+                                    maxNumberOfMessages,
+                                    maxMessageSize,
+                                    fileNameOfMa);
 
     //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
     std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");

@@ -55,11 +55,13 @@ public:
 
         selfObject = this;
 
+        //Инициализировать (настроить) класс
+        initialize(configFilePath);
+
         //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
         resultOfWriteToFileAndMonitor = std::async(&Logger::writeToFileAndMonitor, this);
 
-        //Инициализировать (настроить) класс
-        initialize(configFilePath);
+
     }
 
     ~Logger()
@@ -199,6 +201,23 @@ private:
 
     //Директория с лог-файлами
     static inline std::string filesDirectory{};
+
+    //Параметры основного процесса и монитора
+
+    //Имя очереди
+    static inline std::string nameOfQueue{};
+    //Максимальное количество сообщений в очереди
+    static inline boost::interprocess::message_queue::size_type maxNumberOfMessages{};
+    //Максимальный размер сообщения
+    static inline boost::interprocess::message_queue::size_type maxMessageSize{};
+    //Имя файла основной программы
+    static inline std::string fileNameOfMainProgram{};
+    //Имя файла монитора
+    static inline std::string fileNameOfMonitor{};
+    //Имя консоли
+    static inline std::string nameOfConsole{};
+    //Признак запуска монитора
+    static inline std::string indicatesMonitorStarting{};
 
     //Файл для записи
     static inline std::filesystem::path file{};
@@ -354,7 +373,7 @@ private:
      * Записать информацию в файл в отдельном потоке
      * @param messageForOutput Ссылка на сообщение для вывода
      */
-    void writeToFile(const std::string& messageForOutput);
+    void writeToFile(const std::string& messageForOutput, MonitorSender& monitorSender);
 
     /**
      * Отправить информацию в монитор в отдельном потоке

@@ -81,6 +81,24 @@ void Logger::initializeVariables(const JSON& configJSON)
     fileSizeLimit = configJSON["fileSizeLimit"];
     //Директория с файлами
     filesDirectory = configJSON["filesDirectory"];
+
+    //Параметры основного процесса и монитора
+
+    //Имя очереди
+    nameOfQueue = configJSON["messageQueue"]["nameOfQueue"];
+    //Максимальное количество сообщений в очереди
+    maxNumberOfMessages = configJSON["messageQueue"]["maxNumberOfMessages"];
+    //Максимальный размер сообщения
+    maxMessageSize = configJSON["messageQueue"]["maxMessageSize"];
+    //Имя файла основной программы
+    fileNameOfMainProgram = configJSON["messageQueue"]["fileNameOfMainProgram"];
+    //Имя файла монитора
+    fileNameOfMonitor = configJSON["messageQueue"]["fileNameOfMonitor"];
+    //Имя консоли
+    nameOfConsole = configJSON["messageQueue"]["nameOfConsole"];
+    //Признак запуска монитора
+    indicatesMonitorStarting = configJSON["messageQueue"]["indicatesMonitorStarting"];
+
 }
 
 void Logger::initialize(const std::string& configFilePath)
