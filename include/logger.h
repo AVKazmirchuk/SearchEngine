@@ -146,9 +146,8 @@ public:
 
 private:
 
-
     //Указатель на свой объект. Используется для обращения к объекту из статических функций
-    inline static Logger *selfObject{};
+    inline static std::vector<Logger*> pointersToObjects;
 
     //Типы интервалов времени
 
@@ -205,19 +204,19 @@ private:
     //Параметры основного процесса и монитора
 
     //Имя очереди
-    static inline std::string nameOfQueue{};
+    std::string nameOfQueue{};
     //Максимальное количество сообщений в очереди
-    static inline boost::interprocess::message_queue::size_type maxNumberOfMessages{};
+    boost::interprocess::message_queue::size_type maxNumberOfMessages{};
     //Максимальный размер сообщения
-    static inline boost::interprocess::message_queue::size_type maxMessageSize{};
+    boost::interprocess::message_queue::size_type maxMessageSize{};
     //Имя файла основной программы
-    static inline std::string fileNameOfMainProgram{};
+    std::string fileNameOfMainProgram{};
     //Имя файла монитора
-    static inline std::string fileNameOfMonitor{};
+    std::string fileNameOfMonitor{};
     //Имя консоли
-    static inline std::string nameOfConsole{};
+    std::string nameOfConsole{};
     //Признак запуска монитора
-    static inline std::string indicatesMonitorStarting{};
+    std::string indicatesMonitorStarting{};
 
     //Файл для записи
     static inline std::filesystem::path file{};

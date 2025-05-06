@@ -6,14 +6,14 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
 
 #include "nlohmann/json.hpp"
 #include "termcolor.h"
 
 #include "monitor.h"
+#include "monitorReceiver.h"
 #include "../include/readWriteJSONFile.h"
-#include "../include/general.h"
+
 
 
 std::string determineLevel(const std::string& message)
@@ -75,13 +75,13 @@ void LoggerMonitor::initialize(const std::string& configFilePath)
     initializeVariables(configJSON);
 }
 
-void run()
+void LoggerMonitor::run()
 {
     //Создать объект монитора получения сообщений
-    MonitorReceiver monitorReceiver(LoggerMonitor::nameOfQueue,
+    MonitorReceiver monitorReceiver(nameOfQueue,
                                     maxNumberOfMessages,
                                     maxMessageSize,
-                                    fileNameOfMa);
+                                    fileNameOfMainProgram);
 
     //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
     std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
