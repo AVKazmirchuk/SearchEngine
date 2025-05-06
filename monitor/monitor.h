@@ -36,6 +36,8 @@ public:
         initialize(configFilePath);
     }
 
+    void run();
+
 private:
 
     //Параметры основного процесса и монитора
