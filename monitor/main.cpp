@@ -39,27 +39,7 @@ int main(int argc, char* argv[])
     //Создать объект класса логирования событий в монитор
     LoggerMonitor loggerMonitor(constants::configLoggerFilePath);
 
-    //Создать объект монитора получения сообщений
-    MonitorReceiver monitorReceiver(LoggerMonitor::nameOfQueue,
-                                    maxNumberOfMessages,
-                                    maxMessageSize,
-                                    fileNameOfMa);
-
-    //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
-    std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
-    //Создать сигнал-файл (маркер запущенного процесса)
-    std::ofstream loggerMonitorAlreadyRunning(R"(C:\Windows\Temp\search_engine_monitor)");
-    //Закрыть сигнал-файл
-    loggerMonitorAlreadyRunning.close();
-
-    //Ожидать новых сообщений, получать и выводить их на монитор
-    while (true)
-    {
-        //Получить сообщение
-        std::string message{monitorReceiver.receive()};
-        //Вывести сообщение на монитор
-        outputToConsole(message);
-    }
+    loggerMonitor.run();
 
     return 0;
 }
