@@ -78,6 +78,7 @@ namespace constants
     //JSON-объект файла requests.json
     extern const JSON requestsTemplate;
 
+    //Путь файла конфигурации логирования
     extern const std::string configLoggerFilePath;
 
 }

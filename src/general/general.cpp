@@ -4,8 +4,6 @@
 
 
 
-
-
 #include "general.h"
 #include "checkFile.h"
 #include "readWriteJSONFile.h"

@@ -7,6 +7,7 @@
 #include <fstream>
 
 #include "logger.h"
+#include "readWriteJSONFile.h"
 
 
 
@@ -68,8 +69,40 @@ void Logger::waitForMonitorToStart()
     }
 }
 
+void Logger::initializeVariablesMonitorSender(const JSON& configJSON)
+{
+    //Параметры основного процесса и монитора
+
+    //Имя очереди
+    nameOfQueue = configJSON["messageQueue"]["nameOfQueue"];
+    //Максимальное количество сообщений в очереди
+    maxNumberOfMessages = configJSON["messageQueue"]["maxNumberOfMessages"];
+    //Максимальный размер сообщения
+    maxMessageSize = configJSON["messageQueue"]["maxMessageSize"];
+    //Имя файла основной программы
+    fileNameOfMainProgram = configJSON["messageQueue"]["fileNameOfMainProgram"];
+    //Имя файла монитора
+    fileNameOfMonitor = configJSON["messageQueue"]["fileNameOfMonitor"];
+    //Имя консоли
+    nameOfConsole = configJSON["messageQueue"]["nameOfConsole"];
+    //Признак запуска монитора
+    indicatesMonitorStarting = configJSON["messageQueue"]["indicatesMonitorStarting"];
+}
+
+void Logger::initializeMonitorSender()
+{
+    //Создать JSON-объект конфигурации
+    JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
+
+    initializeVariablesMonitorSender(configJSON);
+
+}
+
 void Logger::writeToFileAndMonitor()
 {
+
+    initializeMonitorSender();
+
     //Создать объект монитора отправки сообщений
     MonitorSender monitorSender(nameOfQueue,
                                 maxNumberOfMessages,

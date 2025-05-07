@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+#include "windows.h"
+
 #include "nlohmann/json.hpp"
 #include "termcolor.h"
 
@@ -89,6 +91,9 @@ void LoggerMonitor::run()
     std::ofstream loggerMonitorAlreadyRunning(R"(C:\Windows\Temp\search_engine_monitor)");
     //Закрыть сигнал-файл
     loggerMonitorAlreadyRunning.close();
+
+    //Установить заглавие консоли
+    SetConsoleTitle(nameOfConsole.c_str());
 
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)

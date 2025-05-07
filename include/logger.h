@@ -48,20 +48,19 @@ private:
 
 public:
 
-    explicit Logger(const std::string &configFilePath)
+    explicit Logger(const std::string &in_configFilePath)
     {
-        //Условие, ограничивающее создание более одного объекта
-        if (selfObject != nullptr) throw std::runtime_error("It is impossible to create an object!");
+        //Добавить новый указатель на объект в контейнер указателей
+        pointersToObjects.push_back(this);
 
-        selfObject = this;
+        //Запомнить путь файла конфигурации логирования
+        configFilePath = in_configFilePath;
 
         //Инициализировать (настроить) класс
-        initialize(configFilePath);
+        initialize();
 
         //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
         resultOfWriteToFileAndMonitor = std::async(&Logger::writeToFileAndMonitor, this);
-
-
     }
 
     ~Logger()
@@ -146,7 +145,10 @@ public:
 
 private:
 
-    //Указатель на свой объект. Используется для обращения к объекту из статических функций
+    //Путь файла конфигурации логирования
+    inline static std::string configFilePath;
+
+    //Контейнер указателей на объекты. Используется для обращения к объектам из статических функций
     inline static std::vector<Logger*> pointersToObjects;
 
     //Типы интервалов времени
@@ -201,6 +203,14 @@ private:
     //Директория с лог-файлами
     static inline std::string filesDirectory{};
 
+    //Файл для записи
+    static inline std::filesystem::path file{};
+
+    //Контейнер пар пути и момента времени последнего изменения файла
+    inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
+
+
+
     //Параметры основного процесса и монитора
 
     //Имя очереди
@@ -218,16 +228,12 @@ private:
     //Признак запуска монитора
     std::string indicatesMonitorStarting{};
 
-    //Файл для записи
-    static inline std::filesystem::path file{};
 
-    //Контейнер пар пути и момента времени последнего изменения файла
-    inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
 
     //Переменные для работы отдельного потока логирования
 
     //Контейнер сообщений. Используется для накапливания сообщений и чтения их отдельным потоком логирования
-    inline static std::list<std::string> messages;
+    std::list<std::string> messages;
 
     //Результат работы отдельного потока записи сообщения в лог-файл и отправки сообщения в монитор
     std::future<void> resultOfWriteToFileAndMonitor;
@@ -251,7 +257,7 @@ private:
      * Инициализировать (настроить) класс
      * @param configFilePath Ссылка на файл конфигурации логирования
      */
-    static void initialize(const std::string& configFilePath);
+    static void initialize();
 
     /**
      * Инициализировать переменные
@@ -350,6 +356,18 @@ private:
 
 
     //Функции логирования в отдельном потоке (запись сообщения)
+
+    /**
+     * Инициализировать (настроить) класс
+     * @param configFilePath Ссылка на файл конфигурации логирования
+     */
+    void initializeMonitorSender();
+
+    /**
+     * Инициализировать переменные
+     * @param configJSON JSON-объект содержащий значения
+     */
+    void initializeVariablesMonitorSender(const JSON& configJSON);
 
     /**
      * Записать информацию в файл и отправить информацию в монитор в отдельном потоке

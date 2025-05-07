@@ -12,7 +12,7 @@
 #include "boost/interprocess/ipc/message_queue.hpp"
 #include "nlohmann/json.hpp"
 
-#include "../include/general.h"
+#include "general.h"
 
 
 

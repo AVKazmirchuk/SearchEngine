@@ -33,9 +33,6 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    //Установить заглавие консоли
-    SetConsoleTitle("Logger Monitor");
-
     //Создать объект класса логирования событий в монитор
     LoggerMonitor loggerMonitor(constants::configLoggerFilePath);
 
