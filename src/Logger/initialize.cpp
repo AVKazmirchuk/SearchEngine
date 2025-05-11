@@ -1,5 +1,5 @@
 //
-// Created by Alexander on 13.04.2025.
+// Created by Alexander on 08.05.2025.
 //
 
 
@@ -43,53 +43,53 @@ void Logger::setupClass()
     deleteFilesByRetentionPeriod();
 }
 
-void Logger::initializeVariables(const JSON& configJSON)
+void Logger::initializeVariables()
 {
     //Инициализировать переменные
 
     //Интервалы времени хранения файла
 
     //Интервал времени хранения файла, количество недель
-    weeksStorage = configJSON["storageTimeLimit"]["weeks"];
+    weeksStorage = configLoggerJSON["storageTimeLimit"]["weeks"];
     //Интервал времени хранения файла, количество дней
-    daysStorage = configJSON["storageTimeLimit"]["days"];
+    daysStorage = configLoggerJSON["storageTimeLimit"]["days"];
     //Интервал времени хранения файла, количество часов
-    hoursStorage = configJSON["storageTimeLimit"]["hours"];
+    hoursStorage = configLoggerJSON["storageTimeLimit"]["hours"];
     //Интервал времени хранения файла, количество минут
-    minutesStorage = configJSON["storageTimeLimit"]["minutes"];
+    minutesStorage = configLoggerJSON["storageTimeLimit"]["minutes"];
     //Интервал времени хранения файла, количество секунд
-    secondsStorage = configJSON["storageTimeLimit"]["seconds"];
+    secondsStorage = configLoggerJSON["storageTimeLimit"]["seconds"];
 
     //Интервалы времени использования файла
 
     //Интервал времени использования файла, количество недель
-    weeksUsage = configJSON["usageTimeLimit"]["weeks"];
+    weeksUsage = configLoggerJSON["usageTimeLimit"]["weeks"];
     //Интервал времени использования файла, количество дней
-    daysUsage = configJSON["usageTimeLimit"]["days"];
+    daysUsage = configLoggerJSON["usageTimeLimit"]["days"];
     //Интервал времени использования файла, количество часов
-    hoursUsage = configJSON["usageTimeLimit"]["hours"];
+    hoursUsage = configLoggerJSON["usageTimeLimit"]["hours"];
     //Интервал времени использования файла, количество минут
-    minutesUsage = configJSON["usageTimeLimit"]["minutes"];
+    minutesUsage = configLoggerJSON["usageTimeLimit"]["minutes"];
     //Интервал времени использования файла, количество секунд
-    secondsUsage = configJSON["usageTimeLimit"]["seconds"];
+    secondsUsage = configLoggerJSON["usageTimeLimit"]["seconds"];
 
     //Формат даты и времени записи в файл
-    dateTimeFormat = configJSON["dateTimeFormat"];
+    dateTimeFormat = configLoggerJSON["dateTimeFormat"];
     //Формат имени файла
-    fileNameFormat = configJSON["fileNameFormat"];
+    fileNameFormat = configLoggerJSON["fileNameFormat"];
     //Предельный размер файла
-    fileSizeLimit = configJSON["fileSizeLimit"];
+    fileSizeLimit = configLoggerJSON["fileSizeLimit"];
     //Директория с файлами
-    filesDirectory = configJSON["filesDirectory"];
+    filesDirectory = configLoggerJSON["filesDirectory"];
 }
 
 void Logger::initialize()
 {
     //Создать JSON-объект конфигурации
-    JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
+    configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath);
 
     //Инициализировать переменные
-    initializeVariables(configJSON);
+    initializeVariables();
 
     //Настроить класс
     setupClass();

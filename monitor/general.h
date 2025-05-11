@@ -30,7 +30,7 @@ namespace constants
 {
 
     //Путь файла конфигурации логирования
-    extern const std::string configLoggerFilePath;
+    extern const std::string configMessageQueueFilePath;
 
 }
 

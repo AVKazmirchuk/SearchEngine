@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "windows.h"
 
@@ -14,35 +15,47 @@
 
 #include "monitor.h"
 #include "monitorReceiver.h"
-#include "../include/readWriteJSONFile.h"
+#include "readWriteJSONFile.h"
 
-
-
-std::string determineLevel(const std::string& message)
+BOOL WINAPI ConsoleCtrlEventHandler( DWORD dwCtrlType )
 {
-    std::stringstream ss(message);
-    std::string level;
+    switch (dwCtrlType)
+    {
+        case CTRL_C_EVENT:
+        case CTRL_BREAK_EVENT:
+            // Do nothing.
+            // To prevent other potential handlers from
+            // doing anything, return TRUE instead.
+            return FALSE;
 
-    std::getline(ss, level, ' ');
-    std::getline(ss, level, ' ');
-    std::getline(ss, level, ' ');
-    std::getline(ss, level, ' ');
-    std::getline(ss, level, ' ');
+        case CTRL_CLOSE_EVENT:
+            // Do your final processing here!
+            MessageBox( NULL, "You clicked the 'X' in the console window! Ack!", "I'm melting!", MB_OK | MB_ICONINFORMATION );
+            
+            return FALSE;
 
-    return level;
+        case CTRL_LOGOFF_EVENT:
+        case CTRL_SHUTDOWN_EVENT:
+            // Please be careful to read the implications of using
+            // each one of these, and the applicability to your
+            // code. Unless you are writing a Windows Service,
+            // chances are you only need to pay attention to the
+            // CTRL_CLOSE_EVENT type.
+            return FALSE;
+    }
+
+    // If it gets this far (it shouldn't), do nothing.
+    return FALSE;
 }
 
-void outputToConsole(const std::string& message)
+void LoggerMonitor::outputToConsole(const std::string& message)
 {
-    //Определить уровень логирования
-    std::string level{determineLevel(message)};
-
-    //Вывести сообщение на монитор в своём цвете в соответствии уровню логирования
-    if (level == "DEBUG:") std::cout << termcolor::grey << message << std::endl;
-    else if (level == "INFO:") std::cout << termcolor::white << message << std::endl;
-    else if (level == "WARNING:") std::cout << termcolor::yellow << message << std::endl;
-    else if (level == "ERROR:") std::cout << termcolor::magenta << message << std::endl;
-    else if (level == "FATAL:") std::cout << termcolor::red << message << std::endl;
+    if (message.find("DEBUG") != std::string::npos) std::cout << termcolor::white << message << std::endl;
+    else if (message.find("INFO") != std::string::npos) std::cout << termcolor::green << message << std::endl;
+    else if (message.find("WARNING") != std::string::npos) std::cout << termcolor::yellow << message << std::endl;
+    else if (message.find("ERROR") != std::string::npos) std::cout << termcolor::red << message << std::endl;
+    else if (message.find("FATAL") != std::string::npos) std::cout << termcolor::red << message << std::endl;
+    else if (message.find("Logger") != std::string::npos) std::cout << termcolor::cyan << message << std::endl;
 }
 
 void LoggerMonitor::initializeVariables(const JSON& configJSON)
@@ -68,10 +81,10 @@ void LoggerMonitor::initializeVariables(const JSON& configJSON)
 
 }
 
-void LoggerMonitor::initialize(const std::string& configFilePath)
+void LoggerMonitor::initialize()
 {
     //Создать JSON-объект конфигурации
-    JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
+    JSON configJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
 
     //Инициализировать переменные
     initializeVariables(configJSON);
@@ -86,14 +99,16 @@ void LoggerMonitor::run()
                                     fileNameOfMainProgram);
 
     //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
-    std::filesystem::remove(R"(C:\Windows\Temp\search_engine_monitor)");
+    std::filesystem::remove(indicatesMonitorStarting);
     //Создать сигнал-файл (маркер запущенного процесса)
-    std::ofstream loggerMonitorAlreadyRunning(R"(C:\Windows\Temp\search_engine_monitor)");
+    std::ofstream loggerMonitorAlreadyRunning(indicatesMonitorStarting);
     //Закрыть сигнал-файл
     loggerMonitorAlreadyRunning.close();
 
     //Установить заглавие консоли
     SetConsoleTitle(nameOfConsole.c_str());
+
+    SetConsoleCtrlHandler( &ConsoleCtrlEventHandler, TRUE );
 
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)

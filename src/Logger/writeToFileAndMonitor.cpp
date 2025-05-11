@@ -1,5 +1,5 @@
 //
-// Created by Alexander on 02.05.2025.
+// Created by Alexander on 08.05.2025.
 //
 
 
@@ -11,13 +11,13 @@
 
 
 
-void Logger::writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender)
+void Logger::WriterMessage::writeToMonitor(const std::string& messageForOutput)
 {
     //Отправить сообщение монитору (другому процессу)
-    monitorSender.send(messageForOutput);
+    monitorSender->send(messageForOutput);
 }
 
-void Logger::writeToFile(const std::string& messageForOutput, MonitorSender& monitorSender)
+void Logger::WriterMessage::writeToFile(const std::string& messageForOutput)
 {
     //Создать объект для записи в файл
     std::ofstream outFile(Logger::file, std::ios::app);
@@ -34,24 +34,24 @@ void Logger::writeToFile(const std::string& messageForOutput, MonitorSender& mon
     else
     {
         //Отправить сообщение монитору о невозможности открытия файла для записи
-        monitorSender.send("Logger: This file cannot be opened for writing: " + file.string());
+        monitorSender->send("Logger: This file cannot be opened for writing: " + file.string());
     }
 }
 
-void Logger::processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender)
+void Logger::WriterMessage::processMessageContainer()
 {
-    //Каждое сообщение в текущей очереди сообщений
+    //Каждое сообщение в контейнере сообщений
     for (const auto& message: messagesForOutput)
     {
         //Записать в файл
-        writeToFile(message, monitorSender);
+        writeToFile(message);
 
         //Отправить в монитор
-        writeToMonitor(message, monitorSender);
+        writeToMonitor(message);
     }
 }
 
-void Logger::waitForMonitorToStart()
+void Logger::WriterMessage::waitForMonitorToStart()
 {
     //Если процесс не запущен
     if (!isProcessRun(fileNameOfMonitor.c_str()))
@@ -69,79 +69,86 @@ void Logger::waitForMonitorToStart()
     }
 }
 
-void Logger::initializeVariablesMonitorSender(const JSON& configJSON)
+void Logger::WriterMessage::initializeVariablesMonitorSender()
 {
     //Параметры основного процесса и монитора
 
     //Имя очереди
-    nameOfQueue = configJSON["messageQueue"]["nameOfQueue"];
+    nameOfQueue = configMessageQueueJSON["messageQueue"]["nameOfQueue"];
     //Максимальное количество сообщений в очереди
-    maxNumberOfMessages = configJSON["messageQueue"]["maxNumberOfMessages"];
+    maxNumberOfMessages = configMessageQueueJSON["messageQueue"]["maxNumberOfMessages"];
     //Максимальный размер сообщения
-    maxMessageSize = configJSON["messageQueue"]["maxMessageSize"];
+    maxMessageSize = configMessageQueueJSON["messageQueue"]["maxMessageSize"];
     //Имя файла основной программы
-    fileNameOfMainProgram = configJSON["messageQueue"]["fileNameOfMainProgram"];
+    fileNameOfMainProgram = configMessageQueueJSON["messageQueue"]["fileNameOfMainProgram"];
     //Имя файла монитора
-    fileNameOfMonitor = configJSON["messageQueue"]["fileNameOfMonitor"];
+    fileNameOfMonitor = configMessageQueueJSON["messageQueue"]["fileNameOfMonitor"];
     //Имя консоли
-    nameOfConsole = configJSON["messageQueue"]["nameOfConsole"];
+    nameOfConsole = configMessageQueueJSON["messageQueue"]["nameOfConsole"];
     //Признак запуска монитора
-    indicatesMonitorStarting = configJSON["messageQueue"]["indicatesMonitorStarting"];
+    indicatesMonitorStarting = configMessageQueueJSON["messageQueue"]["indicatesMonitorStarting"];
 }
 
-void Logger::initializeMonitorSender()
+void Logger::WriterMessage::initializeMonitorSender()
 {
     //Создать JSON-объект конфигурации
-    JSON configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
+    configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
 
-    initializeVariablesMonitorSender(configJSON);
-
+    initializeVariablesMonitorSender();
 }
 
-void Logger::writeToFileAndMonitor()
+void Logger::WriterMessage::run()
 {
 
     initializeMonitorSender();
 
     //Создать объект монитора отправки сообщений
-    MonitorSender monitorSender(nameOfQueue,
+    MonitorSender monitorSenderItself(nameOfQueue,
                                 maxNumberOfMessages,
                                 maxMessageSize,
                                 fileNameOfMonitor);
 
+    monitorSender = &monitorSenderItself;
+
     //Ожидать запуска монитора (другого процесса)
     waitForMonitorToStart();
 
-    //Текущая очередь сообщений (локальная для этого потока)
-    std::list<std::string> messagesForOutput;
-
     //Пока не получено уведомление о завершении работы
-    while (!stopLogger.load())
+    while (!pointerToLoggerObject->stopLogger.load())
     {
         //Ожидать сигнал о добавлении сообщения в контейнер сообщений
-        std::unique_lock<std::mutex> uniqueLock(mutReadWriteMessages);
-        cvPushMessage.wait(uniqueLock, [this]() { return pushMessage; });
+        std::unique_lock<std::mutex> uniqueLock(pointerToLoggerObject->mutReadWriteMessages);
+        pointerToLoggerObject->cvPushMessage.wait(uniqueLock, [this]() { return pointerToLoggerObject->pushMessage; });
 
         //Копировать контейнер сообщений из основного потока
-        messagesForOutput = messages;
+        messagesForOutput = pointerToLoggerObject->messages;
         //Очистить контейнер сообщений основного потока
-        messages.clear();
+        pointerToLoggerObject->messages.clear();
         //Сбросить подтверждение добавления сообщения в контейнер сообщений, так как сообщения приняты для обработки
-        pushMessage = false;
+        pointerToLoggerObject->pushMessage = false;
 
         //Разблокировать доступ к контейнеру сообщений из основного потока
         uniqueLock.unlock();
 
-        //Обработать очередь сообщений
-        processQueue(messagesForOutput, monitorSender);
+        //Обработать контейнер сообщений
+        processMessageContainer();
     }
 
     //Перед завершением работы потока, проверить контейнер сообщений из основного потока и обработать, так как пока
     //поток обрабатывал очередь сообщений, основной поток мог ещё записать сообщения в контейнер сообщений. Это можно
-    //делать без блокировок, так как получено уведомление о завершении работы из деструктора класса.
+    //делать без блокировок, так как получено уведомление о завершении работы из деструктора класса Logger.
 
     //Копировать контейнер сообщений из основного потока
-    messagesForOutput = messages;
+    messagesForOutput = pointerToLoggerObject->messages;
     //Обработать очередь сообщений
-    processQueue(messagesForOutput, monitorSender);
+    processMessageContainer();
+}
+
+void Logger::writeMessage(const std::string &in_configMessageQueueFilePath, Logger *pointerToLoggerObject)
+{
+    //Создать объект записи сообщений
+    WriterMessage writerMessage(in_configMessageQueueFilePath, pointerToLoggerObject);
+
+    //Записать информацию в файл и отправить информацию в монитор
+    writerMessage.run();
 }

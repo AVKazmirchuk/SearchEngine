@@ -104,6 +104,7 @@ namespace constants
     )");
 
     const std::string configLoggerFilePath{"logger.json"};
+    const std::string configMessageQueueFilePath{"messageQueue.json"};
 
 }
 

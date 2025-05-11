@@ -66,13 +66,13 @@ bool CheckFile::isJSONStructureValid(const std::string &fileName)
     std::ifstream inFile(fileName);
 
     //Файл не открывается для чтения
-    if (!inFile.is_open())
+    /*if (!inFile.is_open())
     {
         Logger::fatal("bool CheckFile::isJSONStructureValid(const std::string &fileName)" ,CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, fileName));
         throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, fileName);
-    }
+    }*/
 
-    //Создать временный объект для поверки
+    //Создать временный объект для проверки
     JSON tmpJSON;
 
     try

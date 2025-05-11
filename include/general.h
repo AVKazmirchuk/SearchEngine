@@ -80,6 +80,8 @@ namespace constants
 
     //Путь файла конфигурации логирования
     extern const std::string configLoggerFilePath;
+    //Путь файла конфигурации очереди сообщений
+    extern const std::string configMessageQueueFilePath;
 
 }
 

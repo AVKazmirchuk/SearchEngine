@@ -31,11 +31,11 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)
     std::ifstream file(filePath);
 
     //Проверить файл на открытие для чтения
-    if (!file.is_open())
+    /*if (!file.is_open())
     {
         Logger::fatal("JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
         throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
-    }
+    }*/
 
     //Прочитать файл в JSON-объект и вернуть объект
     return JSON::parse(file);

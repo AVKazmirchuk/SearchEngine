@@ -48,19 +48,23 @@ private:
 
 public:
 
-    explicit Logger(const std::string &in_configFilePath)
+    Logger(const std::string &in_configLoggerFilePath, const std::string &in_configMessageQueueFilePath)
     {
         //Добавить новый указатель на объект в контейнер указателей
         pointersToObjects.push_back(this);
 
-        //Запомнить путь файла конфигурации логирования
-        configFilePath = in_configFilePath;
+        //Создан первый объект класса
+        if (pointersToObjects.size() == 1)
+        {
+            //Запомнить путь файла конфигурации логирования
+            configLoggerFilePath = in_configLoggerFilePath;
 
-        //Инициализировать (настроить) класс
-        initialize();
+            //Инициализировать (настроить) класс
+            initialize();
+        }
 
         //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
-        resultOfWriteToFileAndMonitor = std::async(&Logger::writeToFileAndMonitor, this);
+        resultOfWriteToFileAndMonitor = std::async(&Logger::writeMessage, this, in_configMessageQueueFilePath, this);
     }
 
     ~Logger()
@@ -75,6 +79,8 @@ public:
         //Ждать окончания работы отдельного потока логирования
         resultOfWriteToFileAndMonitor.wait();
     }
+
+
 
     //Общие функции логирования
 
@@ -146,7 +152,9 @@ public:
 private:
 
     //Путь файла конфигурации логирования
-    inline static std::string configFilePath;
+    inline static std::string configLoggerFilePath;
+    //JSON-объект конфигурации логирования
+    inline static JSON configLoggerJSON;
 
     //Контейнер указателей на объекты. Используется для обращения к объектам из статических функций
     inline static std::vector<Logger*> pointersToObjects;
@@ -211,26 +219,16 @@ private:
 
 
 
-    //Параметры основного процесса и монитора
 
-    //Имя очереди
-    std::string nameOfQueue{};
-    //Максимальное количество сообщений в очереди
-    boost::interprocess::message_queue::size_type maxNumberOfMessages{};
-    //Максимальный размер сообщения
-    boost::interprocess::message_queue::size_type maxMessageSize{};
-    //Имя файла основной программы
-    std::string fileNameOfMainProgram{};
-    //Имя файла монитора
-    std::string fileNameOfMonitor{};
-    //Имя консоли
-    std::string nameOfConsole{};
-    //Признак запуска монитора
-    std::string indicatesMonitorStarting{};
 
 
 
     //Переменные для работы отдельного потока логирования
+
+    //Путь файла конфигурации очереди сообщений
+    std::string configMessageQueueFilePath;
+    //JSON-объект конфигурации очереди сообщений
+    JSON configMessageQueueJSON;
 
     //Контейнер сообщений. Используется для накапливания сообщений и чтения их отдельным потоком логирования
     std::list<std::string> messages;
@@ -251,6 +249,93 @@ private:
 
 
 
+    class WriterMessage
+    {
+
+    public:
+
+        WriterMessage(const std::string &in_configMessageQueueFilePath, Logger *in_pointerToLoggerObject)
+            : configMessageQueueFilePath{in_configMessageQueueFilePath}, pointerToLoggerObject{in_pointerToLoggerObject}
+        {}
+
+        /**
+         * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
+         */
+        void run();
+
+    private:
+
+        //Путь файла конфигурации очереди сообщений
+        std::string configMessageQueueFilePath;
+        //JSON-объект конфигурации очереди сообщений
+        JSON configMessageQueueJSON;
+
+        //Указатель на текущий объект класса Logger
+        Logger *pointerToLoggerObject;
+
+        //Указатель на объект монитора отправки сообщений
+        MonitorSender *monitorSender;
+
+        //Параметры основного процесса и монитора
+
+        //Имя очереди
+        std::string nameOfQueue{};
+        //Максимальное количество сообщений в очереди
+        boost::interprocess::message_queue::size_type maxNumberOfMessages{};
+        //Максимальный размер сообщения
+        boost::interprocess::message_queue::size_type maxMessageSize{};
+        //Имя файла основной программы
+        std::string fileNameOfMainProgram{};
+        //Имя файла монитора
+        std::string fileNameOfMonitor{};
+        //Имя консоли
+        std::string nameOfConsole{};
+        //Признак запуска монитора
+        std::string indicatesMonitorStarting{};
+
+
+        //Текущая очередь сообщений (локальная для этого потока)
+        std::list<std::string> messagesForOutput;
+
+        /**
+         * Инициализировать (настроить) класс
+         * @param configFilePath Ссылка на файл конфигурации логирования
+         */
+        void initializeMonitorSender();
+
+        /**
+         * Инициализировать переменные
+         * @param configJSON JSON-объект содержащий значения
+         */
+        void initializeVariablesMonitorSender();
+
+        /**
+         * Ожидать запуска монитора (другого процесса)
+         */
+        void waitForMonitorToStart();
+
+        /**
+         * Обработать контейнер сообщений в отдельном потоке
+         */
+        void processMessageContainer();
+
+        /**
+         * Записать информацию в файл в отдельном потоке
+         * @param messageForOutput Ссылка на сообщение для вывода
+         */
+        void writeToFile(const std::string& messageForOutput);
+
+        /**
+         * Отправить информацию в монитор в отдельном потоке
+         * @param messageForOutput Ссылка на сообщение для вывода
+         * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
+         */
+        void writeToMonitor(const std::string& messageForOutput);
+
+    };
+
+
+
     //Функции инициализации и настройки класса
 
     /**
@@ -263,7 +348,7 @@ private:
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
      */
-    static void initializeVariables(const JSON& configJSON);
+    static void initializeVariables();
 
     /**
      * Настроить класс
@@ -355,51 +440,10 @@ private:
 
 
 
-    //Функции логирования в отдельном потоке (запись сообщения)
-
-    /**
-     * Инициализировать (настроить) класс
-     * @param configFilePath Ссылка на файл конфигурации логирования
-     */
-    void initializeMonitorSender();
-
-    /**
-     * Инициализировать переменные
-     * @param configJSON JSON-объект содержащий значения
-     */
-    void initializeVariablesMonitorSender(const JSON& configJSON);
-
     /**
      * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
      */
-    void writeToFileAndMonitor();
-
-    /**
-     * Ожидать запуска монитора (другого процесса)
-     */
-    void waitForMonitorToStart();
-
-    /**
-     * Обработать очередь сообщений в отдельном потоке
-     * @param messagesForOutput Ссылка на сообщение для вывода
-     * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
-     */
-    void processQueue(std::list<std::string> &messagesForOutput, MonitorSender& monitorSender);
-
-    /**
-     * Записать информацию в файл в отдельном потоке
-     * @param messageForOutput Ссылка на сообщение для вывода
-     */
-    void writeToFile(const std::string& messageForOutput, MonitorSender& monitorSender);
-
-    /**
-     * Отправить информацию в монитор в отдельном потоке
-     * @param messageForOutput Ссылка на сообщение для вывода
-     * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
-     */
-    void writeToMonitor(const std::string& messageForOutput, MonitorSender& monitorSender);
-
-
+    void writeMessage(const std::string &in_configMessageQueueFilePath, Logger *pointerToLoggerObject);
 
     //Вспомогательный класс
 

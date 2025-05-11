@@ -8,6 +8,7 @@
 
 
 #include <string>
+#include <fstream>
 
 #include "boost/interprocess/ipc/message_queue.hpp"
 #include "nlohmann/json.hpp"
@@ -15,12 +16,6 @@
 #include "general.h"
 
 
-
-//Определить уровень логирования
-std::string determineLevel(const std::string& message);
-
-//Вывести сообщение на консоль
-void outputToConsole(const std::string& message);
 
 /**
  * Класс логирования событий в монитор
@@ -30,10 +25,17 @@ class LoggerMonitor
 
 public:
 
-    explicit LoggerMonitor(const std::string &configFilePath)
+    explicit LoggerMonitor(const std::string &in_configMessageQueueFilePath)
+        : configMessageQueueFilePath{in_configMessageQueueFilePath}
     {
         //Инициализировать (настроить) класс
-        initialize(configFilePath);
+        initialize();
+    }
+
+    ~LoggerMonitor()
+    {
+        std::ofstream file{"LoggerMonitor", std::ios::app};
+        file << "LoggerMonitor shutdown!";
     }
 
     /**
@@ -42,6 +44,9 @@ public:
     void run();
 
 private:
+
+    //Путь файла конфигурации очереди сообщений
+    std::string configMessageQueueFilePath;
 
     //Параметры основного процесса и монитора
 
@@ -64,13 +69,16 @@ private:
      * Инициализировать (настроить) класс
      * @param configFilePath Ссылка на файл конфигурации логирования
      */
-    void initialize(const std::string& configFilePath);
+    void initialize();
 
     /**
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
      */
     void initializeVariables(const JSON& configJSON);
+
+    //Вывод сообщения на консоль
+    void outputToConsole(const std::string& message);
 
 };
 
