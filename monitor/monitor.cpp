@@ -11,11 +11,14 @@
 #include "windows.h"
 
 #include "nlohmann/json.hpp"
+#include "boost/interprocess/ipc/message_queue.hpp"
 #include "termcolor.h"
 
 #include "monitor.h"
 #include "monitorReceiver.h"
 #include "readWriteJSONFile.h"
+
+
 
 BOOL WINAPI ConsoleCtrlEventHandler( DWORD dwCtrlType )
 {
@@ -31,7 +34,7 @@ BOOL WINAPI ConsoleCtrlEventHandler( DWORD dwCtrlType )
         case CTRL_CLOSE_EVENT:
             // Do your final processing here!
             MessageBox( NULL, "You clicked the 'X' in the console window! Ack!", "I'm melting!", MB_OK | MB_ICONINFORMATION );
-            
+            LoggerMonitor::stop();
             return FALSE;
 
         case CTRL_LOGOFF_EVENT:
@@ -79,6 +82,8 @@ void LoggerMonitor::initializeVariables(const JSON& configJSON)
     //Признак запуска монитора
     indicatesMonitorStarting = configJSON["messageQueue"]["indicatesMonitorStarting"];
 
+    queuesInUse.push_back(nameOfQueue);
+
 }
 
 void LoggerMonitor::initialize()
@@ -115,7 +120,25 @@ void LoggerMonitor::run()
     {
         //Получить сообщение
         std::string message{monitorReceiver.receive()};
+        std::cout << message << std::endl;
+        //Исключительная ситуация
+        if (message == (nameOfQueue + "Stop"))
+        {
+            std::cout << message << std::endl;
+            break;
+        }
         //Вывести сообщение на монитор
         outputToConsole(message);
+    }
+}
+
+void LoggerMonitor::stop()
+{
+    for (auto& queue : queuesInUse)
+    {
+        std::string messageStop{queue + "Stop"};
+        std::cout << messageStop << std::endl;
+        boost::interprocess::message_queue mq(boost::interprocess::open_only, queue.c_str());
+        mq.send(messageStop.data(), messageStop.size(), 0);
     }
 }

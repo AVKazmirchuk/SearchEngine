@@ -7,6 +7,7 @@
 
 
 
+#include <list>
 #include <string>
 #include <fstream>
 
@@ -43,10 +44,17 @@ public:
      */
     void run();
 
+    /**
+     * Завершить работу
+     */
+    static void stop();
+
 private:
 
     //Путь файла конфигурации очереди сообщений
     std::string configMessageQueueFilePath;
+
+    inline static std::list<std::string> queuesInUse;
 
     //Параметры основного процесса и монитора
 
