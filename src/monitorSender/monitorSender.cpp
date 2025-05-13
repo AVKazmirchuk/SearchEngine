@@ -10,7 +10,15 @@
 
 
 
-bool isProcessRun(const char * const processName)
+
+
+void MonitorSender::send(const std::string& message)
+{
+    //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
+    mq.send(message.data(), message.size(), 0);
+}
+
+bool MonitorSender::RemoveMessageQueue::isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
@@ -36,11 +44,3 @@ bool isProcessRun(const char * const processName)
 
     return result;
 }
-
-void MonitorSender::send(const std::string& message)
-{
-    //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
-    mq.send(message.data(), message.size(), 0);
-}
-
-

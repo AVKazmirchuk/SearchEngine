@@ -51,6 +51,72 @@ void Logger::WriterMessage::processMessageContainer()
     }
 }
 
+void Logger::WriterMessage::startMonitor(LPCSTR lpApplicationName)
+{
+    //Дополнительная информация
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    //Установить размеры структур
+    ZeroMemory( &si, sizeof(si) );
+    si.cb = sizeof(si);
+    ZeroMemory( &pi, sizeof(pi) );
+
+
+    //Запустить независимый процесс
+    if( !CreateProcess( lpApplicationName,   // No module name (use command line)
+                        NULL,        // Command line
+                        NULL,           // Process handle not inheritable
+                        NULL,           // Thread handle not inheritable
+                        FALSE,          // Set handle inheritance to FALSE
+                        0,              // No creation flags
+                        NULL,           // Use parent's environment block
+                        NULL,           // Use parent's starting directory
+                        &si,            // Pointer to STARTUPINFO structure
+                        &pi )           // Pointer to PROCESS_INFORMATION structure
+            )
+    {
+        //printf( "CreateProcess failed (%d).\n", GetLastError() );
+        //return;
+    }
+
+    // Wait until child process exits.
+    //WaitForSingleObject( pi.hProcess, INFINITE );
+
+    //TODO проверить закрытие дескрипторов
+
+    // Close process and thread handles.
+    //CloseHandle( pi.hProcess );
+    //CloseHandle( pi.hThread );
+}
+
+bool Logger::WriterMessage::isProcessRun(const char * const processName)
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+    PROCESSENTRY32 pe;
+    pe.dwSize = sizeof(PROCESSENTRY32);
+    Process32First(hSnapshot, &pe);
+
+    bool result{};
+    while (true) {
+        if (strcmp(pe.szExeFile, processName) == 0)
+        {
+            result = true;
+            break;
+        }
+        if (!Process32Next(hSnapshot, &pe))
+        {
+            result = false;
+            break;
+        }
+    }
+
+    CloseHandle(hSnapshot);
+
+    return result;
+}
+
 void Logger::WriterMessage::waitForMonitorToStart()
 {
     //Если процесс не запущен

@@ -22,11 +22,7 @@
 
 
 
-/**
-  * Запустить независимый процесс получения и вывода сообщений
-  * @param lpApplicationName Имя процесса
-  */
-void startMonitor(LPCSTR lpApplicationName);
+
 
 /**
  * Класс реализует логирование событий
@@ -313,6 +309,19 @@ private:
          * Ожидать запуска монитора (другого процесса)
          */
         void waitForMonitorToStart();
+
+        /**
+         * Определить, запущен ли процесс
+         * @param processName Имя процесса
+         * @return Процесс запущен (true)/не запущен (false)
+         */
+        static bool isProcessRun(const char * processName);
+
+        /**
+         * Запустить независимый процесс получения и вывода сообщений
+         * @param lpApplicationName Имя процесса
+         */
+        static void startMonitor(LPCSTR lpApplicationName);
 
         /**
          * Обработать контейнер сообщений в отдельном потоке

@@ -14,12 +14,7 @@
 
 
 
-/**
- * Определить, запущен ли процесс
- * @param processName Имя процесса
- * @return Процесс запущен (true)/не запущен (false)
- */
-bool isProcessRun(const char * processName);
+
 
 
 
@@ -73,7 +68,9 @@ private:
     //Вспомогательный класс для удаления оставшейся очереди сообщений (во избежание ошибок) перед инициализацией очереди
     class RemoveMessageQueue
     {
+
     public:
+
         RemoveMessageQueue(const std::string& in_nameOfQueue, const std::string& in_fileNameOfMonitor)
         {
             //Процесс получения и вывода сообщений не запущен
@@ -84,6 +81,16 @@ private:
 
             }
         }
+
+    private:
+
+        /**
+         * Определить, запущен ли процесс
+         * @param processName Имя процесса
+         * @return Процесс запущен (true)/не запущен (false)
+         */
+        static bool isProcessRun(const char * processName);
+
     };
 
     RemoveMessageQueue removeMessageQueue;
