@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <thread>
 
 #include "windows.h"
 
@@ -19,37 +20,6 @@
 #include "readWriteJSONFile.h"
 
 
-
-BOOL WINAPI ConsoleCtrlEventHandler( DWORD dwCtrlType )
-{
-    switch (dwCtrlType)
-    {
-        case CTRL_C_EVENT:
-        case CTRL_BREAK_EVENT:
-            // Do nothing.
-            // To prevent other potential handlers from
-            // doing anything, return TRUE instead.
-            return FALSE;
-
-        case CTRL_CLOSE_EVENT:
-            // Do your final processing here!
-            MessageBox( NULL, "You clicked the 'X' in the console window! Ack!", "I'm melting!", MB_OK | MB_ICONINFORMATION );
-            LoggerMonitor::stop();
-            return FALSE;
-
-        case CTRL_LOGOFF_EVENT:
-        case CTRL_SHUTDOWN_EVENT:
-            // Please be careful to read the implications of using
-            // each one of these, and the applicability to your
-            // code. Unless you are writing a Windows Service,
-            // chances are you only need to pay attention to the
-            // CTRL_CLOSE_EVENT type.
-            return FALSE;
-    }
-
-    // If it gets this far (it shouldn't), do nothing.
-    return FALSE;
-}
 
 void LoggerMonitor::outputToConsole(const std::string& message)
 {
@@ -113,18 +83,19 @@ void LoggerMonitor::run()
     //Установить заглавие консоли
     SetConsoleTitle(nameOfConsole.c_str());
 
-    SetConsoleCtrlHandler( &ConsoleCtrlEventHandler, TRUE );
-
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
     {
         //Получить сообщение
         std::string message{monitorReceiver.receive()};
-        std::cout << message << std::endl;
+
         //Исключительная ситуация
         if (message == (nameOfQueue + "Stop"))
         {
-            std::cout << message << std::endl;
+
+                std::ofstream file{"LoggerMonitor.txt", std::ios::app};
+                file << message << std::endl;
+
             break;
         }
         //Вывести сообщение на монитор
@@ -136,6 +107,7 @@ void LoggerMonitor::stop()
 {
     for (auto& queue : queuesInUse)
     {
+        std::cout << queue << std::endl;
         std::string messageStop{queue + "Stop"};
         std::cout << messageStop << std::endl;
         boost::interprocess::message_queue mq(boost::interprocess::open_only, queue.c_str());

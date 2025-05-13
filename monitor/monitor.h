@@ -31,12 +31,20 @@ public:
     {
         //Инициализировать (настроить) класс
         initialize();
+
+        if (queuesInUse.size() == 1)
+        {
+            SetConsoleCtrlHandler( &ConsoleCtrlEventHandler, TRUE );
+        }
     }
 
     ~LoggerMonitor()
     {
-        std::ofstream file{"LoggerMonitor", std::ios::app};
-        file << "LoggerMonitor shutdown!";
+        for (auto& queue : queuesInUse)
+        {
+            std::ofstream file{"LoggerMonitor.txt", std::ios::app};
+            file << queue << std::endl;
+        }
     }
 
     /**
@@ -44,10 +52,7 @@ public:
      */
     void run();
 
-    /**
-     * Завершить работу
-     */
-    static void stop();
+
 
 private:
 
@@ -87,6 +92,45 @@ private:
 
     //Вывод сообщения на консоль
     void outputToConsole(const std::string& message);
+
+    /**
+     * Завершить работу
+     */
+    static void stop();
+
+    static BOOL WINAPI ConsoleCtrlEventHandler( DWORD dwCtrlType )
+    {
+        switch (dwCtrlType)
+        {
+            case CTRL_C_EVENT:
+            case CTRL_BREAK_EVENT:
+                // Do nothing.
+                // To prevent other potential handlers from
+                // doing anything, return TRUE instead.
+                //return FALSE;
+
+            case CTRL_CLOSE_EVENT:
+                // Do your final processing here!
+                LoggerMonitor::stop();
+
+                std::this_thread::sleep_for(std::chrono::seconds(15));
+
+                return TRUE;
+
+            case CTRL_LOGOFF_EVENT:
+            case CTRL_SHUTDOWN_EVENT:
+                // Please be careful to read the implications of using
+                // each one of these, and the applicability to your
+                // code. Unless you are writing a Windows Service,
+                // chances are you only need to pay attention to the
+                // CTRL_CLOSE_EVENT type.
+                return FALSE;
+        }
+
+        // If it gets this far (it shouldn't), do nothing.
+        return FALSE;
+    }
+
 
 };
 

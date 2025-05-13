@@ -6,7 +6,7 @@
 #define SEARCH_ENGINE_GENERAL_H
 
 
-
+#include <list>
 #include <string>
 
 #include "nlohmann/json.hpp"
