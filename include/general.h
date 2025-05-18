@@ -72,10 +72,10 @@ namespace constants
     //Ширина вывода
     extern const int formatByWidth;
 
-    //JSON-объект файла config.json
+    //Шаблон JSON-объекта файла config.json
     extern const JSON configTemplate;
 
-    //JSON-объект файла requests.json
+    //Шаблон JSON-объекта файла requests.json
     extern const JSON requestsTemplate;
 
     //Путь файла конфигурации логирования

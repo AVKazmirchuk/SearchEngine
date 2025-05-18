@@ -11,22 +11,22 @@
 
 
 
-void Logger::WriterMessage::writeToMonitor(const std::string& messageForOutput)
+void Logger::WriterMessage::writeToMonitor(const std::string& message)
 {
     //Отправить сообщение монитору (другому процессу)
-    monitorSender->send(messageForOutput);
+    monitorSender->send(message);
 }
 
-void Logger::WriterMessage::writeToFile(const std::string& messageForOutput)
+void Logger::WriterMessage::writeToFile(const std::string& message)
 {
     //Создать объект для записи в файл
-    std::ofstream outFile(Logger::file, std::ios::app);
+    std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
 
     //Файл открывается для записи
     if (outFile.is_open())
     {
         //Записать сообщение в файл
-        outFile << messageForOutput << std::endl;
+        outFile << message << std::endl;
 
         //Закрыть файл
         outFile.close();
@@ -34,14 +34,14 @@ void Logger::WriterMessage::writeToFile(const std::string& messageForOutput)
     else
     {
         //Отправить сообщение монитору о невозможности открытия файла для записи
-        monitorSender->send("Logger: This file cannot be opened for writing: " + file.string());
+        monitorSender->send("Logger: This file cannot be opened for writing: " + Logger::ptrToLogger->file.string());
     }
 }
 
 void Logger::WriterMessage::processMessageContainer()
 {
     //Каждое сообщение в контейнере сообщений
-    for (const auto& message: messagesForOutput)
+    for (const auto& message: messages)
     {
         //Записать в файл
         writeToFile(message);
@@ -140,25 +140,25 @@ void Logger::WriterMessage::initializeVariablesMonitorSender()
     //Параметры основного процесса и монитора
 
     //Имя очереди
-    nameOfQueue = configMessageQueueJSON["messageQueue"]["nameOfQueue"];
+    nameOfQueue = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["nameOfQueue"];
     //Максимальное количество сообщений в очереди
-    maxNumberOfMessages = configMessageQueueJSON["messageQueue"]["maxNumberOfMessages"];
+    maxNumberOfMessages = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["maxNumberOfMessages"];
     //Максимальный размер сообщения
-    maxMessageSize = configMessageQueueJSON["messageQueue"]["maxMessageSize"];
+    maxMessageSize = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["maxMessageSize"];
     //Имя файла основной программы
-    fileNameOfMainProgram = configMessageQueueJSON["messageQueue"]["fileNameOfMainProgram"];
+    fileNameOfMainProgram = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["fileNameOfMainProgram"];
     //Имя файла монитора
-    fileNameOfMonitor = configMessageQueueJSON["messageQueue"]["fileNameOfMonitor"];
+    fileNameOfMonitor = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["fileNameOfMonitor"];
     //Имя консоли
-    nameOfConsole = configMessageQueueJSON["messageQueue"]["nameOfConsole"];
+    nameOfConsole = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["nameOfConsole"];
     //Признак запуска монитора
-    indicatesMonitorStarting = configMessageQueueJSON["messageQueue"]["indicatesMonitorStarting"];
+    indicatesMonitorStarting = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["indicatesMonitorStarting"];
 }
 
 void Logger::WriterMessage::initializeMonitorSender()
 {
     //Создать JSON-объект конфигурации
-    configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
+    Logger::ptrToLogger->configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(Logger::ptrToLogger->configMessageQueueFilePath);
 
     initializeVariablesMonitorSender();
 }
@@ -180,18 +180,17 @@ void Logger::WriterMessage::run()
     waitForMonitorToStart();
 
     //Пока не получено уведомление о завершении работы
-    while (!pointerToLoggerObject->stopLogger.load())
+    while (!Logger::ptrToLogger->stopLogger.load())
     {
         //Ожидать сигнал о добавлении сообщения в контейнер сообщений
-        std::unique_lock<std::mutex> uniqueLock(pointerToLoggerObject->mutReadWriteMessages);
-        pointerToLoggerObject->cvPushMessage.wait(uniqueLock, [this]() { return pointerToLoggerObject->pushMessage; });
+        std::unique_lock<std::mutex> uniqueLock(Logger::ptrToLogger->mutReadWriteMessages);
+        Logger::ptrToLogger->cvPushMessage.wait(uniqueLock, [this]() { return Logger::ptrToLogger->pushMessage; });
 
-        //Копировать контейнер сообщений из основного потока
-        messagesForOutput = pointerToLoggerObject->messages;
-        //Очистить контейнер сообщений основного потока
-        pointerToLoggerObject->messages.clear();
+        //Переместить сообщения из основного потока
+        messages = std::move(Logger::ptrToLogger->messages);
+
         //Сбросить подтверждение добавления сообщения в контейнер сообщений, так как сообщения приняты для обработки
-        pointerToLoggerObject->pushMessage = false;
+        Logger::ptrToLogger->pushMessage = false;
 
         //Разблокировать доступ к контейнеру сообщений из основного потока
         uniqueLock.unlock();
@@ -205,15 +204,15 @@ void Logger::WriterMessage::run()
     //делать без блокировок, так как получено уведомление о завершении работы из деструктора класса Logger.
 
     //Копировать контейнер сообщений из основного потока
-    messagesForOutput = pointerToLoggerObject->messages;
+    messages = Logger::ptrToLogger->messages;
     //Обработать очередь сообщений
     processMessageContainer();
 }
 
-void Logger::writeMessage(const std::string &in_configMessageQueueFilePath, Logger *pointerToLoggerObject)
+void Logger::writeMessage()
 {
     //Создать объект записи сообщений
-    WriterMessage writerMessage(in_configMessageQueueFilePath, pointerToLoggerObject);
+    WriterMessage writerMessage;
 
     //Записать информацию в файл и отправить информацию в монитор
     writerMessage.run();

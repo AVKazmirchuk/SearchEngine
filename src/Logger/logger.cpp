@@ -16,7 +16,7 @@ void Logger::debug(const std::string& message)
 
 void Logger::debug(const std::string& message, const std::exception& exception)
 {
-    log(Level::L_DEBUG_L, message, exception);
+    ptrToLogger->log(Level::L_DEBUG_L, message, exception);
 }
 
 void Logger::info(const std::string& message)
@@ -26,7 +26,7 @@ void Logger::info(const std::string& message)
 
 void Logger::info(const std::string& message, const std::exception& exception)
 {
-    log(Level::L_INFO_L, message, exception);
+    ptrToLogger->log(Level::L_INFO_L, message, exception);
 }
 
 void Logger::warning(const std::string& message)
@@ -36,7 +36,7 @@ void Logger::warning(const std::string& message)
 
 void Logger::warning(const std::string& message, const std::exception& exception)
 {
-    log(Level::L_WARNING_L, message, exception);
+    ptrToLogger->log(Level::L_WARNING_L, message, exception);
 }
 
 void Logger::error(const std::string& message)
@@ -46,7 +46,7 @@ void Logger::error(const std::string& message)
 
 void Logger::error(const std::string& message, const std::exception& exception)
 {
-    log(Level::L_ERROR_L, message, exception);
+    ptrToLogger->log(Level::L_ERROR_L, message, exception);
 }
 
 void Logger::fatal(const std::string& message)
@@ -56,6 +56,6 @@ void Logger::fatal(const std::string& message)
 
 void Logger::fatal(const std::string& message, const std::exception& exception)
 {
-    log(Level::L_FATAL_L, message, exception);
+    ptrToLogger->log(Level::L_FATAL_L, message, exception);
 }
 

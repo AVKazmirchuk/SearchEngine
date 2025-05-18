@@ -22,6 +22,45 @@
 
 
 
+//Шаблон JSON-объекта файла logger.json
+const JSON configLoggerTemplate = JSON::parse(R"(
+    {
+    "usageTimeLimit" : {
+        "seconds" : 0,
+        "minutes" : 1,
+        "hours" : 0,
+        "days" : 0,
+        "weeks" : 0
+    },
+    "storageTimeLimit" : {
+        "seconds" : 0,
+        "minutes" : 7,
+        "hours" : 0,
+        "days" : 0,
+        "weeks" : 0
+    },
+    "dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
+    "fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
+    "fileSizeLimit" : 2000,
+    "filesDirectory" : ".\\Logs\\"
+}
+    )");
+
+//Шаблон JSON-объекта файла MessageQueue.json
+const JSON configMessageQueueTemplate = JSON::parse(R"(
+    {
+    "messageQueue" : {
+        "nameOfQueue" : "search_engine",
+        "maxNumberOfMessages" : 100,
+        "maxMessageSize" : 256,
+        "fileNameOfMainProgram" : "search_engine.exe",
+        "fileNameOfMonitor" : "search_engine_monitor.exe",
+        "nameOfConsole" : "Logger Monitor",
+        "indicatesMonitorStarting" : "C:\\Windows\\Temp\\search_engine_monitor"
+    }
+    }
+    )");
+
 
 
 /**
@@ -45,22 +84,32 @@ private:
 public:
 
     Logger(const std::string &in_configLoggerFilePath, const std::string &in_configMessageQueueFilePath)
+        : configLoggerFilePath(in_configLoggerFilePath),
+          configMessageQueueFilePath(in_configMessageQueueFilePath)
     {
-        //Добавить новый указатель на объект в контейнер указателей
-        pointersToObjects.push_back(this);
-
-        //Создан первый объект класса
-        if (pointersToObjects.size() == 1)
+        //Объект класса не создан
+        if (ptrToLogger == nullptr)
         {
-            //Запомнить путь файла конфигурации логирования
-            configLoggerFilePath = in_configLoggerFilePath;
+            ptrToLogger = this;
+
+            //Проверить файл logger.json
+            checkFile(configLoggerFilePath, configLoggerTemplate);
 
             //Инициализировать (настроить) класс
             initialize();
-        }
 
-        //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
-        resultOfWriteToFileAndMonitor = std::async(&Logger::writeMessage, this, in_configMessageQueueFilePath, this);
+            //Проверить файл messageQueue.json
+            checkFile(configMessageQueueFilePath, configMessageQueueTemplate);
+
+
+
+            //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
+            resultOfWriteToFileAndMonitor = std::async(&Logger::writeMessage, this);
+        }
+        else
+        {
+            throw OnlyOneObject();
+        }
     }
 
     ~Logger()
@@ -148,12 +197,17 @@ public:
 private:
 
     //Путь файла конфигурации логирования
-    inline static std::string configLoggerFilePath;
+    std::string configLoggerFilePath;
     //JSON-объект конфигурации логирования
-    inline static JSON configLoggerJSON;
+    JSON configLoggerJSON;
+    //Путь файла конфигурации очереди сообщений
+    std::string configMessageQueueFilePath;
+    //JSON-объект конфигурации очереди сообщений
+    JSON configMessageQueueJSON;
 
-    //Контейнер указателей на объекты. Используется для обращения к объектам из статических функций
-    inline static std::vector<Logger*> pointersToObjects;
+
+    //Указатель на объект. Используется в статических функциях и классе Logger::WriterMessage
+    inline static Logger* ptrToLogger{};
 
     //Типы интервалов времени
 
@@ -171,60 +225,51 @@ private:
     //Интервалы времени хранения файла
 
     //Интервал времени хранения файла, количество недель
-    static inline std::int64_t weeksStorage{};
+    std::int64_t weeksStorage{};
     //Интервал времени хранения файла, количество дней
-    static inline std::int64_t daysStorage{};
+    std::int64_t daysStorage{};
     //Интервал времени хранения файла, количество часов
-    static inline std::int64_t hoursStorage{};
+    std::int64_t hoursStorage{};
     //Интервал времени хранения файла, количество минут
-    static inline std::int64_t minutesStorage{};
+    std::int64_t minutesStorage{};
     //Интервал времени хранения файла, количество секунд
-    static inline std::int64_t secondsStorage{};
+    std::int64_t secondsStorage{};
 
     //Интервалы времени использования файла
 
     //Интервал времени использования файла, количество недель
-    static inline std::int64_t weeksUsage{};
+    std::int64_t weeksUsage{};
     //Интервал времени использования файла, количество дней
-    static inline std::int64_t daysUsage{};
+    std::int64_t daysUsage{};
     //Интервал времени использования файла, количество часов
-    static inline std::int64_t hoursUsage{};
+    std::int64_t hoursUsage{};
     //Интервал времени использования файла, количество минут
-    static inline std::int64_t minutesUsage{};
+    std::int64_t minutesUsage{};
     //Интервал времени использования файла, количество секунд
-    static inline std::int64_t secondsUsage{};
+    std::int64_t secondsUsage{};
 
     //Форматы даты, времени, имени файла
 
     //Формат даты и времени записи в файл
-    static inline std::string dateTimeFormat{};
+    std::string dateTimeFormat{};
     //Формат имени файла
-    static inline std::string fileNameFormat{};
+    std::string fileNameFormat{};
 
     //Предельный размер файла
-    static inline  uint64_t fileSizeLimit{};
+    uint64_t fileSizeLimit{};
 
     //Директория с лог-файлами
-    static inline std::string filesDirectory{};
+    std::string filesDirectory{};
 
     //Файл для записи
-    static inline std::filesystem::path file{};
+    std::filesystem::path file{};
 
     //Контейнер пар пути и момента времени последнего изменения файла
-    inline static std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
-
-
-
-
+    std::vector<std::pair<std::filesystem::path, std::chrono::system_clock::time_point>> logs{};
 
 
 
     //Переменные для работы отдельного потока логирования
-
-    //Путь файла конфигурации очереди сообщений
-    std::string configMessageQueueFilePath;
-    //JSON-объект конфигурации очереди сообщений
-    JSON configMessageQueueJSON;
 
     //Контейнер сообщений. Используется для накапливания сообщений и чтения их отдельным потоком логирования
     std::list<std::string> messages;
@@ -250,9 +295,7 @@ private:
 
     public:
 
-        WriterMessage(const std::string &in_configMessageQueueFilePath, Logger *in_pointerToLoggerObject)
-            : configMessageQueueFilePath{in_configMessageQueueFilePath}, pointerToLoggerObject{in_pointerToLoggerObject}
-        {}
+        WriterMessage() = default;
 
         /**
          * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
@@ -260,14 +303,6 @@ private:
         void run();
 
     private:
-
-        //Путь файла конфигурации очереди сообщений
-        std::string configMessageQueueFilePath;
-        //JSON-объект конфигурации очереди сообщений
-        JSON configMessageQueueJSON;
-
-        //Указатель на текущий объект класса Logger
-        Logger *pointerToLoggerObject;
 
         //Указатель на объект монитора отправки сообщений
         MonitorSender *monitorSender;
@@ -290,8 +325,8 @@ private:
         std::string indicatesMonitorStarting{};
 
 
-        //Текущая очередь сообщений (локальная для этого потока)
-        std::list<std::string> messagesForOutput;
+        //Контейнер текущих сообщений
+        std::list<std::string> messages;
 
         /**
          * Инициализировать (настроить) класс
@@ -315,13 +350,13 @@ private:
          * @param processName Имя процесса
          * @return Процесс запущен (true)/не запущен (false)
          */
-        static bool isProcessRun(const char * processName);
+        bool isProcessRun(const char * processName);
 
         /**
          * Запустить независимый процесс получения и вывода сообщений
          * @param lpApplicationName Имя процесса
          */
-        static void startMonitor(LPCSTR lpApplicationName);
+        void startMonitor(LPCSTR lpApplicationName);
 
         /**
          * Обработать контейнер сообщений в отдельном потоке
@@ -351,18 +386,18 @@ private:
      * Инициализировать (настроить) класс
      * @param configFilePath Ссылка на файл конфигурации логирования
      */
-    static void initialize();
+    void initialize();
 
     /**
      * Инициализировать переменные
      * @param configJSON JSON-объект содержащий значения
      */
-    static void initializeVariables();
+    void initializeVariables();
 
     /**
      * Настроить класс
      */
-    static void setupClass();
+    void setupClass();
 
 
 
@@ -372,18 +407,18 @@ private:
      * Определить файл для записи
      * @param directoryPath Путь к директории с логами
      */
-    static void identifyFile(const std::string& directoryPath);
+    void identifyFile(const std::string& directoryPath);
 
     /**
      * Определить новый файл
      */
-    static void identifyNewFile();
+    void identifyNewFile();
 
     /**
      * Определить файлы по последнему изменению
      * @param directoryPath Ссылка на путь к директории с логами
      */
-    static void identifyFilesByLastModification(const std::string& directoryPath);
+    void identifyFilesByLastModification(const std::string& directoryPath);
 
     /**
      * Преобразовать момент времени одного типа в другой
@@ -392,7 +427,7 @@ private:
      * @return Момент времени проеобразованного типа
      */
     template <typename TP>
-    static std::time_t to_time_t(TP tp)
+    std::time_t to_time_t(TP tp)
     {
         using namespace std::chrono;
         auto sctp = time_point_cast<system_clock::duration>(tp - TP::clock::now()
@@ -404,12 +439,12 @@ private:
      * Определить, превышено ли  время использования файла
      * @return Превышено (true)/ Непревышено (false)
      */
-    static bool isFileUsageTimeExceeded();
+    bool isFileUsageTimeExceeded();
 
     /**
      * Удалить файлы по сроку хранения
      */
-    static void deleteFilesByRetentionPeriod();
+    void deleteFilesByRetentionPeriod();
 
 
 
@@ -421,7 +456,7 @@ private:
      * @param message Ссылка на сообщение
      * @param exception Ссылка на исключение
      */
-    static void log(Level level, const std::string& message, const std::exception& exception);
+    void log(Level level, const std::string& message, const std::exception& exception);
 
     /**
      * Сформировать сообщение для вывода
@@ -431,30 +466,32 @@ private:
      * @param timeEvent Текущее время
      * @return Сообщение для вывода
      */
-    static std::string generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent);
+    std::string generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent);
 
     /**
      * Получить из уровня логирования строку
      * @param level Уровень логирования
      * @return Строка
      */
-    static std::string levelToString(Level level);
+    std::string levelToString(Level level);
 
     /**
      * Перевести время создания файла в строку
      * @param timePoint Текущее время
      * @return Строка времени создания файла
      */
-    static std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
+    std::string timePointToString(const std::chrono::system_clock::time_point& timePoint);
 
 
 
     /**
      * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
      */
-    void writeMessage(const std::string &in_configMessageQueueFilePath, Logger *pointerToLoggerObject);
+    void writeMessage();
 
-    //Вспомогательный класс
+
+
+    //Вспомогательные классы
 
     /**
      * Класс реализует генерацию исключений-заглушек
@@ -487,6 +524,25 @@ private:
         [[nodiscard]] ErrorCodeStub getErrorCode() const
         {
             return ERROR_STUB;
+        }
+
+    };
+
+    /**
+     * Класс реализует генерацию исключений-заглушек
+     */
+    class OnlyOneObject : public std::exception
+    {
+
+    public:
+
+        /**
+         * Получить информацию по исключению
+         * @return Информация по исключению
+         */
+        [[nodiscard]] const char* what() const noexcept override
+        {
+            return "There should be only one object of the Logger class.";
         }
 
     };

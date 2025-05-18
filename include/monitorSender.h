@@ -89,7 +89,7 @@ private:
          * @param processName Имя процесса
          * @return Процесс запущен (true)/не запущен (false)
          */
-        static bool isProcessRun(const char * processName);
+        bool isProcessRun(const char * processName);
 
     };
 

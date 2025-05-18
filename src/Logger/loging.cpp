@@ -71,21 +71,18 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
-    //Для каждого объекта
-    for (auto ptrToObject : pointersToObjects)
-    {
-        //Заблокировать доступ к контейнеру сообщений из отдельного потока
-        std::unique_lock<std::mutex> uniqueLock(ptrToObject->mutReadWriteMessages);
+    //Заблокировать доступ к контейнеру сообщений из отдельного потока
+    std::unique_lock<std::mutex> uniqueLock(mutReadWriteMessages);
 
-        //Добавить сообщение в контейнер сообщений
-        ptrToObject->messages.push_back(messageForOutput);
-        //Установить подтверждение добавления сообщения
-        ptrToObject->pushMessage = true;
+    //Добавить сообщение в контейнер сообщений
+    messages.push_back(messageForOutput);
+    //Установить подтверждение добавления сообщения
+    pushMessage = true;
 
-        //Разблокировать доступ к контейнеру сообщений из отдельного потока логирования
-        uniqueLock.unlock();
+    //Разблокировать доступ к контейнеру сообщений из отдельного потока логирования
+    uniqueLock.unlock();
 
-        //Сигнализировать о добавлении сообщения в контейнер сообщений
-        ptrToObject->cvPushMessage.notify_one();
-    }
+    //Сигнализировать о добавлении сообщения в контейнер сообщений
+    cvPushMessage.notify_one();
+
 }

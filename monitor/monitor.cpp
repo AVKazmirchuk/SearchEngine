@@ -107,9 +107,9 @@ void LoggerMonitor::stop()
 {
     for (auto& queue : queuesInUse)
     {
-        std::cout << queue << std::endl;
+        //std::cout << queue << std::endl;
         std::string messageStop{queue + "Stop"};
-        std::cout << messageStop << std::endl;
+        //std::cout << messageStop << std::endl;
         boost::interprocess::message_queue mq(boost::interprocess::open_only, queue.c_str());
         mq.send(messageStop.data(), messageStop.size(), 0);
     }
