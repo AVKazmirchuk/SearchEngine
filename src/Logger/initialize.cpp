@@ -16,20 +16,23 @@
 
 void Logger::deleteFilesByRetentionPeriod()
 {
-    //Вычислить интервал времени, в течение которого можно хранить файл
-    std::chrono::system_clock::duration storageTimeLimit = Weeks(weeksStorage) + Days(daysStorage) + Hours(hoursStorage) +
-                                                           Minutes(minutesStorage) + Seconds(secondsStorage);
-    //Для каждого элемента контейнера пар пути и момента времени последнего изменения файла, кроме последнего элемента
-    //(последний файл должен остаться)
-    for (auto it{logs.begin()}; it != logs.end() - 1; ++it)
+    //Контейнер пар пути и момента времени последнего изменения файла не пустой
+    if (!logs.empty())
     {
-        //Определить текущий интервал хранения файла
-        std::chrono::system_clock::duration storageTimeCurrent = std::chrono::system_clock::now() - it->second;
-        //Текущий интервал хранения файла больше либо равно предельного
-        if (storageTimeCurrent >= storageTimeLimit)
-        {
-            //Удалить текущий файл из директории
-            std::filesystem::remove(it->first);
+        //Вычислить интервал времени, в течение которого можно хранить файл
+        std::chrono::system_clock::duration storageTimeLimit = Weeks(weeksStorage) + Days(daysStorage) + Hours(hoursStorage) +
+                                                               Minutes(minutesStorage) + Seconds(secondsStorage);
+
+        //Для каждого элемента контейнера пар пути и момента времени последнего изменения файла, кроме последнего элемента
+        //(последний файл должен остаться)
+        for (auto it{logs.begin()}; it != logs.end() - 1; ++it) {
+            //Определить текущий интервал хранения файла
+            std::chrono::system_clock::duration storageTimeCurrent = std::chrono::system_clock::now() - it->second;
+            //Текущий интервал хранения файла больше либо равно предельного
+            if (storageTimeCurrent >= storageTimeLimit) {
+                //Удалить текущий файл из директории
+                std::filesystem::remove(it->first);
+            }
         }
     }
 }

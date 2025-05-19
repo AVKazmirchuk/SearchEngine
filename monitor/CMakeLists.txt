@@ -1,4 +1,4 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../src")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../../runtime")
 
 set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
 set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")

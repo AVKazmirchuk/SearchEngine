@@ -102,6 +102,7 @@ void Logger::identifyFile(const std::string& directoryPath)
     {
         //Заменить файл
         identifyNewFile();
+        return;
     }
 
     //Определить файлы по последнему изменению

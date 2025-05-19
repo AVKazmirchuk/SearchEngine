@@ -1,3 +1,4 @@
+#include <iostream>
 #include "searchEngine.h"
 #include "general.h"
 
@@ -67,9 +68,9 @@ int main(int argc, char* argv[])
     {
         auxiliary();
     }
-    catch (...)
+    catch (const std::exception& exception)
     {
-
+        std::cout << exception.what();
     }
 
     return 0;

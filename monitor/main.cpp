@@ -79,9 +79,9 @@ std::getchar();*/
     {
         auxiliary();
     }
-    catch (...)
+    catch (const std::exception& exception)
     {
-
+        std::cout << exception.what();
     }
 
     return 0;
