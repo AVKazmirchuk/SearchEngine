@@ -29,6 +29,7 @@ $RECYCLE.BIN/
 
 /.idea
 /cmake-build-*
+/runtime/Logs
 
 
 # Конец https://www.toptal.com/developers/gitignore/api/windows
