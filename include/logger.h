@@ -48,7 +48,7 @@ const JSON configLoggerTemplate = JSON::parse(R"(
     )");
 
 //Шаблон JSON-объекта файла MessageQueue.json
-const JSON configMessageQueueTemplate = JSON::parse(R"(
+const JSON configWriterMessageTemplate = JSON::parse(R"(
     {
     "messageQueue" : {
         "nameOfQueue" : "search_engine",
@@ -85,7 +85,7 @@ private:
 public:
 
     Logger(const std::string &in_configLoggerFilePath, const std::string &in_configMessageQueueFilePath)
-        : configLoggerFilePath(in_configLoggerFilePath), writerMessage(in_configMessageQueueFilePath)
+        : configLogger(in_configLoggerFilePath), writerMessage(in_configMessageQueueFilePath)
     {
         //Объект класса не создан
         if (ptrToLogger == nullptr)
@@ -93,7 +93,7 @@ public:
             ptrToLogger = this;
 
             //Проверить файл logger.json
-            checkFile(configLoggerFilePath, configLoggerTemplate);
+            //checkFile(configLoggerFilePath, configLoggerTemplate);
 
             //Инициализировать (настроить) класс
             initialize();
@@ -194,19 +194,90 @@ public:
 
 private:
 
-    //Указатель на объект. Используется в статических функциях и классе Logger::WriterMessage
-    inline static Logger* ptrToLogger{};
+    /**
+     * Класс реализует чтение и хранение параметров для настройки класса Logger
+     */
+    class ConfigLogger
+    {
 
-    //Путь файла конфигурации логирования
-    std::string configLoggerFilePath;
-    //JSON-объект конфигурации логирования
-    JSON configLoggerJSON;
-    //Путь файла конфигурации очереди сообщений
-    //std::string configMessageQueueFilePath;
-    //JSON-объект конфигурации очереди сообщений
-    //JSON configMessageQueueJSON;
+    public:
+
+        explicit ConfigLogger(const std::string &in_configLoggerFilePath) : configLoggerFilePath{in_configLoggerFilePath}
+        {
+            initialize();
+        }
+
+        [[nodiscard]] std::int64_t weeksStorage() const {return weeksStorageTime;}
+        [[nodiscard]] std::int64_t daysStorage() const {return daysStorageTime;}
+        [[nodiscard]] std::int64_t hoursStorage() const {return hoursStorageTime;}
+        [[nodiscard]] std::int64_t minutesStorage() const {return minutesStorageTime;}
+        [[nodiscard]] std::int64_t secondsStorage() const {return secondsStorageTime;}
+
+        [[nodiscard]] std::int64_t weeksUsage() const {return weeksUsageTime;}
+        [[nodiscard]] std::int64_t daysUsage() const {return daysUsageTime;}
+        [[nodiscard]] std::int64_t hoursUsage() const {return hoursUsageTime;}
+        [[nodiscard]] std::int64_t minutesUsage() const {return minutesUsageTime;}
+        [[nodiscard]] std::int64_t secondsUsage() const {return secondsUsageTime;}
+
+        [[nodiscard]] const std::string& dateTimeFormat() const {return dateTimeFmt;}
+        [[nodiscard]] const std::string& fileNameFormat() const {return fileNameFmt;}
+        [[nodiscard]] std::uint64_t fileSizeLimit() const {return fileSizeLmt;}
+        [[nodiscard]] const std::string& filesDirectory() const {return filesDir;}
+
+    private:
+
+        //Путь файла конфигурации логирования
+        std::string configLoggerFilePath;
+        //JSON-объект конфигурации логирования
+        JSON configLoggerJSON;
+
+        /**
+         * Инициализировать (настроить) класс
+         */
+        void initialize();
 
 
+
+        //Интервалы времени хранения файла
+
+        //Интервал времени хранения файла, количество недель
+        std::int64_t weeksStorageTime{};
+        //Интервал времени хранения файла, количество дней
+        std::int64_t daysStorageTime{};
+        //Интервал времени хранения файла, количество часов
+        std::int64_t hoursStorageTime{};
+        //Интервал времени хранения файла, количество минут
+        std::int64_t minutesStorageTime{};
+        //Интервал времени хранения файла, количество секунд
+        std::int64_t secondsStorageTime{};
+
+        //Интервалы времени использования файла
+
+        //Интервал времени использования файла, количество недель
+        std::int64_t weeksUsageTime{};
+        //Интервал времени использования файла, количество дней
+        std::int64_t daysUsageTime{};
+        //Интервал времени использования файла, количество часов
+        std::int64_t hoursUsageTime{};
+        //Интервал времени использования файла, количество минут
+        std::int64_t minutesUsageTime{};
+        //Интервал времени использования файла, количество секунд
+        std::int64_t secondsUsageTime{};
+
+        //Форматы даты и времени
+
+        //Формат даты и времени записи в файл
+        std::string dateTimeFmt{};
+        //Формат имени файла
+        std::string fileNameFmt{};
+
+        //Предельный размер файла
+        std::uint64_t fileSizeLmt{};
+
+        //Директория с лог-файлами
+        std::string filesDir{};
+
+    };
 
     /**
      * Класс реализует запись сообщений
@@ -216,14 +287,18 @@ private:
 
     public:
 
-        WriterMessage(const std::string& in_configMessageQueueFilePath)
-            : configMessageQueueFilePath{in_configMessageQueueFilePath}
+        explicit WriterMessage(const std::string& in_configWriterMessageFilePath)
+            : configWriterMessage(in_configWriterMessageFilePath),
+              monitorSender(configWriterMessage.nameOfQueue(),
+                            configWriterMessage.maxNumberOfMessages(),
+                            configWriterMessage.maxMessageSize(),
+                            configWriterMessage.fileNameOfMonitor())
         {
             //Проверить файл messageQueue.json
-            checkFile(configMessageQueueFilePath, configMessageQueueTemplate);
+            //checkFile(configWriterMessageFilePath, configWriterMessageTemplate);
 
             //Инициализировать (настроить) класс
-            initialize();
+            //initialize();
 
 
         }
@@ -235,31 +310,70 @@ private:
 
     private:
 
-        //Путь файла конфигурации очереди сообщений
-        std::string configMessageQueueFilePath;
+        /**
+     * Класс реализует чтение и хранение параметров для настройки класса Logger
+     */
+        class ConfigWriterMessage
+        {
 
-        //JSON-объект конфигурации очереди сообщений
-        JSON configMessageQueueJSON;
+        public:
+
+            explicit ConfigWriterMessage(const std::string &in_configWriterMessageFilePath) : configWriterMessageFilePath{in_configWriterMessageFilePath}
+            {
+                initialize();
+            }
+
+            [[nodiscard]] const std::string& nameOfQueue() const {return nameOfQueueValue;}
+            [[nodiscard]] boost::interprocess::message_queue::size_type maxNumberOfMessages() const {return maxNumberOfMessagesValue;}
+            [[nodiscard]] boost::interprocess::message_queue::size_type maxMessageSize() const {return maxMessageSizeValue;}
+            [[nodiscard]] const std::string& fileNameOfMainProgram() const {return fileNameOfMainProgramValue;}
+            [[nodiscard]] const std::string& fileNameOfMonitor() const {return fileNameOfMonitorValue;}
+
+            [[nodiscard]] const std::string& nameOfConsole() const {return nameOfConsoleValue;}
+            [[nodiscard]] const std::string& indicatesMonitorStarting() const {return indicatesMonitorStartingValue;}
+
+        private:
+
+            //Путь файла конфигурации логирования
+            std::string configWriterMessageFilePath;
+            //JSON-объект конфигурации логирования
+            JSON configWriterMessageJSON;
+
+            /**
+             * Инициализировать (настроить) класс
+             */
+            void initialize();
+
+
+
+            //Имя очереди
+            std::string nameOfQueueValue{};
+            //Максимальное количество сообщений в очереди
+            boost::interprocess::message_queue::size_type maxNumberOfMessagesValue{};
+            //Максимальный размер сообщения
+            boost::interprocess::message_queue::size_type maxMessageSizeValue{};
+            //Имя файла основной программы
+            std::string fileNameOfMainProgramValue{};
+            //Имя файла монитора
+            std::string fileNameOfMonitorValue{};
+            //Имя консоли
+            std::string nameOfConsoleValue{};
+            //Признак запуска монитора
+            std::string indicatesMonitorStartingValue{};
+
+        };
+
+
+
+        //Объект чтения и хранения параметров для настройки класса Logger
+        ConfigWriterMessage configWriterMessage;
 
         //Указатель на объект монитора отправки сообщений
-        MonitorSender *monitorSender;
+        MonitorSender monitorSender;
 
         //Параметры основного процесса и монитора
 
-        //Имя очереди
-        std::string nameOfQueue{};
-        //Максимальное количество сообщений в очереди
-        boost::interprocess::message_queue::size_type maxNumberOfMessages{};
-        //Максимальный размер сообщения
-        boost::interprocess::message_queue::size_type maxMessageSize{};
-        //Имя файла основной программы
-        std::string fileNameOfMainProgram{};
-        //Имя файла монитора
-        std::string fileNameOfMonitor{};
-        //Имя консоли
-        std::string nameOfConsole{};
-        //Признак запуска монитора
-        std::string indicatesMonitorStarting{};
+
 
 
         //Контейнер текущих сообщений
@@ -315,8 +429,15 @@ private:
 
     };
 
+
+    //Объект чтения и хранения параметров для настройки класса Logger
+    ConfigLogger configLogger;
+
     //Объект записи сообщений
     WriterMessage writerMessage;
+
+    //Указатель на объект. Используется в статических функциях и классе Logger::WriterMessage
+    inline static Logger* ptrToLogger{};
 
     //Типы интервалов времени
 
@@ -331,44 +452,12 @@ private:
     //Интервал времени в неделях
     using Weeks = std::chrono::duration<int64_t, std::ratio<60*60*24*7>>;
 
-    //Интервалы времени хранения файла
 
-    //Интервал времени хранения файла, количество недель
-    std::int64_t weeksStorage{};
-    //Интервал времени хранения файла, количество дней
-    std::int64_t daysStorage{};
-    //Интервал времени хранения файла, количество часов
-    std::int64_t hoursStorage{};
-    //Интервал времени хранения файла, количество минут
-    std::int64_t minutesStorage{};
-    //Интервал времени хранения файла, количество секунд
-    std::int64_t secondsStorage{};
 
-    //Интервалы времени использования файла
 
-    //Интервал времени использования файла, количество недель
-    std::int64_t weeksUsage{};
-    //Интервал времени использования файла, количество дней
-    std::int64_t daysUsage{};
-    //Интервал времени использования файла, количество часов
-    std::int64_t hoursUsage{};
-    //Интервал времени использования файла, количество минут
-    std::int64_t minutesUsage{};
-    //Интервал времени использования файла, количество секунд
-    std::int64_t secondsUsage{};
 
-    //Форматы даты, времени, имени файла
 
-    //Формат даты и времени записи в файл
-    std::string dateTimeFormat{};
-    //Формат имени файла
-    std::string fileNameFormat{};
 
-    //Предельный размер файла
-    uint64_t fileSizeLimit{};
-
-    //Директория с лог-файлами
-    std::string filesDirectory{};
 
     //Файл для записи
     std::filesystem::path file{};

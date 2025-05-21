@@ -21,7 +21,7 @@ std::string Logger::timePointToString(const std::chrono::system_clock::time_poin
     std::string ts(256,0);
 
     //Преобразовать время в строку, и задать размер строки
-    ts.resize(std::strftime(&ts[0], ts.size(), dateTimeFormat.c_str(), std::localtime(&t)));
+    ts.resize(std::strftime(&ts[0], ts.size(), configLogger.dateTimeFormat().c_str(), std::localtime(&t)));
 
     //Вернуть строку времени
     return ts;

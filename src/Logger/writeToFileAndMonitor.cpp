@@ -14,7 +14,7 @@
 void Logger::WriterMessage::writeToMonitor(const std::string& message)
 {
     //Отправить сообщение монитору (другому процессу)
-    monitorSender->send(message);
+    monitorSender.send(message);
 }
 
 void Logger::WriterMessage::writeToFile(const std::string& message)
@@ -34,7 +34,7 @@ void Logger::WriterMessage::writeToFile(const std::string& message)
     else
     {
         //Отправить сообщение монитору о невозможности открытия файла для записи
-        monitorSender->send("Logger: This file cannot be opened for writing: " + Logger::ptrToLogger->file.string());
+        monitorSender.send("Logger: This file cannot be opened for writing: " + Logger::ptrToLogger->file.string());
     }
 }
 
@@ -120,18 +120,18 @@ bool Logger::WriterMessage::isProcessRun(const char * const processName)
 void Logger::WriterMessage::waitForMonitorToStart()
 {
     //Если процесс не запущен
-    if (!isProcessRun(fileNameOfMonitor.c_str()))
+    if (!isProcessRun(configWriterMessage.fileNameOfMonitor().c_str()))
     {
         //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
-        std::filesystem::remove(indicatesMonitorStarting);
+        std::filesystem::remove(configWriterMessage.indicatesMonitorStarting());
 
         //Запустить процесс получения и вывода сообщений (в любом случае). Этот процесс может быть запущен только в одном экземпляре
         // (регулируется именованным мьютексом).
-        startMonitor(fileNameOfMonitor.c_str());
+        startMonitor(configWriterMessage.fileNameOfMonitor().c_str());
 
         //Ожидать запуска процесса (маркера запущенного процесса)
         do {
-        } while (!std::filesystem::exists(indicatesMonitorStarting));
+        } while (!std::filesystem::exists(configWriterMessage.indicatesMonitorStarting()));
     }
 }
 
@@ -139,29 +139,16 @@ void Logger::WriterMessage::initializeVariables()
 {
     //Параметры основного процесса и монитора
 
-    //Имя очереди
-    nameOfQueue = configMessageQueueJSON["messageQueue"]["nameOfQueue"];
-    //Максимальное количество сообщений в очереди
-    maxNumberOfMessages = configMessageQueueJSON["messageQueue"]["maxNumberOfMessages"];
-    //Максимальный размер сообщения
-    maxMessageSize = configMessageQueueJSON["messageQueue"]["maxMessageSize"];
-    //Имя файла основной программы
-    fileNameOfMainProgram = configMessageQueueJSON["messageQueue"]["fileNameOfMainProgram"];
-    //Имя файла монитора
-    fileNameOfMonitor = configMessageQueueJSON["messageQueue"]["fileNameOfMonitor"];
-    //Имя консоли
-    nameOfConsole = configMessageQueueJSON["messageQueue"]["nameOfConsole"];
-    //Признак запуска монитора
-    indicatesMonitorStarting = configMessageQueueJSON["messageQueue"]["indicatesMonitorStarting"];
+
 }
 
 void Logger::WriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
+    //configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
 
     //Инициализировать переменные
-    initializeVariables();
+    //initializeVariables();
 }
 
 void Logger::WriterMessage::run()
@@ -170,12 +157,9 @@ void Logger::WriterMessage::run()
     //initializeMonitorSender();
 
     //Создать объект монитора отправки сообщений
-    MonitorSender monitorSenderItself(nameOfQueue,
-                                maxNumberOfMessages,
-                                maxMessageSize,
-                                fileNameOfMonitor);
+    //MonitorSender monitorSenderItself(nameOfQueue, maxNumberOfMessages, maxMessageSize, fileNameOfMonitor);
 
-    monitorSender = &monitorSenderItself;
+    //monitorSender = &monitorSenderItself;
 
     //Ожидать запуска монитора (другого процесса)
     waitForMonitorToStart();

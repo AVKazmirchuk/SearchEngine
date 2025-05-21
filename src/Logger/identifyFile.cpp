@@ -31,15 +31,15 @@ bool Logger::isFileUsageTimeExceeded()
 
     std::tm tm{};
     std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
-    iss >> std::get_time(&tm, dateTimeFormat.c_str());
+    iss >> std::get_time(&tm, configLogger.dateTimeFormat().c_str());
     std::time_t tt{std::mktime(&tm)};
     std::chrono::system_clock::time_point tp{std::chrono::system_clock::from_time_t(tt)};
 
     //Вычислить интервал времени, в течение которого можно использовать текущий файл
     std::chrono::system_clock::duration usageTimeCurrent = std::chrono::system_clock::now() - tp;
 
-    std::chrono::system_clock::duration usageTimeLimit = Weeks(weeksUsage) + Days(daysUsage) + Hours(hoursUsage) +
-                                                         Minutes(minutesUsage) + Seconds(secondsUsage);
+    std::chrono::system_clock::duration usageTimeLimit = Weeks(configLogger.weeksUsage()) + Days(configLogger.daysUsage()) + Hours(configLogger.hoursUsage()) +
+                                                         Minutes(configLogger.minutesUsage()) + Seconds(configLogger.secondsUsage());
 
 
     //Время использования текущего файла превышено
@@ -90,9 +90,9 @@ void Logger::identifyNewFile()
 
     std::string ts(256,0);
 
-    ts.resize(std::strftime(&ts[0], ts.size(), fileNameFormat.c_str(), std::localtime(&t)));
+    ts.resize(std::strftime(&ts[0], ts.size(), configLogger.fileNameFormat().c_str(), std::localtime(&t)));
 
-    file = filesDirectory + ts + ".log";
+    file = configLogger.filesDirectory() + ts + ".log";
 }
 
 void Logger::identifyFile(const std::string& directoryPath)
@@ -109,7 +109,7 @@ void Logger::identifyFile(const std::string& directoryPath)
     identifyFilesByLastModification(directoryPath);
 
     //Размер файла больше допустимого
-    if (std::filesystem::file_size(file) >= fileSizeLimit)
+    if (std::filesystem::file_size(file) >= configLogger.fileSizeLimit())
     {
         //Заменить файл
         identifyNewFile();
