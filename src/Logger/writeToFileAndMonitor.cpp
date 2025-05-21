@@ -135,38 +135,39 @@ void Logger::WriterMessage::waitForMonitorToStart()
     }
 }
 
-void Logger::WriterMessage::initializeVariablesMonitorSender()
+void Logger::WriterMessage::initializeVariables()
 {
     //Параметры основного процесса и монитора
 
     //Имя очереди
-    nameOfQueue = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["nameOfQueue"];
+    nameOfQueue = configMessageQueueJSON["messageQueue"]["nameOfQueue"];
     //Максимальное количество сообщений в очереди
-    maxNumberOfMessages = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["maxNumberOfMessages"];
+    maxNumberOfMessages = configMessageQueueJSON["messageQueue"]["maxNumberOfMessages"];
     //Максимальный размер сообщения
-    maxMessageSize = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["maxMessageSize"];
+    maxMessageSize = configMessageQueueJSON["messageQueue"]["maxMessageSize"];
     //Имя файла основной программы
-    fileNameOfMainProgram = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["fileNameOfMainProgram"];
+    fileNameOfMainProgram = configMessageQueueJSON["messageQueue"]["fileNameOfMainProgram"];
     //Имя файла монитора
-    fileNameOfMonitor = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["fileNameOfMonitor"];
+    fileNameOfMonitor = configMessageQueueJSON["messageQueue"]["fileNameOfMonitor"];
     //Имя консоли
-    nameOfConsole = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["nameOfConsole"];
+    nameOfConsole = configMessageQueueJSON["messageQueue"]["nameOfConsole"];
     //Признак запуска монитора
-    indicatesMonitorStarting = Logger::ptrToLogger->configMessageQueueJSON["messageQueue"]["indicatesMonitorStarting"];
+    indicatesMonitorStarting = configMessageQueueJSON["messageQueue"]["indicatesMonitorStarting"];
 }
 
-void Logger::WriterMessage::initializeMonitorSender()
+void Logger::WriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    Logger::ptrToLogger->configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(Logger::ptrToLogger->configMessageQueueFilePath);
+    configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
 
-    initializeVariablesMonitorSender();
+    //Инициализировать переменные
+    initializeVariables();
 }
 
 void Logger::WriterMessage::run()
 {
 
-    initializeMonitorSender();
+    //initializeMonitorSender();
 
     //Создать объект монитора отправки сообщений
     MonitorSender monitorSenderItself(nameOfQueue,
@@ -212,7 +213,7 @@ void Logger::WriterMessage::run()
 void Logger::writeMessage()
 {
     //Создать объект записи сообщений
-    WriterMessage writerMessage;
+    //WriterMessage writerMessage;
 
     //Записать информацию в файл и отправить информацию в монитор
     writerMessage.run();

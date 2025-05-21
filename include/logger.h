@@ -85,8 +85,7 @@ private:
 public:
 
     Logger(const std::string &in_configLoggerFilePath, const std::string &in_configMessageQueueFilePath)
-        : configLoggerFilePath(in_configLoggerFilePath),
-          configMessageQueueFilePath(in_configMessageQueueFilePath)
+        : configLoggerFilePath(in_configLoggerFilePath), writerMessage(in_configMessageQueueFilePath)
     {
         //Объект класса не создан
         if (ptrToLogger == nullptr)
@@ -100,9 +99,7 @@ public:
             initialize();
 
             //Проверить файл messageQueue.json
-            checkFile(configMessageQueueFilePath, configMessageQueueTemplate);
-
-
+            //checkFile(configMessageQueueFilePath, configMessageQueueTemplate);
 
             //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
             resultOfWriteToFileAndMonitor = std::async(&Logger::writeMessage, this);
@@ -197,18 +194,129 @@ public:
 
 private:
 
+    //Указатель на объект. Используется в статических функциях и классе Logger::WriterMessage
+    inline static Logger* ptrToLogger{};
+
     //Путь файла конфигурации логирования
     std::string configLoggerFilePath;
     //JSON-объект конфигурации логирования
     JSON configLoggerJSON;
     //Путь файла конфигурации очереди сообщений
-    std::string configMessageQueueFilePath;
+    //std::string configMessageQueueFilePath;
     //JSON-объект конфигурации очереди сообщений
-    JSON configMessageQueueJSON;
+    //JSON configMessageQueueJSON;
 
 
-    //Указатель на объект. Используется в статических функциях и классе Logger::WriterMessage
-    inline static Logger* ptrToLogger{};
+
+    /**
+     * Класс реализует запись сообщений
+     */
+    class WriterMessage
+    {
+
+    public:
+
+        WriterMessage(const std::string& in_configMessageQueueFilePath)
+            : configMessageQueueFilePath{in_configMessageQueueFilePath}
+        {
+            //Проверить файл messageQueue.json
+            checkFile(configMessageQueueFilePath, configMessageQueueTemplate);
+
+            //Инициализировать (настроить) класс
+            initialize();
+
+
+        }
+
+        /**
+         * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
+         */
+        void run();
+
+    private:
+
+        //Путь файла конфигурации очереди сообщений
+        std::string configMessageQueueFilePath;
+
+        //JSON-объект конфигурации очереди сообщений
+        JSON configMessageQueueJSON;
+
+        //Указатель на объект монитора отправки сообщений
+        MonitorSender *monitorSender;
+
+        //Параметры основного процесса и монитора
+
+        //Имя очереди
+        std::string nameOfQueue{};
+        //Максимальное количество сообщений в очереди
+        boost::interprocess::message_queue::size_type maxNumberOfMessages{};
+        //Максимальный размер сообщения
+        boost::interprocess::message_queue::size_type maxMessageSize{};
+        //Имя файла основной программы
+        std::string fileNameOfMainProgram{};
+        //Имя файла монитора
+        std::string fileNameOfMonitor{};
+        //Имя консоли
+        std::string nameOfConsole{};
+        //Признак запуска монитора
+        std::string indicatesMonitorStarting{};
+
+
+        //Контейнер текущих сообщений
+        std::list<std::string> messages;
+
+        /**
+         * Инициализировать (настроить) класс
+         * @param configFilePath Ссылка на файл конфигурации логирования
+         */
+        void initialize();
+
+        /**
+         * Инициализировать переменные
+         * @param configJSON JSON-объект содержащий значения
+         */
+        void initializeVariables();
+
+        /**
+         * Ожидать запуска монитора (другого процесса)
+         */
+        void waitForMonitorToStart();
+
+        /**
+         * Определить, запущен ли процесс
+         * @param processName Имя процесса
+         * @return Процесс запущен (true)/не запущен (false)
+         */
+        bool isProcessRun(const char * processName);
+
+        /**
+         * Запустить независимый процесс получения и вывода сообщений
+         * @param lpApplicationName Имя процесса
+         */
+        void startMonitor(LPCSTR lpApplicationName);
+
+        /**
+         * Обработать контейнер сообщений в отдельном потоке
+         */
+        void processMessageContainer();
+
+        /**
+         * Записать информацию в файл в отдельном потоке
+         * @param messageForOutput Ссылка на сообщение для вывода
+         */
+        void writeToFile(const std::string& messageForOutput);
+
+        /**
+         * Отправить информацию в монитор в отдельном потоке
+         * @param messageForOutput Ссылка на сообщение для вывода
+         * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
+         */
+        void writeToMonitor(const std::string& messageForOutput);
+
+    };
+
+    //Объект записи сообщений
+    WriterMessage writerMessage;
 
     //Типы интервалов времени
 
@@ -291,93 +399,6 @@ private:
 
 
 
-    class WriterMessage
-    {
-
-    public:
-
-        WriterMessage() = default;
-
-        /**
-         * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
-         */
-        void run();
-
-    private:
-
-        //Указатель на объект монитора отправки сообщений
-        MonitorSender *monitorSender;
-
-        //Параметры основного процесса и монитора
-
-        //Имя очереди
-        std::string nameOfQueue{};
-        //Максимальное количество сообщений в очереди
-        boost::interprocess::message_queue::size_type maxNumberOfMessages{};
-        //Максимальный размер сообщения
-        boost::interprocess::message_queue::size_type maxMessageSize{};
-        //Имя файла основной программы
-        std::string fileNameOfMainProgram{};
-        //Имя файла монитора
-        std::string fileNameOfMonitor{};
-        //Имя консоли
-        std::string nameOfConsole{};
-        //Признак запуска монитора
-        std::string indicatesMonitorStarting{};
-
-
-        //Контейнер текущих сообщений
-        std::list<std::string> messages;
-
-        /**
-         * Инициализировать (настроить) класс
-         * @param configFilePath Ссылка на файл конфигурации логирования
-         */
-        void initializeMonitorSender();
-
-        /**
-         * Инициализировать переменные
-         * @param configJSON JSON-объект содержащий значения
-         */
-        void initializeVariablesMonitorSender();
-
-        /**
-         * Ожидать запуска монитора (другого процесса)
-         */
-        void waitForMonitorToStart();
-
-        /**
-         * Определить, запущен ли процесс
-         * @param processName Имя процесса
-         * @return Процесс запущен (true)/не запущен (false)
-         */
-        bool isProcessRun(const char * processName);
-
-        /**
-         * Запустить независимый процесс получения и вывода сообщений
-         * @param lpApplicationName Имя процесса
-         */
-        void startMonitor(LPCSTR lpApplicationName);
-
-        /**
-         * Обработать контейнер сообщений в отдельном потоке
-         */
-        void processMessageContainer();
-
-        /**
-         * Записать информацию в файл в отдельном потоке
-         * @param messageForOutput Ссылка на сообщение для вывода
-         */
-        void writeToFile(const std::string& messageForOutput);
-
-        /**
-         * Отправить информацию в монитор в отдельном потоке
-         * @param messageForOutput Ссылка на сообщение для вывода
-         * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
-         */
-        void writeToMonitor(const std::string& messageForOutput);
-
-    };
 
 
 
