@@ -52,7 +52,6 @@ void Logger::ConfigLogger::initialize()
 
 void Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
-
     //Создать JSON-объект конфигурации
     configWriterMessageJSON = ReadWriteJSONFile::readJSONFile(configWriterMessageFilePath);
 

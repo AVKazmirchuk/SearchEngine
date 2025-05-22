@@ -51,6 +51,6 @@ add_executable(search_engine main.cpp
 
         readWriteJSONFile/readWriteJSONFile.cpp
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp converterJSON/checkRequests.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/writeToFileAndMonitor.cpp Logger/initialize.cpp Logger/config.cpp)
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp converterJSON/checkRequests.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

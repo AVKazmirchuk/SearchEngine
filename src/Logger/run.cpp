@@ -40,7 +40,7 @@ void Logger::WriterMessage::writeToFile(const std::string& message)
 
 void Logger::WriterMessage::processMessageContainer()
 {
-    //Каждое сообщение в контейнере сообщений
+    //Каждое сообщение в контейнере текущих сообщений
     for (const auto& message: messages)
     {
         //Записать в файл
@@ -135,32 +135,8 @@ void Logger::WriterMessage::waitForMonitorToStart()
     }
 }
 
-void Logger::WriterMessage::initializeVariables()
-{
-    //Параметры основного процесса и монитора
-
-
-}
-
-void Logger::WriterMessage::initialize()
-{
-    //Создать JSON-объект конфигурации
-    //configMessageQueueJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
-
-    //Инициализировать переменные
-    //initializeVariables();
-}
-
 void Logger::WriterMessage::run()
 {
-
-    //initializeMonitorSender();
-
-    //Создать объект монитора отправки сообщений
-    //MonitorSender monitorSenderItself(nameOfQueue, maxNumberOfMessages, maxMessageSize, fileNameOfMonitor);
-
-    //monitorSender = &monitorSenderItself;
-
     //Ожидать запуска монитора (другого процесса)
     waitForMonitorToStart();
 
@@ -192,13 +168,4 @@ void Logger::WriterMessage::run()
     messages = Logger::ptrToLogger->messages;
     //Обработать очередь сообщений
     processMessageContainer();
-}
-
-void Logger::writeMessage()
-{
-    //Создать объект записи сообщений
-    //WriterMessage writerMessage;
-
-    //Записать информацию в файл и отправить информацию в монитор
-    writerMessage.run();
 }

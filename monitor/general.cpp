@@ -13,6 +13,6 @@
 namespace constants
 {
 
-    const std::string configMessageQueueFilePath{"messageQueue.json"};
+    const std::string configLoggerMonitorFilePath{"messageQueue.json"};
 
 }

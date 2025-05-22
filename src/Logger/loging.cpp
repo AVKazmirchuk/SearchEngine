@@ -84,5 +84,4 @@ void Logger::log(Level level, const std::string& message, const std::exception& 
 
     //Сигнализировать о добавлении сообщения в контейнер сообщений
     cvPushMessage.notify_one();
-
 }

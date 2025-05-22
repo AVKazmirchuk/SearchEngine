@@ -37,30 +37,11 @@ void Logger::deleteFilesByRetentionPeriod()
     }
 }
 
-void Logger::setupClass()
+void Logger::setup()
 {
     //Определить файл для записи
     identifyFile(configLogger.filesDirectory());
 
     //Удалить файлы по сроку хранения
     deleteFilesByRetentionPeriod();
-}
-
-void Logger::initializeVariables()
-{
-    //Инициализировать переменные
-
-
-}
-
-void Logger::initialize()
-{
-    //Создать JSON-объект конфигурации
-    //configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath);
-
-    //Инициализировать переменные
-    //initializeVariables();
-
-    //Настроить класс
-    setupClass();
 }

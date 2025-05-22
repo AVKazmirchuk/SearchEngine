@@ -84,28 +84,23 @@ private:
 
 public:
 
-    Logger(const std::string &in_configLoggerFilePath, const std::string &in_configMessageQueueFilePath)
-        : configLogger(in_configLoggerFilePath), writerMessage(in_configMessageQueueFilePath)
+    Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath)
+        : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath)
     {
         //Объект класса не создан
         if (ptrToLogger == nullptr)
         {
             ptrToLogger = this;
 
-            //Проверить файл logger.json
-            //checkFile(configLoggerFilePath, configLoggerTemplate);
-
-            //Инициализировать (настроить) класс
-            initialize();
-
-            //Проверить файл messageQueue.json
-            //checkFile(configMessageQueueFilePath, configMessageQueueTemplate);
+            //Настроить класс
+            setup();
 
             //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
-            resultOfWriteToFileAndMonitor = std::async(&Logger::writeMessage, this);
+            resultOfWriteToFileAndMonitor = std::async(&Logger::WriterMessage::run, &writerMessage);
         }
         else
         {
+            //Выбросить исключение, так как более обного объекта создавать запрещено
             throw OnlyOneObject();
         }
     }
@@ -236,8 +231,6 @@ private:
          */
         void initialize();
 
-
-
         //Интервалы времени хранения файла
 
         //Интервал времени хранения файла, количество недель
@@ -264,23 +257,19 @@ private:
         //Интервал времени использования файла, количество секунд
         std::int64_t secondsUsageTime{};
 
-        //Форматы даты и времени
-
         //Формат даты и времени записи в файл
         std::string dateTimeFmt{};
         //Формат имени файла
         std::string fileNameFmt{};
-
         //Предельный размер файла
         std::uint64_t fileSizeLmt{};
-
         //Директория с лог-файлами
         std::string filesDir{};
 
     };
 
     /**
-     * Класс реализует запись сообщений
+     * Класс реализует запись сообщений в лог-файл и монитор
      */
     class WriterMessage
     {
@@ -293,15 +282,7 @@ private:
                             configWriterMessage.maxNumberOfMessages(),
                             configWriterMessage.maxMessageSize(),
                             configWriterMessage.fileNameOfMonitor())
-        {
-            //Проверить файл messageQueue.json
-            //checkFile(configWriterMessageFilePath, configWriterMessageTemplate);
-
-            //Инициализировать (настроить) класс
-            //initialize();
-
-
-        }
+        {}
 
         /**
          * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
@@ -311,8 +292,8 @@ private:
     private:
 
         /**
-     * Класс реализует чтение и хранение параметров для настройки класса Logger
-     */
+         * Класс реализует чтение и хранение параметров для настройки класса WriterMessage, MonitorSender
+         */
         class ConfigWriterMessage
         {
 
@@ -344,8 +325,6 @@ private:
              */
             void initialize();
 
-
-
             //Имя очереди
             std::string nameOfQueueValue{};
             //Максимальное количество сообщений в очереди
@@ -368,28 +347,13 @@ private:
         //Объект чтения и хранения параметров для настройки класса Logger
         ConfigWriterMessage configWriterMessage;
 
-        //Указатель на объект монитора отправки сообщений
+        //Объект монитора отправки сообщений
         MonitorSender monitorSender;
-
-        //Параметры основного процесса и монитора
-
-
-
 
         //Контейнер текущих сообщений
         std::list<std::string> messages;
 
-        /**
-         * Инициализировать (настроить) класс
-         * @param configFilePath Ссылка на файл конфигурации логирования
-         */
-        void initialize();
 
-        /**
-         * Инициализировать переменные
-         * @param configJSON JSON-объект содержащий значения
-         */
-        void initializeVariables();
 
         /**
          * Ожидать запуска монитора (другого процесса)
@@ -410,12 +374,12 @@ private:
         void startMonitor(LPCSTR lpApplicationName);
 
         /**
-         * Обработать контейнер сообщений в отдельном потоке
+         * Обработать контейнер сообщений
          */
         void processMessageContainer();
 
         /**
-         * Записать информацию в файл в отдельном потоке
+         * Записать информацию в файл
          * @param messageForOutput Ссылка на сообщение для вывода
          */
         void writeToFile(const std::string& messageForOutput);
@@ -454,12 +418,7 @@ private:
 
 
 
-
-
-
-
-
-    //Файл для записи
+    //Текущий файл для записи
     std::filesystem::path file{};
 
     //Контейнер пар пути и момента времени последнего изменения файла
@@ -488,27 +447,10 @@ private:
 
 
 
-
-
-
-    //Функции инициализации и настройки класса
-
-    /**
-     * Инициализировать (настроить) класс
-     * @param configFilePath Ссылка на файл конфигурации логирования
-     */
-    void initialize();
-
-    /**
-     * Инициализировать переменные
-     * @param configJSON JSON-объект содержащий значения
-     */
-    void initializeVariables();
-
     /**
      * Настроить класс
      */
-    void setupClass();
+    void setup();
 
 
 
@@ -595,17 +537,10 @@ private:
 
 
 
-    /**
-     * Записать информацию в файл и отправить информацию в монитор в отдельном потоке
-     */
-    void writeMessage();
-
-
-
     //Вспомогательные классы
 
     /**
-     * Класс реализует генерацию исключений-заглушек
+     * Класс реализует генерацию исключения-заглушки
      */
     class ExceptionStub : public std::exception
     {
@@ -640,7 +575,7 @@ private:
     };
 
     /**
-     * Класс реализует генерацию исключений-заглушек
+     * Класс реализует генерацию исключения о невозможности создания более одного объекта
      */
     class OnlyOneObject : public std::exception
     {

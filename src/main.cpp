@@ -8,7 +8,7 @@
 void auxiliary()
 {
     //Создать объект класса логирования событий
-    Logger logger(constants::configLoggerFilePath, constants::configMessageQueueFilePath);
+    Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
 
     //Вывести в лог запуск программы
     Logger::info("Start SearchEngine");
@@ -40,8 +40,15 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    std::ofstream outFile("test.txt", std::ios::app);
+    outFile << "test1" << std::endl;
+    int x;
+    std::cin >> x;
+    outFile << "test2" << std::endl;
+    outFile.close();
+
 /*    //Создать объект класса логирования событий
-    Logger logger(constants::configLoggerFilePath, constants::configMessageQueueFilePath);
+    Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
 
     //Вывести в лог запуск программы
     Logger::info("Start SearchEngine");

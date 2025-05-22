@@ -25,7 +25,7 @@ class CheckFile
 
 public:
 
-    CheckFile() = default;
+    CheckFile() = delete;
 
     /**
      * Проверить файл на целостность JSON-структуры

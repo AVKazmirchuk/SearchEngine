@@ -31,57 +31,17 @@ void LoggerMonitor::outputToConsole(const std::string& message)
     else if (message.find("Logger") != std::string::npos) std::cout << termcolor::cyan << message << std::endl;
 }
 
-void LoggerMonitor::initializeVariables(const JSON& configJSON)
-{
-    //Инициализировать переменные
-
-    //Параметры основного процесса и монитора
-
-    //Имя очереди
-    nameOfQueue = configJSON["messageQueue"]["nameOfQueue"];
-    //Максимальное количество сообщений в очереди
-    maxNumberOfMessages = configJSON["messageQueue"]["maxNumberOfMessages"];
-    //Максимальный размер сообщения
-    maxMessageSize = configJSON["messageQueue"]["maxMessageSize"];
-    //Имя файла основной программы
-    fileNameOfMainProgram = configJSON["messageQueue"]["fileNameOfMainProgram"];
-    //Имя файла монитора
-    fileNameOfMonitor = configJSON["messageQueue"]["fileNameOfMonitor"];
-    //Имя консоли
-    nameOfConsole = configJSON["messageQueue"]["nameOfConsole"];
-    //Признак запуска монитора
-    indicatesMonitorStarting = configJSON["messageQueue"]["indicatesMonitorStarting"];
-
-    queuesInUse.push_back(nameOfQueue);
-
-}
-
-void LoggerMonitor::initialize()
-{
-    //Создать JSON-объект конфигурации
-    JSON configJSON = ReadWriteJSONFile::readJSONFile(configMessageQueueFilePath);
-
-    //Инициализировать переменные
-    initializeVariables(configJSON);
-}
-
 void LoggerMonitor::run()
 {
-    //Создать объект монитора получения сообщений
-    MonitorReceiver monitorReceiver(nameOfQueue,
-                                    maxNumberOfMessages,
-                                    maxMessageSize,
-                                    fileNameOfMainProgram);
-
     //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
-    std::filesystem::remove(indicatesMonitorStarting);
+    std::filesystem::remove(configLoggerMonitor.indicatesMonitorStarting());
     //Создать сигнал-файл (маркер запущенного процесса)
-    std::ofstream loggerMonitorAlreadyRunning(indicatesMonitorStarting);
+    std::ofstream loggerMonitorAlreadyRunning(configLoggerMonitor.indicatesMonitorStarting());
     //Закрыть сигнал-файл
     loggerMonitorAlreadyRunning.close();
 
     //Установить заглавие консоли
-    SetConsoleTitle(nameOfConsole.c_str());
+    SetConsoleTitle(configLoggerMonitor.nameOfConsole().c_str());
 
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
@@ -90,7 +50,7 @@ void LoggerMonitor::run()
         std::string message{monitorReceiver.receive()};
 
         //Исключительная ситуация
-        if (message == (nameOfQueue + "Stop"))
+        if (message == (configLoggerMonitor.nameOfQueue() + "Stop"))
         {
 
                 std::ofstream file{"LoggerMonitor.txt", std::ios::app};
@@ -107,43 +67,56 @@ void LoggerMonitor::stop()
 {
     for (auto& queue : queuesInUse)
     {
-        //std::cout << queue << std::endl;
+        //Создать сообщение о завершении работы
         std::string messageStop{queue + "Stop"};
-        //std::cout << messageStop << std::endl;
+        //Открыть существующую текущую очередь сообщений
         boost::interprocess::message_queue mq(boost::interprocess::open_only, queue.c_str());
+        //Послать в очередь сообщение о заверешении работы
         mq.send(messageStop.data(), messageStop.size(), 0);
     }
 }
 
-BOOL WINAPI LoggerMonitor::ConsoleCtrlEventHandler( DWORD dwCtrlType )
+BOOL WINAPI LoggerMonitor::ConsoleCtrlEventHandler(DWORD dwCtrlType)
 {
     switch (dwCtrlType)
     {
         case CTRL_C_EVENT:
         case CTRL_BREAK_EVENT:
-            // Do nothing.
-            // To prevent other potential handlers from
-            // doing anything, return TRUE instead.
-            //return FALSE;
-
         case CTRL_CLOSE_EVENT:
-            // Do your final processing here!
+            //Завершить работу
             LoggerMonitor::stop();
-
+            //Ждать максимум, сколько позволяет ОС, для завершения работы приложения
             std::this_thread::sleep_for(std::chrono::seconds(15));
 
             return TRUE;
 
         case CTRL_LOGOFF_EVENT:
         case CTRL_SHUTDOWN_EVENT:
-            // Please be careful to read the implications of using
-            // each one of these, and the applicability to your
-            // code. Unless you are writing a Windows Service,
-            // chances are you only need to pay attention to the
-            // CTRL_CLOSE_EVENT type.
+            //Для служб Windows
             return FALSE;
     }
 
-    // If it gets this far (it shouldn't), do nothing.
+    //Если обработка событий приведёт сюда - оставить обработчик по умолчанию
     return FALSE;
+}
+
+void LoggerMonitor::ConfigLoggerMonitor::initialize()
+{
+    //Создать JSON-объект конфигурации
+    configLoggerMonitorJSON = ReadWriteJSONFile::readJSONFile(configLoggerMonitorFilePath);
+
+    //Имя очереди
+    nameOfQueueValue = configLoggerMonitorJSON["messageQueue"]["nameOfQueue"];
+    //Максимальное количество сообщений в очереди
+    maxNumberOfMessagesValue = configLoggerMonitorJSON["messageQueue"]["maxNumberOfMessages"];
+    //Максимальный размер сообщения
+    maxMessageSizeValue = configLoggerMonitorJSON["messageQueue"]["maxMessageSize"];
+    //Имя файла основной программы
+    fileNameOfMainProgramValue = configLoggerMonitorJSON["messageQueue"]["fileNameOfMainProgram"];
+    //Имя файла монитора
+    fileNameOfMonitorValue = configLoggerMonitorJSON["messageQueue"]["fileNameOfMonitor"];
+    //Имя консоли
+    nameOfConsoleValue = configLoggerMonitorJSON["messageQueue"]["nameOfConsole"];
+    //Признак запуска монитора
+    indicatesMonitorStartingValue = configLoggerMonitorJSON["messageQueue"]["indicatesMonitorStarting"];
 }

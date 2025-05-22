@@ -21,7 +21,7 @@
 void auxiliary()
 {
     //Создать объект класса логирования событий в монитор
-    LoggerMonitor loggerMonitor(constants::configMessageQueueFilePath);
+    LoggerMonitor loggerMonitor(constants::configLoggerMonitorFilePath);
 
     loggerMonitor.run();
 }
