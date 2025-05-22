@@ -43,7 +43,7 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
     return true;
 }
 
-bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
+bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& message)
 {
     try
     {
@@ -53,6 +53,8 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
     catch(const std::runtime_error& e)
     {
         //JSON-структура файла не соответствует шаблону
+        Logger::error(message);
+
         return false;
     }
 
@@ -60,11 +62,23 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
     return true;
 }
 
-bool CheckFile::isJSONStructureValid(const std::string &fileName)
+void CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& message, const std::exception&)
 {
-    //Создать объект для проверки файла
-    std::ifstream inFile(fileName);
+    try
+    {
+        //Проверить JSON-структуру файла на соответствие шаблону
+        isJSONStructureMatchImpl(objectJSON, objectJSONTemplate);
+    }
+    catch(const std::runtime_error& e)
+    {
+        //JSON-структура файла не соответствует шаблону
+        Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath));
+        throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
+    }
+}
 
+bool CheckFile::isJSONStructureValid(std::ifstream& inFile, const std::string& filePath, const std::string& message)
+{
     //Создать временный объект для проверки
     JSON tmpJSON;
 
@@ -75,13 +89,30 @@ bool CheckFile::isJSONStructureValid(const std::string &fileName)
     }
     catch (const nlohmann::detail::parse_error &e)
     {
-        inFile.close();
         //JSON-структура повреждена
+        Logger::error(message);
+
         return false;
     }
 
-    inFile.close();
     //JSON-структура целостна
     return true;
 }
 
+void CheckFile::isJSONStructureValid(std::ifstream& inFile, const std::string& filePath, const std::string& message, const std::exception&)
+{
+    //Создать временный объект для проверки
+    JSON tmpJSON;
+
+    try
+    {
+        //Прочитать JSON-структуру
+        inFile >> tmpJSON;
+    }
+    catch (const nlohmann::detail::parse_error &e)
+    {
+        //JSON-структура повреждена
+        Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath));
+        throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath);
+    }
+}

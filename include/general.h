@@ -25,6 +25,15 @@ using JSON = nlohmann::basic_json<
         std::uint64_t,
         float>;
 
+using ConstJSON = const nlohmann::basic_json<
+        nlohmann::ordered_map,
+        std::vector,
+        std::string,
+        bool,
+        std::int64_t,
+        std::uint64_t,
+        float>;
+
 //Константы переменных
 namespace constants
 {
