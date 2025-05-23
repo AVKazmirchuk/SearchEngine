@@ -104,7 +104,7 @@ void exitProgram();
  * @param filePath Имя файла
  * @param objectJSONTemplate Шаблон JSON-объекта
  */
-void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
+//void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
 
 
 

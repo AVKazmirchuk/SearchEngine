@@ -7,7 +7,7 @@
 #include <fstream>
 
 #include "readWriteJSONFile.h"
-
+#include "check"
 
 
 void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)

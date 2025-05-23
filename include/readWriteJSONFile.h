@@ -30,7 +30,7 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static JSON readJSONFile(const std::string& filePath);
+    static JSON readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate);
 
     /**
      * Записать JSON-файл

@@ -6,7 +6,7 @@
 
 #include <fstream>
 #include "logger.h"
-
+#include "checkFile.h"
 
 
 bool Logger::isFileUsageTimeExceeded()
@@ -15,7 +15,7 @@ bool Logger::isFileUsageTimeExceeded()
     std::ifstream inFile(file);
 
     //Файл не открывается для чтения
-    if (!inFile.is_open())
+    if (!CheckFile::isFileOpenRead(inFile, file.string(), "bool Logger::isFileUsageTimeExceeded()"))
     {
         //Заменить файл
         return true;

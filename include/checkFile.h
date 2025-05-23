@@ -54,6 +54,8 @@ public:
     //Проверить файл на открытие для чтения
     static bool isFileOpenRead(const std::ifstream& inFile, const std::string& filePath, const std::string& message)
     {
+        isFileExists(filePath, message);
+
         if (!inFile.is_open())
         {
             Logger::error(message);
@@ -67,6 +69,8 @@ public:
     //Проверить файл на открытие для чтения
     static void isFileOpenRead(const std::ifstream& inFile, const std::string& filePath, const std::string& message, const std::exception&)
     {
+        isFileExists(filePath, message, std::runtime_error("e"));
+
         if (!inFile.is_open())
         {
             Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
@@ -77,6 +81,8 @@ public:
     //Проверить файл на открытие для чтения
     static bool isFileOpenWrite(const std::ofstream& outFile, const std::string& filePath, const std::string& message)
     {
+        isFileExists(filePath, message);
+
         if (!outFile.is_open())
         {
             Logger::error(message);
@@ -90,6 +96,8 @@ public:
     //Проверить файл на открытие для чтения
     static void isFileOpenWrite(const std::ofstream& outFile, const std::string& filePath, const std::string& message, const std::exception&)
     {
+        isFileExists(filePath, message, std::runtime_error("e"));
+
         if (!outFile.is_open())
         {
             Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath));

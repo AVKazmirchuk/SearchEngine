@@ -8,7 +8,7 @@
 
 #include "logger.h"
 #include "readWriteJSONFile.h"
-
+#include "checkFile.h"
 
 
 void Logger::WriterMessage::writeToMonitor(const std::string& message)
@@ -23,7 +23,7 @@ void Logger::WriterMessage::writeToFile(const std::string& message)
     std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
 
     //Файл открывается для записи
-    if (outFile.is_open())
+    if (CheckFile::isFileOpenWrite(outFile, Logger::ptrToLogger->file.string(), "void Logger::WriterMessage::writeToFile(const std::string& message)"))
     {
         //Записать сообщение в файл
         outFile << message << std::endl;

@@ -11,8 +11,9 @@
 
 void Logger::ConfigLogger::initialize()
 {
+    std::cout << "qwerty";
     //Создать JSON-объект конфигурации
-    configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath);
+    configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath, configLoggerTemplate);
 
     //Интервалы времени хранения файла
 
@@ -53,7 +54,7 @@ void Logger::ConfigLogger::initialize()
 void Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    configWriterMessageJSON = ReadWriteJSONFile::readJSONFile(configWriterMessageFilePath);
+    configWriterMessageJSON = ReadWriteJSONFile::readJSONFile(configWriterMessageFilePath, configWriterMessageTemplate);
 
     //Имя очереди
     nameOfQueueValue = configWriterMessageJSON["messageQueue"]["nameOfQueue"];

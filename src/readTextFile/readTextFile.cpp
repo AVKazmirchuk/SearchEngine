@@ -12,6 +12,7 @@
 #include "readTextFile.h"
 #include "general.h"
 #include "logger.h"
+#include "checkFile.h"
 
 
 
@@ -31,17 +32,21 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
                 [](const std::string& filePath) -> std::string
         {
             //Создать объект для чтения файла документа
-            std::ifstream file(filePath);
+            std::ifstream inFile(filePath);
 
             //Проверить файл на открытие для чтения
-            if (!file.is_open())
-            {
-                Logger::fatal("std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
-                throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
-            }
+            //if (!inFile.is_open())
+            //{
+            //    Logger::fatal("std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)",
+            //                  CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
+            //    throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
+            //}
+
+            CheckFile::isFileOpenRead(inFile, filePath,
+                                      "std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)", std::runtime_error("e"));
 
             //Прочитать файл документа и вернуть документ
-            return {(std::istreambuf_iterator<char>(file)), {}};
+            return {(std::istreambuf_iterator<char>(inFile)), {}};
         },
         std::cref(filePaths[docID]))
         );

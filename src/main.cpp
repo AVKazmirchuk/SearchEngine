@@ -14,14 +14,14 @@ void auxiliary()
     Logger::info("Start SearchEngine");
 
     //Проверить файл config.json
-    checkFile(constants::configFilePath, constants::configTemplate);
+    //checkFile(constants::configFilePath, constants::configTemplate);
 
     //Проверить файл requests.json
-    checkFile(constants::requestsFilePath, constants::requestsTemplate);
+    //checkFile(constants::requestsFilePath, constants::requestsTemplate);
 
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(ReadWriteJSONFile::readJSONFile(constants::configFilePath),
-                              ReadWriteJSONFile::readJSONFile(constants::requestsFilePath));
+    SearchEngine searchEngine(ReadWriteJSONFile::readJSONFile(constants::configFilePath, constants::configTemplate),
+                              ReadWriteJSONFile::readJSONFile(constants::requestsFilePath, constants::requestsTemplate));
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
