@@ -11,7 +11,6 @@
 
 void Logger::ConfigLogger::initialize()
 {
-    std::cout << "qwerty";
     //Создать JSON-объект конфигурации
     configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath, configLoggerTemplate);
 

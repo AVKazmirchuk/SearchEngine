@@ -18,6 +18,8 @@ bool CheckFile::isJSONStructureValid(std::ifstream& inFile, const std::string& f
     {
         //Прочитать JSON-структуру
         inFile >> tmpJSON;
+        inFile.clear();
+        inFile.seekg(0);
     }
     catch (const nlohmann::detail::parse_error &e)
     {
