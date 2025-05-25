@@ -10,6 +10,7 @@
 
 void SearchEngine::searchModifiedAll()
 {
+
     //Очистить список документов
     documentsObj.clearDocuments();
 

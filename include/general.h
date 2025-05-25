@@ -25,15 +25,6 @@ using JSON = nlohmann::basic_json<
         std::uint64_t,
         float>;
 
-using ConstJSON = const nlohmann::basic_json<
-        nlohmann::ordered_map,
-        std::vector,
-        std::string,
-        bool,
-        std::int64_t,
-        std::uint64_t,
-        float>;
-
 //Константы переменных
 namespace constants
 {
@@ -44,6 +35,11 @@ namespace constants
     extern const std::string requestsFilePath;
     //Путь файла ответов
     extern const std::string answersFilePath;
+
+    //Путь файла конфигурации логирования
+    extern const std::string configLoggerFilePath;
+    //Путь файла конфигурации очереди сообщений
+    extern const std::string configWriterMessageFilePath;
 
     //Имя поля "config" файла конфигурации
     extern const std::string configStr;
@@ -81,16 +77,9 @@ namespace constants
     //Ширина вывода
     extern const int formatByWidth;
 
-    //Шаблон JSON-объекта файла config.json
-    extern const JSON configTemplate;
 
-    //Шаблон JSON-объекта файла requests.json
-    extern const JSON requestsTemplate;
 
-    //Путь файла конфигурации логирования
-    extern const std::string configLoggerFilePath;
-    //Путь файла конфигурации очереди сообщений
-    extern const std::string configWriterMessageFilePath;
+
 
 }
 

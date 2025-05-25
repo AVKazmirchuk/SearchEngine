@@ -2,10 +2,14 @@
 // Created by Alexander on 31.03.2025.
 //
 
+#include <source_location>
 
 #include "checkFile.h"
 #include "readWriteJSONFile.h"
 #include "logger.h"
+#include "boost/current_function.hpp"
+#include <ranges>
+
 
 
 
@@ -20,9 +24,10 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     outFile << std::setw(formatByWidth) << objectJSON;
 }
 
-JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, std::string str)
+JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, const std::source_location &location)
 {
-    std::cout << str << std::endl;
+
+    std::cout << location.function_name() << std::endl;
 
     //Создать объект для чтения
     std::ifstream inFile(filePath);

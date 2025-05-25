@@ -45,30 +45,7 @@ namespace constants
     const int precision{6};
     const int formatByWidth{2};
 
-    const JSON configTemplate = JSON::parse(R"(
-    {
-      "config": {
-        "name": "SkillboxSearchEngine",
-        "version": "0.1",
-        "max_responses": 5
-      },
-     "files": [
-       "resources/file001.txt",
-       "resources/file002.txt",
-       "resources/file003.txt"
-     ]
-    }
-    )");
 
-    const JSON requestsTemplate = JSON::parse(R"(
-    {
-      "requests": [
-        "of the and water is year",
-        "water another good see",
-        "music"
-      ]
-    }
-    )");
 
     const std::string configLoggerFilePath{"logger.json"};
     const std::string configWriterMessageFilePath{"messageQueue.json"};

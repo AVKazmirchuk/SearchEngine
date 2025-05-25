@@ -12,7 +12,8 @@
 #include "nlohmann/json.hpp"
 
 #include "general.h"
-
+#include <source_location>
+#include "boost/current_function.hpp"
 
 
 /**
@@ -30,7 +31,7 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static JSON readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, std::string str = __builtin_FUNCTION());
+    static JSON readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, const std::source_location &location = std::source_location::current());
 
     /**
      * Записать JSON-файл

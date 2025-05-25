@@ -22,6 +22,34 @@
 #include "logger.h"
 
 
+
+const JSON configTemplate = JSON::parse(R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1",
+        "max_responses": 5
+      },
+     "files": [
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
+     ]
+    }
+    )");
+
+const JSON requestsTemplate = JSON::parse(R"(
+    {
+      "requests": [
+        "of the and water is year",
+        "water another good see",
+        "music"
+      ]
+    }
+    )");
+
+
+
 /**
  * Класс организует взаимодействие между другими классами
  */
@@ -30,12 +58,25 @@ class SearchEngine
 
 public:
 
+    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath)
+    : configSearchEngine(in_configFilePath, in_requestsFilePath),
+
+      converterJSONObj(configSearchEngine.getConfigJSON(), configSearchEngine.getRequestsJSON()),
+      documentsObj{},
+      invertedIndexObj(documentsObj.getDocuments()),
+      requestsObj{},
+      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
+
+    {
+        Logger::info(converterJSONObj.about());
+    }
+
     /**
      * Инициализирует объекты классов
      * @param in_configJSON
      * @param in_requestsJSON
      */
-    SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
+    /*SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
 
     : converterJSONObj(in_configJSON, in_requestsJSON),
       documentsObj{},
@@ -45,14 +86,14 @@ public:
 
     {
         Logger::info(converterJSONObj.about());
-    }
+    }*/
 
     /**
      * Инициализирует объекты классов
      * @param in_configJSON
      * @param in_requestsJSON
      */
-    SearchEngine(JSON&& in_configJSON, JSON&& in_requestsJSON)
+    /*SearchEngine(JSON&& in_configJSON, JSON&& in_requestsJSON)
 
     : converterJSONObj(std::move(in_configJSON), std::move(in_requestsJSON)),
       documentsObj{},
@@ -62,7 +103,7 @@ public:
 
     {
         Logger::info(converterJSONObj.about());
-    }
+    }*/
 
     /**
      * Рассчитать релевантность ответов
@@ -86,6 +127,56 @@ public:
     std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
 
 private:
+
+    /**
+     * Класс реализует чтение и хранение параметров для настройки класса SearchEngine
+     */
+    class ConfigSearchEngine
+    {
+
+    public:
+
+        explicit ConfigSearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath)
+        : configFilePath{in_configFilePath}, requestsFilePath{in_requestsFilePath}
+        {
+            initialize();
+        }
+
+        [[nodiscard]] JSON getConfigJSON() const {return configJSON;}
+        [[nodiscard]] JSON getRequestsJSON() const {return requestsJSON;}
+
+
+
+
+    private:
+
+        //Путь файла конфигурации логирования
+        std::string configFilePath;
+        std::string requestsFilePath;
+        //JSON-объект конфигурации логирования
+        JSON configJSON;
+        JSON requestsJSON;
+
+        /**
+         * Инициализировать (настроить) класс
+         */
+        void initialize();
+
+
+
+
+
+
+
+
+
+    };
+
+    //Объект чтения и хранения параметров для настройки класса Logger
+    ConfigSearchEngine configSearchEngine;
+
+    JSON configJSON;
+    JSON requestsJSON;
 
     /**
      * JSON-объекты
