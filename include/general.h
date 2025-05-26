@@ -41,45 +41,10 @@ namespace constants
     //Путь файла конфигурации очереди сообщений
     extern const std::string configWriterMessageFilePath;
 
-    //Имя поля "config" файла конфигурации
-    extern const std::string configStr;
-    //Имя поля "name" файла конфигурации
-    extern const std::string nameStr;
-    //Имя поля "version" файла конфигурации
-    extern const std::string versionStr;
-    //Имя поля "max_responses" файла конфигурации
-    extern const std::string max_responsesStr;
-    //Имя поля "files" файла конфигурации
-    extern const std::string filesStr;
-
-    //Имя поля "requests" файла запросов
-    extern const std::string requestsStr;
-
-    //Имя поля "answers" файла ответов
-    extern const std::string answersStr;
-    //Имя поля "request" файла ответов
-    extern const std::string requestStr;
-    //Имя поля "result" файла ответов
-    extern const std::string resultStr;
-    //Значение "true" поля "result" файла ответов
-    extern const std::string trueStr;
-    //Значение "false" поля "result" файла ответов
-    extern const std::string falseStr;
-    //Имя поля "relevance" файла ответов
-    extern const std::string relevanceStr;
-    //Имя поля "docid" файла ответов
-    extern const std::string docIdStr;
-    //Имя поля "rank" файла ответов
-    extern const std::string rankStr;
-
     //Количество знаков после запятой
     extern const int precision;
     //Ширина вывода
     extern const int formatByWidth;
-
-
-
-
 
 }
 
@@ -87,13 +52,6 @@ namespace constants
  * Выйти из программы
  */
 void exitProgram();
-
-/**
- * Проверить последовательно файл на существование, на возможность открытия для чтения, на целостность JSON-структуры, на соответствие шаблону
- * @param filePath Имя файла
- * @param objectJSONTemplate Шаблон JSON-объекта
- */
-//void checkFile(const std::string& filePath, const JSON &objectJSONTemplate);
 
 
 

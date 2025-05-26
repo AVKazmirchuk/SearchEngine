@@ -58,6 +58,48 @@ public:
         checkRequests();
     }
 
+    //Класс содержит переменные названий полей файлов конфигурации, запросов, ответов
+    class ConfigConverterJSON
+    {
+
+    public:
+
+        ConfigConverterJSON() = delete;
+
+        //Имя поля "config" файла конфигурации
+        inline static const std::string configStr{"config"};
+        //Имя поля "name" файла конфигурации
+        inline static const std::string nameStr{"name"};
+        //Имя поля "version" файла конфигурации
+        inline static const std::string versionStr{"version"};
+        //Имя поля "max_responses" файла конфигурации
+        inline static const std::string max_responsesStr{"max_responses"};
+        //Имя поля "files" файла конфигурации
+        inline static const std::string filesStr{"files"};
+
+        //Имя поля "requests" файла запросов
+        inline static const std::string requestsStr{"requests"};
+
+        //Имя поля "answers" файла ответов
+        inline static const std::string answersStr{"answers"};
+        //Имя поля "request" файла ответов
+        inline static const std::string requestStr{"request"};
+        //Имя поля "result" файла ответов
+        inline static const std::string resultStr{"result"};
+        //Значение "true" поля "result" файла ответов
+        inline static const std::string trueStr{"true"};
+        //Значение "false" поля "result" файла ответов
+        inline static const std::string falseStr{"false"};
+        //Имя поля "relevance" файла ответов
+        inline static const std::string relevanceStr{"relevance"};
+        //Имя поля "docid" файла ответов
+        inline static const std::string docIdStr{"docid"};
+        //Имя поля "rank" файла ответов
+        inline static const std::string rankStr{"rank"};
+
+    };
+
+
     /**
      * О программе
      * @return Строка о программе (название, версия)

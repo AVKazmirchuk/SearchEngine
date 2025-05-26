@@ -7,9 +7,9 @@
 #include "checkFile.h"
 #include "logger.h"
 
-bool CheckFile::isJSONStructureValid(std::ifstream& inFile, const std::string& filePath, const std::string& message)
+bool CheckFile::isJSONStructureValid(std::ifstream& inFile)
 {
-    isFileOpenRead(inFile, filePath, message);
+    //isFileOpenRead(inFile, filePath, message);
 
     //Создать временный объект для проверки
     JSON tmpJSON;
@@ -24,7 +24,7 @@ bool CheckFile::isJSONStructureValid(std::ifstream& inFile, const std::string& f
     catch (const nlohmann::detail::parse_error &e)
     {
         //JSON-структура повреждена
-        Logger::error(message);
+        //Logger::error(message);
 
         return false;
     }

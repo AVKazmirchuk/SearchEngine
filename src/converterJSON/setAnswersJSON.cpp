@@ -41,7 +41,8 @@
 
 float ConverterJSON::accumulateRank(const std::vector<std::vector<std::pair<std::uint64_t, float>>>& answers, std::size_t requestId)
 {
-    return std::accumulate(answers[static_cast<std::uint64_t>(requestId)].cbegin(), answers[static_cast<std::uint64_t>(requestId)].cend(), static_cast<float>(0.0),
+    return std::accumulate(answers[static_cast<std::uint64_t>(requestId)].cbegin(),
+                           answers[static_cast<std::uint64_t>(requestId)].cend(), static_cast<float>(0.0),
                            [](float rank, const std::pair<std::uint64_t, float>& index)
                            {
                                return rank += index.second;
@@ -73,7 +74,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
     for (std::size_t requestId{}; requestId < answers.size(); ++requestId)
     {
         //Преобразовать ID запроса в строку
-        std::string currentRequest{convertIdtoStr(requestId, constants::requestStr)};
+        std::string currentRequest{convertIdtoStr(requestId, ConfigConverterJSON::requestStr)};
 
         //Суммарный ранг ответов меньше точности
         if (accumulateRank(answers, requestId) < epsilon)
@@ -91,7 +92,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
              * }
              *
              */
-            answersJSON[constants::answersStr][currentRequest] = {{constants::resultStr, constants::falseStr}};
+            answersJSON[ConfigConverterJSON::answersStr][currentRequest] = {{ConfigConverterJSON::resultStr, ConfigConverterJSON::falseStr}};
             //Перейти к следующему запросу
             continue;
         }
@@ -110,7 +111,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
          * }
          *
          */
-        answersJSON[constants::answersStr][currentRequest] = {{constants::resultStr, constants::trueStr}};
+        answersJSON[ConfigConverterJSON::answersStr][currentRequest] = {{ConfigConverterJSON::resultStr, ConfigConverterJSON::trueStr}};
 
         //Рассчитать количество ответов с ненулевым рангом
         const std::size_t countOfNonZeroRank{static_cast<size_t>(std::count_if(answers[requestId].cbegin(), answers[requestId].cend(),
@@ -139,8 +140,8 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
              * }
              *
              */
-            answersJSON[constants::answersStr][currentRequest].push_back({constants::docIdStr, answers[requestId][0].first});
-            answersJSON[constants::answersStr][currentRequest].push_back({constants::rankStr, answers[requestId][0].second});
+            answersJSON[ConfigConverterJSON::answersStr][currentRequest].push_back({ConfigConverterJSON::docIdStr, answers[requestId][0].first});
+            answersJSON[ConfigConverterJSON::answersStr][currentRequest].push_back({ConfigConverterJSON::rankStr, answers[requestId][0].second});
             //Перейти к следующему запросу
             continue;
         }
@@ -176,9 +177,9 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
              * }
              *
              */
-            answersJSON[constants::answersStr][currentRequest][constants::relevanceStr].push_back(
-                    {{constants::docIdStr, answers[requestId][relativeIndex].first},
-                     {constants::rankStr, answers[requestId][relativeIndex].second}});
+            answersJSON[ConfigConverterJSON::answersStr][currentRequest][ConfigConverterJSON::relevanceStr].push_back(
+                    {{ConfigConverterJSON::docIdStr, answers[requestId][relativeIndex].first},
+                     {ConfigConverterJSON::rankStr, answers[requestId][relativeIndex].second}});
         }
     }
 }

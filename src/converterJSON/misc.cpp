@@ -11,8 +11,8 @@
 std::string ConverterJSON::about()
 {
     //Вернуть строку о программе (название, версия)
-    return to_string(configJSON[constants::configStr][constants::nameStr]) + ", v." +
-           to_string(configJSON[constants::configStr][constants::versionStr]);
+    return to_string(configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::nameStr]) + ", v." +
+           to_string(configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::versionStr]);
 }
 
 JSON& ConverterJSON::getAnswersJSON()
@@ -22,7 +22,7 @@ JSON& ConverterJSON::getAnswersJSON()
 
 std::vector<std::string> ConverterJSON::getFilePaths()
 {
-    std::vector<std::string> filePaths(configJSON[constants::filesStr]);
+    std::vector<std::string> filePaths(configJSON[ConfigConverterJSON::filesStr]);
 
     return filePaths;
 }
@@ -30,7 +30,7 @@ std::vector<std::string> ConverterJSON::getFilePaths()
 int ConverterJSON::getMaxResponses()
 {
 
-    return configJSON[constants::configStr][constants::max_responsesStr];
+    return configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::max_responsesStr];
 
 }
 
@@ -38,7 +38,7 @@ std::vector<std::string> ConverterJSON::getRequests()
 {
     std::vector<std::string> requests;
 
-    for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[constants::requestsStr]))
+    for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[ConfigConverterJSON::requestsStr]))
     {
         requests.push_back(elem);
     }

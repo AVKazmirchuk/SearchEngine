@@ -29,11 +29,11 @@ public:
     CheckFile() = delete;
 
     //Проверить файл на существование
-    static bool isFileExists(const std::string& filePath, const std::string& message)
+    static bool isFileExists(const std::string& filePath)
     {
         if (!std::filesystem::exists(filePath))
         {
-            Logger::error(message);
+            //Logger::error(message);
 
             return false;
         }
@@ -52,13 +52,13 @@ public:
     }
 
     //Проверить файл на открытие для чтения
-    static bool isFileOpenRead(const std::ifstream& inFile, const std::string& filePath, const std::string& message)
+    static bool isFileOpenRead(const std::ifstream& inFile)
     {
-        isFileExists(filePath, message);
+        //isFileExists(filePath, message);
 
         if (!inFile.is_open())
         {
-            Logger::error(message);
+            //Logger::error(message);
 
             return false;
         }
@@ -69,7 +69,7 @@ public:
     //Проверить файл на открытие для чтения
     static void isFileOpenRead(const std::ifstream& inFile, const std::string& filePath, const std::string& message, const std::exception&)
     {
-        isFileExists(filePath, message, std::runtime_error("e"));
+        //isFileExists(filePath, message, std::runtime_error("e"));
 
         if (!inFile.is_open())
         {
@@ -78,7 +78,7 @@ public:
         }
     }
 
-    //Проверить файл на открытие для чтения
+    //Проверить файл на открытие для записи
     static bool isFileOpenWrite(const std::ofstream& outFile, const std::string& filePath, const std::string& message)
     {
         isFileExists(filePath, message);
@@ -93,7 +93,7 @@ public:
         return true;
     }
 
-    //Проверить файл на открытие для чтения
+    //Проверить файл на открытие для записи
     static void isFileOpenWrite(const std::ofstream& outFile, const std::string& filePath, const std::string& message, const std::exception&)
     {
         isFileExists(filePath, message, std::runtime_error("e"));
@@ -110,7 +110,7 @@ public:
      * @param fileName Имя файла
      * @return Файл целостный(true)/не целостный(false)
      */
-    static bool isJSONStructureValid(std::ifstream& inFile, const std::string& filePath, const std::string& message);
+    static bool isJSONStructureValid(std::ifstream& inFile);
 
     /**
      * Проверить файл на целостность JSON-структуры
