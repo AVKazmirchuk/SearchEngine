@@ -19,63 +19,102 @@ class DispatcherOperationValidity
 
 public:
 
-    static void checkFileOperations(std::ifstream& inFile, const std::string& filePath, const std::string& callingFunction)
+    static void determineJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& callingFunction)
     {
-        ErrorCode error{};
+        ErrorCode errorCode{};
 
-        if (!CheckFile::isFileExists(filePath)) error = ErrorCode::ERROR_FILE_MISSING;
-        else if (!CheckFile::isFileOpenRead(inFile)) error = ErrorCode::ERROR_FILE_NOT_OPEN_READ;
-        else if (!CheckFile::isJSONStructureValid(inFile)) error = ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED;
+        if (!CheckFile::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH;
 
-        if (static_cast<int>(error) != 0)
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+    static void determineReadJSONFile(std::ifstream& inFile, const std::string& filePath, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (!CheckFile::isFileExists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
+        else if (!CheckFile::isFileOpenRead(inFile)) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_READ;
+        else if (!CheckFile::isJSONStructureValid(inFile)) errorCode = ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED;
+
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+    static void determineWriteJSONFile(std::ofstream& outFile, const std::string& filePath, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (!CheckFile::isFileExists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
+        else if (!CheckFile::isFileOpenWrite(outFile)) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_WRITE;
+
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+private:
+
+    enum Level
+    {
+        debug,
+        info,
+        warning,
+        error,
+        fatal
+    };
+
+    static void determineDegreeOfValidity(ErrorCode errorCode, const std::string& filePath, const std::string& callingFunction)
+    {
+        if (static_cast<int>(errorCode) != 0)
         {
             auto it{std::find_if(actionLevel.begin(), actionLevel.end(),
-                                 [&callingFunction](const std::pair<std::string, std::string> &elem) {
+                                 [&callingFunction](const std::pair<std::string, Level> &elem) {
                                      return elem.first == callingFunction;
                                  })};
 
             if (it != actionLevel.end())
             {
-                if (it->second == "fatal")
+                switch (it->second)
                 {
-                    Logger::fatal(callingFunction, CheckFileException(error, filePath));
-                    throw CheckFileException(error, filePath);
+                    case fatal:
+                        Logger::fatal(callingFunction, CheckFileException(errorCode, filePath));
+                        throw CheckFileException(errorCode, filePath);
+                    case error:
+                        Logger::error(callingFunction);
+                        return;
+                    case warning:
+                        Logger::warning(callingFunction);
+                        return;
+                    case info:
+                        Logger::info(callingFunction);
+                        return;
+                    case debug:
+                        Logger::debug(callingFunction);
+                        return;
                 }
-                else if (it->second == "error")
-                {
-                    Logger::error(callingFunction);
-                }
-                else if (it->second == "warning")
-                {
-                    Logger::warning(callingFunction);
-                }
-                else if (it->second == "info")
-                {
-                    Logger::info(callingFunction);
-                }
-
+            }
+            else
+            {
+                Logger::error(callingFunction);
+                return;
             }
         }
-
-
-
-
     }
 
-private:
-
-    inline static std::list<std::pair<std::string, std::string>> actionLevel{
-            {"void SearchEngine::ConfigSearchEngine::initialize()", "fatal"}
+    inline static std::list<std::pair<std::string, Level>> actionLevel{
+            {"void SearchEngine::ConfigSearchEngine::initialize()", fatal}
     };
 };
 
 
-void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath, const int formatByWidth)
+void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath, const int formatByWidth, const std::source_location &callingFunction)
 {
+
+    std::cout << "writeJSONFile: " << callingFunction.function_name() << std::endl;
+
     //Создать объект для записи
     std::ofstream outFile{filePath};
 
-    CheckFile::isFileOpenWrite(outFile, filePath, "void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)", std::runtime_error("e"));
+    //CheckFile::isFileOpenWrite(outFile, filePath, "void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)", std::runtime_error("e"));
+
+    DispatcherOperationValidity::determineWriteJSONFile(outFile, filePath, callingFunction.function_name());
 
     //Записать JSON-объект в файл
     outFile << std::setw(formatByWidth) << objectJSON;
@@ -84,21 +123,17 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
 JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, const std::source_location &callingFunction)
 {
 
-    std::cout << callingFunction.function_name() << std::endl;
+    std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
     //Создать объект для чтения
     std::ifstream inFile(filePath);
 
-    DispatcherOperationValidity::checkFileOperations(inFile, filePath, callingFunction);
-
-    //CheckFile::isJSONStructureValid(inFile, filePath, "JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)", std::runtime_error("e"));
+    DispatcherOperationValidity::determineReadJSONFile(inFile, filePath, callingFunction.function_name());
 
     //Прочитать файл в JSON-объект
     JSON targetJSON = JSON::parse(inFile);
 
-    CheckFile::isJSONStructureMatch(targetJSON, objectJSONTemplate, filePath,
-                                    "JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate)",
-                                    std::runtime_error("e"));
+    DispatcherOperationValidity::determineJSONStructureMatch(targetJSON, objectJSONTemplate, filePath, callingFunction.function_name());
 
     //Вернуть JSON-объект
     return targetJSON;

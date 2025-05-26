@@ -31,14 +31,16 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static JSON readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, const std::source_location &location = std::source_location::current());
+    static JSON readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate,
+                             const std::source_location &callingFunction = std::source_location::current());
 
     /**
      * Записать JSON-файл
      * @param objectJSON JSON-объект
      * @param filePath Путь JSON-файла
      */
-    static void writeJSONFile(const JSON& objectJSON, const std::string& filePath, const int formatByWidth = 2);
+    static void writeJSONFile(const JSON& objectJSON, const std::string& filePath, const int formatByWidth = 2,
+                              const std::source_location &callingFunction = std::source_location::current());
 
 };
 

@@ -79,13 +79,13 @@ public:
     }
 
     //Проверить файл на открытие для записи
-    static bool isFileOpenWrite(const std::ofstream& outFile, const std::string& filePath, const std::string& message)
+    static bool isFileOpenWrite(const std::ofstream& outFile)
     {
-        isFileExists(filePath, message);
+        //isFileExists(filePath, message);
 
         if (!outFile.is_open())
         {
-            Logger::error(message);
+            //Logger::error(message);
 
             return false;
         }
@@ -125,7 +125,7 @@ public:
      * @param objectJSONTemplate JSON-объект шаблона
      * @return Файл соответствуе(true)/не соответствует(false)
      */
-    static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& message);
+    static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
     /**
      * Проверить JSON-структуру файла на соответствие шаблону

@@ -89,7 +89,7 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
     return true;
 }
 
-bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& message)
+bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {
     try
     {
@@ -99,7 +99,7 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
     catch(const std::runtime_error& e)
     {
         //JSON-структура файла не соответствует шаблону
-        Logger::error(message);
+        //Logger::error(message);
 
         return false;
     }
