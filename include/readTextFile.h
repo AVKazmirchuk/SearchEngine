@@ -6,7 +6,7 @@
 #define SEARCH_ENGINE_READTEXTFILE_H
 
 
-
+#include <source_location>
 #include <string>
 #include <vector>
 
@@ -29,7 +29,8 @@ public:
      * @param filePaths Список путей документов
      * @return Документы
      */
-    static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
+    static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths,
+                                                 const std::source_location &callingFunction = std::source_location::current());
 
 };
 

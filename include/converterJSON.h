@@ -12,6 +12,7 @@
 #include <vector>
 #include <utility>
 #include <list>
+#include <source_location>
 #include <thread>
 #include <mutex>
 #include <future>
@@ -40,8 +41,7 @@ public:
     : configJSON(in_configJSON), requestsJSON(in_requestsJSON)
 
     {
-        checkFilePath();
-        checkRequests();
+        initialize();
     }
 
     /**
@@ -54,8 +54,7 @@ public:
             : configJSON(std::move(in_configJSON)), requestsJSON(std::move(in_requestsJSON))
 
     {
-        checkFilePath();
-        checkRequests();
+        initialize();
     }
 
     //Класс содержит переменные названий полей файлов конфигурации, запросов, ответов
@@ -157,18 +156,19 @@ private:
     JSON answersJSON;
 
 
+    void initialize();
 
     //ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ И ФУНКЦИИ
 
     /**
      * Проверить пути файлов документов (существование)
      */
-    void checkFilePath();
+    void checkFilePath(const std::source_location &callingFunction = std::source_location::current());
 
     /**
      * Проверить запросы (существование)
      */
-    void checkRequests();
+    void checkRequests(const std::source_location &callingFunction = std::source_location::current());
 
     /**
      * Определить суммарный ранг

@@ -9,8 +9,6 @@
 
 bool CheckFile::isJSONStructureValid(std::ifstream& inFile)
 {
-    //isFileOpenRead(inFile, filePath, message);
-
     //Создать временный объект для проверки
     JSON tmpJSON;
 
@@ -24,35 +22,11 @@ bool CheckFile::isJSONStructureValid(std::ifstream& inFile)
     catch (const nlohmann::detail::parse_error &e)
     {
         //JSON-структура повреждена
-        //Logger::error(message);
-
         return false;
     }
 
     //JSON-структура целостна
     return true;
-}
-
-void CheckFile::isJSONStructureValid(std::ifstream& inFile, const std::string& filePath, const std::string& message, const std::exception&)
-{
-    isFileOpenRead(inFile, filePath, message, std::runtime_error("e"));
-
-    //Создать временный объект для проверки
-    JSON tmpJSON;
-
-    try
-    {
-        //Прочитать JSON-структуру
-        inFile >> tmpJSON;
-        inFile.clear();
-        inFile.seekg(0);
-    }
-    catch (const nlohmann::detail::parse_error &e)
-    {
-        //JSON-структура повреждена
-        Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath));
-        throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath);
-    }
 }
 
 bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
@@ -99,8 +73,6 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
     catch(const std::runtime_error& e)
     {
         //JSON-структура файла не соответствует шаблону
-        //Logger::error(message);
-
         return false;
     }
 
@@ -108,19 +80,6 @@ bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
     return true;
 }
 
-void CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& message, const std::exception&)
-{
-    try
-    {
-        //Проверить JSON-структуру файла на соответствие шаблону
-        isJSONStructureMatchImpl(objectJSON, objectJSONTemplate);
-    }
-    catch(const std::runtime_error& e)
-    {
-        //JSON-структура файла не соответствует шаблону
-        Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath));
-        throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
-    }
-}
+
 
 

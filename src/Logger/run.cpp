@@ -23,7 +23,7 @@ void Logger::WriterMessage::writeToFile(const std::string& message)
     std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
 
     //Файл открывается для записи
-    if (CheckFile::isFileOpenWrite(outFile))
+    if (outFile.is_open())
     {
         //Записать сообщение в файл
         outFile << message << std::endl;

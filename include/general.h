@@ -48,10 +48,6 @@ namespace constants
 
 }
 
-/**
- * Выйти из программы
- */
-void exitProgram();
 
 
 

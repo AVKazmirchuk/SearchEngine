@@ -11,10 +11,7 @@
 
 
 
-void exitProgram()
-{
-    std::exit(EXIT_FAILURE);
-}
+
 
 
 

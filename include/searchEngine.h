@@ -162,14 +162,6 @@ private:
          */
         void initialize();
 
-
-
-
-
-
-
-
-
     };
 
     //Объект чтения и хранения параметров для настройки класса Logger
@@ -202,6 +194,15 @@ private:
      * Релевантные ответы
      */
     RelevantResponse relevantResponseObj;
+
+    /**
+     * Записать в JSON-файл результаты поиска
+     * @param objectJSON
+     * @param filePath
+     */
+    void writeAnswersToFile(const JSON& objectJSON, const std::string& filePath);
+
+    std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths);
 
 };
 

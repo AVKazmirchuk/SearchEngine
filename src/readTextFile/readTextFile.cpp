@@ -8,6 +8,7 @@
 #include <vector>
 #include <future>
 #include <list>
+#include <source_location>
 
 #include "readTextFile.h"
 #include "general.h"
@@ -16,7 +17,7 @@
 
 
 
-std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)
+std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths, const std::source_location &callingFunction)
 {
     //Документы
     std::vector<std::string> documents;
@@ -29,7 +30,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     {
         //Запустить чтение из файла
         futures.push_back(std::async(
-                [](const std::string& filePath) -> std::string
+                [&callingFunction](const std::string& filePath) -> std::string
         {
             //Создать объект для чтения файла документа
             std::ifstream inFile(filePath);
@@ -42,8 +43,10 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
             //    throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
             //}
 
-            CheckFile::isFileOpenRead(inFile, filePath,
-                                      "std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)", std::runtime_error("e"));
+            //CheckFile::isFileOpenRead(inFile, filePath,
+            //                          "std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)", std::runtime_error("e"));
+            std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
+            DispatcherOperationValidity::determineReadFile(inFile, filePath, callingFunction.function_name());
 
             //Прочитать файл документа и вернуть документ
             return {(std::istreambuf_iterator<char>(inFile)), {}};
@@ -63,9 +66,9 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     }
     catch (const std::exception& e)
     {
-        Logger::fatal("EXCEPTION: " + std::string(e.what()));
-        exitProgram();
-
+        //Logger::fatal("EXCEPTION: " + std::string(e.what()));
+        //exitProgram();
+        throw;
     }
 
     //Вернуть документы

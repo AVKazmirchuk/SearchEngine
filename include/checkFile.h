@@ -28,83 +28,6 @@ public:
 
     CheckFile() = delete;
 
-    //Проверить файл на существование
-    static bool isFileExists(const std::string& filePath)
-    {
-        if (!std::filesystem::exists(filePath))
-        {
-            //Logger::error(message);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    //Проверить файл на существование
-    static void isFileExists(const std::string& filePath, const std::string& message, const std::exception&)
-    {
-        if (!std::filesystem::exists(filePath))
-        {
-            Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath));
-            throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
-        }
-    }
-
-    //Проверить файл на открытие для чтения
-    static bool isFileOpenRead(const std::ifstream& inFile)
-    {
-        //isFileExists(filePath, message);
-
-        if (!inFile.is_open())
-        {
-            //Logger::error(message);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    //Проверить файл на открытие для чтения
-    static void isFileOpenRead(const std::ifstream& inFile, const std::string& filePath, const std::string& message, const std::exception&)
-    {
-        //isFileExists(filePath, message, std::runtime_error("e"));
-
-        if (!inFile.is_open())
-        {
-            Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
-            throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
-        }
-    }
-
-    //Проверить файл на открытие для записи
-    static bool isFileOpenWrite(const std::ofstream& outFile)
-    {
-        //isFileExists(filePath, message);
-
-        if (!outFile.is_open())
-        {
-            //Logger::error(message);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    //Проверить файл на открытие для записи
-    static void isFileOpenWrite(const std::ofstream& outFile, const std::string& filePath, const std::string& message, const std::exception&)
-    {
-        isFileExists(filePath, message, std::runtime_error("e"));
-
-        if (!outFile.is_open())
-        {
-            Logger::fatal(message, CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath));
-            throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath);
-        }
-    }
-
     /**
      * Проверить файл на целостность JSON-структуры
      * @param fileName Имя файла
@@ -113,29 +36,12 @@ public:
     static bool isJSONStructureValid(std::ifstream& inFile);
 
     /**
-     * Проверить файл на целостность JSON-структуры
-     * @param fileName Имя файла
-     * @return Файл целостный(true)/не целостный(false)
-     */
-    static void isJSONStructureValid(std::ifstream& inFile, const std::string& filePath, const std::string& message, const std::exception&);
-
-    /**
      * Проверить JSON-структуру файла на соответствие шаблону
      * @param objectJSON JSON-объект проверяемого
      * @param objectJSONTemplate JSON-объект шаблона
      * @return Файл соответствуе(true)/не соответствует(false)
      */
     static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
-
-    /**
-     * Проверить JSON-структуру файла на соответствие шаблону
-     * @param objectJSON JSON-объект проверяемого
-     * @param objectJSONTemplate JSON-объект шаблона
-     * @return Файл соответствуе(true)/не соответствует(false)
-     */
-    static void isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& message, const std::exception&);
-
-
 
 private:
 
@@ -148,43 +54,130 @@ private:
     static bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
 };
 
+using namespace std::string_literals;
+
+class DispatcherOperationValidity
+{
+
+public:
+
+    static void determineJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate, const std::string& filePath, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (!CheckFile::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH;
+
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+    static void determineFilePathsArrayEmpty(const JSON &objectJSON, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (objectJSON.empty()) errorCode = ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY;
+
+        determineDegreeOfValidity(errorCode, "...", callingFunction);
+    }
+
+    static void determineRequestsArrayEmpty(const JSON &objectJSON, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (objectJSON.empty()) errorCode = ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY;
+
+        determineDegreeOfValidity(errorCode, "...", callingFunction);
+    }
+
+    static void determineReadFile(std::ifstream& inFile, const std::string& filePath, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
+        else if (!inFile.is_open()) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_READ;
+
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+    static void determineReadJSONFile(std::ifstream& inFile, const std::string& filePath, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
+        else if (!inFile.is_open()) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_READ;
+        else if (!CheckFile::isJSONStructureValid(inFile)) errorCode = ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED;
+
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+    static void determineWriteJSONFile(std::ofstream& outFile, const std::string& filePath, const std::string& callingFunction)
+    {
+        ErrorCode errorCode{};
+
+        if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
+        else if (!outFile.is_open()) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_WRITE;
+
+        determineDegreeOfValidity(errorCode, filePath, callingFunction);
+    }
+
+private:
+
+    enum Level
+    {
+        debug,
+        info,
+        warning,
+        error,
+        fatal
+    };
+
+    static void determineDegreeOfValidity(ErrorCode errorCode, const std::string& filePath, const std::string& callingFunction)
+    {
+        if (static_cast<int>(errorCode) != 0)
+        {
+            auto it{std::find_if(actionLevel.begin(), actionLevel.end(),
+                                 [&callingFunction](const std::pair<std::string, Level> &elem) {
+                                     return elem.first == callingFunction;
+                                 })};
+
+            if (it != actionLevel.end())
+            {
+                switch (it->second)
+                {
+                    case fatal:
+                        Logger::fatal(callingFunction, CheckFileException(errorCode, filePath));
+                        throw CheckFileException(errorCode, filePath);
+                    case error:
+                        Logger::error(callingFunction);
+                        return;
+                    case warning:
+                        Logger::warning(callingFunction);
+                        return;
+                    case info:
+                        Logger::info(callingFunction);
+                        return;
+                    case debug:
+                        Logger::debug(callingFunction);
+                        return;
+                }
+            }
+            else
+            {
+                Logger::error(callingFunction);
+                return;
+            }
+        }
+    }
+
+    inline static std::list<std::pair<std::string, Level>> actionLevel{
+            {"void SearchEngine::ConfigSearchEngine::initialize()", fatal},
+            {"void SearchEngine::writeAnswersToFile(const JSON&, const string&)", fatal},
+            {"std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > > "s +
+            "SearchEngine::readDocsFromFiles(const std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >&)"s, fatal},
+            {"void ConverterJSON::initialize()", fatal}
+    };
+};
+
 
 
 #endif //SEARCH_ENGINE_CHECKFILE_H
 
-
-
-//void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)
-//{
-    //Проверить файл на существование
-    //if (!std::filesystem::exists(filePath))
-    //{
-    //    Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
-    //                  CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath));
-    //    throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
-    //}
-
-    //Проверить файл на открытие для чтения
-    //if (!std::ifstream(filePath).is_open())
-    //{
-    //    Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
-    //                  CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
-    //    throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
-    //}
-
-    //Проверить файл на целостность JSON-структуры
-    //if (!CheckFile::isJSONStructureValid(filePath))
-    //{
-    //    Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
-    //                  CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath));
-    //    throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED, filePath);
-    //}
-
-    //Проверить JSON-структуру файла на соответствие шаблону
-    //if (!CheckFile::isJSONStructureMatch( ReadWriteJSONFile::readJSONFile(filePath), objectJSONTemplate))
-    //{
-    //    Logger::fatal("void checkFile(const std::string& filePath, const JSON &objectJSONTemplate)",
-    //                  CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath));
-    //    throw CheckFileException(ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH, filePath);
-    //}
-//}

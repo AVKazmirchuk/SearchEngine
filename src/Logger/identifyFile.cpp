@@ -15,7 +15,7 @@ bool Logger::isFileUsageTimeExceeded()
     std::ifstream inFile(file);
 
     //Файл не открывается для чтения
-    if (!CheckFile::isFileOpenRead(inFile))//, file.string(), "bool Logger::isFileUsageTimeExceeded()"))
+    if (!inFile.is_open())
     {
         //Заменить файл
         return true;

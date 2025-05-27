@@ -8,6 +8,13 @@
 #include <iostream>
 
 
+
+void ConverterJSON::initialize()
+{
+    checkFilePath();
+    checkRequests();
+}
+
 std::string ConverterJSON::about()
 {
     //Вернуть строку о программе (название, версия)

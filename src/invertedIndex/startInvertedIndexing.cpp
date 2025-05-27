@@ -104,7 +104,7 @@ void InvertedIndex::startInvertedIndexing()
     //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
     {
-        Logger::fatal("EXCEPTION: " + std::string(e.what()));
-        exitProgram();
+        //Logger::fatal("EXCEPTION: " + std::string(e.what()));
+        //exitProgram();
     }
 }

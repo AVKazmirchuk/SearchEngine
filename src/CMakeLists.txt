@@ -18,7 +18,7 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/logger.h
 
         converterJSON/setAnswersJSON.cpp
-        converterJSON/checkFilePath.cpp
+        converterJSON/check.cpp
 
         invertedIndex/updateInvertedIndexes.cpp
         invertedIndex/startInvertedIndexing.cpp
@@ -36,10 +36,8 @@ add_executable(search_engine main.cpp
 
         requests/updateRequests.cpp
 
-        searchEngine/searchModifiedAll.cpp
+        searchEngine/searchModified.cpp
         searchEngine/exportRelevantResponses.cpp
-        searchEngine/searchModifiedDocuments.cpp
-        searchEngine/searchModifiedRequests.cpp
 
         readTextFile/readTextFile.cpp
 
@@ -51,6 +49,6 @@ add_executable(search_engine main.cpp
 
         readWriteJSONFile/readWriteJSONFile.cpp
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp converterJSON/checkRequests.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp)
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
