@@ -31,20 +31,22 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     outFile << std::setw(formatByWidth) << objectJSON;
 }
 
-JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, const std::source_location &callingFunction)
+JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, ErrorLevel errorLevel)
 {
 
-    std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
+    //std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
     //Создать объект для чтения
     std::ifstream inFile(filePath);
 
-    DispatcherOperationValidity::determineReadJSONFile(inFile, filePath, callingFunction.function_name());
+
+
+    CheckFile::isReadJSONFile(inFile, filePath, errorLevel);
 
     //Прочитать файл в JSON-объект
     JSON targetJSON = JSON::parse(inFile);
 
-    DispatcherOperationValidity::determineJSONStructureMatch(targetJSON, objectJSONTemplate, filePath, callingFunction.function_name());
+    //DispatcherOperationValidity::determineJSONStructureMatch(targetJSON, objectJSONTemplate, filePath, callingFunction.function_name());
 
     //Вернуть JSON-объект
     return targetJSON;

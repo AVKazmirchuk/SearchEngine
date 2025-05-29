@@ -16,7 +16,14 @@
 #include "general.h"
 #include "logger.h"
 
-
+enum class ErrorLevel
+{
+    debug,
+    info,
+    warning,
+    error,
+    fatal
+};
 
 /**
  * Класс реализует проверку файла и его содержимого (JSON-структуру)
@@ -27,6 +34,17 @@ class CheckFile
 public:
 
     CheckFile() = delete;
+
+    static void isReadJSONFile(std::ifstream& inFile, const std::string& filePath, ErrorLevel errorLevel)
+    {
+        ErrorCode errorCode{};
+
+        if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
+        else if (!inFile.is_open()) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_READ;
+        else if (!CheckFile::isJSONStructureValid(inFile)) errorCode = ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED;
+
+        determineDegreeOfValidity(errorCode, filePath, errorLevel);
+    }
 
     /**
      * Проверить файл на целостность JSON-структуры
@@ -44,6 +62,42 @@ public:
     static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
 private:
+
+
+
+    static void determineDegreeOfValidity(ErrorCode errorCode, const std::string& filePath, ErrorLevel errorLevel)
+    {
+        if (static_cast<int>(errorCode) != 0)
+        {
+
+
+
+                switch (errorLevel)
+                {
+                    case ErrorLevel::fatal:
+                        Logger::fatal(callingFunction, CheckFileException(errorCode, filePath));
+                        throw CheckFileException(errorCode, filePath);
+                    case ErrorLevel::error:
+                        Logger::error(callingFunction);
+                        return;
+                    case ErrorLevel::warning:
+                        Logger::warning(callingFunction);
+                        return;
+                    case ErrorLevel::info:
+                        Logger::info(callingFunction);
+                        return;
+                    case ErrorLevel::debug:
+                        Logger::debug(callingFunction);
+                        return;
+                }
+
+
+            {
+                Logger::error(callingFunction);
+                return;
+            }
+        }
+    }
 
     /**
      * Проверить JSON-структуру файла на соответствие шаблону (реализация)
@@ -98,16 +152,7 @@ public:
         determineDegreeOfValidity(errorCode, filePath, callingFunction);
     }
 
-    static void determineReadJSONFile(std::ifstream& inFile, const std::string& filePath, const std::string& callingFunction)
-    {
-        ErrorCode errorCode{};
 
-        if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::ERROR_FILE_MISSING;
-        else if (!inFile.is_open()) errorCode = ErrorCode::ERROR_FILE_NOT_OPEN_READ;
-        else if (!CheckFile::isJSONStructureValid(inFile)) errorCode = ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED;
-
-        determineDegreeOfValidity(errorCode, filePath, callingFunction);
-    }
 
     static void determineWriteJSONFile(std::ofstream& outFile, const std::string& filePath, const std::string& callingFunction)
     {
