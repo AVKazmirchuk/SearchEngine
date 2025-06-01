@@ -28,7 +28,7 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static JSON readJSONFile(const std::string& filePath);
+    static std::pair<JSON, ErrorCode> readJSONFile(const std::string& filePath);
 
     /**
      * Записать JSON-файл

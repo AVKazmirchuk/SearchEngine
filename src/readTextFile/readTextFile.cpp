@@ -17,7 +17,8 @@
 
 
 
-std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths, const std::source_location &callingFunction)
+std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths, const std::string& message,
+                                                    ErrorLevel errorLevel, const std::source_location &callingFunction)
 {
     //Документы
     std::vector<std::string> documents;
@@ -30,23 +31,13 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     {
         //Запустить чтение из файла
         futures.push_back(std::async(
-                [&callingFunction](const std::string& filePath) -> std::string
+                [&message, &errorLevel, &callingFunction](const std::string& filePath) -> std::string
         {
             //Создать объект для чтения файла документа
             std::ifstream inFile(filePath);
 
-            //Проверить файл на открытие для чтения
-            //if (!inFile.is_open())
-            //{
-            //    Logger::fatal("std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)",
-            //                  CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
-            //    throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
-            //}
-
-            //CheckFile::isFileOpenRead(inFile, filePath,
-            //                          "std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)", std::runtime_error("e"));
-            std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
-            DispatcherOperationValidity::determineReadFile(inFile, filePath, callingFunction.function_name());
+            //std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
+            DispatcherOperationValidity::determineReadFile(filePath, inFile, message, errorLevel, callingFunction);
 
             //Прочитать файл документа и вернуть документ
             return {(std::istreambuf_iterator<char>(inFile)), {}};

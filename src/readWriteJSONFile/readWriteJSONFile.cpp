@@ -17,7 +17,8 @@
 
 
 
-void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath, const int formatByWidth, const std::source_location &callingFunction)
+bool ReadWriteJSONFile::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
+                                      const std::string& message, ErrorLevel errorLevel, const std::source_location &callingFunction)
 {
 
     std::cout << "writeJSONFile: " << callingFunction.function_name() << std::endl;
@@ -25,13 +26,18 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     //Создать объект для записи
     std::ofstream outFile{filePath};
 
-    DispatcherOperationValidity::determineWriteJSONFile(outFile, filePath, callingFunction.function_name());
+    if (!DispatcherOperationValidity::determineWriteJSONFile(filePath, outFile, message, errorLevel, callingFunction))
+    {
+        return false;
+    }
 
     //Записать JSON-объект в файл
     outFile << std::setw(formatByWidth) << objectJSON;
+
+    return true;
 }
 
-JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &objectJSONTemplate, ErrorLevel errorLevel)
+JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel, const std::source_location &callingFunction)
 {
 
     //std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
@@ -41,12 +47,15 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const JSON &ob
 
 
 
-    CheckFile::isReadJSONFile(inFile, filePath, errorLevel);
+    if (DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction))
+    {
+        return {};
+    }
 
     //Прочитать файл в JSON-объект
     JSON targetJSON = JSON::parse(inFile);
 
-    //DispatcherOperationValidity::determineJSONStructureMatch(targetJSON, objectJSONTemplate, filePath, callingFunction.function_name());
+    //if (DispatcherOperationValidity::determineJSONStructureMatch(filePath, targetJSON, objectJSONTemplate, message, errorLevel, callingFunction))
 
     //Вернуть JSON-объект
     return targetJSON;

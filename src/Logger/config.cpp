@@ -12,7 +12,7 @@
 void Logger::ConfigLogger::initialize()
 {
     //Создать JSON-объект конфигурации
-    configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath, configLoggerTemplate);
+    configLoggerJSON = ReadWriteJSONFile::readJSONFile(configLoggerFilePath);
 
     //Интервалы времени хранения файла
 
@@ -53,7 +53,7 @@ void Logger::ConfigLogger::initialize()
 void Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    configWriterMessageJSON = ReadWriteJSONFile::readJSONFile(configWriterMessageFilePath, configWriterMessageTemplate);
+    configWriterMessageJSON = ReadWriteJSONFile::readJSONFile(configWriterMessageFilePath);
 
     //Имя очереди
     nameOfQueueValue = configWriterMessageJSON["messageQueue"]["nameOfQueue"];

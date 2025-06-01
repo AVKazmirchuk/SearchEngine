@@ -1,11 +1,9 @@
 //
-// Created by Alexander on 27.01.2024.
+// Created by Alexander on 30.05.2025.
 //
 
 #ifndef SEARCH_ENGINE_CHECKFILEEXCEPTION_H
 #define SEARCH_ENGINE_CHECKFILEEXCEPTION_H
-
-
 
 #include <exception>
 #include <string>
@@ -87,7 +85,5 @@ private:
     ErrorCode errorCode;
     std::string information{};
 };
-
-
 
 #endif //SEARCH_ENGINE_CHECKFILEEXCEPTION_H

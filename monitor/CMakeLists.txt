@@ -10,6 +10,6 @@ link_directories(${Boost_LIBRARY_DIR})
 
 #target_link_libraries(search_engine_monitor ${Boost_LIBRARIES})
 
-add_executable(search_engine_monitor main.cpp  monitorReceiver.h monitorReceiver.cpp termcolor.h monitor.cpp monitor.h general.h general.cpp readWriteJSONFile.h readWriteJSONFile.cpp)
+add_executable(search_engine_monitor main.cpp  monitorReceiver.h monitorReceiver.cpp termcolor.h monitor.cpp monitor.h general.h general.cpp readWriteJSONFile.h readWriteJSONFile.cpp checkFileException.h)
 target_link_libraries(search_engine_monitor PRIVATE nlohmann_json::nlohmann_json)
 

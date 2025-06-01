@@ -7,7 +7,7 @@
 #include <fstream>
 
 #include "readWriteJSONFile.h"
-#include "check"
+#include "checkFileException.h"
 
 
 void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)
@@ -26,7 +26,7 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     //TODO file << std::setw(constants::formatByWidth) << objectJSON;
 }
 
-JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)
+std::pair<JSON, ErrorCode> ReadWriteJSONFile::readJSONFile(const std::string& filePath)
 {
     //Создать объект для чтения
     std::ifstream file(filePath);

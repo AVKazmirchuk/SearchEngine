@@ -8,7 +8,12 @@
 
 void SearchEngine::ConfigSearchEngine::initialize()
 {
+
     //Создать JSON-объект конфигурации
-    configJSON = ReadWriteJSONFile::readJSONFile(configFilePath, configTemplate);
-    requestsJSON = ReadWriteJSONFile::readJSONFile(requestsFilePath, requestsTemplate);
+    configJSON = ReadWriteJSONFile::readJSONFile(configFilePath);
+
+
+
+
+    requestsJSON = ReadWriteJSONFile::readJSONFile(requestsFilePath);
 }

@@ -11,6 +11,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include "checkFileException.h"
 
 
 //Тип объектов заменён на nlohmann::ordered_json (сохраняет порядок вставки)
