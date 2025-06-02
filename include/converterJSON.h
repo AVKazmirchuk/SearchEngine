@@ -20,6 +20,8 @@
 #include "nlohmann/json.hpp"
 
 #include "general.h"
+
+#include "checkFile.h"
 #include <iostream>
 
 
@@ -163,12 +165,14 @@ private:
     /**
      * Проверить пути файлов документов (существование)
      */
-    void checkFilePath(const std::source_location &callingFunction = std::source_location::current());
+    void checkFilePath(const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+                       const std::source_location &callingFunction = std::source_location::current());
 
     /**
      * Проверить запросы (существование)
      */
-    void checkRequests(const std::source_location &callingFunction = std::source_location::current());
+    void checkRequests(const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+                       const std::source_location &callingFunction = std::source_location::current());
 
     /**
      * Определить суммарный ранг

@@ -40,7 +40,7 @@ public:
      * @param objectJSON JSON-объект
      * @param filePath Путь JSON-файла
      */
-    static void writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth = 2,
+    static bool writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth = 2,
                               const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
                               const std::source_location &callingFunction = std::source_location::current());
 

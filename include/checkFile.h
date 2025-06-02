@@ -63,7 +63,7 @@ private:
 
 };
 
-
+using namespace std::string_literals;
 
 class DispatcherOperationValidity
 {
@@ -152,7 +152,7 @@ private:
     static void determineDegreeOfValidity(const std::string& filePath, ErrorCode errorCode, const std::string& message,
                                           ErrorLevel errorLevel, const std::source_location &callingFunction)
     {
-        std::string completedMessage{"Calling function: " + callingFunction.function_name() + ". " + message};
+        std::string completedMessage{"Calling function: "s + callingFunction.function_name() + ". " + message};
 
         if (static_cast<int>(errorCode))
         {

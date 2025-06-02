@@ -37,7 +37,8 @@ bool ReadWriteJSONFile::writeJSONFile(const std::string& filePath, const JSON& o
     return true;
 }
 
-JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel, const std::source_location &callingFunction)
+JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+                                     const std::source_location &callingFunction)
 {
 
     //std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
@@ -47,7 +48,7 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::str
 
 
 
-    if (DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction))
+    if (!DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction))
     {
         return {};
     }
