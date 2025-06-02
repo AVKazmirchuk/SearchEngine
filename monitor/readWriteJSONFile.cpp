@@ -26,7 +26,7 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     //TODO file << std::setw(constants::formatByWidth) << objectJSON;
 }
 
-std::pair<JSON, ErrorCode> ReadWriteJSONFile::readJSONFile(const std::string& filePath)
+JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)
 {
     //Создать объект для чтения
     std::ifstream file(filePath);
