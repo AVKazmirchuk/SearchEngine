@@ -41,7 +41,7 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::str
                                      const std::source_location &callingFunction)
 {
 
-    //std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
+    std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
     //Создать объект для чтения
     std::ifstream inFile(filePath);
@@ -56,7 +56,10 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::str
     //Прочитать файл в JSON-объект
     JSON targetJSON = JSON::parse(inFile);
 
-    //if (DispatcherOperationValidity::determineJSONStructureMatch(filePath, targetJSON, objectJSONTemplate, message, errorLevel, callingFunction))
+    if (!DispatcherOperationValidity::determineJSONStructureMatch(filePath, targetJSON, objectJSONTemplate, message, errorLevel, callingFunction))
+    {
+        return {};
+    }
 
     //Вернуть JSON-объект
     return targetJSON;

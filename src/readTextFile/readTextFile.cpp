@@ -36,7 +36,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
             //Создать объект для чтения файла документа
             std::ifstream inFile(filePath);
 
-            //std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
+            std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
             DispatcherOperationValidity::determineReadFile(filePath, inFile, message, errorLevel, callingFunction);
 
             //Прочитать файл документа и вернуть документ
