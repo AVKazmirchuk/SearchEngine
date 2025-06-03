@@ -14,11 +14,11 @@
 #include "general.h"
 #include "logger.h"
 #include "checkFile.h"
+#include "readWriteJSONFile.h"
 
 
 
-std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths, const std::string& message,
-                                                    ErrorLevel errorLevel, const std::source_location &callingFunction)
+std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)
 {
     //Документы
     std::vector<std::string> documents;
@@ -30,20 +30,21 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        futures.push_back(std::async(
-                [&message, &errorLevel, &callingFunction](const std::string& filePath) -> std::string
-        {
-            //Создать объект для чтения файла документа
-            std::ifstream inFile(filePath);
+        futures.push_back(std::async(ReadWriteJSONFile::readTextFile, std::cref(filePaths[docID]), "", ErrorLevel::fatal, std::source_location::current()));
+                //[&message, &errorLevel, &callingFunction](const std::string& filePath) -> std::string
+        //{
 
-            std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
-            DispatcherOperationValidity::determineReadFile(filePath, inFile, message, errorLevel, callingFunction);
+            //Создать объект для чтения файла документа
+            //std::ifstream inFile(filePath);
+
+            //std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
+            //DispatcherOperationValidity::determineReadFile(filePath, inFile, message, errorLevel, callingFunction);
 
             //Прочитать файл документа и вернуть документ
-            return {(std::istreambuf_iterator<char>(inFile)), {}};
-        },
-        std::cref(filePaths[docID]))
-        );
+            //return {(std::istreambuf_iterator<char>(inFile)), {}};
+        //},
+        //std::cref(filePaths[docID]))
+        //));
     }
 
     try

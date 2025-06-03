@@ -23,30 +23,7 @@
 
 
 
-const JSON configTemplate = JSON::parse(R"(
-    {
-      "config": {
-        "name": "SkillboxSearchEngine",
-        "version": "0.1",
-        "max_responses": 5
-      },
-     "files": [
-       "resources/file001.txt",
-       "resources/file002.txt",
-       "resources/file003.txt"
-     ]
-    }
-    )");
 
-const JSON requestsTemplate = JSON::parse(R"(
-    {
-      "requests": [
-        "of the and water is year",
-        "water another good see",
-        "music"
-      ]
-    }
-    )");
 
 
 
@@ -149,6 +126,31 @@ private:
 
 
     private:
+
+        const JSON configTemplate = JSON::parse(R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1",
+        "max_responses": 5
+      },
+     "files": [
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
+     ]
+    }
+    )");
+
+        const JSON requestsTemplate = JSON::parse(R"(
+    {
+      "requests": [
+        "of the and water is year",
+        "water another good see",
+        "music"
+      ]
+    }
+    )");
 
         //Путь файла конфигурации логирования
         std::string configFilePath;

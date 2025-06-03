@@ -46,22 +46,39 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath, const std::str
     //Создать объект для чтения
     std::ifstream inFile(filePath);
 
-
-
     if (!DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction))
     {
         return {};
     }
 
     //Прочитать файл в JSON-объект
-    JSON targetJSON = JSON::parse(inFile);
-
-    if (!DispatcherOperationValidity::determineJSONStructureMatch(filePath, targetJSON, objectJSONTemplate, message, errorLevel, callingFunction))
-    {
-        return {};
-    }
+    //JSON targetJSON = JSON::parse(inFile);
 
     //Вернуть JSON-объект
-    return targetJSON;
+    return JSON::parse(inFile);
+}
+
+bool ReadWriteJSONFile::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate, const std::string& message, ErrorLevel errorLevel,
+                                     const std::source_location &callingFunction)
+{
+    if (!DispatcherOperationValidity::determineJSONStructureMatch(filePath, objectJSON, objectJSONTemplate, message, errorLevel, callingFunction))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+std::string ReadWriteJSONFile::readTextFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+                         const std::source_location &callingFunction)
+{
+    //Создать объект для чтения файла документа
+    std::ifstream inFile(filePath);
+
+    std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
+    DispatcherOperationValidity::determineReadFile(filePath, inFile, message, errorLevel, callingFunction);
+
+    //Прочитать файл документа и вернуть документ
+    return {(std::istreambuf_iterator<char>(inFile)), {}};
 }
 

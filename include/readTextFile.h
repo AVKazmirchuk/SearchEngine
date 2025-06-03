@@ -30,9 +30,7 @@ public:
      * @param filePaths Список путей документов
      * @return Документы
      */
-    static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths,
-                                                 const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
-                                                 const std::source_location &callingFunction = std::source_location::current());
+    static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
 
 };
 

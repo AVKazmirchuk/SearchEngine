@@ -44,6 +44,13 @@ public:
                               const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
                               const std::source_location &callingFunction = std::source_location::current());
 
+    static bool checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+                                      const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+                                      const std::source_location &callingFunction = std::source_location::current());
+
+    static std::string readTextFile(const std::string& filePath, const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+                                                const std::source_location &callingFunction = std::source_location::current());
+
 };
 
 #endif //SEARCH_ENGINE_READWRITEJSONFILE_H
