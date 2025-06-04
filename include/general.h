@@ -7,10 +7,7 @@
 
 
 
-#include "windows.h"
 #include "nlohmann/json.hpp"
-
-#include "checkFileException.h"
 
 
 
@@ -47,7 +44,6 @@ namespace constants
     extern const int formatByWidth;
 
 }
-
 
 
 

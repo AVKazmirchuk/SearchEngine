@@ -9,20 +9,9 @@
 
 #include <fstream>
 
+#include "boost/assert/source_location.hpp"
 #include "nlohmann/json.hpp"
 
-
-#include "general.h"
-#include "boost/assert/source_location.hpp"
-
-#include <filesystem>
-#include <fstream>
-
-
-
-
-#include "checkFileException.h"
-#include "general.h"
 #include "logger.h"
 
 
@@ -39,12 +28,12 @@ enum class ErrorLevel
 /**
  * Класс реализует проверку файла и его содержимого (JSON-структуру)
  */
-class CheckFile
+class CheckJSON
 {
 
 public:
 
-    CheckFile() = delete;
+    CheckJSON() = delete;
 
     /**
      * Проверить файл на целостность JSON-структуры
@@ -72,8 +61,6 @@ private:
     static bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
 };
-
-
 
 /**
  * Класс реализует чтение и запись JSON-файлов
@@ -129,7 +116,7 @@ private:
         {
             ErrorCode errorCode{ErrorCode::no_error};
 
-            if (!CheckFile::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::error_json_structure_not_match;
+            if (!CheckJSON::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::error_json_structure_not_match;
 
             determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
 
@@ -180,7 +167,7 @@ private:
 
             if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
             else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
-            else if (!CheckFile::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
+            else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
 
             determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
 
@@ -206,8 +193,6 @@ private:
         static void determineDegreeOfValidity(const std::string& filePath, ErrorCode errorCode, const std::string& message,
                                               ErrorLevel errorLevel, const boost::source_location &callingFunction)
         {
-            //using namespace std::string_literals;
-
             std::string completedMessage{static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
 
             if (static_cast<int>(errorCode))
@@ -231,7 +216,6 @@ private:
                         return;
                 }
             }
-
         }
 
         static bool returnOfResult(ErrorCode errorCode)
@@ -245,8 +229,9 @@ private:
                 return true;
             }
         }
-
     };
 };
+
+
 
 #endif //SEARCH_ENGINE_FILEOPERATION_H

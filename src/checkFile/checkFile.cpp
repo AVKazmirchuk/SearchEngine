@@ -5,9 +5,11 @@
 
 
 #include "fileOperation.h"
-#include "logger.h"
+//#include "logger.h"
 
-bool CheckFile::isJSONStructureValid(std::ifstream& inFile)
+
+
+bool CheckJSON::isJSONStructureValid(std::ifstream& inFile)
 {
     //Создать временный объект для проверки
     JSON tmpJSON;
@@ -29,7 +31,7 @@ bool CheckFile::isJSONStructureValid(std::ifstream& inFile)
     return true;
 }
 
-bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
+bool CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {
     //Для каждого поля JSON-объекта шаблона
     for (const auto &elemTemplate: objectJSONTemplate.items())
@@ -63,7 +65,7 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
     return true;
 }
 
-bool CheckFile::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
+bool CheckJSON::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {
     try
     {

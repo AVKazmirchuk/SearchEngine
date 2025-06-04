@@ -8,7 +8,6 @@
 
 
 #include <exception>
-#include <string>
 
 
 
@@ -29,6 +28,7 @@ enum class ErrorCode
  */
 class CheckFileException : public std::exception
 {
+
 public:
 
     /**
@@ -83,9 +83,12 @@ public:
     {
         return errorCode;
     }
+
 private:
+
     ErrorCode errorCode;
     std::string information{};
+
 };
 
 
