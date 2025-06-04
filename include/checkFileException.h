@@ -14,14 +14,14 @@
 
 enum class ErrorCode
 {
-    ERROR_NO_ERROR,
-    ERROR_FILE_MISSING,
-    ERROR_FILE_NOT_OPEN_READ,
-    ERROR_FILE_NOT_OPEN_WRITE,
-    ERROR_FILE_STRUCTURE_CORRUPTED,
-    ERROR_FILE_STRUCTURE_NOT_MATCH,
-    ERROR_FILE_PATHS_ARRAY_EMPTY,
-    ERROR_REQUESTS_ARRAY_EMPTY
+    no_error,
+    error_file_missing,
+    error_file_not_open_read,
+    error_file_not_open_write,
+    error_json_structure_corrupted,
+    error_json_structure_not_match,
+    error_file_paths_array_empty,
+    error_requests_array_empty
 };
 
 /**
@@ -40,25 +40,25 @@ public:
     {
         switch (errorCode)
         {
-            case ErrorCode::ERROR_FILE_MISSING :
+            case ErrorCode::error_file_missing :
                 information += "This file is missing: ";
                 break;
-            case ErrorCode::ERROR_FILE_NOT_OPEN_READ :
+            case ErrorCode::error_file_not_open_read :
                 information += "This file cannot be opened for reading: ";
                 break;
-            case ErrorCode::ERROR_FILE_NOT_OPEN_WRITE :
+            case ErrorCode::error_file_not_open_write :
                 information += "This file cannot be opened for writing: ";
                 break;
-            case ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED :
+            case ErrorCode::error_json_structure_corrupted :
                 information += "The structure of this file is corrupted: ";
                 break;
-            case ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH :
+            case ErrorCode::error_json_structure_not_match :
                 information += "The structure of this file does not match the required one: ";
                 break;
-            case ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY :
+            case ErrorCode::error_file_paths_array_empty :
                 information += "The array of this file paths is empty: ";
                 break;
-            case ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY :
+            case ErrorCode::error_requests_array_empty :
                 information += "The query array of this file is empty: ";
                 break;
         }

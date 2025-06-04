@@ -4,7 +4,7 @@
 
 
 
-#include "checkFile.h"
+#include "fileOperation.h"
 #include "logger.h"
 
 bool CheckFile::isJSONStructureValid(std::ifstream& inFile)
@@ -41,14 +41,14 @@ bool CheckFile::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
         if (elem == objectJSON.end())
         {
             //Выбросить исключение
-            throw std::runtime_error("ERROR_FILE_STRUCTURE_NOT_MATCH");
+            throw std::runtime_error("error_json_structure_not_match");
         }
 
         //Типы значений полей шаблона и проверяемого не равны
         if (elem.value().type() != elemTemplate.value().type())
         {
             //Выбросить исключение
-            throw std::runtime_error("ERROR_FILE_STRUCTURE_NOT_MATCH");
+            throw std::runtime_error("error_json_structure_not_match");
         }
 
         //Тип значения поля - JSON-объект

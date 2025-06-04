@@ -7,8 +7,8 @@
 #include <fstream>
 
 #include "logger.h"
-#include "readWriteJSONFile.h"
-#include "checkFile.h"
+#include "fileOperation.h"
+
 
 
 void Logger::WriterMessage::writeToMonitor(const std::string& message)

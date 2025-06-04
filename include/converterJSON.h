@@ -12,7 +12,7 @@
 #include <vector>
 #include <utility>
 #include <list>
-#include <source_location>
+
 #include <thread>
 #include <mutex>
 #include <future>
@@ -21,7 +21,7 @@
 
 #include "general.h"
 
-#include "checkFile.h"
+#include "fileOperation.h"
 #include <iostream>
 
 
@@ -165,14 +165,12 @@ private:
     /**
      * Проверить пути файлов документов (существование)
      */
-    void checkFilePath(const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
-                       const std::source_location &callingFunction = std::source_location::current());
+    void checkFilePath();
 
     /**
      * Проверить запросы (существование)
      */
-    void checkRequests(const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
-                       const std::source_location &callingFunction = std::source_location::current());
+    void checkRequests();
 
     /**
      * Определить суммарный ранг

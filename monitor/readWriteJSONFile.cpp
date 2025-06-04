@@ -18,8 +18,8 @@ void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string&
     //Проверить файл на открытие для записи
     if (!file.is_open())
     {
-        //TODO Logger::fatal("void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath));
-        //TODO throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_WRITE, filePath);
+        //TODO Logger::fatal("void ReadWriteJSONFile::writeJSONFile(const JSON& objectJSON, const std::string& filePath)", CheckFileException(ErrorCode::error_file_not_open_write, filePath));
+        //TODO throw CheckFileException(ErrorCode::error_file_not_open_write, filePath);
     }
 
     //Записать JSON-объект в файл
@@ -34,8 +34,8 @@ JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)
     //Проверить файл на открытие для чтения
     if (!file.is_open())
     {
-        //TODO Logger::fatal("JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)", CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath));
-        //TODO throw CheckFileException(ErrorCode::ERROR_FILE_NOT_OPEN_READ, filePath);
+        //TODO Logger::fatal("JSON ReadWriteJSONFile::readJSONFile(const std::string& filePath)", CheckFileException(ErrorCode::error_file_not_open_read, filePath));
+        //TODO throw CheckFileException(ErrorCode::error_file_not_open_read, filePath);
     }
 
     //Прочитать файл в JSON-объект и вернуть объект

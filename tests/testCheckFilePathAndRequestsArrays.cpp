@@ -35,7 +35,7 @@ bool testCheckFilePathsAndRequestsArrays(const JSON& configJSON, const JSON& req
 TEST(TestCheckFilePathsArray, filePathsArrayFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, constants::requestsTemplate,
-                                                    ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY)};
+                                                    ErrorCode::error_file_paths_array_empty)};
 
     ASSERT_TRUE(result);
 }
@@ -44,7 +44,7 @@ TEST(TestCheckFilePathsArray, filePathsArrayFilled)
 TEST(TestCheckFilePathsArray, filePathsArrayWrongFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(testConstants::configWrongArray, constants::requestsTemplate,
-                                                    ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY)};
+                                                    ErrorCode::error_file_paths_array_empty)};
 
     ASSERT_TRUE(result);
 }
@@ -53,7 +53,7 @@ TEST(TestCheckFilePathsArray, filePathsArrayWrongFilled)
 TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(testConstants::configWrongTemplate, constants::requestsTemplate,
-                                                    ErrorCode::ERROR_FILE_PATHS_ARRAY_EMPTY)};
+                                                    ErrorCode::error_file_paths_array_empty)};
 
     ASSERT_FALSE(result);
 }
@@ -62,7 +62,7 @@ TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
 TEST(TestCheckFilePathsArray, requestsArrayFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, constants::requestsTemplate,
-                                                    ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY)};
+                                                    ErrorCode::error_requests_array_empty)};
 
     ASSERT_TRUE(result);
 }
@@ -71,7 +71,7 @@ TEST(TestCheckFilePathsArray, requestsArrayFilled)
 TEST(TestCheckFilePathsArray, requestsArrayNotFilled)
 {
     bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, testConstants::requestsWrongTemplate,
-                                                    ErrorCode::ERROR_REQUESTS_ARRAY_EMPTY)};
+                                                    ErrorCode::error_requests_array_empty)};
 
     ASSERT_FALSE(result);
 }

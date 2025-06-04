@@ -75,11 +75,11 @@ private:
     //Уровень логирования
     enum class Level
     {
-        L_DEBUG_L,
-        L_INFO_L,
-        L_WARNING_L,
-        L_ERROR_L,
-        L_FATAL_L
+        debug,
+        info,
+        warning,
+        error,
+        fatal
     };
 
 public:

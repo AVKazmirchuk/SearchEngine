@@ -7,14 +7,14 @@
 #include "converterJSON.h"
 #include "checkFileException.h"
 #include "logger.h"
-#include "checkFile.h"
+#include "fileOperation.h"
 
 
-void ConverterJSON::checkFilePath(const std::string& message, ErrorLevel errorLevel, const std::source_location &callingFunction)
+void ConverterJSON::checkFilePath()
 {
 
-    std::cout << "checkFilePath: " << callingFunction.function_name() << std::endl;
-    DispatcherOperationValidity::determineFilePathsArrayEmpty(configJSON[ConfigConverterJSON::filesStr], message, errorLevel, callingFunction);
+    //std::cout << "checkFilePath: " << callingFunction.function_name() << std::endl;
+    FileOperation::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
 
     /*for (std::size_t idx{}; idx < configJSON[ConfigConverterJSON::filesStr].size(); ++idx)
     {
@@ -30,8 +30,8 @@ void ConverterJSON::checkFilePath(const std::string& message, ErrorLevel errorLe
 
 }
 
-void ConverterJSON::checkRequests(const std::string& message, ErrorLevel errorLevel, const std::source_location &callingFunction)
+void ConverterJSON::checkRequests()
 {
-    std::cout << "checkRequests: " << callingFunction.function_name() << std::endl;
-    DispatcherOperationValidity::determineRequestsArrayEmpty(requestsJSON[ConfigConverterJSON::requestsStr], message, errorLevel, callingFunction);
+    //std::cout << "checkRequests: " << callingFunction.function_name() << std::endl;
+    FileOperation::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
 }

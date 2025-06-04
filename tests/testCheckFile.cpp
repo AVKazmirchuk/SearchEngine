@@ -33,7 +33,7 @@ TEST(TestCheckFile, fileExist)
 {
     putFiles();
 
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_MISSING)};
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_file_missing)};
 
     deleteFiles();
 
@@ -47,7 +47,7 @@ TEST(TestCheckFile, fileNotExist)
 
     std::filesystem::remove(constants::configFilePath);
 
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_MISSING)};
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_file_missing)};
 
     deleteFiles();
 
@@ -59,7 +59,7 @@ TEST(TestCheckFile, fileJSONStructureValid)
 {
     putFiles();
 
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED)};
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_json_structure_corrupted)};
 
     deleteFiles();
 
@@ -73,7 +73,7 @@ TEST(TestCheckFile, fileJSONStructureNotValid)
 
     const std::string configNotValidFilePath{"configNotValid.json"};
 
-    bool result{testCheckFile(configNotValidFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_CORRUPTED)};
+    bool result{testCheckFile(configNotValidFilePath, constants::configTemplate, ErrorCode::error_json_structure_corrupted)};
 
     deleteFiles();
 
@@ -84,7 +84,7 @@ TEST(TestCheckFile, fileJSONStructureMatch)
 {
     putFiles();
 
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH)};
+    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_json_structure_not_match)};
 
     deleteFiles();
 
@@ -98,7 +98,7 @@ TEST(TestCheckFile, fileJSONStructureNotMatch)
 
     const std::string configNotMatchFilePath{"configNotMatch.json"};
 
-    bool result{testCheckFile(configNotMatchFilePath, constants::configTemplate, ErrorCode::ERROR_FILE_STRUCTURE_NOT_MATCH)};
+    bool result{testCheckFile(configNotMatchFilePath, constants::configTemplate, ErrorCode::error_json_structure_not_match)};
 
     deleteFiles();
 

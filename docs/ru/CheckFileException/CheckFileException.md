@@ -39,7 +39,7 @@ int main()
     //...
 
     //Выбросить исключение с указанными ошибкой и путём файла
-    throw CheckFileException(ErrorCode::ERROR_FILE_MISSING, filePath);
+    throw CheckFileException(ErrorCode::error_file_missing, filePath);
     
     //...
     //Получить объект класса CheckFileException (checkFileExceptionObj)

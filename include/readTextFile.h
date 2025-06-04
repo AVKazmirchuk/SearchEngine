@@ -6,11 +6,11 @@
 #define SEARCH_ENGINE_READTEXTFILE_H
 
 
-#include <source_location>
+
 #include <string>
 #include <vector>
 
-#include "checkFile.h"
+
 
 /**
  * Класс реализует чтение текстовых файлов

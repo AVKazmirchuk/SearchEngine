@@ -32,15 +32,15 @@ std::string Logger::levelToString(Level level)
     //Вернуть строку уровня логирования в зависимости от значения перечисления
     switch (level)
     {
-        case Level::L_DEBUG_L :
+        case Level::debug :
             return "DEBUG";
-        case Level::L_INFO_L :
+        case Level::info :
             return "INFO";
-        case Level::L_WARNING_L :
+        case Level::warning :
             return "WARNING";
-        case Level::L_ERROR_L :
+        case Level::error :
             return "ERROR";
-        case Level::L_FATAL_L :
+        case Level::fatal :
             return "FATAL";
     }
 

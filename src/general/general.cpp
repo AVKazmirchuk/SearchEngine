@@ -5,8 +5,8 @@
 
 
 #include "general.h"
-#include "checkFile.h"
-#include "readWriteJSONFile.h"
+
+#include "fileOperation.h"
 #include "logger.h"
 
 

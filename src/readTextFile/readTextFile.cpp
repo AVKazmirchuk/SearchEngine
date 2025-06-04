@@ -8,13 +8,14 @@
 #include <vector>
 #include <future>
 #include <list>
-#include <source_location>
 
+#include "boost/assert/source_location.hpp"
+#include "boost/current_function.hpp"
 #include "readTextFile.h"
 #include "general.h"
 #include "logger.h"
-#include "checkFile.h"
-#include "readWriteJSONFile.h"
+
+#include "fileOperation.h"
 
 
 
@@ -30,7 +31,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        futures.push_back(std::async(ReadWriteJSONFile::readTextFile, std::cref(filePaths[docID]), "", ErrorLevel::fatal, std::source_location::current()));
+        futures.push_back(std::async(FileOperation::readTextFile, std::cref(filePaths[docID]), "", ErrorLevel::fatal, BOOST_CURRENT_LOCATION));
                 //[&message, &errorLevel, &callingFunction](const std::string& filePath) -> std::string
         //{
 
