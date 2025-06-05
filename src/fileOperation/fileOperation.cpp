@@ -3,17 +3,11 @@
 //
 
 
-#include <algorithm>
-#include <list>
 
+#include <algorithm>
 
 #include "fileOperation.h"
 #include "logger.h"
-#include "boost/current_function.hpp"
-#include "checkFileException.h"
-
-
-
 
 
 
@@ -58,8 +52,9 @@ JSON FileOperation::readJSONFile(const std::string& filePath, const std::string&
     return JSON::parse(inFile);
 }
 
-bool FileOperation::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate, const std::string& message, ErrorLevel errorLevel,
-                                     const boost::source_location &callingFunction)
+bool FileOperation::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+                              const std::string& message, ErrorLevel errorLevel,
+                              const boost::source_location &callingFunction)
 {
     std::cout << "checkJSON: " << callingFunction.function_name() << std::endl;
 

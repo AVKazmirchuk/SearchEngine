@@ -70,7 +70,7 @@ class FileOperation
 
 public:
 
-    FileOperation() = default;
+    FileOperation() = delete;
 
     /**
      * Прочитать JSON-файл
@@ -195,7 +195,7 @@ private:
         {
             std::string completedMessage{static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
 
-            if (static_cast<int>(errorCode))
+            if (errorCode != ErrorCode::no_error)
             {
                 switch (errorLevel)
                 {
@@ -220,7 +220,7 @@ private:
 
         static bool returnOfResult(ErrorCode errorCode)
         {
-            if (static_cast<int>(errorCode))
+            if (errorCode != ErrorCode::no_error)
             {
                 return false;
             }
