@@ -10,12 +10,12 @@ void SearchEngine::ConfigSearchEngine::initialize()
 {
 
     //Создать JSON-объект конфигурации
-    configJSON = FileOperation::readJSONFile(configFilePath);
+    configJSON = OperationValidity::readJSONFile(configFilePath);
 
-    FileOperation::checkJSON(configFilePath, configJSON, configTemplate);
+    OperationValidity::checkJSON(configFilePath, configJSON, configTemplate);
 
 
-    requestsJSON = FileOperation::readJSONFile(requestsFilePath);
+    requestsJSON = OperationValidity::readJSONFile(requestsFilePath);
 
-    FileOperation::checkJSON(requestsFilePath, requestsJSON, requestsTemplate);
+    OperationValidity::checkJSON(requestsFilePath, requestsJSON, requestsTemplate);
 }

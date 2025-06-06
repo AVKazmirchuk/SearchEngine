@@ -6,12 +6,12 @@
 
 #include <algorithm>
 
-#include "fileOperation.h"
+#include "operationValidity.h"
 #include "logger.h"
 
 
 
-bool FileOperation::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
+bool OperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
                                       const std::string& message, ErrorLevel errorLevel, const boost::source_location &callingFunction)
 {
 
@@ -31,7 +31,7 @@ bool FileOperation::writeJSONFile(const std::string& filePath, const JSON& objec
     return true;
 }
 
-JSON FileOperation::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+JSON OperationValidity::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
                                      const boost::source_location &callingFunction)
 {
 
@@ -52,7 +52,7 @@ JSON FileOperation::readJSONFile(const std::string& filePath, const std::string&
     return JSON::parse(inFile);
 }
 
-bool FileOperation::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+bool OperationValidity::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                               const std::string& message, ErrorLevel errorLevel,
                               const boost::source_location &callingFunction)
 {
@@ -66,7 +66,7 @@ bool FileOperation::checkJSON(const std::string& filePath, const JSON& objectJSO
     return true;
 }
 
-std::string FileOperation::readTextFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+std::string OperationValidity::readTextFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
                          const boost::source_location &callingFunction)
 {
     //Создать объект для чтения файла документа
@@ -82,7 +82,7 @@ std::string FileOperation::readTextFile(const std::string& filePath, const std::
     return {(std::istreambuf_iterator<char>(inFile)), {}};
 }
 
-bool FileOperation::checkFilePathsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
+bool OperationValidity::checkFilePathsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
                          const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
@@ -94,7 +94,7 @@ bool FileOperation::checkFilePathsArray(const JSON& objectJSON, const std::strin
     return true;
 }
 
-bool FileOperation::checkRequestsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
+bool OperationValidity::checkRequestsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
                                         const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;

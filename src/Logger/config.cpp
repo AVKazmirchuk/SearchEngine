@@ -5,14 +5,14 @@
 
 
 #include "logger.h"
-#include "fileOperation.h"
+#include "operationValidity.h"
 
 
 
 void Logger::ConfigLogger::initialize()
 {
     //Создать JSON-объект конфигурации
-    configLoggerJSON = FileOperation::readJSONFile(configLoggerFilePath);
+    configLoggerJSON = OperationValidity::readJSONFile(configLoggerFilePath);
 
     //ReadWriteJSONFile::checkJSON(configLoggerFilePath, configLoggerJSON, configLoggerTemplate);
 
@@ -55,7 +55,7 @@ void Logger::ConfigLogger::initialize()
 void Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    configWriterMessageJSON = FileOperation::readJSONFile(configWriterMessageFilePath);
+    configWriterMessageJSON = OperationValidity::readJSONFile(configWriterMessageFilePath);
 
     //ReadWriteJSONFile::checkJSON(configWriterMessageFilePath, configWriterMessageJSON, configWriterMessageTemplate);
 

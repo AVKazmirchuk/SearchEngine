@@ -7,14 +7,14 @@
 #include "converterJSON.h"
 #include "checkFileException.h"
 #include "logger.h"
-#include "fileOperation.h"
+#include "operationValidity.h"
 
 
 void ConverterJSON::checkFilePath()
 {
 
     //std::cout << "checkFilePath: " << callingFunction.function_name() << std::endl;
-    FileOperation::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
+    OperationValidity::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
 
     /*for (std::size_t idx{}; idx < configJSON[ConfigConverterJSON::filesStr].size(); ++idx)
     {
@@ -33,5 +33,5 @@ void ConverterJSON::checkFilePath()
 void ConverterJSON::checkRequests()
 {
     //std::cout << "checkRequests: " << callingFunction.function_name() << std::endl;
-    FileOperation::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
+    OperationValidity::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
 }

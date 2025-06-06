@@ -15,7 +15,7 @@
 #include "general.h"
 #include "logger.h"
 
-#include "fileOperation.h"
+#include "operationValidity.h"
 
 
 
@@ -31,7 +31,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        futures.push_back(std::async(FileOperation::readTextFile, std::cref(filePaths[docID]), "", ErrorLevel::fatal, BOOST_CURRENT_LOCATION));
+        futures.push_back(std::async(OperationValidity::readTextFile, std::cref(filePaths[docID]), "", ErrorLevel::fatal, BOOST_CURRENT_LOCATION));
                 //[&message, &errorLevel, &callingFunction](const std::string& filePath) -> std::string
         //{
 

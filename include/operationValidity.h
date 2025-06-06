@@ -2,8 +2,8 @@
 // Created by Alexander on 25.02.2025.
 //
 
-#ifndef SEARCH_ENGINE_FILEOPERATION_H
-#define SEARCH_ENGINE_FILEOPERATION_H
+#ifndef SEARCH_ENGINE_OPERATIONVALIDITY_H
+#define SEARCH_ENGINE_OPERATIONVALIDITY_H
 
 
 
@@ -65,12 +65,12 @@ private:
 /**
  * Класс реализует чтение и запись JSON-файлов
  */
-class FileOperation
+class OperationValidity
 {
 
 public:
 
-    FileOperation() = delete;
+    OperationValidity() = delete;
 
     /**
      * Прочитать JSON-файл
@@ -234,4 +234,4 @@ private:
 
 
 
-#endif //SEARCH_ENGINE_FILEOPERATION_H
+#endif //SEARCH_ENGINE_OPERATIONVALIDITY_H
