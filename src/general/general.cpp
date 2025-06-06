@@ -13,7 +13,10 @@
 
 
 
-
+bool castJSONToBool(JSON& objectJSON)
+{
+    return !objectJSON.is_discarded();
+}
 
 namespace constants
 {

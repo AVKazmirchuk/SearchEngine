@@ -31,7 +31,7 @@ bool OperationValidity::writeJSONFile(const std::string& filePath, const JSON& o
     return true;
 }
 
-JSON OperationValidity::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+/*JSON OperationValidity::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
                                      const boost::source_location &callingFunction)
 {
 
@@ -50,7 +50,7 @@ JSON OperationValidity::readJSONFile(const std::string& filePath, const std::str
 
     //Вернуть JSON-объект
     return JSON::parse(inFile);
-}
+}*/
 
 bool OperationValidity::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                               const std::string& message, ErrorLevel errorLevel,

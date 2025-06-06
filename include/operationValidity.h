@@ -8,13 +8,33 @@
 
 
 #include <fstream>
+#include <expected>
 
 #include "boost/assert/source_location.hpp"
 #include "nlohmann/json.hpp"
 
 #include "logger.h"
 
+enum class parse_error
+{
+    invalid_input,
+    overflow
+};
 
+auto parse_number(std::string_view& str) -> std::expected<double, parse_error>
+{
+    const char* begin = str.data();
+    char* end;
+    double retval = std::strtod(begin, &end);
+
+    if (begin == end)
+        return std::unexpected(parse_error::invalid_input);
+    else if (std::isinf(retval))
+        return std::unexpected(parse_error::overflow);
+
+    str.remove_prefix(end - begin);
+    return retval;
+}
 
 enum class ErrorLevel
 {
@@ -72,13 +92,7 @@ public:
 
     OperationValidity() = delete;
 
-    /**
-     * Прочитать JSON-файл
-     * @param filePath Путь JSON-файла
-     * @return JSON-файл
-     */
-    static JSON readJSONFile(const std::string& filePath, const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
-                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
 
     /**
      * Записать JSON-файл
@@ -104,12 +118,73 @@ public:
                                     const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+     * Прочитать JSON-файл
+     * @param filePath Путь JSON-файла
+     * @return JSON-файл
+     */
+    static JSON readJSONFile(const std::string& filePath, const std::string& message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
+    {
+        std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
+
+        //Создать объект для чтения
+        std::ifstream inFile(filePath);
+
+        JSON objectJSON;
+
+        //objectJSON = DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction);
+
+        ErrorCode errorCode{ErrorCode::no_error};
+
+        if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+        else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+            //else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
+        else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+
+        DispatcherOperationValidity::determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+
+        return objectJSON;
+    }
+
 private:
 
     class DispatcherOperationValidity
     {
 
     public:
+
+        static JSON determineReadJSONFile(const std::string& filePath, std::ifstream& inFile, const std::string& message,
+                                          ErrorLevel errorLevel, const boost::source_location &callingFunction)
+        {
+            JSON objectJSON;
+
+            ErrorCode errorCode{ErrorCode::no_error};
+
+            if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+            else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+            //else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
+            else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+
+            determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+            //return returnOfResult(errorCode);
+            return objectJSON;
+        }
+
+        static bool determineReadFile(const std::string& filePath, std::ifstream& inFile, const std::string& message,
+                                      ErrorLevel errorLevel, const boost::source_location &callingFunction)
+        {
+            ErrorCode errorCode{ErrorCode::no_error};
+
+            if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+            else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+
+            determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+            return returnOfResult(errorCode);
+        }
 
         static bool determineJSONStructureMatch(const std::string& filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
                                                 const std::string& message, ErrorLevel errorLevel, const boost::source_location &callingFunction)
@@ -147,32 +222,9 @@ private:
             return returnOfResult(errorCode);
         }
 
-        static bool determineReadFile(const std::string& filePath, std::ifstream& inFile, const std::string& message,
-                                      ErrorLevel errorLevel, const boost::source_location &callingFunction)
-        {
-            ErrorCode errorCode{ErrorCode::no_error};
 
-            if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
-            else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
 
-            determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
 
-            return returnOfResult(errorCode);
-        }
-
-        static bool determineReadJSONFile(const std::string& filePath, std::ifstream& inFile, const std::string& message,
-                                          ErrorLevel errorLevel, const boost::source_location &callingFunction)
-        {
-            ErrorCode errorCode{ErrorCode::no_error};
-
-            if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
-            else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
-            else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
-
-            determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
-
-            return returnOfResult(errorCode);
-        }
 
 
         static bool determineWriteJSONFile(const std::string& filePath, std::ofstream& outFile, const std::string& message,
