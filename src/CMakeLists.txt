@@ -48,6 +48,6 @@ add_executable(search_engine main.cpp
 
         operationValidity/operationValidity.cpp
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp)
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp ../include/expected.hpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

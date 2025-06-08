@@ -11,7 +11,7 @@
 
 
 
-bool OperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
+ErrorCode OperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
                                       const std::string& message, ErrorLevel errorLevel, const boost::source_location &callingFunction)
 {
 
@@ -20,88 +20,109 @@ bool OperationValidity::writeJSONFile(const std::string& filePath, const JSON& o
     //Создать объект для записи
     std::ofstream outFile{filePath};
 
-    if (!DispatcherOperationValidity::determineWriteJSONFile(filePath, outFile, message, errorLevel, callingFunction))
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    else if (!outFile.is_open()) errorCode = ErrorCode::error_file_not_open_write;
+
+    determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+    if (returnOfResult(errorCode))
     {
-        return false;
+        //Записать JSON-объект в файл
+        outFile << std::setw(formatByWidth) << objectJSON;
     }
 
-    //Записать JSON-объект в файл
-    outFile << std::setw(formatByWidth) << objectJSON;
-
-    return true;
+    return errorCode;
 }
 
-/*JSON OperationValidity::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
-                                     const boost::source_location &callingFunction)
+tl::expected<JSON, ErrorCode> OperationValidity::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+                         const boost::source_location &callingFunction)
 {
-
     std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
     //Создать объект для чтения
     std::ifstream inFile(filePath);
 
-    if (!DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction))
-    {
-        return {};
-    }
+    JSON objectJSON;
 
-    //Прочитать файл в JSON-объект
-    //JSON targetJSON = JSON::parse(inFile);
+    //objectJSON = DispatcherOperationValidity::determineReadJSONFile(filePath, inFile, message, errorLevel, callingFunction);
 
-    //Вернуть JSON-объект
-    return JSON::parse(inFile);
-}*/
+    ErrorCode errorCode{ErrorCode::no_error};
 
-bool OperationValidity::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+        //else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
+    else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+
+    //determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+
+    if (errorCode == ErrorCode::no_error) return objectJSON;
+    return tl::unexpected(errorCode);
+    //return returnOfResult(errorCode) ? objectJSON : std::unexpected(errorCode);
+}
+
+tl::expected<std::string, ErrorCode> OperationValidity::readTextFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+                                                                     const boost::source_location &callingFunction)
+{
+    std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
+    //Создать объект для чтения файла документа
+    std::ifstream inFile(filePath);
+
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+
+    determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+    //Прочитать файл документа и вернуть документ
+    if (returnOfResult(errorCode)) return std::string({(std::istreambuf_iterator<char>(inFile)), {}});
+    return tl::unexpected(errorCode);
+}
+
+ErrorCode OperationValidity::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                               const std::string& message, ErrorLevel errorLevel,
                               const boost::source_location &callingFunction)
 {
     std::cout << "checkJSON: " << callingFunction.function_name() << std::endl;
 
-    if (!DispatcherOperationValidity::determineJSONStructureMatch(filePath, objectJSON, objectJSONTemplate, message, errorLevel, callingFunction))
-    {
-        return false;
-    }
+    ErrorCode errorCode{ErrorCode::no_error};
 
-    return true;
+    if (!CheckJSON::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::error_json_structure_not_match;
+
+    determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+
+    return errorCode;
 }
 
-std::string OperationValidity::readTextFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
-                         const boost::source_location &callingFunction)
-{
-    //Создать объект для чтения файла документа
-    std::ifstream inFile(filePath);
-
-    std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
-    if (!DispatcherOperationValidity::determineReadFile(filePath, inFile, message, errorLevel, callingFunction))
-    {
-        return {};
-    }
-
-    //Прочитать файл документа и вернуть документ
-    return {(std::istreambuf_iterator<char>(inFile)), {}};
-}
-
-bool OperationValidity::checkFilePathsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
+ErrorCode OperationValidity::checkFilePathsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
                          const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
-    if (!DispatcherOperationValidity::determineFilePathsArrayEmpty(objectJSON, message, errorLevel, callingFunction))
-    {
-        return false;
-    }
 
-    return true;
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    if (objectJSON.empty()) errorCode = ErrorCode::error_file_paths_array_empty;
+
+    determineDegreeOfValidity("", errorCode, message, errorLevel, callingFunction);
+
+    return errorCode;
+
 }
 
-bool OperationValidity::checkRequestsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
+ErrorCode OperationValidity::checkRequestsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
                                         const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
-    if (!DispatcherOperationValidity::determineRequestsArrayEmpty(objectJSON, message, errorLevel, callingFunction))
-    {
-        return false;
-    }
 
-    return true;
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    if (objectJSON.empty()) errorCode = ErrorCode::error_requests_array_empty;
+
+    determineDegreeOfValidity("", errorCode, message, errorLevel, callingFunction);
+
+    return errorCode;
+
 }

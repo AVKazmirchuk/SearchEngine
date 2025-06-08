@@ -12,7 +12,16 @@
 void Logger::ConfigLogger::initialize()
 {
     //Создать JSON-объект конфигурации
-    configLoggerJSON = OperationValidity::readJSONFile(configLoggerFilePath);
+    if (auto tmp = OperationValidity::readJSONFile(configLoggerFilePath);!tmp.has_value())
+    {
+        DispatcherOperationValidity::determineDegreeOfValidity(configLoggerFilePath, tmp.error());
+    }
+    else
+    {
+        configLoggerJSON = tmp.value();
+    }
+
+
 
     //ReadWriteJSONFile::checkJSON(configLoggerFilePath, configLoggerJSON, configLoggerTemplate);
 
@@ -55,7 +64,7 @@ void Logger::ConfigLogger::initialize()
 void Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    configWriterMessageJSON = OperationValidity::readJSONFile(configWriterMessageFilePath);
+    configWriterMessageJSON = OperationValidity::readJSONFile(configWriterMessageFilePath).value();
 
     //ReadWriteJSONFile::checkJSON(configWriterMessageFilePath, configWriterMessageJSON, configWriterMessageTemplate);
 

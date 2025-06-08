@@ -25,7 +25,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     std::vector<std::string> documents;
 
     //Контейнер результатов потоков
-    std::list<std::future<std::string>> futures;
+    std::list<std::future<tl::expected<std::string, ErrorCode>>> futures;
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
@@ -54,7 +54,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
         for (auto &future: futures)
         {
             //Добавить документ
-            documents.push_back(future.get());
+            documents.push_back(future.get().value());
         }
     }
     catch (const std::exception& e)
