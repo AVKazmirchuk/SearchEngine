@@ -25,13 +25,13 @@ ErrorCode OperationValidity::writeJSONFile(const std::string& filePath, const JS
     if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
     else if (!outFile.is_open()) errorCode = ErrorCode::error_file_not_open_write;
 
-    determineDegreeOfValidity(filePath, errorCode, errorLevel, message, callingFunction);
-
     if (returnOfResult(errorCode))
     {
         //Записать JSON-объект в файл
         outFile << std::setw(formatByWidth) << objectJSON;
     }
+
+    determineDegreeOfValidity(filePath, errorCode, errorLevel, message, callingFunction);
 
     return errorCode;
 }
