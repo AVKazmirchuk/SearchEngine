@@ -25,7 +25,7 @@ ErrorCode OperationValidity::writeJSONFile(const std::string& filePath, const JS
     if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
     else if (!outFile.is_open()) errorCode = ErrorCode::error_file_not_open_write;
 
-    determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+    determineDegreeOfValidity(filePath, errorCode, errorLevel, message, callingFunction);
 
     if (returnOfResult(errorCode))
     {
@@ -77,7 +77,7 @@ tl::expected<std::string, ErrorCode> OperationValidity::readTextFile(const std::
     if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
     else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
 
-    determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+    determineDegreeOfValidity(filePath, errorCode, errorLevel, message, callingFunction);
 
     //Прочитать файл документа и вернуть документ
     if (returnOfResult(errorCode)) return std::string({(std::istreambuf_iterator<char>(inFile)), {}});
@@ -94,7 +94,7 @@ ErrorCode OperationValidity::checkJSON(const std::string& filePath, const JSON& 
 
     if (!CheckJSON::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::error_json_structure_not_match;
 
-    determineDegreeOfValidity(filePath, errorCode, message, errorLevel, callingFunction);
+    determineDegreeOfValidity(filePath, errorCode, errorLevel, message, callingFunction);
 
     return errorCode;
 }
@@ -108,7 +108,7 @@ ErrorCode OperationValidity::checkFilePathsArray(const JSON& objectJSON, ErrorLe
 
     if (objectJSON.empty()) errorCode = ErrorCode::error_file_paths_array_empty;
 
-    determineDegreeOfValidity("", errorCode, message, errorLevel, callingFunction);
+    determineDegreeOfValidity("", errorCode, errorLevel, message, callingFunction);
 
     return errorCode;
 
@@ -123,7 +123,7 @@ ErrorCode OperationValidity::checkRequestsArray(const JSON& objectJSON, ErrorLev
 
     if (objectJSON.empty()) errorCode = ErrorCode::error_requests_array_empty;
 
-    determineDegreeOfValidity("", errorCode, message, errorLevel, callingFunction);
+    determineDegreeOfValidity("", errorCode, errorLevel, message, callingFunction);
 
     return errorCode;
 
