@@ -11,8 +11,8 @@
 
 
 
-ErrorCode OperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
-                                      const std::string& message, ErrorLevel errorLevel, const boost::source_location &callingFunction)
+ErrorCode OperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, ErrorLevel errorLevel,
+                                           const std::string& message, const int formatByWidth, const boost::source_location &callingFunction)
 {
 
     std::cout << "writeJSONFile: " << callingFunction.function_name() << std::endl;
@@ -36,8 +36,9 @@ ErrorCode OperationValidity::writeJSONFile(const std::string& filePath, const JS
     return errorCode;
 }
 
-tl::expected<JSON, ErrorCode> OperationValidity::readJSONFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
-                         const boost::source_location &callingFunction)
+tl::expected<JSON, ErrorCode> OperationValidity::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
+                                                              const std::string& message,
+                                                              const boost::source_location &callingFunction)
 {
     std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
@@ -63,7 +64,8 @@ tl::expected<JSON, ErrorCode> OperationValidity::readJSONFile(const std::string&
     //return returnOfResult(errorCode) ? objectJSON : std::unexpected(errorCode);
 }
 
-tl::expected<std::string, ErrorCode> OperationValidity::readTextFile(const std::string& filePath, const std::string& message, ErrorLevel errorLevel,
+tl::expected<std::string, ErrorCode> OperationValidity::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
+                                                                     const std::string& message,
                                                                      const boost::source_location &callingFunction)
 {
     std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
@@ -83,8 +85,8 @@ tl::expected<std::string, ErrorCode> OperationValidity::readTextFile(const std::
 }
 
 ErrorCode OperationValidity::checkJSON(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
-                              const std::string& message, ErrorLevel errorLevel,
-                              const boost::source_location &callingFunction)
+                              ErrorLevel errorLevel, const std::string& message,
+                                       const boost::source_location &callingFunction)
 {
     std::cout << "checkJSON: " << callingFunction.function_name() << std::endl;
 
@@ -97,8 +99,8 @@ ErrorCode OperationValidity::checkJSON(const std::string& filePath, const JSON& 
     return errorCode;
 }
 
-ErrorCode OperationValidity::checkFilePathsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
-                         const boost::source_location &callingFunction)
+ErrorCode OperationValidity::checkFilePathsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+                                                 const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
 
@@ -112,8 +114,8 @@ ErrorCode OperationValidity::checkFilePathsArray(const JSON& objectJSON, const s
 
 }
 
-ErrorCode OperationValidity::checkRequestsArray(const JSON& objectJSON, const std::string& message, ErrorLevel errorLevel,
-                                        const boost::source_location &callingFunction)
+ErrorCode OperationValidity::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+                                                const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
 

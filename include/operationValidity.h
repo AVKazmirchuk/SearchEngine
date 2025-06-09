@@ -80,21 +80,22 @@ public:
      * @param objectJSON JSON-объект
      * @param filePath Путь JSON-файла
      */
-    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
-                                   const std::string &message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
+                                   ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
+                                   const int formatByWidth = 2,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     static ErrorCode checkJSON(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                               const std::string &message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+                               ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
                                const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
-    static ErrorCode checkFilePathsArray(const JSON &objectJSON,
-                                         const std::string &message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+    static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                         const std::string &message = "",
                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode checkRequestsArray(const JSON &objectJSON,
-                                        const std::string &message = "", ErrorLevel errorLevel = ErrorLevel::fatal,
+    static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                        const std::string &message = "",
                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
@@ -102,19 +103,18 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static tl::expected<JSON, ErrorCode> readJSONFile(const std::string &filePath, const std::string &message = "",
-                                                      ErrorLevel errorLevel = ErrorLevel::fatal,
+    static tl::expected<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                                      const std::string &message = "",
                                                       const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     static tl::expected<std::string, ErrorCode>
-    readTextFile(const std::string &filePath, const std::string &message = "",
-                 ErrorLevel errorLevel = ErrorLevel::fatal,
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+                 const std::string &message = "", const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
-    static void determineDegreeOfValidity(const std::string &filePath, ErrorCode errorCode, const std::string &message,
-                                          ErrorLevel errorLevel, const boost::source_location &callingFunction)
+    static void determineDegreeOfValidity(const std::string &filePath, ErrorCode errorCode, ErrorLevel errorLevel,
+                                          const std::string &message, const boost::source_location &callingFunction)
     {
         std::string completedMessage{
                 static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
