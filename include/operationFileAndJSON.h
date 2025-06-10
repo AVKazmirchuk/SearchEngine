@@ -2,8 +2,8 @@
 // Created by Alexander on 25.02.2025.
 //
 
-#ifndef SEARCH_ENGINE_OPERATIONVALIDITY_H
-#define SEARCH_ENGINE_OPERATIONVALIDITY_H
+#ifndef SEARCH_ENGINE_OPERATIONFILEANDJSON_H
+#define SEARCH_ENGINE_OPERATIONFILEANDJSON_H
 
 
 
@@ -67,12 +67,12 @@ private:
 /**
  * Класс реализует чтение и запись JSON-файлов
  */
-class OperationValidity
+class OperationFileAndJSON
 {
 
 public:
 
-    OperationValidity() = delete;
+    OperationFileAndJSON() = delete;
 
 
     /**
@@ -85,7 +85,7 @@ public:
                                    const int formatByWidth = 2,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode checkJSON(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
+    static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
                                ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
                                const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
@@ -156,15 +156,47 @@ private:
 };
 
 
-    class DispatcherOperationValidity
+    class DispatcherDetermineValidity
     {
 
     public:
 
+        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
+                                       ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
+                                       const int formatByWidth = 2,
+                                       const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+        static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
+                                                 ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
+                                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+
+        static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                             const std::string &message = "",
+                                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+        static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                            const std::string &message = "",
+                                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+        /**
+         * Прочитать JSON-файл
+         * @param filePath Путь JSON-файла
+         * @return JSON-файл
+         */
+        static tl::expected<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                                          const std::string &message = "",
+                                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+        static tl::expected<std::string, ErrorCode>
+        readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+                     const std::string &message = "", const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
 
-        static void determineDegreeOfValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
+    private:
+
+       static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
                                               ErrorLevel errorLevel = ErrorLevel::fatal,
                                               const std::string &message = "",
                                               const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
@@ -210,4 +242,4 @@ private:
 
 
 
-#endif //SEARCH_ENGINE_OPERATIONVALIDITY_H
+#endif //SEARCH_ENGINE_OPERATIONFILEANDJSON_H

@@ -13,7 +13,7 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
 
 void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath)
 {
-    OperationValidity::writeJSONFile(filePath, objectJSON);
+    OperationFileAndJSON::writeJSONFile(filePath, objectJSON);
 }
 
 void SearchEngine::searchModifiedAll()
