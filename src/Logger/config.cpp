@@ -11,14 +11,15 @@
 
 void Logger::ConfigLogger::initialize()
 {
+
     //Создать JSON-объект конфигурации
-    if (auto tmp = OperationFileAndJSON::readJSONFile(configLoggerFilePath);!tmp.has_value())
+    if (auto tmp = OperationFileAndJSON::readJSONFile(configLoggerFilePath);tmp.second != ErrorCode::no_error)
     {
-        DispatcherDetermineValidity::determineValidity(configLoggerFilePath, tmp.error());
+        //throw(Chek);
     }
     else
     {
-        configLoggerJSON = tmp.value();
+        configLoggerJSON = tmp.first;
     }
 
 
@@ -64,7 +65,14 @@ void Logger::ConfigLogger::initialize()
 void Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
-    configWriterMessageJSON = OperationFileAndJSON::readJSONFile(configWriterMessageFilePath).value();
+    if (auto tmp = OperationFileAndJSON::readJSONFile(configWriterMessageFilePath);tmp.second != ErrorCode::no_error)
+    {
+        //throw(Chek);
+    }
+    else
+    {
+        configWriterMessageJSON = tmp.first;
+    }
 
     //ReadWriteJSONFile::checkJSON(configWriterMessageFilePath, configWriterMessageJSON, configWriterMessageTemplate);
 

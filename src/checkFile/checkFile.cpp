@@ -43,14 +43,14 @@ bool CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
         if (elem == objectJSON.end())
         {
             //Выбросить исключение
-            throw std::runtime_error("error_json_structure_not_match");
+            throw JSONStructureNotMatch{};
         }
 
         //Типы значений полей шаблона и проверяемого не равны
         if (elem.value().type() != elemTemplate.value().type())
         {
             //Выбросить исключение
-            throw std::runtime_error("error_json_structure_not_match");
+            throw JSONStructureNotMatch{};
         }
 
         //Тип значения поля - JSON-объект
@@ -72,7 +72,7 @@ bool CheckJSON::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJ
         //Проверить JSON-структуру файла на соответствие шаблону
         isJSONStructureMatchImpl(objectJSON, objectJSONTemplate);
     }
-    catch(const std::runtime_error& e)
+    catch(const JSONStructureNotMatch&)
     {
         //JSON-структура файла не соответствует шаблону
         return false;

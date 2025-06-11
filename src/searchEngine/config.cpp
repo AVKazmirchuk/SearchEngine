@@ -11,19 +11,13 @@ void SearchEngine::ConfigSearchEngine::initialize()
 
     //Создать JSON-объект конфигурации
     //configJSON = OperationValidity::readJSONFile(configFilePath).value();
-    if (auto tmp = OperationFileAndJSON::readJSONFile(configFilePath);!tmp.has_value())
-    {
-        DispatcherDetermineValidity::determineValidity(configFilePath, tmp.error());
-    }
-    else
-    {
-        configJSON = tmp.value();
-    }
-
-    OperationFileAndJSON::checkJSONStructureMatch(configFilePath, configJSON, configTemplate);
 
 
-    requestsJSON = OperationFileAndJSON::readJSONFile(requestsFilePath).value();
+    configJSON = DispatcherDetermineValidity::readJSONFile(configFilePath).first;
+    DispatcherDetermineValidity::checkJSONStructureMatch(configFilePath, configJSON, configTemplate);
 
-    OperationFileAndJSON::checkJSONStructureMatch(requestsFilePath, requestsJSON, requestsTemplate);
+
+    requestsJSON = DispatcherDetermineValidity::readJSONFile(requestsFilePath).first;
+
+    DispatcherDetermineValidity::checkJSONStructureMatch(requestsFilePath, requestsJSON, requestsTemplate);
 }

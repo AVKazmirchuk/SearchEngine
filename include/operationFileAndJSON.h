@@ -54,6 +54,8 @@ public:
 
 private:
 
+    class JSONStructureNotMatch : std::exception {};
+
     /**
      * Проверить JSON-структуру файла на соответствие шаблону (реализация)
      * @param objectJSON JSON-объект проверяемого
@@ -80,14 +82,44 @@ public:
      * @param objectJSON JSON-объект
      * @param filePath Путь JSON-файла
      */
+    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
+                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
+                                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+
+    static ErrorCode checkFilePathsArray(const JSON &objectJSON, const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    static ErrorCode checkRequestsArray(const JSON &objectJSON, const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    /**
+     * Прочитать JSON-файл
+     * @param filePath Путь JSON-файла
+     * @return JSON-файл
+     */
+    static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath, const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+};
+
+
+
+class DispatcherDetermineValidity
+{
+
+public:
+
     static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
                                    ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
                                    const int formatByWidth = 2,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                               ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
-                               const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static ErrorCode
+    checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
+                            ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
+                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
     static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
@@ -103,18 +135,22 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static tl::expected<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
-                                                      const std::string &message = "",
-                                                      const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static std::pair<JSON, ErrorCode>
+    readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+                 const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static tl::expected<std::string, ErrorCode>
+    static std::pair<std::string, ErrorCode>
     readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
-                 const std::string &message = "", const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+                 const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
-    static void determineDegreeOfValidity(const std::string &filePath, ErrorCode errorCode, ErrorLevel errorLevel,
-                                          const std::string &message, const boost::source_location &callingFunction)
+    static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
+                                  ErrorLevel errorLevel = ErrorLevel::fatal,
+                                  const std::string &message = "",
+                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
     {
         std::string completedMessage{
                 static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
@@ -141,103 +177,9 @@ private:
             }
         }
     }
-
-    static bool returnOfResult(ErrorCode errorCode)
-    {
-        if (errorCode != ErrorCode::no_error)
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
-    }
-
 };
 
 
-    class DispatcherDetermineValidity
-    {
-
-    public:
-
-        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
-                                       ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
-                                       const int formatByWidth = 2,
-                                       const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-        static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                                                 ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
-                                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-
-        static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
-                                             const std::string &message = "",
-                                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-        static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
-                                            const std::string &message = "",
-                                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-        /**
-         * Прочитать JSON-файл
-         * @param filePath Путь JSON-файла
-         * @return JSON-файл
-         */
-        static tl::expected<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
-                                                          const std::string &message = "",
-                                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-        static tl::expected<std::string, ErrorCode>
-        readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
-                     const std::string &message = "", const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-
-
-    private:
-
-       static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
-                                              ErrorLevel errorLevel = ErrorLevel::fatal,
-                                              const std::string &message = "",
-                                              const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
-        {
-            std::string completedMessage{static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
-
-            if (errorCode != ErrorCode::no_error)
-            {
-                switch (errorLevel)
-                {
-                    case ErrorLevel::fatal:
-                        Logger::fatal(completedMessage, CheckFileException(errorCode, filePath));
-                        throw CheckFileException(errorCode, filePath);
-                    case ErrorLevel::error:
-                        Logger::error(completedMessage, CheckFileException(errorCode, filePath));
-                        return;
-                    case ErrorLevel::warning:
-                        Logger::warning(completedMessage, CheckFileException(errorCode, filePath));
-                        return;
-                    case ErrorLevel::info:
-                        Logger::info(completedMessage, CheckFileException(errorCode, filePath));
-                        return;
-                    case ErrorLevel::debug:
-                        Logger::debug(completedMessage, CheckFileException(errorCode, filePath));
-                        return;
-                }
-            }
-        }
-
-        static bool returnOfResult(ErrorCode errorCode)
-        {
-            if (errorCode != ErrorCode::no_error)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-    };
 
 
 
