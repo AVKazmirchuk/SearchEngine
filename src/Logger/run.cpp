@@ -48,6 +48,7 @@ void Logger::WriterMessage::processMessageContainer()
 
         //Отправить в монитор
         writeToMonitor(message);
+
     }
 }
 
@@ -158,6 +159,8 @@ void Logger::WriterMessage::run()
 
         //Обработать контейнер сообщений
         processMessageContainer();
+
+        std::cout << "qwerty!!!" << std::endl;
     }
 
     //Перед завершением работы потока, проверить контейнер сообщений из основного потока и обработать, так как пока
@@ -168,4 +171,6 @@ void Logger::WriterMessage::run()
     messages = Logger::ptrToLogger->messages;
     //Обработать очередь сообщений
     processMessageContainer();
+
+
 }

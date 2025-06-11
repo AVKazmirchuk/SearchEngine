@@ -116,6 +116,8 @@ public:
 
         //Ждать окончания работы отдельного потока логирования
         resultOfWriteToFileAndMonitor.wait();
+
+        std::cout << "qwerty" << std::endl;
     }
 
 

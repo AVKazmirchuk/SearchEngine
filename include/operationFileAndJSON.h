@@ -155,12 +155,13 @@ private:
         std::string completedMessage{
                 static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
 
-        if (errorCode != ErrorCode::no_error)
+        if (errorCode != ErrorCode::no_error || errorLevel != ErrorLevel::fatal)
         {
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
                     Logger::fatal(completedMessage, CheckFileException(errorCode, filePath));
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
                     throw CheckFileException(errorCode, filePath);
                 case ErrorLevel::error:
                     Logger::error(completedMessage, CheckFileException(errorCode, filePath));
