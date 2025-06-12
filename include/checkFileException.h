@@ -8,7 +8,7 @@
 
 
 #include <exception>
-
+#include <map>
 
 
 enum class ErrorCode
@@ -21,6 +21,19 @@ enum class ErrorCode
     error_json_structure_not_match,
     error_file_paths_array_empty,
     error_requests_array_empty
+};
+
+const std::map<ErrorCode, std::string> descriptionErrorCode{
+
+                {ErrorCode::no_error, ""},
+                {ErrorCode::error_file_missing, "This file is missing"},
+                {ErrorCode::error_file_not_open_read, "This file cannot be opened for reading"},
+                {ErrorCode::error_file_not_open_write, "This file cannot be opened for writing"},
+                {ErrorCode::error_json_structure_corrupted, "The structure of this file is corrupted"},
+                {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one"},
+                {ErrorCode::error_file_paths_array_empty, "The array of this file paths is empty"},
+                {ErrorCode::error_requests_array_empty, "The query array of this file is empty"}
+
 };
 
 /**
@@ -38,7 +51,7 @@ public:
      */
     explicit CheckFileException(ErrorCode in_errorCode, const std::string& in_information = "") : errorCode(in_errorCode)
     {
-        switch (errorCode)
+        /*switch (errorCode)
         {
             case ErrorCode::error_file_missing :
                 information += "This file is missing: ";
@@ -61,9 +74,10 @@ public:
             case ErrorCode::error_requests_array_empty :
                 information += "The query array of this file is empty: ";
                 break;
-        }
+        }*/
 
-        information += in_information + '.';
+
+        information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
     }
 
     /**
@@ -87,7 +101,7 @@ public:
 private:
 
     ErrorCode errorCode;
-    std::string information{};
+    std::string information;
 
 };
 

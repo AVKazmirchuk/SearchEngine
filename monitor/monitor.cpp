@@ -47,7 +47,7 @@ void LoggerMonitor::run()
     while (true)
     {
         //Получить сообщение
-        std::string message{monitorReceiver.receive()};
+        std::string message{monitorReceiver.receive(configLoggerMonitor.maxMessageSize())};
 
         //Исключительная ситуация
         if (message == (configLoggerMonitor.nameOfQueue() + "Stop"))
@@ -58,8 +58,10 @@ void LoggerMonitor::run()
 
             break;
         }
+
         //Вывести сообщение на монитор
         outputToConsole(message);
+
     }
 }
 

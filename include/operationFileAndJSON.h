@@ -8,10 +8,8 @@
 
 
 #include <fstream>
-//#include <expected>
 
 #include "boost/assert/source_location.hpp"
-#include "expected.hpp"
 #include "nlohmann/json.hpp"
 
 #include "logger.h"
@@ -38,13 +36,6 @@ public:
     CheckJSON() = delete;
 
     /**
-     * Проверить файл на целостность JSON-структуры
-     * @param fileName Имя файла
-     * @return Файл целостный(true)/не целостный(false)
-     */
-    static bool isJSONStructureValid(std::ifstream& inFile);
-
-    /**
      * Проверить JSON-структуру файла на соответствие шаблону
      * @param objectJSON JSON-объект проверяемого
      * @param objectJSONTemplate JSON-объект шаблона
@@ -54,7 +45,7 @@ public:
 
 private:
 
-    class JSONStructureNotMatch : std::exception {};
+    class JSONStructureNotMatch {};
 
     /**
      * Проверить JSON-структуру файла на соответствие шаблону (реализация)
@@ -152,36 +143,32 @@ private:
                                   const std::string &message = "",
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
     {
-        std::string completedMessage{
+        std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                 static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
 
-        if (errorCode != ErrorCode::no_error || errorLevel != ErrorLevel::fatal)
+        if (errorCode != ErrorCode::no_error)
         {
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
                     Logger::fatal(completedMessage, CheckFileException(errorCode, filePath));
-                    std::this_thread::sleep_for(std::chrono::seconds(1));
                     throw CheckFileException(errorCode, filePath);
                 case ErrorLevel::error:
-                    Logger::error(completedMessage, CheckFileException(errorCode, filePath));
+                    Logger::error(completedMessage);
                     return;
                 case ErrorLevel::warning:
-                    Logger::warning(completedMessage, CheckFileException(errorCode, filePath));
+                    Logger::warning(completedMessage);
                     return;
                 case ErrorLevel::info:
-                    Logger::info(completedMessage, CheckFileException(errorCode, filePath));
+                    Logger::info(completedMessage);
                     return;
                 case ErrorLevel::debug:
-                    Logger::debug(completedMessage, CheckFileException(errorCode, filePath));
+                    Logger::debug(completedMessage);
                     return;
             }
         }
     }
 };
-
-
-
 
 
 

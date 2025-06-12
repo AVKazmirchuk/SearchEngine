@@ -13,8 +13,7 @@
 void ConverterJSON::checkFilePath()
 {
 
-    //std::cout << "checkFilePath: " << callingFunction.function_name() << std::endl;
-    OperationFileAndJSON::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
+    DispatcherDetermineValidity::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
 
     /*for (std::size_t idx{}; idx < configJSON[ConfigConverterJSON::filesStr].size(); ++idx)
     {
@@ -32,6 +31,5 @@ void ConverterJSON::checkFilePath()
 
 void ConverterJSON::checkRequests()
 {
-    //std::cout << "checkRequests: " << callingFunction.function_name() << std::endl;
-    OperationFileAndJSON::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
+    DispatcherDetermineValidity::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
 }

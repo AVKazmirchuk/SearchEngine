@@ -41,7 +41,7 @@ public:
      * Получить сообщение из очереди сообщений (ожидать сообщение)
      * @return Сообщение
      */
-    std::string receive();
+    std::string receive(const boost::interprocess::message_queue::size_type maxMessageSize);
 
     /**
      * Получить константную ссылку на объект класса boost::interprocess::message_queue

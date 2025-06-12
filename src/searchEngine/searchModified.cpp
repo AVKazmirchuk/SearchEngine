@@ -5,6 +5,9 @@
 
 #include "general.h"
 #include "searchEngine.h"
+#include "operationFileAndJSON.h"
+
+
 
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
@@ -13,7 +16,7 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
 
 void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath)
 {
-    OperationFileAndJSON::writeJSONFile(filePath, objectJSON);
+    DispatcherDetermineValidity::writeJSONFile(filePath, objectJSON);
 }
 
 void SearchEngine::searchModifiedAll()

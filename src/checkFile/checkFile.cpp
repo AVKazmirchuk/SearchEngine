@@ -5,31 +5,8 @@
 
 
 #include "operationFileAndJSON.h"
-//#include "logger.h"
 
 
-
-bool CheckJSON::isJSONStructureValid(std::ifstream& inFile)
-{
-    //Создать временный объект для проверки
-    JSON tmpJSON;
-
-    try
-    {
-        //Прочитать JSON-структуру
-        inFile >> tmpJSON;
-        inFile.clear();
-        inFile.seekg(0);
-    }
-    catch (const nlohmann::detail::parse_error &e)
-    {
-        //JSON-структура повреждена
-        return false;
-    }
-
-    //JSON-структура целостна
-    return true;
-}
 
 bool CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {

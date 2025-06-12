@@ -2,7 +2,7 @@
     "messageQueue" : {
         "nameOfQueue" : "search_engine",
         "maxNumberOfMessages" : 100,
-        "maxMessageSize" : 256,
+        "maxMessageSize" : 1024,
         "fileNameOfMainProgram" : "search_engine.exe",
         "fileNameOfMonitor" : "search_engine_monitor.exe",
         "nameOfConsole" : "Logger Monitor",

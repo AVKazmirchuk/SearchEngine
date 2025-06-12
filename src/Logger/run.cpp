@@ -144,6 +144,7 @@ void Logger::WriterMessage::run()
     //Пока не получено уведомление о завершении работы
     while (!Logger::ptrToLogger->stopLogger.load())
     {
+
         //Ожидать сигнал о добавлении сообщения в контейнер сообщений
         std::unique_lock<std::mutex> uniqueLock(Logger::ptrToLogger->mutReadWriteMessages);
         Logger::ptrToLogger->cvPushMessage.wait(uniqueLock, [this]() { return Logger::ptrToLogger->pushMessage; });
@@ -157,10 +158,9 @@ void Logger::WriterMessage::run()
         //Разблокировать доступ к контейнеру сообщений из основного потока
         uniqueLock.unlock();
 
+
         //Обработать контейнер сообщений
         processMessageContainer();
-
-        std::cout << "qwerty!!!" << std::endl;
     }
 
     //Перед завершением работы потока, проверить контейнер сообщений из основного потока и обработать, так как пока
@@ -168,9 +168,7 @@ void Logger::WriterMessage::run()
     //делать без блокировок, так как получено уведомление о завершении работы из деструктора класса Logger.
 
     //Копировать контейнер сообщений из основного потока
-    messages = Logger::ptrToLogger->messages;
+    messages = std::move(Logger::ptrToLogger->messages);
     //Обработать очередь сообщений
     processMessageContainer();
-
-
 }

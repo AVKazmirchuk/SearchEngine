@@ -5,12 +5,12 @@
 
 
 #include "monitorReceiver.h"
+#include "monitorReceiver.h"
 
 
 
 
-
-std::string MonitorReceiver::receive()
+std::string MonitorReceiver::receive(const boost::interprocess::message_queue::size_type maxMessageSize)
 {
     //Подготовить данные для получения сообщения
 
@@ -19,7 +19,7 @@ std::string MonitorReceiver::receive()
     //Ожидаемое сообщение
     std::string message;
     //Задать размер оджидаемого сообщения
-    message.resize(256);
+    message.resize(maxMessageSize);
     //Размер полученного сообщения
     boost::interprocess::message_queue::size_type recvd_size;
 
