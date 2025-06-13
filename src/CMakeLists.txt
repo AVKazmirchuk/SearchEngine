@@ -5,13 +5,13 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/converterJSON.h
         ${SE_INCLUDE_DIR}/documents.h
         ${SE_INCLUDE_DIR}/entry.h
-        ${SE_INCLUDE_DIR}/checkFileException.h
+
         ${SE_INCLUDE_DIR}/invertedIndex.h
         ${SE_INCLUDE_DIR}/relativeIndex.h
         ${SE_INCLUDE_DIR}/relevantResponse.h
         ${SE_INCLUDE_DIR}/requests.h
         ${SE_INCLUDE_DIR}/searchEngine.h
-        ${SE_INCLUDE_DIR}/operationFileAndJSON.h
+
         ${SE_INCLUDE_DIR}/readTextFile.h
         ${SE_INCLUDE_DIR}/general.h
         ${SE_INCLUDE_DIR}/logger.h
@@ -40,14 +40,14 @@ add_executable(search_engine main.cpp
 
         readTextFile/readTextFile.cpp
 
-        checkFile/checkFile.cpp
+        ../check/checkFile.cpp
 
         documents/documents.cpp
 
         general/general.cpp
 
-        operationValidity/operationFileAndJSON.cpp
+        ../check/operationFileAndJSON.cpp
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp ../include/expected.hpp)
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp ../check/errorCode.h ../include/dispatcherDetermineValidity.h ../include/types.h dispatcherDetermineValidity/dispatcherDetermineValidity.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

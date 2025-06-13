@@ -10,7 +10,8 @@
 
 #include "boost/assert/source_location.hpp"
 
-#include "operationFileAndJSON.h"
+#include "check/operationFileAndJSON.h"
+#include "dispatcherDetermineValidity.h"
 #include "readTextFile.h"
 
 
@@ -28,7 +29,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::fatal, "", BOOST_CURRENT_LOCATION));
+        futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
     }
 
     try

@@ -5,9 +5,10 @@
 
 
 #include "converterJSON.h"
-#include "checkFileException.h"
+#include "check/checkFileException.h"
 #include "logger.h"
-#include "operationFileAndJSON.h"
+#include "check/operationFileAndJSON.h"
+#include "dispatcherDetermineValidity.h"
 
 
 void ConverterJSON::checkFilePath()

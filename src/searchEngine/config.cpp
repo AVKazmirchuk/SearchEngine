@@ -3,7 +3,7 @@
 //
 
 #include "searchEngine.h"
-
+#include "dispatcherDetermineValidity.h"
 
 
 void SearchEngine::ConfigSearchEngine::initialize()

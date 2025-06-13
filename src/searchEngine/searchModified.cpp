@@ -5,7 +5,8 @@
 
 #include "general.h"
 #include "searchEngine.h"
-#include "operationFileAndJSON.h"
+#include "check/operationFileAndJSON.h"
+#include "dispatcherDetermineValidity.h"
 
 
 

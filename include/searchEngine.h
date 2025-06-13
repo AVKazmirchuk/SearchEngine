@@ -17,7 +17,7 @@
 #include "requests.h"
 #include "relevantResponse.h"
 #include "readTextFile.h"
-#include "operationFileAndJSON.h"
+#include "check/operationFileAndJSON.h"
 #include "general.h"
 #include "logger.h"
 

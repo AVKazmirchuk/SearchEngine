@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include "checkFileException.h"
+#include "check/checkFileException.h"
 #include "general.h"
 #include "testGeneral.h"
 
