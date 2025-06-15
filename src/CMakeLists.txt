@@ -40,14 +40,14 @@ add_executable(search_engine main.cpp
 
         readTextFile/readTextFile.cpp
 
-        ../check/checkFile.cpp
+
 
         documents/documents.cpp
 
         general/general.cpp
 
-        ../check/operationFileAndJSON.cpp
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h ../include/termcolor.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp ../check/errorCode.h ../include/dispatcherDetermineValidity.h ../include/types.h dispatcherDetermineValidity/dispatcherDetermineValidity.cpp)
+
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp ../include/dispatcherDetermineValidity.h ../include/types.h dispatcherDetermineValidity/dispatcherDetermineValidity.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
