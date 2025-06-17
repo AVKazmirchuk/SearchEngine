@@ -5,7 +5,7 @@
 
 
 #include "converterJSON.h"
-#include "check/checkFileException.h"
+#include "../check/check"
 #include "logger.h"
 #include "check/operationFileAndJSON.h"
 #include "dispatcherDetermineValidity.h"
