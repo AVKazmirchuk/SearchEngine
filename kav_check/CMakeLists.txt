@@ -46,6 +46,9 @@ endif()
 include(GNUInstallDirs)
 
 set(KAV_CHECK_TARGET_NAME ${PROJECT_NAME})
+set(KAV_CHECK_INCLUDE_BUILD_DIR "${PROJECT_SOURCE_DIR}/include/")
+set(KAV_CHECK_INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
+
 set(SOURCE_FILES src/checkFile.cpp src/operationFileAndJSON.cpp)
 
 add_library(${PROJECT_NAME} INTERFACE)
@@ -60,8 +63,8 @@ message(${PROJECT_NAME})
 target_include_directories(
         ${KAV_CHECK_TARGET_NAME}
         INTERFACE
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        $<BUILD_INTERFACE:${KAV_CHECK_INCLUDE_BUILD_DIR}>
+        $<INSTALL_INTERFACE:${KAV_CHECK_INCLUDE_INSTALL_DIR}>
         )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
