@@ -34,8 +34,8 @@ target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 add_subdirectory(tests)
 
-add_subdirectory(check)
-target_link_libraries(search_engine PRIVATE check)
+add_subdirectory(kav_check)
+target_link_libraries(search_engine PRIVATE kav_check)
 
 add_subdirectory(monitor)
 

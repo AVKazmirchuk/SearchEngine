@@ -26,7 +26,7 @@
 #https://iu5edu.ru/wiki/cpp2/docs/labs/lab1/Instructions/UseStaticLib/
 #https://stackoverflow.com/questions/44998233/add-external-c-libraries-to-a-clion-project
 #https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
-#https://stackoverflow.com/questions/29355937/clion-and-cmake-only-building-a-library-without-an-executable/30473299#30473299
+#
 
 
 cmake_minimum_required(VERSION 3.21)
@@ -41,15 +41,25 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+# CONFIGURATION
+
 include(GNUInstallDirs)
 
-set(SOURCE_FILES checkFile.cpp operationFileAndJSON.cpp )
+set(KAV_CHECK_TARGET_NAME ${PROJECT_NAME})
+set(SOURCE_FILES src/checkFile.cpp src/operationFileAndJSON.cpp)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
 message(${PROJECT_SOURCE_DIR})
 message(${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(${PROJECT_NAME} INTERFACE
+message(${CMAKE_INSTALL_INCLUDEDIR})
+message(${PROJECT_NAME})
+
+# TARGET
+
+target_include_directories(
+        ${KAV_CHECK_TARGET_NAME}
+        INTERFACE
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
