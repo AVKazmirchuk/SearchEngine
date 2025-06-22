@@ -147,12 +147,12 @@ install(FILES
 
 
 
-
-
-
-
-
-
-
-
+#https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
+#https://iu5edu.ru/wiki/cpp2/docs/labs/lab1/Instructions/StaticLib/
+#https://stackoverflow.com/questions/39598323/how-to-properly-link-libraries-with-cmake
+#https://habr.com/ru/articles/683204/
+#https://eax.me/cmake/
+#https://ps-group.github.io/cxx/cmake_cheatsheet
+#https://neerc.ifmo.ru/wiki/index.php?title=CMake_Tutorial
+#https://iamsorush.com/posts/cpp-cmake-build/
 #https://decovar.dev/blog/2021/03/08/cmake-cpp-library/#the-library
