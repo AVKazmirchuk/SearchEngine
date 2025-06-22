@@ -1,55 +1,65 @@
-#cmake_minimum_required(VERSION 3.21)
-
-#project(check VERSION 1.0.0)
-
-#include(GNUInstallDirs)
-
-#add_library(check STATIC checkFile.cpp checkFileException.h errorCode.h operationFileAndJSON.cpp operationFileAndJSON.h types.h)
-
-#set_target_properties(check PROPERTIES PUBLIC_HEADER operationFileAndJSON.h)
-
-#target_include_directories(check PRIVATE ..)
-
-#configure_file(check.pc.in check.pc @ONLY)
-
-#install(TARGETS check LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-#configure_file(check.pc.in check.pc @ONLY)
-
-#install(FILES ${CMAKE_BINARY_DIR}/check.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
-
-
-
-
-
-#как правильно написать библиотеку (файлы h и cpp) для подключения к другим проектам с++ clion
-#https://iu5edu.ru/wiki/cpp2/docs/labs/lab1/Instructions/UseStaticLib/
-#
-#https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
-#
-
-
 cmake_minimum_required(VERSION 3.21)
+
 project(kav_check VERSION 1.0.0 LANGUAGES CXX)
 
-#set(DEFAULT_BUILD_TYPE "Release")
-
-#if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-#    message(STATUS "Setting build type to '${DEFAULT_BUILD_TYPE}' as none was specified.")
-#    set(CMAKE_BUILD_TYPE "${DEFAULT_BUILD_TYPE}" CACHE STRING "Choose the type of build." FORCE)
-#    # Set the possible values of build type for cmake-gui
-#   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-#endif()
-
-# CONFIGURATION
-
+# for CMAKE_INSTALL_INCLUDEDIR definition
 include(GNUInstallDirs)
 
-set(KAV_CHECK_TARGET_NAME ${PROJECT_NAME})
-set(KAV_CHECK_INCLUDE_BUILD_DIR "${PROJECT_SOURCE_DIR}/include/")
-set(KAV_CHECK_INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
+# указать стандарт C++
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(SOURCE_FILES src/checkFile.cpp src/operationFileAndJSON.cpp)
+if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+        message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
+else()
+        message(STATUS "This project is a top-level one")
+endif()
+
+# here you can see how instead of writing "SomeLibrary"
+# we can just use the PROJECT_NAME variable
+add_library(${PROJECT_NAME})
+
+# no need to add headers here, only sources are required
+target_sources(${PROJECT_NAME}
+        PRIVATE
+        src/checkFile.cpp src/operationFileAndJSON.cpp
+        )
+
+target_include_directories(${PROJECT_NAME}
+        PRIVATE
+        # where the library itself will look for its internal headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/detail
+        PUBLIC
+        # where top-level project will look for the library's public headers
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        # where external projects will look for the library's public headers
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        )
+
+# note that it is not CMAKE_INSTALL_PREFIX we are checking here
+if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+        message(
+                STATUS
+                "CMAKE_INSTALL_PREFIX is not set\n"
+                "Default value: ${CMAKE_INSTALL_PREFIX}\n"
+                "Will set it to ${CMAKE_SOURCE_DIR}/install"
+        )
+        set(CMAKE_INSTALL_PREFIX
+                "${CMAKE_SOURCE_DIR}/install"
+                CACHE PATH "Where the library will be installed to" FORCE
+                )
+else()
+        message(
+                STATUS
+                "CMAKE_INSTALL_PREFIX was already set\n"
+                "Current value: ${CMAKE_INSTALL_PREFIX}"
+        )
+endif()
+
+# without it public headers won't get installed
+set(public_headers
+        include/kav/operationFileAndJSON.h
+        )
 
 
 
@@ -58,53 +68,91 @@ message(${CMAKE_CURRENT_SOURCE_DIR})
 message(${CMAKE_INSTALL_INCLUDEDIR})
 message(${PROJECT_NAME})
 
-# TARGET
+# the variant with PUBLIC_HEADER property unfortunately does not preserve the folder structure
+#set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
+# so instead we iterate through public headers and install them "manually"
+foreach(header ${public_headers})
+        message(${CMAKE_CURRENT_SOURCE_DIR})
+        message(${header})
+        file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
+        get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
+        install(
+                FILES ${header}
+                DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}"
+        )
+endforeach()
 
-add_library(${KAV_CHECK_TARGET_NAME} INTERFACE)
-#add_library(${PROJECT_NAME}::${KAV_CHECK_TARGET_NAME} ALIAS ${KAV_CHECK_TARGET_NAME})
-#set_target_properties(kav_check PROPERTIES PUBLIC_HEADER ${KAV_CHECK_INCLUDE_BUILD_DIR}/kav/operationFileAndJSON.hpp)
-target_include_directories(
-        ${KAV_CHECK_TARGET_NAME}
-        INTERFACE
-        $<BUILD_INTERFACE:${KAV_CHECK_INCLUDE_BUILD_DIR}>
-        $<INSTALL_INTERFACE:${KAV_CHECK_INCLUDE_INSTALL_DIR}>
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
+
+
+# install the target and create export-set
+install(TARGETS ${PROJECT_NAME}
+        EXPORT "${PROJECT_NAME}Targets"
+        # these get default values from GNUInstallDirs, no need to set them
+        #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # bin
+        #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
+        #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
+        # except for public headers, as we want them to be inside a library folder
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} # include/SomeLibrary
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} # include
         )
 
-#set_target_properties(${PROJECT_NAME} PROPERTIES
-#        VERSION ${PROJECT_VERSION}
-#        SOVERSION 1)
+# generate and install export file
+install(EXPORT "${PROJECT_NAME}Targets"
+        FILE "${PROJECT_NAME}Targets.cmake"
+#        NAMESPACE ${namespace}::
+        DESTINATION cmake
+        )
 
-#install(TARGETS ${PROJECT_NAME} EXPORT MyLibConfig
-#        ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
-#install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+include(CMakePackageConfigHelpers)
 
-#install(EXPORT MyLibConfig DESTINATION share/MyLib/cmake)
-
-#export(TARGETS ${PROJECT_NAME} FILE MyLibConfig.cmake)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# generate the version file for the config file
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        VERSION "${version}"
+        COMPATIBILITY AnyNewerVersion
+)
+# create config file
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION cmake
+        )
+# install config files
+install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        DESTINATION cmake
+        )
+# generate the export targets for the build tree
+# (can't say what this one is for, but so far it has been only causing me problems,
+# so I stopped adding it to projects)
+# export(EXPORT "${PROJECT_NAME}Targets"
+#     FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
+#     NAMESPACE ${namespace}::
+#)
 
 
 
 
-#https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
-#https://stackoverflow.com/questions/29355937/clion-and-cmake-only-building-a-library-without-an-executable/30473299#30473299
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#https://decovar.dev/blog/2021/03/08/cmake-cpp-library/#the-library
