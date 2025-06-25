@@ -5,10 +5,10 @@
 
 
 #include "../include/kav/operationFileAndJSON.h"
+#include "types.h"
 
 
-
-bool CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate)
+bool kav::CheckJSON::isJSONStructureMatchImpl(const kav::JSON &objectJSON, const kav::JSON &objectJSONTemplate)
 {
     //Для каждого поля JSON-объекта шаблона
     for (const auto &elemTemplate: objectJSONTemplate.items())
@@ -42,7 +42,7 @@ bool CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &obj
     return true;
 }
 
-bool CheckJSON::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
+bool kav::CheckJSON::isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate)
 {
     try
     {

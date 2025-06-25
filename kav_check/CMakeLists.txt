@@ -9,6 +9,12 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+add_subdirectory(nlohmann_json)
+
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
 if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
 else()
@@ -19,6 +25,8 @@ endif()
 # we can just use the PROJECT_NAME variable
 add_library(${PROJECT_NAME})
 
+
+
 # no need to add headers here, only sources are required
 target_sources(${PROJECT_NAME}
         PRIVATE
@@ -28,10 +36,10 @@ target_sources(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
         PRIVATE
         # where the library itself will look for its internal headers
-        ${CMAKE_CURRENT_SOURCE_DIR}/detail
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/kav/detail
         PUBLIC
         # where top-level project will look for the library's public headers
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/kav>
         # where external projects will look for the library's public headers
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )

@@ -5,6 +5,8 @@
 
 
 #include <algorithm>
+#include <iostream>
+#include <filesystem>
 
 #include "../include/kav/operationFileAndJSON.h"
 #include "dispatcherDetermineValidity.h"
@@ -12,7 +14,7 @@
 
 
 
-ErrorCode OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth, const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth, const boost::source_location &callingFunction)
 {
 
     std::cout << "writeJSONFile: " << callingFunction.function_name() << std::endl;
@@ -34,7 +36,7 @@ ErrorCode OperationFileAndJSON::writeJSONFile(const std::string& filePath, const
     return errorCode;
 }
 
-std::pair<JSON, ErrorCode> OperationFileAndJSON::readJSONFile(const std::string& filePath, const boost::source_location &callingFunction)
+std::pair<JSON, ErrorCode> kav::OperationFileAndJSON::readJSONFile(const std::string& filePath, const boost::source_location &callingFunction)
 {
     std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
@@ -53,7 +55,7 @@ std::pair<JSON, ErrorCode> OperationFileAndJSON::readJSONFile(const std::string&
     return {objectJSON, errorCode};
 }
 
-std::pair<std::string, ErrorCode> OperationFileAndJSON::readTextFile(const std::string& filePath, const boost::source_location &callingFunction)
+std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::string& filePath, const boost::source_location &callingFunction)
 {
     std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
     //Создать объект для чтения файла документа
@@ -69,7 +71,7 @@ std::pair<std::string, ErrorCode> OperationFileAndJSON::readTextFile(const std::
     return {{}, errorCode};
 }
 
-ErrorCode OperationFileAndJSON::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                                                         const boost::source_location &callingFunction)
 {
     std::cout << "checkJSONStructureMatch: " << callingFunction.function_name() << std::endl;
@@ -81,7 +83,7 @@ ErrorCode OperationFileAndJSON::checkJSONStructureMatch(const std::string& fileP
     return errorCode;
 }
 
-ErrorCode OperationFileAndJSON::checkFilePathsArray(const JSON& objectJSON, const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::checkFilePathsArray(const JSON& objectJSON, const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
 
@@ -92,7 +94,7 @@ ErrorCode OperationFileAndJSON::checkFilePathsArray(const JSON& objectJSON, cons
     return errorCode;
 }
 
-ErrorCode OperationFileAndJSON::checkRequestsArray(const JSON& objectJSON, const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::checkRequestsArray(const JSON& objectJSON, const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
 
