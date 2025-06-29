@@ -8,9 +8,7 @@
 #include <iostream>
 #include <filesystem>
 
-#include "../include/kav/operationFileAndJSON.h"
-#include "dispatcherDetermineValidity.h"
-#include "logger.h"
+#include "operationFileAndJSON.h"
 
 
 

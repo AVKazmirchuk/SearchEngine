@@ -24,17 +24,25 @@ link_directories(${Boost_LIBRARY_DIR})
 
 add_subdirectory(src)
 
-add_subdirectory(nlohmann_json)
+#if (NOT TARGET nlohmann_json)
 
+#    add_subdirectory(nlohmann_json)
+#    set(JSON_BuildTests OFF CACHE INTERNAL "")
+#    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+
+#endif()
+
+set(nlohmann_json_DIR "C:\\nlohmann_json\\cmake")
+find_package(nlohmann_json 3.12.0 REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-
 target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
-
 
 
 add_subdirectory(tests)
 
+
 add_subdirectory(kav_check)
+
 
 target_link_libraries(search_engine PRIVATE kav_check)
 

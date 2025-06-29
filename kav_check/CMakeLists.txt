@@ -9,11 +9,15 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+if (NOT TARGET nlohmann_json)
+
 add_subdirectory(nlohmann_json)
-
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+endif()
+
+
 
 if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
@@ -39,7 +43,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/include/kav/detail
         PUBLIC
         # where top-level project will look for the library's public headers
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/kav>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         # where external projects will look for the library's public headers
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
@@ -151,9 +155,12 @@ install(FILES
 
 
 
+#https://yandex.ru/search/?text=%D0%BA%D0%B0%D0%BA+%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C+%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D1%83+%D0%B2+%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%83+%D0%B4%D0%BB%D1%8F+%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F+find_package+%D1%81%2B%2B&lr=38&clid=2270455&win=628
 
-
-
+#https://codingnest.com/basic-cmake-part-2/
+#https://www.foonathan.net/2016/03/cmake-install/
+#https://reddeveloper.ru/questions/cmake-add-library-nikneimy-xXwDq
+#https://stackoverflow.com/questions/60607037/how-to-configure-the-cmake-file-correctly-to-build-a-simple-hello-world-for-nloh
 
 #https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
 #https://iu5edu.ru/wiki/cpp2/docs/labs/lab1/Instructions/StaticLib/
