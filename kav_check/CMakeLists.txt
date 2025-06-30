@@ -149,6 +149,18 @@ install(FILES
 
 
 
+#https://superuser.com/questions/1121913/how-do-we-install-new-libraries-for-c-mingw
+#https://habr.com/ru/articles/549788/
+#https://blog.elijahlopez.ca/posts/vcpkg-cmake-tutorial/
+#https://ps-group.github.io/opengl/setup_windows
+#https://irendering.net/how-to-install-and-use-a-c-standard-library/
+#https://cppscripts.com/how-to-install-cpp-library
+#https://ru.stackoverflow.com/questions/848601/Подключение-пакетов-cmake-с-использованием-find-package
+#https://habr.com/ru/articles/535602/
+#https://cliutils.gitlab.io/modern-cmake/chapters/packages.html
+#https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Find-Libraries
+#https://www.foonathan.net/2016/03/cmake-install/
+#https://stackoverflow.com/questions/31537602/how-to-use-cmake-to-find-and-link-to-a-library-using-install-export-and-find-pac
 
 
 
