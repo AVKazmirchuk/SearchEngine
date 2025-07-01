@@ -5,7 +5,7 @@
 
 
 #include "kav/operationFileAndJSON.h"
-#include "types.h"
+//#include "types.h"
 
 
 bool kav::CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const kav::JSON &objectJSONTemplate)

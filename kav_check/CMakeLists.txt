@@ -9,13 +9,16 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-if (NOT TARGET nlohmann_json)
+#if (NOT TARGET nlohmann_json)
 
-add_subdirectory(nlohmann_json)
+#    add_subdirectory(nlohmann_json)
+#    set(JSON_BuildTests OFF CACHE INTERNAL "")
+#    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+#endif()
+find_package(nlohmann_json REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-
-endif()
+target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 
 
@@ -143,6 +146,14 @@ install(FILES
 #     NAMESPACE ${namespace}::
 #)
 
+#https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
+#https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed
+#https://habr.com/ru/articles/904992/
+
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -S ..\ -B . -G "MinGW Makefiles"
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build .
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install .
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build . --config Release
 
 
 

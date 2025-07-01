@@ -14,7 +14,7 @@
 #include "nlohmann/json.hpp"
 
 #include "detail/checkFileException.h"
-#include "types.h"
+#include "detail/types.h"
 
 
 
