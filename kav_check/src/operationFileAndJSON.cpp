@@ -34,7 +34,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
     return errorCode;
 }
 
-std::pair<JSON, ErrorCode> kav::OperationFileAndJSON::readJSONFile(const std::string& filePath, const boost::source_location &callingFunction)
+std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(const std::string& filePath, const boost::source_location &callingFunction)
 {
     std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 

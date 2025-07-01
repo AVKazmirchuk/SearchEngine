@@ -9,6 +9,20 @@ include(GNUInstallDirs)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
+set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
+
+find_package(Boost COMPONENTS REQUIRED)
+
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIR})
+
+# here you can see how instead of writing "SomeLibrary"
+# we can just use the PROJECT_NAME variable
+add_library(${PROJECT_NAME})
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+
 #if (NOT TARGET nlohmann_json)
 
 #    add_subdirectory(nlohmann_json)
@@ -16,21 +30,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 #    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()
+
 find_package(nlohmann_json REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
-
-
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
 else()
         message(STATUS "This project is a top-level one")
 endif()
-
-# here you can see how instead of writing "SomeLibrary"
-# we can just use the PROJECT_NAME variable
-add_library(${PROJECT_NAME})
 
 
 
@@ -115,7 +124,7 @@ install(TARGETS ${PROJECT_NAME}
 # generate and install export file
 install(EXPORT "${PROJECT_NAME}Targets"
         FILE "${PROJECT_NAME}Targets.cmake"
-#        NAMESPACE ${namespace}::
+        NAMESPACE ${namespace}::
         DESTINATION cmake
         )
 
@@ -155,11 +164,6 @@ install(FILES
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install .
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build . --config Release
 
-
-
-
-
-
 #https://superuser.com/questions/1121913/how-do-we-install-new-libraries-for-c-mingw
 #https://habr.com/ru/articles/549788/
 #https://blog.elijahlopez.ca/posts/vcpkg-cmake-tutorial/
@@ -172,11 +176,6 @@ install(FILES
 #https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Find-Libraries
 #https://www.foonathan.net/2016/03/cmake-install/
 #https://stackoverflow.com/questions/31537602/how-to-use-cmake-to-find-and-link-to-a-library-using-install-export-and-find-pac
-
-
-
-
-
 
 #https://yandex.ru/search/?text=%D0%BA%D0%B0%D0%BA+%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C+%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D1%83+%D0%B2+%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%83+%D0%B4%D0%BB%D1%8F+%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F+find_package+%D1%81%2B%2B&lr=38&clid=2270455&win=628
 

@@ -13,8 +13,8 @@
 #include "boost/assert/source_location.hpp"
 #include "nlohmann/json.hpp"
 
-#include "detail/checkFileException.h"
-#include "detail/types.h"
+#include "kav/detail/checkFileException.h"
+#include "kav/detail/types.h"
 
 
 

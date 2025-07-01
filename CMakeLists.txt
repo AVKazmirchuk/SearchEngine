@@ -32,7 +32,6 @@ add_subdirectory(src)
 
 #endif()
 
-#set(nlohmann_json_DIR "C:\\nlohmann_json\\cmake")
 find_package(nlohmann_json REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
@@ -44,7 +43,7 @@ add_subdirectory(tests)
 add_subdirectory(kav_check)
 
 
-target_link_libraries(search_engine PRIVATE kav_check)
+target_link_libraries(search_engine PRIVATE kav_check::kav_check)
 
 add_subdirectory(monitor)
 
