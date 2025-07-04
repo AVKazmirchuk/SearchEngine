@@ -43,7 +43,7 @@ add_subdirectory(tests)
 add_subdirectory(kav_check)
 
 
-target_link_libraries(search_engine PRIVATE kav_check::kav_check)
+target_link_libraries(search_engine PRIVATE kav_check)
 
 add_subdirectory(monitor)
 

@@ -120,17 +120,15 @@ else()
         )
 endif()
 
-# without it public headers won't get installed
+#message(${PROJECT_SOURCE_DIR})
+#message(${CMAKE_CURRENT_SOURCE_DIR})
+#message(${CMAKE_INSTALL_INCLUDEDIR})
+#message(${PROJECT_NAME})
+
+# Прописать общедоступные заголовки
 set(public_headers
         include/kav/operationFileAndJSON.h
         )
-
-
-
-message(${PROJECT_SOURCE_DIR})
-message(${CMAKE_CURRENT_SOURCE_DIR})
-message(${CMAKE_INSTALL_INCLUDEDIR})
-message(${PROJECT_NAME})
 
 # вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
 # set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
@@ -143,25 +141,27 @@ foreach(header ${public_headers})
         install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
 endforeach()
 
+# Определить отладочный суффикс
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
 
 
-# Установить цель и связанные с ней файлы
+# Установить цель и связанные с ней файлы, создать экспортный набор
 install(TARGETS ${PROJECT_NAME}
         EXPORT "${PROJECT_NAME}Targets"
-        # these get default values from GNUInstallDirs, no need to set them
+        # они получают значения по умолчанию из GNUInstallDirs, устанавливать их не нужно
         #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # bin
         #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
         #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
-        # except for public headers, as we want them to be inside a library folder
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} # include/SomeLibrary
+        # за исключением общедоступных заголовков, поскольку мы хотим, чтобы они находились внутри папки библиотеки
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} # include/имя проекта
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} # include
         )#
 
-# Установить файл CMake, экспортирующий цели для зависимых проектов
+# Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
 install(EXPORT "${PROJECT_NAME}Targets"
         FILE "${PROJECT_NAME}Targets.cmake"
+        # пространство имён библиотеки
         NAMESPACE ${namespace}::
         DESTINATION cmake
         )#
@@ -181,28 +181,37 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         INSTALL_DESTINATION cmake
         )#
-# Установить файлы
+# Установить конфигурационные файлы
 install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         DESTINATION cmake
-        )#
-# generate the export targets for the build tree
-# (can't say what this one is for, but so far it has been only causing me problems,
-# so I stopped adding it to projects)
+        )
+
+# Создать цели экспорта для дерева сборки
+# (не понятно для чего это нужно, но это вызывает проблемы,
+# поэтому пока закомментировано)
+#
+# Экспортировать цели или пакеты для внешних проектов, чтобы использовать их непосредственно в дереве сборки текущего
+# проекта без установки. Создать файл, который может быть включён во внешние проекты для импорта целей из дерева сборки
+# текущего проекта
 # export(EXPORT "${PROJECT_NAME}Targets"
 #     FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
 #     NAMESPACE ${namespace}::
-#)
+# )
 
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed
 #https://habr.com/ru/articles/904992/
 
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -S ..\ -B . -G "MinGW Makefiles"
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug ..
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build .
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install .
-#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build . --config Release
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release ..
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build .
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install .
+
 
 #https://superuser.com/questions/1121913/how-do-we-install-new-libraries-for-c-mingw
 #https://habr.com/ru/articles/549788/
