@@ -10,7 +10,7 @@
 
 #include "boost/assert/source_location.hpp"
 
-#include "check/operationFileAndJSON.h"
+#include "kav/operationFileAndJSON.h"
 #include "dispatcherDetermineValidity.h"
 #include "readTextFile.h"
 
@@ -23,7 +23,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     std::vector<std::string> documents;
 
     //Контейнер результатов потоков
-    std::list<std::future<std::pair<std::string, ErrorCode>>> futures;
+    std::list<std::future<std::pair<std::string, kav::ErrorCode>>> futures;
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)

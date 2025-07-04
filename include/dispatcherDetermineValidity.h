@@ -7,7 +7,7 @@
 
 
 
-#include "operationFileAndJSON.h"
+#include "kav/operationFileAndJSON.h"
 #include "logger.h"
 
 
@@ -25,22 +25,22 @@ class DispatcherDetermineValidity
 
 public:
 
-    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
+    static kav::ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
                                    ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
                                    const int formatByWidth = 2,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode
+    static kav::ErrorCode
     checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
                             ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
-    static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+    static kav::ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
                                          const std::string &message = "",
                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+    static kav::ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
                                         const std::string &message = "",
                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
@@ -49,33 +49,33 @@ public:
      * @param filePath Путь JSON-файла
      * @return JSON-файл
      */
-    static std::pair<JSON, ErrorCode>
+    static std::pair<JSON, kav::ErrorCode>
     readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static std::pair<std::string, ErrorCode>
+    static std::pair<std::string, kav::ErrorCode>
     readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
-    static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
+    static void determineValidity(const std::string &filePath, kav::ErrorCode errorCode = kav::ErrorCode::no_error,
                                   ErrorLevel errorLevel = ErrorLevel::fatal,
                                   const std::string &message = "",
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
     {
-        std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
+        std::string completedMessage{kav::descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                      static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
 
-        if (errorCode != ErrorCode::no_error)
+        if (errorCode != kav::ErrorCode::no_error)
         {
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
-                    Logger::fatal(completedMessage, CheckFileException(errorCode, filePath));
-                    throw CheckFileException(errorCode, filePath);
+                    Logger::fatal(completedMessage, kav::CheckFileException(errorCode, filePath));
+                    throw kav::CheckFileException(errorCode, filePath);
                 case ErrorLevel::error:
                     Logger::error(completedMessage);
                     return;

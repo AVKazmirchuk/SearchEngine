@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../../runtime")
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
 
 set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
@@ -40,10 +40,10 @@ target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 add_subdirectory(tests)
 
 
-add_subdirectory(kav_check)
-
-
-target_link_libraries(search_engine PRIVATE kav_check)
+#add_subdirectory(kav_check)
+list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
+find_package(kav_check CONFIG REQUIRED)
+target_link_libraries(search_engine PRIVATE kav_check::kav_check)
 
 add_subdirectory(monitor)
 
