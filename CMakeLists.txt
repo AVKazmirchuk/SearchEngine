@@ -41,8 +41,9 @@ add_subdirectory(tests)
 
 
 #add_subdirectory(kav_check)
-list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
-find_package(kav_check CONFIG REQUIRED)
+#list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
+message(STATUS ${CMAKE_PREFIX_PATH})
+find_package(kav_check REQUIRED)
 target_link_libraries(search_engine PRIVATE kav_check::kav_check)
 
 add_subdirectory(monitor)
