@@ -150,7 +150,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
 
 
-# Установить цель и связанные с ней файлы, создать экспортный набор
+#1 Установить цель и связанные с ней файлы, создать экспортный набор
 install(TARGETS ${PROJECT_NAME}
         EXPORT "${PROJECT_NAME}Targets"
         # они получают значения по умолчанию из GNUInstallDirs, устанавливать их не нужно
@@ -162,34 +162,34 @@ install(TARGETS ${PROJECT_NAME}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} # include
         )#
 
-# Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
+#2 Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
 install(EXPORT "${PROJECT_NAME}Targets"
-        FILE "${PROJECT_NAME}Targets.cmake"
+        FILE "${PROJECT_NAME}Targets.cmake" # no nlohmann
         # пространство имён библиотеки
         NAMESPACE ${PROJECT_NAME}::
-        DESTINATION cmake
+        DESTINATION cmake # nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )#
 
 # Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
 # и использования пакета
 include(CMakePackageConfigHelpers)#
 
-# Создать файл версии для проекта
+#5 Создать файл версии для проекта
 write_basic_package_version_file(
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         VERSION "${version}"
         COMPATIBILITY AnyNewerVersion
 )#
-# Создать файл конфигурации для проекта
+#4 Создать файл конфигурации для проекта
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         INSTALL_DESTINATION cmake
         )#
-# Установить конфигурационные файлы
+#3 Установить конфигурационные файлы
 install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        DESTINATION cmake
+        DESTINATION cmake # nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )
 
 # Создать цели экспорта для дерева сборки
