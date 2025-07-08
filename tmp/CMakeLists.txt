@@ -102,24 +102,24 @@ include(GNUInstallDirs)#
 
 message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 # Изменить путь установки по умолчанию
-if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    message(
-            STATUS
-            "CMAKE_INSTALL_PREFIX is not set\n"
-            "Default value: ${CMAKE_INSTALL_PREFIX}\n"
-            "Will set it to ${CMAKE_SOURCE_DIR}/install"
-    )
-    set(CMAKE_INSTALL_PREFIX
-            "${CMAKE_SOURCE_DIR}/install"
-            CACHE PATH "Where the library will be installed to" FORCE
-            )
-else()
-    message(
-            STATUS
-            "CMAKE_INSTALL_PREFIX was already set\n"
-            "Current value: ${CMAKE_INSTALL_PREFIX}"
-    )
-endif()
+#if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+#    message(
+#            STATUS
+#            "CMAKE_INSTALL_PREFIX is not set\n"
+#            "Default value: ${CMAKE_INSTALL_PREFIX}\n"
+#            "Will set it to ${CMAKE_SOURCE_DIR}/install"
+#    )
+#    set(CMAKE_INSTALL_PREFIX
+#            "${CMAKE_SOURCE_DIR}/install"
+#            CACHE PATH "Where the library will be installed to" FORCE
+#            )
+#else()
+#    message(
+#            STATUS
+#            "CMAKE_INSTALL_PREFIX was already set\n"
+#            "Current value: ${CMAKE_INSTALL_PREFIX}"
+#    )
+#endif()
 
 #message(${PROJECT_SOURCE_DIR})
 #message(${CMAKE_CURRENT_SOURCE_DIR})
@@ -134,7 +134,7 @@ set(public_headers
         include/kav/detail/types.h
         )
 
-# вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
+###6 вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
 # set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
 # поэтому вместо этого мы перебираем общедоступные заголовки и устанавливаем их "вручную".
 foreach(header ${public_headers})
@@ -142,15 +142,20 @@ foreach(header ${public_headers})
     message(${header})
     file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
     get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
-    install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
-endforeach()
+   install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
+endforeach() # another function is used
 
 # Определить отладочный суффикс
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
+# Просто копирует каталог
+#install(
+#        DIRECTORY ${PROJECT_SOURCE_DIR}/include
+#        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+#)
 
 
-#1 Установить цель и связанные с ней файлы, создать экспортный набор
+###1 Установить цель и связанные с ней файлы, создать экспортный набор
 install(TARGETS ${PROJECT_NAME}
         EXPORT "${PROJECT_NAME}Targets"
         # они получают значения по умолчанию из GNUInstallDirs, устанавливать их не нужно
@@ -158,38 +163,38 @@ install(TARGETS ${PROJECT_NAME}
         #LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
         #ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} # lib
         # за исключением общедоступных заголовков, поскольку мы хотим, чтобы они находились внутри папки библиотеки
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} # include/имя проекта
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} # include
-        )#
+        #PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} # not in nlohmann
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        )
 
-#2 Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
+###2 Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
 install(EXPORT "${PROJECT_NAME}Targets"
-        FILE "${PROJECT_NAME}Targets.cmake" # no nlohmann
+        #FILE "${PROJECT_NAME}Targets.cmake" # not in nlohmann
         # пространство имён библиотеки
         NAMESPACE ${PROJECT_NAME}::
-        DESTINATION cmake # nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )#
 
 # Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
 # и использования пакета
 include(CMakePackageConfigHelpers)#
 
-#5 Создать файл версии для проекта
+###5 Создать файл версии для проекта
 write_basic_package_version_file(
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        VERSION "${version}"
+        VERSION "${PROJECT_VERSION}"
         COMPATIBILITY AnyNewerVersion
-)#
-#4 Создать файл конфигурации для проекта
+) # another function is used: configure_file
+###4 Создать файл конфигурации для проекта
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         INSTALL_DESTINATION cmake
-        )#
-#3 Установить конфигурационные файлы
+        ) # another function is used: configure_file
+###3 Установить конфигурационные файлы
 install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        DESTINATION cmake # nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )
 
 # Создать цели экспорта для дерева сборки
