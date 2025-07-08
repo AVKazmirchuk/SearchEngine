@@ -161,12 +161,12 @@ include(CMakePackageConfigHelpers)
 # use a custom package version config file instead of
 # write_basic_package_version_file to ensure that it's architecture-independent
 # https://github.com/nlohmann/json/issues/1697
-#5 configure_file(
+###5 configure_file(
     "cmake/nlohmann_jsonConfigVersion.cmake.in"
     ${NLOHMANN_JSON_CMAKE_VERSION_CONFIG_FILE} -> ${${CMAKE_CURRENT_BINARY_DIR}}/${PROJECT_NAME}ConfigVersion.cmake
     @ONLY
 )
-#4
+###4
 configure_file(
     ${NLOHMANN_JSON_CMAKE_CONFIG_TEMPLATE} -> cmake/config.cmake.in
     ${NLOHMANN_JSON_CMAKE_PROJECT_CONFIG_FILE} -> ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
@@ -174,11 +174,13 @@ configure_file(
 )
 
 if(JSON_Install)
-    install(
+
+###6 Просто копирует каталог
+install(
         DIRECTORY ${NLOHMANN_JSON_INCLUDE_BUILD_DIR} -> ${PROJECT_SOURCE_DIR}/include/ or ${PROJECT_SOURCE_DIR}/single_include/
         DESTINATION ${NLOHMANN_JSON_INCLUDE_INSTALL_DIR} -> ${CMAKE_INSTALL_INCLUDEDIR}
     )
-#3
+###3
     install(
         FILES ${NLOHMANN_JSON_CMAKE_PROJECT_CONFIG_FILE} ${NLOHMANN_JSON_CMAKE_VERSION_CONFIG_FILE} -> ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake ${CMAKE_CURRENT_BINARY_DIR}}/${PROJECT_NAME}ConfigVersion.cmake
         DESTINATION ${NLOHMANN_JSON_CONFIG_INSTALL_DIR} -> ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
@@ -194,13 +196,13 @@ if(JSON_Install)
         NAMESPACE ${PROJECT_NAME}::
         FILE ${NLOHMANN_JSON_CMAKE_PROJECT_TARGETS_FILE} -> ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
     )
-#1
+###1
     install(
         TARGETS ${NLOHMANN_JSON_TARGET_NAME} -> ${PROJECT_NAME}
         EXPORT ${NLOHMANN_JSON_TARGETS_EXPORT_NAME} -> ${PROJECT_NAME}Targets
         INCLUDES DESTINATION ${NLOHMANN_JSON_INCLUDE_INSTALL_DIR} -> ${CMAKE_INSTALL_INCLUDEDIR}
     )
-#2
+###2
     install(
         EXPORT ${NLOHMANN_JSON_TARGETS_EXPORT_NAME} -> ${PROJECT_NAME}Targets
         NAMESPACE ${PROJECT_NAME}::
