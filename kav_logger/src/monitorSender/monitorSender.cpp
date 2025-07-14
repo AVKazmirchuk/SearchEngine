@@ -4,17 +4,17 @@
 
 
 
-#include "monitorSender.h"
+#include "kav/logger/detail/monitorSender.h"
 
 
 
-void MonitorSender::send(const std::string& message)
+void kav::MonitorSender::send(const std::string& message)
 {
     //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
     mq.send(message.data(), message.size(), 0);
 }
 
-bool MonitorSender::RemoveMessageQueue::isProcessRun(const char * const processName)
+bool kav::MonitorSender::RemoveMessageQueue::isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 

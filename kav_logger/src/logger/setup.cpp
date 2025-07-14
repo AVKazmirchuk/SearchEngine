@@ -8,13 +8,13 @@
 
 #include "windows.h"
 
-#include "logger.h"
-#include "general.h"
-#include "kav/operationFileAndJSON.h"
+#include "kav/logger/logger.h"
+#include "kav/logger/detail/types.h"
+//#include "kav/operationFileAndJSON.h"
 
 
 
-void Logger::deleteFilesByRetentionPeriod()
+void kav::Logger::deleteFilesByRetentionPeriod()
 {
     //Контейнер пар пути и момента времени последнего изменения файла не пустой
     if (!logs.empty())
@@ -37,7 +37,7 @@ void Logger::deleteFilesByRetentionPeriod()
     }
 }
 
-void Logger::setup()
+void kav::Logger::setup()
 {
     //Определить файл для записи
     identifyFile(configLogger.filesDirectory());

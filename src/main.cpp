@@ -1,17 +1,17 @@
 #include <iostream>
 #include "searchEngine.h"
 #include "general.h"
-
+#include "kav/logger/logger.h"
 
 
 //Вспомогательная функция запуска самой программы. Вынесено отдельно, для корректной обработки исключений
 void auxiliary()
 {
     //Создать объект класса логирования событий
-    Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
+    kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
 
     //Вывести в лог запуск программы
-    Logger::info("Start SearchEngine");
+    kav::Logger::info("Start SearchEngine");
 
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
     //SearchEngine searchEngine(ReadWriteJSONFile::readJSONFile(constants::configFilePath, constants::configTemplate),
@@ -23,7 +23,7 @@ void auxiliary()
     searchEngine.searchModifiedAll();
 
     //Вывести в лог завершение работы программы
-    Logger::info("Stop SearchEngine");
+    kav::Logger::info("Stop SearchEngine");
 }
 
 int main(int argc, char* argv[])

@@ -8,11 +8,11 @@
 #include <cstring>
 #include <mutex>
 
-#include "logger.h"
+#include "kav/logger/logger.h"
 
 
 
-std::string Logger::timePointToString(const std::chrono::system_clock::time_point& timePoint)
+std::string kav::Logger::timePointToString(const std::chrono::system_clock::time_point& timePoint)
 {
     //Преобразовать момент времени в объект времени POSIX
     std::time_t t{std::chrono::system_clock::to_time_t(timePoint)};
@@ -27,7 +27,7 @@ std::string Logger::timePointToString(const std::chrono::system_clock::time_poin
     return ts;
 }
 
-std::string Logger::levelToString(Level level)
+std::string kav::Logger::levelToString(Level level)
 {
     //Вернуть строку уровня логирования в зависимости от значения перечисления
     switch (level)
@@ -48,7 +48,7 @@ std::string Logger::levelToString(Level level)
     return "UNDEFINED";
 }
 
-std::string Logger::generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent)
+std::string kav::Logger::generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent)
 {
     //Сообщение не содержит исключение
     if (!std::strcmp(exception.what(), "Exception-stub"))
@@ -63,7 +63,7 @@ std::string Logger::generateMessageForOutput(Level level, const std::string& mes
                                     '"';
 }
 
-void Logger::log(Level level, const std::string& message, const std::exception& exception)
+void kav::Logger::log(Level level, const std::string& message, const std::exception& exception)
 {
     //Получить текущее время
     std::chrono::system_clock::time_point timeEvent{std::chrono::system_clock::now()};

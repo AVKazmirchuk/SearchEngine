@@ -5,11 +5,11 @@
 
 
 #include <fstream>
-#include "logger.h"
+#include "kav/logger/logger.h"
 
 
 
-bool Logger::isFileUsageTimeExceeded()
+bool kav::Logger::isFileUsageTimeExceeded()
 {
     //Создать объект для открытия файла
     std::ifstream inFile(file);
@@ -53,7 +53,7 @@ bool Logger::isFileUsageTimeExceeded()
     return false;
 }
 
-void Logger::identifyFilesByLastModification(const std::string& directoryPath)
+void kav::Logger::identifyFilesByLastModification(const std::string& directoryPath)
 {
     //Определить файл в директории по последнему логированию
     //Для каждого файла в директории
@@ -84,7 +84,7 @@ void Logger::identifyFilesByLastModification(const std::string& directoryPath)
     file = logs.back().first;
 }
 
-void Logger::identifyNewFile()
+void kav::Logger::identifyNewFile()
 {
     std::time_t t{std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())};
 
@@ -95,7 +95,7 @@ void Logger::identifyNewFile()
     file = configLogger.filesDirectory() + ts + ".log";
 }
 
-void Logger::identifyFile(const std::string& directoryPath)
+void kav::Logger::identifyFile(const std::string& directoryPath)
 {
     //В директории файлов нет
     if (std::filesystem::is_empty(directoryPath))

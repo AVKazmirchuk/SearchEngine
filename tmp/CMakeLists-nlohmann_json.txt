@@ -137,7 +137,7 @@ if (MSVC)
     )
 endif()
 
-# Install a pkg-config file, so other tools can find this.
+###8 Install a pkg-config file, so other tools can find this.
 CONFIGURE_FILE(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkg-config.pc.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
@@ -191,6 +191,7 @@ install(
             DESTINATION .
     )
     endif()
+###7
     export(
         TARGETS ${NLOHMANN_JSON_TARGET_NAME} -> ${PROJECT_NAME}
         NAMESPACE ${PROJECT_NAME}::
@@ -208,6 +209,7 @@ install(
         NAMESPACE ${PROJECT_NAME}::
         DESTINATION ${NLOHMANN_JSON_CONFIG_INSTALL_DIR} -> ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
     )
+###9
     install(
         FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
         DESTINATION ${NLOHMANN_JSON_PKGCONFIG_INSTALL_DIR} -> ${CMAKE_INSTALL_DATADIR}/pkgconfig

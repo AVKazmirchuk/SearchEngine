@@ -14,7 +14,6 @@ add_executable(search_engine main.cpp
 
         ${SE_INCLUDE_DIR}/readTextFile.h
         ${SE_INCLUDE_DIR}/general.h
-        ${SE_INCLUDE_DIR}/logger.h
 
         converterJSON/setAnswersJSON.cpp
         converterJSON/check.cpp
@@ -48,6 +47,6 @@ add_executable(search_engine main.cpp
 
 
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp Logger/logger.cpp monitorSender/monitorSender.cpp Logger/loging.cpp ../include/monitorSender.h Logger/identifyFile.cpp Logger/run.cpp Logger/setup.cpp Logger/config.cpp searchEngine/config.cpp ../include/dispatcherDetermineValidity.h ../include/types.h dispatcherDetermineValidity/dispatcherDetermineValidity.cpp)
+        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp ../kav_logger/src/logger/logger.cpp ../kav_logger/src/monitorSender/monitorSender.cpp ../kav_logger/src/logger/loging.cpp ../kav_logger/include/kav/logger/detail/monitorSender.h ../kav_logger/src/logger/identifyFile.cpp ../kav_logger/src/logger/run.cpp ../kav_logger/src/logger/setup.cpp ../kav_logger/src/logger/config.cpp searchEngine/config.cpp ../include/dispatcherDetermineValidity.h ../include/types.h dispatcherDetermineValidity/dispatcherDetermineValidity.cpp)
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})

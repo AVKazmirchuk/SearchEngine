@@ -19,7 +19,7 @@
 #include "readTextFile.h"
 #include "kav/operationFileAndJSON.h"
 #include "general.h"
-#include "logger.h"
+#include "kav/logger/logger.h"
 
 
 
@@ -45,7 +45,7 @@ public:
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
 
     {
-        Logger::info(converterJSONObj.about());
+        kav::Logger::info(converterJSONObj.about());
     }
 
     /**

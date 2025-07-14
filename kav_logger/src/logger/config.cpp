@@ -4,12 +4,12 @@
 
 
 
-#include "logger.h"
+#include "kav/logger/logger.h"
 #include "kav/operationFileAndJSON.h"
 
 
 
-void Logger::ConfigLogger::initialize()
+void kav::Logger::ConfigLogger::initialize()
 {
 
     //Создать JSON-объект конфигурации
@@ -62,7 +62,7 @@ void Logger::ConfigLogger::initialize()
     filesDir = configLoggerJSON["filesDirectory"];
 }
 
-void Logger::WriterMessage::ConfigWriterMessage::initialize()
+void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
 {
     //Создать JSON-объект конфигурации
     if (auto tmp = kav::OperationFileAndJSON::readJSONFile(configWriterMessageFilePath);tmp.second != kav::ErrorCode::no_error)

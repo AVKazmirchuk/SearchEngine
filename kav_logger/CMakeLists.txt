@@ -1,17 +1,17 @@
 # Установить минимальную версию cmake
-cmake_minimum_required(VERSION 3.21)#
+cmake_minimum_required(VERSION 3.21)
 
 # Задать имя для проекта, версию, название языка
-project(kav_check VERSION 1.0.0 LANGUAGES CXX)#
+project(kav_logger VERSION 1.0.0 LANGUAGES CXX)
 
 
 
 # Установить стандарт C++
-set(CMAKE_CXX_STANDARD 20)#
+set(CMAKE_CXX_STANDARD 20)
 # Установить требование стандарта С++
-set(CMAKE_CXX_STANDARD_REQUIRED ON)#
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Отключить расширения компилятора
-set(CMAKE_CXX_EXTENSIONS OFF)#
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Установить библиотеку как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
@@ -30,13 +30,13 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-    target_compile_options( kav_check PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
+    target_compile_options( ${PROJECT_NAME} PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    target_compile_options( kav_check PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
+    target_compile_options( ${PROJECT_NAME} PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    target_compile_options( kav_check PRIVATE /W4 /w44265 /w44061 /w44062 )
+    target_compile_options( ${PROJECT_NAME} PRIVATE /W4 /w44265 /w44061 /w44062 )
 endif()
 
 
@@ -44,6 +44,9 @@ endif()
 find_package(nlohmann_json REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
+find_package(kav_check REQUIRED)
+target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
 
 #if (NOT TARGET nlohmann_json)
 
@@ -55,11 +58,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 
 
-set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
-set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
-find_package(Boost COMPONENTS REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIR})
+#set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
+#set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
+#find_package(Boost COMPONENTS REQUIRED)
+#nclude_directories(${Boost_INCLUDE_DIR})
+#link_directories(${Boost_LIBRARY_DIR})
 
 
 
@@ -80,8 +83,15 @@ endif()
 # Добавить только исходные тексты
 target_sources(${PROJECT_NAME}
         PRIVATE
-        src/checkFile.cpp src/operationFileAndJSON.cpp
+        src/logger/config.cpp
+        src/logger/identifyFile.cpp
+        src/logger/logger.cpp
+        src/logger/loging.cpp
+        src/logger/run.cpp
+        src/logger/setup.cpp
+        src/monitorSender/monitorSender.cpp
         )
+
 # Добавить в цель ожидаемые функции компилятора
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)#
 
@@ -89,7 +99,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)#
 target_include_directories(${PROJECT_NAME}
         PRIVATE
         # где сама библиотека будет искать свои внутренние заголовки
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/kav/detail
+        include/kav/logger/detail
         PUBLIC
         # где проект верхнего уровня будет искать общедоступные заголовки библиотеки
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -98,9 +108,10 @@ target_include_directories(${PROJECT_NAME}
         )
 
 # Определить переменные каталога установки
-include(GNUInstallDirs)#
+include(GNUInstallDirs)
 
 message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
+
 # Изменить путь установки по умолчанию
 #if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 #    message(
@@ -128,11 +139,10 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 
 # Прописать заголовки
 set(public_headers
-        include/kav/operationFileAndJSON.h
-        include/kav/detail/checkFileException.h
-        include/kav/detail/errorCode.h
-        include/kav/detail/types.h
-        )
+        include/kav/logger/logger.h
+        include/kav/logger/detail/monitorSender.h
+        include/kav/logger/detail/types.h
+)
 
 ###6 вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
 # set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
@@ -218,15 +228,17 @@ install(FILES
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -S ..\ -B . -DCMAKE_CXX_COMPILER="C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/c++.exe" -DCMAKE_MAKE_PROGRAM="C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug ..
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build .
-#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install .
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install . --prefix ../install
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release ..
 #c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --build .
-#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install .
+#c:\nlohmann_json\build>"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install . --prefix ../install
 
 # -DCMAKE_CXX_COMPILER="C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/c++.exe"
 # -DCMAKE_MAKE_PROGRAM="C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja
 # -DBUILD_SHARED_LIBS=1
-
+# По умолчанию библиотека устанавливается в "C:\Program Files (x86)", если в CMakeLists.txt не указать
+# set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH "Where the library will be installed to" FORCE)
+# "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --install . --prefix ../install
 
 
 

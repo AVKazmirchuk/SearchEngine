@@ -6,18 +6,18 @@
 
 #include <fstream>
 
-#include "logger.h"
+#include "kav/logger/logger.h"
 #include "kav/operationFileAndJSON.h"
 
 
 
-void Logger::WriterMessage::writeToMonitor(const std::string& message)
+void kav::Logger::WriterMessage::writeToMonitor(const std::string& message)
 {
     //Отправить сообщение монитору (другому процессу)
     monitorSender.send(message);
 }
 
-void Logger::WriterMessage::writeToFile(const std::string& message)
+void kav::Logger::WriterMessage::writeToFile(const std::string& message)
 {
     //Создать объект для записи в файл
     std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
@@ -38,7 +38,7 @@ void Logger::WriterMessage::writeToFile(const std::string& message)
     }
 }
 
-void Logger::WriterMessage::processMessageContainer()
+void kav::Logger::WriterMessage::processMessageContainer()
 {
     //Каждое сообщение в контейнере текущих сообщений
     for (const auto& message: messages)
@@ -52,7 +52,7 @@ void Logger::WriterMessage::processMessageContainer()
     }
 }
 
-void Logger::WriterMessage::startMonitor(LPCSTR lpApplicationName)
+void kav::Logger::WriterMessage::startMonitor(LPCSTR lpApplicationName)
 {
     //Дополнительная информация
     STARTUPINFO si;
@@ -91,7 +91,7 @@ void Logger::WriterMessage::startMonitor(LPCSTR lpApplicationName)
     //CloseHandle( pi.hThread );
 }
 
-bool Logger::WriterMessage::isProcessRun(const char * const processName)
+bool kav::Logger::WriterMessage::isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
@@ -118,7 +118,7 @@ bool Logger::WriterMessage::isProcessRun(const char * const processName)
     return result;
 }
 
-void Logger::WriterMessage::waitForMonitorToStart()
+void kav::Logger::WriterMessage::waitForMonitorToStart()
 {
     //Если процесс не запущен
     if (!isProcessRun(configWriterMessage.fileNameOfMonitor().c_str()))
@@ -136,7 +136,7 @@ void Logger::WriterMessage::waitForMonitorToStart()
     }
 }
 
-void Logger::WriterMessage::run()
+void kav::Logger::WriterMessage::run()
 {
     //Ожидать запуска монитора (другого процесса)
     waitForMonitorToStart();

@@ -8,7 +8,8 @@
 
 
 #include "kav/operationFileAndJSON.h"
-#include "logger.h"
+#include "kav/logger/logger.h"
+#include "general.h"
 
 
 enum class ErrorLevel
@@ -74,19 +75,19 @@ private:
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
-                    Logger::fatal(completedMessage, kav::CheckFileException(errorCode, filePath));
+                    kav::Logger::fatal(completedMessage, kav::CheckFileException(errorCode, filePath));
                     throw kav::CheckFileException(errorCode, filePath);
                 case ErrorLevel::error:
-                    Logger::error(completedMessage);
+                    kav::Logger::error(completedMessage);
                     return;
                 case ErrorLevel::warning:
-                    Logger::warning(completedMessage);
+                    kav::Logger::warning(completedMessage);
                     return;
                 case ErrorLevel::info:
-                    Logger::info(completedMessage);
+                    kav::Logger::info(completedMessage);
                     return;
                 case ErrorLevel::debug:
-                    Logger::debug(completedMessage);
+                    kav::Logger::debug(completedMessage);
                     return;
             }
         }
