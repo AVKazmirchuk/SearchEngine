@@ -105,9 +105,16 @@ BOOL WINAPI LoggerMonitor::ConsoleCtrlEventHandler(DWORD dwCtrlType)
 void LoggerMonitor::ConfigLoggerMonitor::initialize()
 {
 
-    //Создать JSON-объект конфигурации
-    configLoggerMonitorJSON = ReadWriteJSONFile::readJSONFile(configLoggerMonitorFilePath);
+    std::pair<JSON, kav::ErrorCode> tmp = kav::OperationFileAndJSON::readJSONFile(configLoggerMonitorFilePath);
+    if (tmp.second != kav::ErrorCode::no_error)
+    {
+        throw kav::CheckFileException(tmp.second, configLoggerMonitorFilePath);
+    }
 
+    //Создать JSON-объект конфигурации
+    configLoggerMonitorJSON = std::move(tmp.first);
+
+    //std::pair<JSON, kav::ErrorCode> tmp{kav::OperationFileAndJSON::readJSONFile(filePath, callingFunction)};
     //Имя очереди
     nameOfQueueValue = configLoggerMonitorJSON["messageQueue"]["nameOfQueue"];
     //Максимальное количество сообщений в очереди
