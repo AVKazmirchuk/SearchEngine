@@ -24,17 +24,17 @@ link_directories(${Boost_LIBRARY_DIR})
 
 add_subdirectory(src)
 
-#if (NOT TARGET nlohmann_json)
+if (NOT TARGET nlohmann_json)
 
-#    add_subdirectory(nlohmann_json)
-#    set(JSON_BuildTests OFF CACHE INTERNAL "")
-#    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+    add_subdirectory(nlohmann_json)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
-#endif()
+endif()
 
-find_package(nlohmann_json REQUIRED)
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+#find_package(nlohmann_json REQUIRED)
+#set(JSON_BuildTests OFF CACHE INTERNAL "")
+#target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 
 add_subdirectory(tests)
@@ -47,9 +47,11 @@ add_subdirectory(kav_check)
 target_link_libraries(search_engine PRIVATE kav_check::kav_check)
 endif()
 
+if (NOT TARGET kav_logger)
 add_subdirectory(kav_logger)
 #find_package(kav_logger REQUIRED)
 target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
+endif()
 
 add_subdirectory(monitor)
 

@@ -14,9 +14,11 @@ find_package(nlohmann_json REQUIRED)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 target_link_libraries(search_engine_monitor PRIVATE nlohmann_json::nlohmann_json)
 
+if (NOT TARGET kav_check)
 add_subdirectory(kav_check)
 #find_package(kav_check REQUIRED)
 target_link_libraries(search_engine_monitor PRIVATE kav_check::kav_check)
+endif()
 
 #target_link_libraries(search_engine_monitor ${Boost_LIBRARIES})
 

@@ -16,6 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)#
 # Установить библиотеку как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
+if (NOT TARGET kav_check)
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
     # Добавить в проект библиотеку как разделяемую
@@ -27,6 +28,7 @@ endif()
 
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+endif()
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
@@ -41,17 +43,17 @@ endif()
 
 
 
-find_package(nlohmann_json REQUIRED)
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+#find_package(nlohmann_json REQUIRED)
+#set(JSON_BuildTests OFF CACHE INTERNAL "")
+#arget_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-#if (NOT TARGET nlohmann_json)
+if (NOT TARGET nlohmann_json)
 
-#    add_subdirectory(nlohmann_json)
-#    set(JSON_BuildTests OFF CACHE INTERNAL "")
-#    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+    add_subdirectory(nlohmann_json)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-#endif()
+endif()
 
 
 
