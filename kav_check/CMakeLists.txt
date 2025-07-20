@@ -4,7 +4,19 @@ cmake_minimum_required(VERSION 3.21)#
 # Задать имя для проекта, версию, название языка
 project(kav_check VERSION 1.0.0 LANGUAGES CXX)#
 
-
+function(add_subdirectory _dir)
+    get_filename_component(_fullpath ${_dir} REALPATH)
+    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
+        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
+        list(FIND _included_dirs "${_fullpath}" _used_index)
+        if (${_used_index} EQUAL -1)
+            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
+            _add_subdirectory(${_dir} ${ARGN})
+        endif()
+    else()
+        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+    endif()
+endfunction(add_subdirectory _dir)
 
 # Установить стандарт C++
 set(CMAKE_CXX_STANDARD 20)#
@@ -16,7 +28,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)#
 # Установить библиотеку как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
-if (NOT TARGET kav_check)
+#if (NOT TARGET kav_check)
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
     # Добавить в проект библиотеку как разделяемую
@@ -28,7 +40,7 @@ endif()
 
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-endif()
+#endif()
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
@@ -47,13 +59,13 @@ endif()
 #set(JSON_BuildTests OFF CACHE INTERNAL "")
 #arget_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-if (NOT TARGET nlohmann_json)
+#if (NOT TARGET nlohmann_json)
 
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
-    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+    target_link_libraries(kav_check PRIVATE nlohmann_json::nlohmann_json)
 
-endif()
+#endif()
 
 
 
@@ -210,7 +222,6 @@ install(FILES
      FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
      NAMESPACE ${PROJECT_NAME}::
  )
-
 
 
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache

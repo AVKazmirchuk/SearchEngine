@@ -1,3 +1,17 @@
+function(add_subdirectory _dir)
+    get_filename_component(_fullpath ${_dir} REALPATH)
+    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
+        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
+        list(FIND _included_dirs "${_fullpath}" _used_index)
+        if (${_used_index} EQUAL -1)
+            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
+            _add_subdirectory(${_dir} ${ARGN})
+        endif()
+    else()
+        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+    endif()
+endfunction(add_subdirectory _dir)
+
 # Установить минимальную версию cmake
 cmake_minimum_required(VERSION 3.21)
 
@@ -16,7 +30,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Установить библиотеку как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
-if (NOT TARGET kav_logger)
+#if (NOT TARGET kav_logger)
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
     # Добавить в проект библиотеку как разделяемую
@@ -28,7 +42,7 @@ endif()
 
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-endif()
+#endif()
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
@@ -51,17 +65,17 @@ link_directories(${Boost_LIBRARY_DIR})
 #set(JSON_BuildTests OFF CACHE INTERNAL "")
 #target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-if (NOT TARGET nlohmann_json)
+#if (NOT TARGET nlohmann_json)
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
-    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-endif()
+    target_link_libraries(kav_logger PRIVATE nlohmann_json::nlohmann_json)
+#endif()
 
-if (NOT TARGET kav_check)
+#if (NOT TARGET kav_check)
 add_subdirectory(kav_check)
 #find_package(kav_check REQUIRED)
 target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
-endif()
+#endif()
 
 #if (NOT TARGET nlohmann_json)
 
@@ -110,7 +124,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)#
 target_include_directories(${PROJECT_NAME}
         PRIVATE
         # где сама библиотека будет искать свои внутренние заголовки
-        include/kav/logger/detail
+        ${CMAKE_CURRENT_SOURCE_DIR}include/kav/logger/detail
         PUBLIC
         # где проект верхнего уровня будет искать общедоступные заголовки библиотеки
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -174,7 +188,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 #        DIRECTORY ${PROJECT_SOURCE_DIR}/include
 #        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 #)
-
 
 ###1 Установить цель и связанные с ней файлы, создать экспортный набор
 install(TARGETS ${PROJECT_NAME}

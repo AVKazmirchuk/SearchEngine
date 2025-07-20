@@ -11,12 +11,17 @@ add_executable(search_engine main.cpp
         ${SE_INCLUDE_DIR}/relevantResponse.h
         ${SE_INCLUDE_DIR}/requests.h
         ${SE_INCLUDE_DIR}/searchEngine.h
+        ${SE_INCLUDE_DIR}/dispatcherDetermineValidity.h
+        ${SE_INCLUDE_DIR}/types.h
 
         ${SE_INCLUDE_DIR}/readTextFile.h
         ${SE_INCLUDE_DIR}/general.h
 
         converterJSON/setAnswersJSON.cpp
         converterJSON/check.cpp
+        converterJSON/misc.cpp
+
+        dispatcherDetermineValidity/dispatcherDetermineValidity.cpp
 
         invertedIndex/updateInvertedIndexes.cpp
         invertedIndex/startInvertedIndexing.cpp
@@ -30,16 +35,17 @@ add_executable(search_engine main.cpp
         relevantResponse/preparedRequest/updatePreparedRequests.cpp
         relevantResponse/preparedRequest/separateRequestsByWords.cpp
         relevantResponse/preparedRequest/sortWordsByFrequencyOfOccurrence.cpp
+        relevantResponse/misc.cpp
 
 
         requests/updateRequests.cpp
+        requests/misc.cpp
 
         searchEngine/searchModified.cpp
         searchEngine/exportRelevantResponses.cpp
+        searchEngine/config.cpp
 
         readTextFile/readTextFile.cpp
-
-
 
         documents/documents.cpp
 
@@ -47,6 +53,6 @@ add_executable(search_engine main.cpp
 
 
 
-        relevantResponse/misc.cpp requests/misc.cpp converterJSON/misc.cpp  searchEngine/config.cpp ../include/dispatcherDetermineValidity.h ../include/types.h dispatcherDetermineValidity/dispatcherDetermineValidity.cpp)
+        )
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
