@@ -1,3 +1,9 @@
+# Установить минимальную версию cmake
+cmake_minimum_required(VERSION 3.21)
+
+# Задать имя для проекта, версию, название языка
+project(kav_logger VERSION 1.0.0 LANGUAGES CXX)
+
 function(add_subdirectory _dir)
     get_filename_component(_fullpath ${_dir} REALPATH)
     if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
@@ -12,13 +18,10 @@ function(add_subdirectory _dir)
     endif()
 endfunction(add_subdirectory _dir)
 
-# Установить минимальную версию cmake
-cmake_minimum_required(VERSION 3.21)
-
-# Задать имя для проекта, версию, название языка
-project(kav_logger VERSION 1.0.0 LANGUAGES CXX)
-
-
+set(MAIN_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(MAIN_PROJECT ON)
+endif()
 
 # Установить стандарт C++
 set(CMAKE_CXX_STANDARD 20)
@@ -29,6 +32,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Установить библиотеку как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+option(logger_Install "Install CMake targets during install step." ${MAIN_PROJECT})
 
 #if (NOT TARGET kav_logger)
 # Если библиотека разделяемая
@@ -61,6 +65,8 @@ find_package(Boost COMPONENTS REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
+target_link_libraries(kav_logger ${Boost_LIBRARIES})
+
 #find_package(nlohmann_json REQUIRED)
 #set(JSON_BuildTests OFF CACHE INTERNAL "")
 #target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
@@ -68,12 +74,14 @@ link_directories(${Boost_LIBRARY_DIR})
 #if (NOT TARGET nlohmann_json)
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
+    set(JSON_Install ON CACHE INTERNAL "")
     target_link_libraries(kav_logger PRIVATE nlohmann_json::nlohmann_json)
 #endif()
 
 #if (NOT TARGET kav_check)
 add_subdirectory(kav_check)
 #find_package(kav_check REQUIRED)
+set(check_Install ON CACHE INTERNAL "")
 target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
 #endif()
 
@@ -162,6 +170,24 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 #message(${CMAKE_INSTALL_INCLUDEDIR})
 #message(${PROJECT_NAME})
 
+# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
+# и использования пакета
+include(CMakePackageConfigHelpers)#
+
+###5 Создать файл версии для проекта
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        VERSION "${PROJECT_VERSION}"
+        COMPATIBILITY AnyNewerVersion
+) # another function is used: configure_file
+###4 Создать файл конфигурации для проекта
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION cmake
+        ) # another function is used: configure_file
+
+if(logger_Install)
+
 # Прописать заголовки
 set(public_headers
         include/kav/logger/logger.h
@@ -209,21 +235,7 @@ install(EXPORT "${PROJECT_NAME}Targets"
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )#
 
-# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
-# и использования пакета
-include(CMakePackageConfigHelpers)#
 
-###5 Создать файл версии для проекта
-write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        VERSION "${PROJECT_VERSION}"
-        COMPATIBILITY AnyNewerVersion
-) # another function is used: configure_file
-###4 Создать файл конфигурации для проекта
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        INSTALL_DESTINATION cmake
-        ) # another function is used: configure_file
 ###3 Установить конфигурационные файлы
 install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
@@ -243,7 +255,7 @@ install(FILES
      NAMESPACE ${PROJECT_NAME}::
  )
 
-
+endif()
 
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed

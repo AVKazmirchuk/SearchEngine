@@ -4,6 +4,24 @@ cmake_minimum_required(VERSION 3.21)#
 # Задать имя для проекта, версию, название языка
 project(kav_check VERSION 1.0.0 LANGUAGES CXX)#
 
+function(add_subdirectory _dir)
+    get_filename_component(_fullpath ${_dir} REALPATH)
+    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
+        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
+        list(FIND _included_dirs "${_fullpath}" _used_index)
+        if (${_used_index} EQUAL -1)
+            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
+            _add_subdirectory(${_dir} ${ARGN})
+        endif()
+    else()
+        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+    endif()
+endfunction(add_subdirectory _dir)
+
+set(MAIN_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(MAIN_PROJECT ON)
+endif()
 
 
 # Установить стандарт C++
@@ -14,9 +32,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)#
 set(CMAKE_CXX_EXTENSIONS OFF)#
 
 # Установить библиотеку как статическую
-option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
+option(check_Install "Install CMake targets during install step." ${MAIN_PROJECT})
 
-if (NOT TARGET kav_check)
+#if (NOT TARGET kav_check)
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
     # Добавить в проект библиотеку как разделяемую
@@ -28,7 +47,7 @@ endif()
 
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-endif()
+#endif()
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
@@ -43,15 +62,15 @@ endif()
 
 
 
-find_package(nlohmann_json REQUIRED)
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+#find_package(nlohmann_json REQUIRED)
+#set(JSON_BuildTests OFF CACHE INTERNAL "")
+#arget_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 #if (NOT TARGET nlohmann_json)
 
-#    add_subdirectory(nlohmann_json)
-#    set(JSON_BuildTests OFF CACHE INTERNAL "")
-#    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+    add_subdirectory(nlohmann_json)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    target_link_libraries(kav_check PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()
 
@@ -128,6 +147,8 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 #message(${CMAKE_INSTALL_INCLUDEDIR})
 #message(${PROJECT_NAME})
 
+if(check_Install)
+
 # Прописать заголовки
 set(public_headers
         include/kav/operationFileAndJSON.h
@@ -199,6 +220,7 @@ install(FILES
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )
 
+
 # Создать цели экспорта для дерева сборки
 # (не понятно для чего это нужно, но это вызывает проблемы,
 # поэтому пока закомментировано)
@@ -211,7 +233,7 @@ install(FILES
      NAMESPACE ${PROJECT_NAME}::
  )
 
-
+endif()
 
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed

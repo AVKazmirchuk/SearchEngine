@@ -18,6 +18,12 @@ function(add_subdirectory _dir)
     endif()
 endfunction(add_subdirectory _dir)
 
+set(MAIN_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(MAIN_PROJECT ON)
+endif()
+
+
 # Установить стандарт C++
 set(CMAKE_CXX_STANDARD 20)#
 # Установить требование стандарта С++
@@ -26,7 +32,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)#
 set(CMAKE_CXX_EXTENSIONS OFF)#
 
 # Установить библиотеку как статическую
-option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
+option(check_Install "Install CMake targets during install step." ${MAIN_PROJECT})
 
 #if (NOT TARGET kav_check)
 # Если библиотека разделяемая
@@ -63,6 +70,7 @@ endif()
 
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
+    set(JSON_Install ON CACHE INTERNAL "")
     target_link_libraries(kav_check PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()
@@ -140,6 +148,8 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 #message(${CMAKE_INSTALL_INCLUDEDIR})
 #message(${PROJECT_NAME})
 
+if(check_Install)
+
 # Прописать заголовки
 set(public_headers
         include/kav/operationFileAndJSON.h
@@ -211,6 +221,7 @@ install(FILES
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )
 
+
 # Создать цели экспорта для дерева сборки
 # (не понятно для чего это нужно, но это вызывает проблемы,
 # поэтому пока закомментировано)
@@ -223,6 +234,7 @@ install(FILES
      NAMESPACE ${PROJECT_NAME}::
  )
 
+endif()
 
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed

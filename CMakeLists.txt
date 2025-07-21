@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.21)
+
+project(search_engine VERSION 1.0.0)
+
 function(add_subdirectory _dir)
     get_filename_component(_fullpath ${_dir} REALPATH)
     if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
@@ -11,12 +15,6 @@ function(add_subdirectory _dir)
         message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
     endif()
 endfunction(add_subdirectory _dir)
-
-cmake_minimum_required(VERSION 3.21)
-
-project(search_engine VERSION 1.0.0)
-
-
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -55,6 +53,8 @@ add_subdirectory(src)
 
 add_subdirectory(tests)
 
+
+
 #if (NOT TARGET kav_check)
 add_subdirectory(kav_check)
 #list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
@@ -65,8 +65,8 @@ target_link_libraries(search_engine PRIVATE kav_check::kav_check)
 
 #if (NOT TARGET kav_logger)
 add_subdirectory(kav_logger)
-
 #find_package(kav_logger REQUIRED)
+#set(logger_Install ON CACHE INTERNAL "")
 target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
 #endif()
 
