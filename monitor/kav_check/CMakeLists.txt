@@ -70,6 +70,7 @@ endif()
 
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
+    set(JSON_Install ON CACHE INTERNAL "")
     target_link_libraries(kav_check PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()

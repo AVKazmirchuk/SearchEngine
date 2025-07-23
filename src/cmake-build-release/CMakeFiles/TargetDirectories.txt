@@ -1,0 +1,3 @@
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/src/cmake-build-release/CMakeFiles/edit_cache.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/src/cmake-build-release/CMakeFiles/search_engine.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/src/cmake-build-release/CMakeFiles/rebuild_cache.dir

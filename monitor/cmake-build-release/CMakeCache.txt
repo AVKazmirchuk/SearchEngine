@@ -475,6 +475,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[C:\boost_1_87_0][c ][v1.87.0()]
 //Details about finding nlohmann_json
 FIND_PACKAGE_MESSAGE_DETAILS_nlohmann_json:INTERNAL=[C:/Program Files (x86)/nlohmann_json/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake][v3.11.3()]
 JSON_BuildTests:INTERNAL=OFF
+JSON_Install:INTERNAL=ON
 //Components requested for this build tree.
 _Boost_COMPONENTS_SEARCHED:INTERNAL=
 //Last used Boost_INCLUDE_DIR value.

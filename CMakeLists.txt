@@ -24,6 +24,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
 
 set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
+#target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 
 set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
@@ -34,15 +35,15 @@ find_package(Boost COMPONENTS REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
+#target_link_libraries(search_engine ${Boost_LIBRARIES})
 
 
-add_subdirectory(src)
 
 #if (NOT TARGET nlohmann_json)
 
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
-    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+#    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()
 
@@ -51,7 +52,7 @@ add_subdirectory(src)
 #target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 
-add_subdirectory(tests)
+
 
 
 
@@ -60,19 +61,28 @@ add_subdirectory(kav_check)
 #list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
 #message(STATUS ${CMAKE_PREFIX_PATH})
 #find_package(kav_check REQUIRED)
-target_link_libraries(search_engine PRIVATE kav_check::kav_check)
+#target_link_libraries(search_engine PRIVATE kav_check::kav_check)
 #endif()
 
 #if (NOT TARGET kav_logger)
 add_subdirectory(kav_logger)
 #find_package(kav_logger REQUIRED)
 #set(logger_Install ON CACHE INTERNAL "")
-target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
+#target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
 #endif()
 
-add_subdirectory(monitor)
+#add_subdirectory(monitor)
 
-target_link_libraries(search_engine ${Boost_LIBRARIES})
+#set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+
+#target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_subdirectory(src)
+
+target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
+
+add_subdirectory(tests)
+
+
 
 #Допустим, ваш проект использует add_subdirectory(libA) и add_subdirectory(libB), но libA также использует add_subdirectory(libB)
 #https://codengineering.net/q/cmake-and-finding-other-projects-and-their-dependencies-4678
