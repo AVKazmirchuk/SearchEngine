@@ -132,7 +132,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)#
 target_include_directories(${PROJECT_NAME}
         PRIVATE
         # где сама библиотека будет искать свои внутренние заголовки
-        ${CMAKE_CURRENT_SOURCE_DIR}include/kav/logger/detail
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/kav/detail
         PUBLIC
         # где проект верхнего уровня будет искать общедоступные заголовки библиотеки
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -170,29 +170,15 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 #message(${CMAKE_INSTALL_INCLUDEDIR})
 #message(${PROJECT_NAME})
 
-# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
-# и использования пакета
-include(CMakePackageConfigHelpers)#
 
-###5 Создать файл версии для проекта
-write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        VERSION "${PROJECT_VERSION}"
-        COMPATIBILITY AnyNewerVersion
-) # another function is used: configure_file
-###4 Создать файл конфигурации для проекта
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        INSTALL_DESTINATION cmake
-        ) # another function is used: configure_file
 
 if(logger_Install)
 
 # Прописать заголовки
 set(public_headers
-        include/kav/logger/logger.h
-        include/kav/logger/detail/monitorSender.h
-        include/kav/logger/detail/types.h
+        include/kav/logger.h
+        include/kav/detail/monitorSender.h
+        include/kav/detail/types.h
 )
 
 ###6 вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
@@ -235,6 +221,21 @@ install(EXPORT "${PROJECT_NAME}Targets"
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )#
 
+# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
+# и использования пакета
+include(CMakePackageConfigHelpers)#
+
+###5 Создать файл версии для проекта
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        VERSION "${PROJECT_VERSION}"
+        COMPATIBILITY AnyNewerVersion
+) # another function is used: configure_file
+###4 Создать файл конфигурации для проекта
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION cmake
+        ) # another function is used: configure_file
 
 ###3 Установить конфигурационные файлы
 install(FILES

@@ -4,21 +4,21 @@ message(STATUS "SE_INCLUDE_DIR2 ${SE_INCLUDE_DIR}")
 
 add_executable(search_engine main.cpp
 
-        ../include/converterJSON.h
-        ../include/documents.h
-        ../include/entry.h
+        ${SE_INCLUDE_DIR}/converterJSON.h
+        ${SE_INCLUDE_DIR}/documents.h
+        ${SE_INCLUDE_DIR}/entry.h
 
-        ../include/invertedIndex.h
-        ../include/relativeIndex.h
-        ../include/relevantResponse.h
-        ../include/requests.h
-        ../include/searchEngine.h
-        ../include/dispatcherDetermineValidity.h
-        ../include/types.h
+        ${SE_INCLUDE_DIR}/invertedIndex.h
+        ${SE_INCLUDE_DIR}/relativeIndex.h
+        ${SE_INCLUDE_DIR}/relevantResponse.h
+        ${SE_INCLUDE_DIR}/requests.h
+        ${SE_INCLUDE_DIR}/searchEngine.h
+        ${SE_INCLUDE_DIR}/dispatcherDetermineValidity.h
+        ${SE_INCLUDE_DIR}/types.h
 
-        ../include/readTextFile.h
-        ../include/general.h
-        #${SE_INCLUDE_DIR}/general.h
+        ${SE_INCLUDE_DIR}/readTextFile.h
+        ${SE_INCLUDE_DIR}/general.h
+
 
         converterJSON/setAnswersJSON.cpp
         converterJSON/check.cpp
@@ -60,4 +60,7 @@ add_executable(search_engine main.cpp
 
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
 #target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-#target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
+target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(search_engine PRIVATE kav_check::kav_check)
+target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)

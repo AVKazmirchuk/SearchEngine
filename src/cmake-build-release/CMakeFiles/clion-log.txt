@@ -1,4 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\src
+"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\Alexander\CLionProjects\search_engine\src
 CMake Warning (dev) in CMakeLists.txt:
   No project() command is present.  The top-level CMakeLists.txt file must
   contain a literal, direct call to the project() command.  Add a line of
@@ -12,7 +12,28 @@ CMake Warning (dev) in CMakeLists.txt:
   line.
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
+-- The C compiler identification is GNU 15.1.0
+-- The CXX compiler identification is GNU 15.1.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/cc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/c++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 -- SE_INCLUDE_DIR2 
 -- Configuring done
--- Generating done
--- Build files have been written to: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/src/cmake-build-release
+CMake Error at CMakeLists.txt:5 (add_executable):
+  Cannot find source file:
+
+    //converterJSON.h
+
+
+CMake Error at CMakeLists.txt:5 (add_executable):
+  No SOURCES given to target: search_engine
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

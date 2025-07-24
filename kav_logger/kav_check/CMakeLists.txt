@@ -83,7 +83,7 @@ find_package(Boost COMPONENTS REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
-
+target_link_libraries(kav_check ${Boost_LIBRARIES})
 
 # Является ли текущий проект проектом верхнего уровня
 if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)

@@ -25,7 +25,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
 set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include CACHE INTERNAL "")
 message(STATUS "SE_INCLUDE_DIR ${SE_INCLUDE_DIR}")
 #target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-add_subdirectory(src)
+
 
 set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
 set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
@@ -78,11 +78,11 @@ add_subdirectory(kav_logger)
 #target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 
-target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
+#target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
 
 add_subdirectory(tests)
 
-
+add_subdirectory(src)
 
 #Допустим, ваш проект использует add_subdirectory(libA) и add_subdirectory(libB), но libA также использует add_subdirectory(libB)
 #https://codengineering.net/q/cmake-and-finding-other-projects-and-their-dependencies-4678
