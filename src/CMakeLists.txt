@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
+message(STATUS "SE_INCLUDE_DIR2 ${SE_INCLUDE_DIR}")
 
 add_executable(search_engine main.cpp
 

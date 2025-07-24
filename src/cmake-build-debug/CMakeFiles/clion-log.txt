@@ -12,6 +12,7 @@ CMake Warning (dev) in CMakeLists.txt:
   line.
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
+-- SE_INCLUDE_DIR2 
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/src/cmake-build-debug
