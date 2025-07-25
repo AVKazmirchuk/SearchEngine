@@ -3,26 +3,34 @@ cmake_minimum_required(VERSION 3.21)#
 
 # Задать имя для проекта, версию, название языка
 project(kav_check VERSION 1.0.0 LANGUAGES CXX)#
-
-function(add_subdirectory _dir)
-    get_filename_component(_fullpath ${_dir} REALPATH)
-    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
-        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
-        list(FIND _included_dirs "${_fullpath}" _used_index)
-        if (${_used_index} EQUAL -1)
-            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
-            _add_subdirectory(${_dir} ${ARGN})
-        endif()
-    else()
-        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-    endif()
-endfunction(add_subdirectory _dir)
+message(STATUS "kav_check2: ${PROJECT_NAME}")
+#function(add_subdirectory _dir)
+#    get_filename_component(_fullpath ${_dir} REALPATH)
+#   if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
+#      get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
+#       list(FIND _included_dirs "${_fullpath}" _used_index)
+#      if (${_used_index} EQUAL -1)
+#           set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
+#          _add_subdirectory(${_dir} ${ARGN})
+#      endif()
+#  else()
+#      message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+#    endif()
+#endfunction(add_subdirectory _dir)
 
 set(MAIN_PROJECT OFF)
 if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(MAIN_PROJECT ON)
 endif()
+message(STATUS "MAIN_PROJECT: ${MAIN_PROJECT}")
 
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+include(ExternalProject)
+
+if (POLICY CMP0077)
+    # Allow CMake 3.13+ to override options when using FetchContent / add_subdirectory.
+    cmake_policy(SET CMP0077 NEW)
+endif ()
 
 # Установить стандарт C++
 set(CMAKE_CXX_STANDARD 20)#
@@ -119,9 +127,6 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
 
-# Определить переменные каталога установки
-include(GNUInstallDirs)#
-
 message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 # Изменить путь установки по умолчанию
 #if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -148,7 +153,26 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 #message(${CMAKE_INSTALL_INCLUDEDIR})
 #message(${PROJECT_NAME})
 
+# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
+# и использования пакета
+include(CMakePackageConfigHelpers)#
+
+###5 Создать файл версии для проекта
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        VERSION "${PROJECT_VERSION}"
+        COMPATIBILITY AnyNewerVersion
+) # another function is used: configure_file
+###4 Создать файл конфигурации для проекта
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION cmake
+        ) # another function is used: configure_file
+
 if(check_Install)
+
+    # Определить переменные каталога установки
+    include(GNUInstallDirs)#
 
 # Прописать заголовки
 set(public_headers
@@ -167,7 +191,7 @@ foreach(header ${public_headers})
     file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
     get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
    install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
-endforeach() # another function is used
+endforeach() # another function is usedF
 
 # Определить отладочный суффикс
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
@@ -199,21 +223,7 @@ install(EXPORT "${PROJECT_NAME}Targets"
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )#
 
-# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
-# и использования пакета
-include(CMakePackageConfigHelpers)#
 
-###5 Создать файл версии для проекта
-write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        VERSION "${PROJECT_VERSION}"
-        COMPATIBILITY AnyNewerVersion
-) # another function is used: configure_file
-###4 Создать файл конфигурации для проекта
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        INSTALL_DESTINATION cmake
-        ) # another function is used: configure_file
 ###3 Установить конфигурационные файлы
 install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"

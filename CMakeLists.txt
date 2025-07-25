@@ -65,12 +65,12 @@ add_subdirectory(kav_check)
 #endif()
 
 #if (NOT TARGET kav_logger)
-add_subdirectory(kav_logger)
+
 #find_package(kav_logger REQUIRED)
 #set(logger_Install ON CACHE INTERNAL "")
 #target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
 #endif()
-
+add_subdirectory(kav_logger)
 #add_subdirectory(monitor)
 
 #set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)

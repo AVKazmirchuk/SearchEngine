@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 
 # Задать имя для проекта, версию, название языка
 project(kav_logger VERSION 1.0.0 LANGUAGES CXX)
-
+message(STATUS "PROJECT_NAME: ${PROJECT_NAME}")
 function(add_subdirectory _dir)
     get_filename_component(_fullpath ${_dir} REALPATH)
     if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
@@ -12,11 +12,13 @@ function(add_subdirectory _dir)
         if (${_used_index} EQUAL -1)
             set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
             _add_subdirectory(${_dir} ${ARGN})
-        endif()
-    else()
-        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-    endif()
+       endif()
+   else()
+       message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+   endif()
 endfunction(add_subdirectory _dir)
+
+
 
 set(MAIN_PROJECT OFF)
 if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
@@ -80,6 +82,9 @@ target_link_libraries(kav_logger ${Boost_LIBRARIES})
 
 #if (NOT TARGET kav_check)
 add_subdirectory(kav_check)
+if (NOT TARGET kav_check::kav_check)
+    message(STATUS "kav_check already exists!")
+endif()
 #find_package(kav_check REQUIRED)
 set(check_Install ON CACHE INTERNAL "")
 target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
@@ -170,6 +175,21 @@ message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 #message(${CMAKE_INSTALL_INCLUDEDIR})
 #message(${PROJECT_NAME})
 
+# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
+# и использования пакета
+include(CMakePackageConfigHelpers)#
+
+###5 Создать файл версии для проекта
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        VERSION "${PROJECT_VERSION}"
+        COMPATIBILITY AnyNewerVersion
+) # another function is used: configure_file
+###4 Создать файл конфигурации для проекта
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION cmake
+        ) # another function is used: configure_file
 
 
 if(logger_Install)
@@ -221,21 +241,6 @@ install(EXPORT "${PROJECT_NAME}Targets"
         DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
         )#
 
-# Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
-# и использования пакета
-include(CMakePackageConfigHelpers)#
-
-###5 Создать файл версии для проекта
-write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        VERSION "${PROJECT_VERSION}"
-        COMPATIBILITY AnyNewerVersion
-) # another function is used: configure_file
-###4 Создать файл конфигурации для проекта
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        INSTALL_DESTINATION cmake
-        ) # another function is used: configure_file
 
 ###3 Установить конфигурационные файлы
 install(FILES
@@ -257,7 +262,7 @@ install(FILES
  )
 
 endif()
-
+message(STATUS "end")
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed
 #https://habr.com/ru/articles/904992/
