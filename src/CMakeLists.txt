@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.21)
 
-message(STATUS "SE_INCLUDE_DIR2 ${SE_INCLUDE_DIR}")
+project(search_engine VERSION 1.0.0)
 
-add_executable(${PROJECT_NAME} main.cpp
+message(STATUS "!!! src !!!")
+message(STATUS "SE_INCLUDE_DIR2: ${SE_INCLUDE_DIR}")
+message(STATUS "###${PROJECT_NAME}, ${CMAKE_PROJECT_NAME}")
+add_executable(${CMAKE_PROJECT_NAME} main.cpp
 
         ${SE_INCLUDE_DIR}/converterJSON.h
         ${SE_INCLUDE_DIR}/documents.h
@@ -58,9 +61,9 @@ add_executable(${PROJECT_NAME} main.cpp
 
         )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${SE_INCLUDE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${SE_INCLUDE_DIR})
 #target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(${PROJECT_NAME} PRIVATE kav_check::kav_check)
-target_link_libraries(${PROJECT_NAME} PRIVATE kav_logger::kav_logger)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_check::kav_check)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_logger::kav_logger)

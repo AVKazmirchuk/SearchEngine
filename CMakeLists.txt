@@ -1,19 +1,19 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(search_engine VERSION 1.0.0)
+project(search_engine-solution VERSION 1.0.0)
 
 function(add_subdirectory _dir)
     get_filename_component(_fullpath ${_dir} REALPATH)
     if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
         get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
         list(FIND _included_dirs "${_fullpath}" _used_index)
-        if (${_used_index} EQUAL -1)
+       if (${_used_index} EQUAL -1)
             set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
-            _add_subdirectory(${_dir} ${ARGN})
-        endif()
+           _add_subdirectory(${_dir} ${ARGN})
+       endif()
     else()
         message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-    endif()
+   endif()
 endfunction(add_subdirectory _dir)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -57,7 +57,8 @@ link_directories(${Boost_LIBRARY_DIR})
 
 
 #if (NOT TARGET kav_check)
-add_subdirectory(kav_check)
+add_subdirectory(libraries)
+#set(check_Install ON CACHE INTERNAL "")
 #list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
 #message(STATUS ${CMAKE_PREFIX_PATH})
 #find_package(kav_check REQUIRED)
@@ -65,12 +66,14 @@ add_subdirectory(kav_check)
 #endif()
 
 #if (NOT TARGET kav_logger)
-
-#find_package(kav_logger REQUIRED)
+message(STATUS "kav_check added")
+find_package(kav_logger REQUIRED)
 #set(logger_Install ON CACHE INTERNAL "")
 #target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
 #endif()
-add_subdirectory(kav_logger)
+#add_subdirectory(kav_logger)
+#set(logger_Install ON CACHE INTERNAL "")
+message(STATUS "kav_logger added")
 #add_subdirectory(monitor)
 
 #set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
@@ -79,10 +82,11 @@ add_subdirectory(kav_logger)
 
 
 #target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
-
-add_subdirectory(tests)
-
 add_subdirectory(src)
+message(STATUS "src added")
+#add_subdirectory(tests)
+
+
 
 #Допустим, ваш проект использует add_subdirectory(libA) и add_subdirectory(libB), но libA также использует add_subdirectory(libB)
 #https://codengineering.net/q/cmake-and-finding-other-projects-and-their-dependencies-4678
