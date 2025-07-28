@@ -18,7 +18,7 @@ endfunction(add_subdirectory _dir)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../../runtime")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../runtime")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
 
@@ -57,8 +57,8 @@ link_directories(${Boost_LIBRARY_DIR})
 
 
 #if (NOT TARGET kav_check)
-add_subdirectory(libraries)
-#set(check_Install ON CACHE INTERNAL "")
+add_subdirectory(libraries/kav_check)
+set(check_Install ON CACHE INTERNAL "")
 #list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
 #message(STATUS ${CMAKE_PREFIX_PATH})
 #find_package(kav_check REQUIRED)
@@ -67,12 +67,12 @@ add_subdirectory(libraries)
 
 #if (NOT TARGET kav_logger)
 message(STATUS "kav_check added")
-find_package(kav_logger REQUIRED)
+#find_package(kav_logger REQUIRED)
 #set(logger_Install ON CACHE INTERNAL "")
 #target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
 #endif()
-#add_subdirectory(kav_logger)
-#set(logger_Install ON CACHE INTERNAL "")
+add_subdirectory(libraries/kav_logger)
+set(logger_Install ON CACHE INTERNAL "")
 message(STATUS "kav_logger added")
 #add_subdirectory(monitor)
 
@@ -82,10 +82,15 @@ message(STATUS "kav_logger added")
 
 
 #target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
-add_subdirectory(src)
+#add_subdirectory(src)
+include(src/CMakeLists.txt)
 message(STATUS "src added")
 #add_subdirectory(tests)
 
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_check::kav_check)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_logger::kav_logger)
 
 
 #Допустим, ваш проект использует add_subdirectory(libA) и add_subdirectory(libB), но libA также использует add_subdirectory(libB)
@@ -121,4 +126,4 @@ message(STATUS "src added")
 #
 #
 #
-#
+#https://decovar.dev/blog/2023/07/22/cmake-target-link-libraries-scopes/

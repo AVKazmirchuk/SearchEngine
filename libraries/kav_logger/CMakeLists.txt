@@ -12,11 +12,12 @@ function(add_subdirectory _dir)
         if (${_used_index} EQUAL -1)
             set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
             _add_subdirectory(${_dir} ${ARGN})
-       endif()
-   else()
-       message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-   endif()
+        endif()
+    else()
+        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+    endif()
 endfunction(add_subdirectory _dir)
+
 
 
 
@@ -24,6 +25,11 @@ set(MAIN_PROJECT OFF)
 if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(MAIN_PROJECT ON)
 endif()
+message(STATUS "MAIN_PROJECT: ${MAIN_PROJECT}")
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+include(ExternalProject)
+
 
 # Установить стандарт C++
 set(CMAKE_CXX_STANDARD 20)
@@ -86,7 +92,7 @@ if (NOT TARGET kav_check::kav_check)
     message(STATUS "kav_check already exists!")
 endif()
 #find_package(kav_check REQUIRED)
-set(check_Install ON CACHE INTERNAL "")
+#set(check_Install ON CACHE INTERNAL "")
 target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
 #endif()
 
@@ -145,8 +151,7 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
 
-# Определить переменные каталога установки
-include(GNUInstallDirs)
+
 
 message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 
@@ -194,6 +199,9 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
 
 if(logger_Install)
 
+    # Определить переменные каталога установки
+    include(GNUInstallDirs)
+
 # Прописать заголовки
 set(public_headers
         include/kav/logger.h
@@ -221,6 +229,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 #        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 #)
 
+    ###3 Установить конфигурационные файлы
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
+            )
+
 ###1 Установить цель и связанные с ней файлы, создать экспортный набор
 install(TARGETS ${PROJECT_NAME}
         EXPORT "${PROJECT_NAME}Targets"
@@ -242,12 +257,7 @@ install(EXPORT "${PROJECT_NAME}Targets"
         )#
 
 
-###3 Установить конфигурационные файлы
-install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
-        )
+
 
 # Создать цели экспорта для дерева сборки
 # (не понятно для чего это нужно, но это вызывает проблемы,
