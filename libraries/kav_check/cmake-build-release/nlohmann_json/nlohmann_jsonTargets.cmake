@@ -51,7 +51,7 @@ add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
 set_target_properties(nlohmann_json::nlohmann_json PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "\$<\$<NOT:\$<BOOL:ON>>:JSON_USE_GLOBAL_UDLS=0>;\$<\$<NOT:\$<BOOL:ON>>:JSON_USE_IMPLICIT_CONVERSIONS=0>;\$<\$<BOOL:OFF>:JSON_DISABLE_ENUM_SERIALIZATION=1>;\$<\$<BOOL:OFF>:JSON_DIAGNOSTICS=1>;\$<\$<BOOL:OFF>:JSON_USE_LEGACY_DISCARDED_VALUE_COMPARISON=1>"
   INTERFACE_COMPILE_FEATURES "cxx_std_11"
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/nlohmann_json/include/"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/nlohmann_json/include/"
 )
 
 # This file does not depend on other imported targets which have

@@ -13,7 +13,8 @@ function(add_subdirectory _dir)
        endif()
     else()
         message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-   endif()
+    endif()
+    message(STATUS "path _dir: ${_fullpath}/CMakeLists.txt")
 endfunction(add_subdirectory _dir)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -41,8 +42,10 @@ link_directories(${Boost_LIBRARY_DIR})
 
 #if (NOT TARGET nlohmann_json)
 
+    message(STATUS "begin nlohmann_json")
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
+    message(STATUS "end nlohmann_json")
 #    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()
@@ -57,8 +60,10 @@ link_directories(${Boost_LIBRARY_DIR})
 
 
 #if (NOT TARGET kav_check)
-add_subdirectory(libraries/kav_check)
-set(check_Install ON CACHE INTERNAL "")
+message(STATUS "begin kav_check")
+#add_subdirectory(libraries)
+message(STATUS "end kav_check")
+#set(check_Install ON CACHE INTERNAL "")
 #list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
 #message(STATUS ${CMAKE_PREFIX_PATH})
 #find_package(kav_check REQUIRED)
@@ -71,9 +76,12 @@ message(STATUS "kav_check added")
 #set(logger_Install ON CACHE INTERNAL "")
 #target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
 #endif()
-add_subdirectory(libraries/kav_logger)
+message(STATUS "begin kav_logger")
+add_subdirectory(kav_logger)
+message(STATUS "end kav_logger")
+#include(kav_logger/CMakeLists.txt)
 set(logger_Install ON CACHE INTERNAL "")
-message(STATUS "kav_logger added")
+
 #add_subdirectory(monitor)
 
 #set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
@@ -89,7 +97,7 @@ message(STATUS "src added")
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_check::kav_check)
+#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_check::kav_check)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_logger::kav_logger)
 
 

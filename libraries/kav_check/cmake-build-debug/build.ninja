@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/
+cmake_ninja_workdir = C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/cmake-build-debug/
 
 #############################################
 # Utility command for list_install_components
@@ -55,17 +55,17 @@ build list_install_components: phony
 
 build cmake_object_order_depends_target_kav_check: phony || CMakeFiles/kav_check.dir
 
-build CMakeFiles/kav_check.dir/src/checkFile.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_check/src/checkFile.cpp || cmake_object_order_depends_target_kav_check
+build CMakeFiles/kav_check.dir/src/checkFile.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/src/checkFile.cpp || cmake_object_order_depends_target_kav_check
   DEP_FILE = CMakeFiles\kav_check.dir\src\checkFile.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_check/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_check/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_check/nlohmann_json/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/nlohmann_json/include
   OBJECT_DIR = CMakeFiles\kav_check.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_check.dir\src
 
-build CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_check/src/operationFileAndJSON.cpp || cmake_object_order_depends_target_kav_check
+build CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/src/operationFileAndJSON.cpp || cmake_object_order_depends_target_kav_check
   DEP_FILE = CMakeFiles\kav_check.dir\src\operationFileAndJSON.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_check/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_check/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_check/nlohmann_json/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/nlohmann_json/include
   OBJECT_DIR = CMakeFiles\kav_check.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_check.dir\src
 
@@ -90,7 +90,7 @@ build libkav_checkd.a: CXX_STATIC_LIBRARY_LINKER__kav_check_Debug CMakeFiles/kav
 # Utility command for install/local
 
 build CMakeFiles/install/local.util: CUSTOM_COMMAND all
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
   DESC = Installing only the local directory...
   pool = console
   restat = 1
@@ -102,7 +102,7 @@ build install/local: phony CMakeFiles/install/local.util
 # Utility command for install
 
 build CMakeFiles/install.util: CUSTOM_COMMAND all
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
   DESC = Install the project...
   pool = console
   restat = 1
@@ -114,7 +114,7 @@ build install: phony CMakeFiles/install.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -125,7 +125,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Alexander\CLionProjects\search_engine\kav_check -BC:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check -BC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -137,7 +137,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # Utility command for install/strip
 
 build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
   DESC = Installing the project stripped...
   pool = console
   restat = 1
@@ -146,7 +146,7 @@ build install/strip: phony CMakeFiles/install/strip.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
-# C:/Users/Alexander/CLionProjects/search_engine/kav_check/CMakeLists.txt
+# C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/CMakeLists.txt
 # =============================================================================
 
 
@@ -154,7 +154,7 @@ build install/strip: phony CMakeFiles/install/strip.util
 # Utility command for install/strip
 
 build nlohmann_json/CMakeFiles/install/strip.util: CUSTOM_COMMAND nlohmann_json/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
   DESC = Installing the project stripped...
   pool = console
   restat = 1
@@ -166,7 +166,7 @@ build nlohmann_json/install/strip: phony nlohmann_json/CMakeFiles/install/strip.
 # Utility command for install/local
 
 build nlohmann_json/CMakeFiles/install/local.util: CUSTOM_COMMAND nlohmann_json/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
   DESC = Installing only the local directory...
   pool = console
   restat = 1
@@ -178,7 +178,7 @@ build nlohmann_json/install/local: phony nlohmann_json/CMakeFiles/install/local.
 # Utility command for install
 
 build nlohmann_json/CMakeFiles/install.util: CUSTOM_COMMAND nlohmann_json/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
   DESC = Install the project...
   pool = console
   restat = 1
@@ -190,7 +190,7 @@ build nlohmann_json/install: phony nlohmann_json/CMakeFiles/install.util
 # Utility command for edit_cache
 
 build nlohmann_json/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -201,7 +201,7 @@ build nlohmann_json/edit_cache: phony nlohmann_json/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build nlohmann_json/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Alexander\CLionProjects\search_engine\kav_check -BC:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-debug"
+  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check -BC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\libraries\kav_check\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -225,14 +225,14 @@ build kav_check: phony libkav_checkd.a
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug
+# Folder: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/cmake-build-debug
 
 build all: phony libkav_checkd.a nlohmann_json/all
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/nlohmann_json
+# Folder: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/libraries/kav_check/cmake-build-debug/nlohmann_json
 
 build nlohmann_json/all: phony
 

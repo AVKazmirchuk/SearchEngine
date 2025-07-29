@@ -2,20 +2,20 @@
 cmake_minimum_required(VERSION 3.21)#
 
 # Задать имя для проекта, версию, название языка
-project(kav_check VERSION 1.0.0 LANGUAGES CXX)#
-message(STATUS "kav_check: ${PROJECT_NAME}")
+project(kav_check2 VERSION 1.0.0 LANGUAGES CXX)#
+message(STATUS "kav_check2: ${PROJECT_NAME}")
 function(add_subdirectory _dir)
     get_filename_component(_fullpath ${_dir} REALPATH)
     if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
-       list(FIND _included_dirs "${_fullpath}" _used_index)
+      list(FIND _included_dirs "${_fullpath}" _used_index)
        if (${_used_index} EQUAL -1)
            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
            _add_subdirectory(${_dir} ${ARGN})
        endif()
-    else()
+   else()
         message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-    endif()
+   endif()
 endfunction(add_subdirectory _dir)
 
 set(MAIN_PROJECT OFF)
@@ -23,6 +23,9 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(MAIN_PROJECT ON)
 endif()
 message(STATUS "MAIN_PROJECT: ${MAIN_PROJECT}")
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+include(ExternalProject)
 
 # Установить стандарт C++
 set(CMAKE_CXX_STANDARD 20)#
@@ -33,9 +36,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)#
 
 # Установить библиотеку как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
-option(check_Install "Install CMake targets during install step." ${MAIN_PROJECT})
+option(check2_Install "Install CMake targets during install step." ${MAIN_PROJECT})
 
-#if (NOT TARGET kav_check)
+#if (NOT TARGET kav_check2)
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
     # Добавить в проект библиотеку как разделяемую
@@ -51,13 +54,13 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-    target_compile_options( kav_check PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
+    target_compile_options( kav_check2 PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    target_compile_options( kav_check PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
+    target_compile_options( kav_check2 PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    target_compile_options( kav_check PRIVATE /W4 /w44265 /w44061 /w44062 )
+    target_compile_options( kav_check2 PRIVATE /W4 /w44265 /w44061 /w44062 )
 endif()
 
 
@@ -71,7 +74,7 @@ endif()
     add_subdirectory(nlohmann_json)
     set(JSON_BuildTests OFF CACHE INTERNAL "")
     set(JSON_Install ON CACHE INTERNAL "")
-    target_link_libraries(kav_check PRIVATE nlohmann_json::nlohmann_json)
+    target_link_libraries(kav_check2 PRIVATE nlohmann_json::nlohmann_json)
 
 #endif()
 
@@ -83,10 +86,10 @@ find_package(Boost COMPONENTS REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
-target_link_libraries(kav_check ${Boost_LIBRARIES})
+target_link_libraries(kav_check2 ${Boost_LIBRARIES})
 
 # Является ли текущий проект проектом верхнего уровня
-if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if (NOT ${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
     message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
 else()
     message(STATUS "This project is a top-level one")
@@ -98,6 +101,8 @@ if (PROJECT_IS_TOP_LEVEL)
 else()
     message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
 endif()
+
+message(STATUS "!!!${PROJECT_NAME}, ${CMAKE_PROJECT_NAME}")
 
 # Добавить только исходные тексты
 target_sources(${PROJECT_NAME}
@@ -119,7 +124,7 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         )
 
-message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
+#message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 # Изменить путь установки по умолчанию
 #if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 #    message(
@@ -161,7 +166,7 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         INSTALL_DESTINATION cmake
         ) # another function is used: configure_file
 
-if(check_Install)
+if(check2_Install)
 
     # Определить переменные каталога установки
     include(GNUInstallDirs)#
@@ -180,8 +185,8 @@ set(public_headers
 foreach(header ${public_headers})
     message(${CMAKE_CURRENT_SOURCE_DIR})
     message(${header})
-    file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
-    get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
+   file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
+   get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
    install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
 endforeach() # another function is usedF
 
@@ -194,6 +199,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 #        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 #)
 
+    ###3 Установить конфигурационные файлы
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
+            )
 
 ###1 Установить цель и связанные с ней файлы, создать экспортный набор
 install(TARGETS ${PROJECT_NAME}
@@ -216,12 +227,7 @@ install(EXPORT "${PROJECT_NAME}Targets"
         )#
 
 
-###3 Установить конфигурационные файлы
-install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
-        )
+
 
 
 # Создать цели экспорта для дерева сборки
