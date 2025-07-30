@@ -16,6 +16,7 @@ function(add_subdirectory _dir)
     else()
         message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
     endif()
+    message(STATUS "kav_logger: path _dir: ${_fullpath}/CMakeLists.txt")
 endfunction(add_subdirectory _dir)
 
 set(MAIN_PROJECT OFF)
@@ -69,15 +70,15 @@ endif()
 #set(JSON_BuildTests OFF CACHE INTERNAL "")
 #arget_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-#if (NOT TARGET nlohmann_json)
+if (NOT TARGET nlohmann_json)
 
 add_subdirectory(nlohmann_json)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(JSON_Install ON CACHE INTERNAL "")
+
+
+endif()
 target_link_libraries(kav_logger PRIVATE nlohmann_json::nlohmann_json)
-
-#endif()
-
 
 
 set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
@@ -88,10 +89,13 @@ link_directories(${Boost_LIBRARY_DIR})
 
 target_link_libraries(kav_logger ${Boost_LIBRARIES})
 
-add_subdirectory(kav_check)
-set(check2_Install ON CACHE INTERNAL "")
-#find_package(kav_check2 REQUIRED)
+if (NOT TARGET kav_check2)
+add_subdirectory(kav_check2 EXCLUDE_FROM_ALL)
+#set(check2_Install ON CACHE INTERNAL "")
+#find_package(kav_check REQUIRED)
+endif()
 target_link_libraries(kav_logger PRIVATE kav_check2::kav_check2)
+
 
 # Является ли текущий проект проектом верхнего уровня
 if (NOT ${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})

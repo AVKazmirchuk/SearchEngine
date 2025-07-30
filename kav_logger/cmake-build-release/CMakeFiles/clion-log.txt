@@ -7,13 +7,13 @@
 -- This project has a top-level one called [kav_logger]
 -- This project has a top-level one called [kav_logger]
 -- !!!kav_check2, kav_logger
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
 include/kav/operationFileAndJSON.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
 include/kav/detail/checkFileException.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
 include/kav/detail/errorCode.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
 include/kav/detail/types.h
 -- This project is a top-level one
 -- This project is a top-level one

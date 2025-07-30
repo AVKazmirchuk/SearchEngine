@@ -298,13 +298,13 @@ JSON_MultipleHeaders:BOOL=ON
 JSON_SystemInclude:BOOL=OFF
 
 //Value Computed by CMake
-kav_check2_BINARY_DIR:STATIC=C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug/kav_check
+kav_check2_BINARY_DIR:STATIC=C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug/kav_check2
 
 //Value Computed by CMake
 kav_check2_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-kav_check2_SOURCE_DIR:STATIC=C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
+kav_check2_SOURCE_DIR:STATIC=C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
 
 //Value Computed by CMake
 kav_check_BINARY_DIR:STATIC=C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug/kav_check

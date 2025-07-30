@@ -1,7 +1,7 @@
 #include <iostream>
 #include "searchEngine.h"
 #include "general.h"
-#include "kav/logger/logger.h"
+#include "kav/logger.h"
 
 
 //Вспомогательная функция запуска самой программы. Вынесено отдельно, для корректной обработки исключений

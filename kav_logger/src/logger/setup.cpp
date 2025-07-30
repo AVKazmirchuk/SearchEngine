@@ -8,8 +8,8 @@
 
 #include "windows.h"
 
-#include "kav/logger/logger.h"
-#include "kav/logger/detail/types.h"
+#include "kav/logger.h"
+#include "kav/detail/types.h"
 //#include "kav/operationFileAndJSON.h"
 
 
