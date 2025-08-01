@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
+# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,48 +38,48 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/operationFileAndJSON.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/operationFileAndJSON.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/detail/checkFileException.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/detail/checkFileException.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/detail/errorCode.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/detail/errorCode.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/detail/types.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/detail/types.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2" TYPE FILE FILES
-    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/kav_check2Config.cmake"
-    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/kav_check2ConfigVersion.cmake"
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check" TYPE FILE FILES
+    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/kav_checkConfig.cmake"
+    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/kav_checkConfigVersion.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/libkav_check2.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/libkav_check.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2/kav_check2Targets.cmake")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check/kav_checkTargets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
-         "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2/kav_check2Targets.cmake"
-         "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/CMakeFiles/Export/share/cmake/kav_check2/kav_check2Targets.cmake")
+         "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check/kav_checkTargets.cmake"
+         "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/CMakeFiles/Export/share/cmake/kav_check/kav_checkTargets.cmake")
     if(EXPORT_FILE_CHANGED)
-      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2/kav_check2Targets-*.cmake")
+      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check/kav_checkTargets-*.cmake")
       if(OLD_CONFIG_FILES)
-        message(STATUS "Old export file \"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2/kav_check2Targets.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
+        message(STATUS "Old export file \"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check/kav_checkTargets.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
         file(REMOVE ${OLD_CONFIG_FILES})
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/CMakeFiles/Export/share/cmake/kav_check2/kav_check2Targets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/CMakeFiles/Export/share/cmake/kav_check/kav_checkTargets.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check2" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/CMakeFiles/Export/share/cmake/kav_check2/kav_check2Targets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_check" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/CMakeFiles/Export/share/cmake/kav_check/kav_checkTargets-release.cmake")
   endif()
 endif()
 

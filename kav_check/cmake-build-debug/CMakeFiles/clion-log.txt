@@ -1,0 +1,19 @@
+"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_check
+-- kav_check: kav_check
+-- MAIN_PROJECT: ON
+-- Using the multi-header code from C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/nlohmann_json/include/
+-- kav_check: path _dir: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/nlohmann_json/CMakeLists.txt
+-- This project is a top-level one
+-- This project is a top-level one
+-- !!!kav_check, kav_check
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
+include/kav/operationFileAndJSON.h
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
+include/kav/detail/checkFileException.h
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
+include/kav/detail/errorCode.h
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
+include/kav/detail/types.h
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug

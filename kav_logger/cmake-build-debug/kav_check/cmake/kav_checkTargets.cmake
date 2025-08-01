@@ -46,7 +46,7 @@ add_library(kav_check::kav_check STATIC IMPORTED)
 
 set_target_properties(kav_check::kav_check PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_20"
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include"
   INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:nlohmann_json::nlohmann_json>"
 )
 

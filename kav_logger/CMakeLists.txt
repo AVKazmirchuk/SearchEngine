@@ -89,12 +89,12 @@ link_directories(${Boost_LIBRARY_DIR})
 
 target_link_libraries(kav_logger ${Boost_LIBRARIES})
 
-if (NOT TARGET kav_check2)
-add_subdirectory(kav_check2 EXCLUDE_FROM_ALL)
-#set(check2_Install ON CACHE INTERNAL "")
+#if (NOT TARGET kav_check)
+#add_subdirectory(../kav_check ${CMAKE_CURRENT_BINARY_DIR}/kav_check)
+#set(check_Install ON CACHE INTERNAL "")
 #find_package(kav_check REQUIRED)
-endif()
-target_link_libraries(kav_logger PRIVATE kav_check2::kav_check2)
+#endif()
+target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
 
 
 # Является ли текущий проект проектом верхнего уровня
@@ -258,7 +258,7 @@ if(logger_Install)
             )
 
 endif()
-
+message(STATUS "OK")
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed
 #https://habr.com/ru/articles/904992/

@@ -2,19 +2,21 @@
 -- kav_logger: kav_logger
 -- MAIN_PROJECT: ON
 -- Using the multi-header code from C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include/
--- kav_check2: kav_check2
+-- kav_logger: path _dir: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/CMakeLists.txt
+-- kav_check: kav_check
 -- MAIN_PROJECT: OFF
 -- This project has a top-level one called [kav_logger]
 -- This project has a top-level one called [kav_logger]
--- !!!kav_check2, kav_logger
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
+-- !!!kav_check, kav_logger
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
 include/kav/operationFileAndJSON.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
 include/kav/detail/checkFileException.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
 include/kav/detail/errorCode.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check2
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check
 include/kav/detail/types.h
+-- kav_logger: path _dir: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/CMakeLists.txt
 -- This project is a top-level one
 -- This project is a top-level one
 -- !!!kav_logger, kav_logger
@@ -24,6 +26,7 @@ C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger
 include/kav/detail/monitorSender.h
 C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger
 include/kav/detail/types.h
+-- OK
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release

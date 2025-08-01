@@ -56,7 +56,7 @@ add_library(kav_logger::kav_logger STATIC IMPORTED)
 set_target_properties(kav_logger::kav_logger PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_20"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:nlohmann_json::nlohmann_json>;\$<LINK_ONLY:kav_check2::kav_check2>"
+  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:nlohmann_json::nlohmann_json>;\$<LINK_ONLY:kav_check::kav_check>"
 )
 
 if(CMAKE_VERSION VERSION_LESS 2.8.12)
@@ -95,7 +95,7 @@ unset(_IMPORT_CHECK_TARGETS)
 # Make sure the targets which have been exported in some other
 # export set exist.
 unset(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets)
-foreach(_target "nlohmann_json::nlohmann_json" "kav_check2::kav_check2" )
+foreach(_target "nlohmann_json::nlohmann_json" "kav_check::kav_check" )
   if(NOT TARGET "${_target}" )
     set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets "${${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets} ${_target}")
   endif()
