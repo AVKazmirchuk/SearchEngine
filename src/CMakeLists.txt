@@ -5,7 +5,7 @@ project(search_engine VERSION 1.0.0)
 message(STATUS "!!! src !!!")
 message(STATUS "SE_INCLUDE_DIR2: ${SE_INCLUDE_DIR}")
 message(STATUS "###${PROJECT_NAME}, ${CMAKE_PROJECT_NAME}")
-add_executable(search_engine src/main.cpp
+add_executable(search_engine main.cpp
 
         ${SE_INCLUDE_DIR}/converterJSON.h
         ${SE_INCLUDE_DIR}/documents.h
@@ -23,47 +23,48 @@ add_executable(search_engine src/main.cpp
         ${SE_INCLUDE_DIR}/general.h
 
 
-        src/converterJSON/setAnswersJSON.cpp
-        src/converterJSON/check.cpp
-        src/converterJSON/misc.cpp
+        converterJSON/setAnswersJSON.cpp
+        converterJSON/check.cpp
+        converterJSON/misc.cpp
 
-        src/dispatcherDetermineValidity/dispatcherDetermineValidity.cpp
+        dispatcherDetermineValidity/dispatcherDetermineValidity.cpp
 
-        src/invertedIndex/updateInvertedIndexes.cpp
-        src/invertedIndex/startInvertedIndexing.cpp
-        src/invertedIndex/misc.cpp
+        invertedIndex/updateInvertedIndexes.cpp
+        invertedIndex/startInvertedIndexing.cpp
+        invertedIndex/misc.cpp
 
-        src/relevantResponse/updateRelevantResponses.cpp
-        src/relevantResponse/countRelevanceOfResponses.cpp
-        src/relevantResponse/evaluateRelativeRelevance.cpp
+        relevantResponse/updateRelevantResponses.cpp
+        relevantResponse/countRelevanceOfResponses.cpp
+        relevantResponse/evaluateRelativeRelevance.cpp
 
-        src/relevantResponse/preparedRequest/misc.cpp
-        src/relevantResponse/preparedRequest/updatePreparedRequests.cpp
-        src/relevantResponse/preparedRequest/separateRequestsByWords.cpp
-        src/relevantResponse/preparedRequest/sortWordsByFrequencyOfOccurrence.cpp
-        src/relevantResponse/misc.cpp
+        relevantResponse/preparedRequest/misc.cpp
+        relevantResponse/preparedRequest/updatePreparedRequests.cpp
+        relevantResponse/preparedRequest/separateRequestsByWords.cpp
+        relevantResponse/preparedRequest/sortWordsByFrequencyOfOccurrence.cpp
+        relevantResponse/misc.cpp
 
 
-        src/requests/updateRequests.cpp
-        src/requests/misc.cpp
+        requests/updateRequests.cpp
+        requests/misc.cpp
 
-        src/searchEngine/searchModified.cpp
-        src/searchEngine/exportRelevantResponses.cpp
-        src/searchEngine/config.cpp
+        searchEngine/searchModified.cpp
+        searchEngine/exportRelevantResponses.cpp
+        searchEngine/config.cpp
 
-        src/readTextFile/readTextFile.cpp
+        readTextFile/readTextFile.cpp
 
-        src/documents/documents.cpp
+        documents/documents.cpp
 
-        src/general/general.cpp
+        general/general.cpp
 
 
 
         )
 
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 target_include_directories(search_engine PUBLIC ${SE_INCLUDE_DIR})
 #target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 #target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES})
-#target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
-#target_link_libraries(search_engine PRIVATE kav_check::kav_check)
-#arget_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
+target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(search_engine PRIVATE kav_check::kav_check)
+target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)

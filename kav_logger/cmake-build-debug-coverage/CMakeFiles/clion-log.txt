@@ -1,0 +1,24 @@
+"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G Ninja C:\Users\Alexander\CLionProjects\search_engine\kav_logger
+-- kav_logger: kav_logger
+-- MAIN_PROJECT: ON
+-- Using the multi-header code from C:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include/
+-- kav_logger: path _dir: C:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/CMakeLists.txt
+-- This project is a top-level one
+-- This project is a top-level one
+-- !!!kav_logger, kav_logger
+C:/Users/Alexander/CLionProjects/search_engine/kav_logger
+include/kav/logger.h
+C:/Users/Alexander/CLionProjects/search_engine/kav_logger
+include/kav/detail/monitorSender.h
+C:/Users/Alexander/CLionProjects/search_engine/kav_logger
+include/kav/detail/types.h
+-- OK
+-- Configuring done
+CMake Error at CMakeLists.txt:49 (add_library):
+  Target "kav_logger" links to target "kav_check::kav_check" but the target
+  was not found.  Perhaps a find_package() call is missing for an IMPORTED
+  target, or an ALIAS target is missing?
+
+
+-- Generating done
+CMake Generate step failed.  Build files cannot be regenerated correctly.

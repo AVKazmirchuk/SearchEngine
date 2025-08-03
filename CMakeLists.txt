@@ -2,20 +2,20 @@ cmake_minimum_required(VERSION 3.21)
 
 project(search_engine-solution VERSION 1.0.0)
 
-function(add_subdirectory _dir)
-    get_filename_component(_fullpath ${_dir} REALPATH)
-    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
-        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
-        list(FIND _included_dirs "${_fullpath}" _used_index)
-       if (${_used_index} EQUAL -1)
-            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
-           _add_subdirectory(${_dir} ${ARGN})
-       endif()
-    else()
-        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
-    endif()
-    message(STATUS "search_engine-solution: path _dir: ${_fullpath}/CMakeLists.txt")
-endfunction(add_subdirectory _dir)
+#function(add_subdirectory _dir)
+#    get_filename_component(_fullpath ${_dir} REALPATH)
+#    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
+#        get_property(_included_dirs GLOBAL PROPERTY GlobalAddSubdirectoryOnceIncluded)
+#       list(FIND _included_dirs "${_fullpath}" _used_index)
+#       if (${_used_index} EQUAL -1)
+#            set_property(GLOBAL APPEND PROPERTY GlobalAddSubdirectoryOnceIncluded "${_fullpath}")
+#          _add_subdirectory(${_dir} ${ARGN})
+#      endif()
+#    else()
+#       message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
+#    endif()
+#    message(STATUS "search_engine-solution: path _dir: ${_fullpath}/CMakeLists.txt")
+#endfunction(add_subdirectory _dir)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -29,12 +29,12 @@ message(STATUS "SE_INCLUDE_DIR ${SE_INCLUDE_DIR}")
 
 
 set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
-set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
+#set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
 
-find_package(Boost COMPONENTS REQUIRED)
-
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIR})
+find_package(Boost REQUIRED)
+#include_directories(${Boost_INCLUDE_DIR})
+#target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
+#target_link_directories(${PROJECT_NAME} Boost::)
 
 #target_link_libraries(search_engine ${Boost_LIBRARIES})
 
@@ -89,18 +89,18 @@ add_subdirectory(kav_logger)
 #set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 #target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-include(src/CMakeLists.txt)
+#include(src/CMakeLists.txt)
 
 #target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
-#add_subdirectory(src)
+add_subdirectory(src)
 
 #message(STATUS "src added")
 #add_subdirectory(tests)
 
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_check::kav_check)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_logger::kav_logger)
+#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_check::kav_check)
+#target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE kav_logger::kav_logger)
 
 
 #Допустим, ваш проект использует add_subdirectory(libA) и add_subdirectory(libB), но libA также использует add_subdirectory(libB)
