@@ -6,7 +6,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "cmake-build-release/CMakeFiles/3.21.1/CMakeSystem.cmake"
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeSystem.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -15,7 +15,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "cmake-build-release/CMakeFiles/3.21.1/CMakeCXXCompiler.cmake"
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeCXXCompiler.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -79,7 +79,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "cmake-build-release/CMakeFiles/3.21.1/CMakeRCCompiler.cmake"
+			"path" : "cmake-build-debug/CMakeFiles/3.21.1/CMakeRCCompiler.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -180,8 +180,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release",
-		"source" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check"
+		"build" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug",
+		"source" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check"
 	},
 	"version" : 
 	{

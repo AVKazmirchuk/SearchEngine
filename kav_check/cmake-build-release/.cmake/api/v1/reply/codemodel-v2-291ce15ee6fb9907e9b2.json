@@ -11,7 +11,7 @@
 						1
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-2d0f1eb4a7e1dfc3cf21.json",
+					"jsonFile" : "directory-.-Release-cc8640524a4db781d152.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.21"
@@ -26,7 +26,7 @@
 				{
 					"build" : "nlohmann_json",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-nlohmann_json-Debug-783005de54fe501443d4.json",
+					"jsonFile" : "directory-nlohmann_json-Release-14386962e9f2e96931f3.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.1"
@@ -36,7 +36,7 @@
 					"source" : "nlohmann_json"
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -68,7 +68,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "kav_check::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-kav_check-Debug-6e6b77a401cc0c044496.json",
+					"jsonFile" : "target-kav_check-Release-1653727c46c8859f0e3a.json",
 					"name" : "kav_check",
 					"projectIndex" : 0
 				}
@@ -78,8 +78,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug",
-		"source" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check"
+		"build" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release",
+		"source" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check"
 	},
 	"version" : 
 	{

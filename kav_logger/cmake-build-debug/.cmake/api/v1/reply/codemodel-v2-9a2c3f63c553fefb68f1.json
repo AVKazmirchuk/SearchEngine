@@ -12,7 +12,7 @@
 						2
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Release-420ce083bee78deeb060.json",
+					"jsonFile" : "directory-.-Debug-1ad4eb085b21668aa6aa.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.21"
@@ -27,7 +27,7 @@
 				{
 					"build" : "nlohmann_json",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-nlohmann_json-Release-14386962e9f2e96931f3.json",
+					"jsonFile" : "directory-nlohmann_json-Debug-783005de54fe501443d4.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.1"
@@ -39,7 +39,7 @@
 				{
 					"build" : "kav_check",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-kav_check-Release-8f8f083b78d4690691bf.json",
+					"jsonFile" : "directory-kav_check-Debug-2d847f40d1ff87401403.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.21"
@@ -53,7 +53,7 @@
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -98,14 +98,14 @@
 				{
 					"directoryIndex" : 2,
 					"id" : "kav_check::@404fdaaff201ab1dc039",
-					"jsonFile" : "target-kav_check-Release-0a17031e1bee8716c961.json",
+					"jsonFile" : "target-kav_check-Debug-a7d5831eca5b60bb68c9.json",
 					"name" : "kav_check",
 					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "kav_logger::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-kav_logger-Release-cd63a827ae05c32b740b.json",
+					"jsonFile" : "target-kav_logger-Debug-642fbcb3d149874870b0.json",
 					"name" : "kav_logger",
 					"projectIndex" : 0
 				}
@@ -115,8 +115,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release",
-		"source" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger"
+		"build" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug",
+		"source" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger"
 	},
 	"version" : 
 	{

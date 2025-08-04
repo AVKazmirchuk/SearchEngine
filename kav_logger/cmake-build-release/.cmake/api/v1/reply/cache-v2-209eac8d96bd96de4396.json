@@ -43,7 +43,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/addr2line.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -59,7 +59,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/ar.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -71,7 +71,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "Debug"
+			"value" : "Release"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -83,7 +83,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug"
+			"value" : "c:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -171,7 +171,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/c++.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/c++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -187,7 +187,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/gcc-ar.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -203,7 +203,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/gcc-ranlib.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -315,7 +315,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/dlltool.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/dlltool.exe"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -507,7 +507,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -791,7 +791,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/ld.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -899,7 +899,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/nm.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -927,7 +927,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objcopy.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -943,7 +943,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objdump.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -1067,7 +1067,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/ranlib.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -1083,7 +1083,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/windres.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1191,7 +1191,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/readelf.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/readelf.exe"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -1411,7 +1411,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/strip.exe"
+			"value" : "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_VERBOSE_MAKEFILE",
@@ -1679,7 +1679,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug/kav_check"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check"
 		},
 		{
 			"name" : "kav_check_IS_TOP_LEVEL",
@@ -1703,7 +1703,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check"
 		},
 		{
 			"name" : "kav_logger_BINARY_DIR",
@@ -1715,7 +1715,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release"
 		},
 		{
 			"name" : "kav_logger_IS_TOP_LEVEL",
@@ -1739,7 +1739,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger"
 		},
 		{
 			"name" : "logger_Install",
@@ -1763,7 +1763,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug/nlohmann_json"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/nlohmann_json"
 		},
 		{
 			"name" : "nlohmann_json_IS_TOP_LEVEL",
@@ -1787,7 +1787,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json"
+			"value" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json"
 		}
 	],
 	"kind" : "cache",

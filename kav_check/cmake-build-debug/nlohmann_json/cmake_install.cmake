@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Alexander/CLionProjects/search_engine/kav_check/nlohmann_json
+# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/nlohmann_json
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,17 +34,17 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objdump.exe")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/nlohmann_json/include/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/nlohmann_json/include/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/nlohmann_json" TYPE FILE FILES
-    "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/nlohmann_json/nlohmann_jsonConfig.cmake"
-    "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/nlohmann_json/nlohmann_jsonConfigVersion.cmake"
+    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/nlohmann_json/nlohmann_jsonConfig.cmake"
+    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/nlohmann_json/nlohmann_jsonConfigVersion.cmake"
     )
 endif()
 
@@ -52,7 +52,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake"
-         "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/nlohmann_json/CMakeFiles/Export/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake")
+         "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/nlohmann_json/CMakeFiles/Export/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/nlohmann_json/nlohmann_jsonTargets-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -61,10 +61,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/nlohmann_json" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/nlohmann_json/CMakeFiles/Export/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/nlohmann_json" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/nlohmann_json/CMakeFiles/Export/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/nlohmann_json/nlohmann_json.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/nlohmann_json/nlohmann_json.pc")
 endif()
 

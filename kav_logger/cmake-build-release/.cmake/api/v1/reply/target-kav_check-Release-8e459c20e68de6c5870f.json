@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "libkav_logger.a"
+			"path" : "kav_check/libkav_check.a"
 		}
 	],
 	"backtrace" : 1,
@@ -13,16 +13,16 @@
 		[
 			"add_library",
 			"install",
-			"target_link_libraries",
 			"target_compile_options",
 			"include_directories",
 			"target_include_directories",
+			"target_link_libraries",
 			"target_compile_features",
 			"target_sources"
 		],
 		"files" : 
 		[
-			"CMakeLists.txt"
+			"kav_check/CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -38,35 +38,29 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 226,
+				"line" : 211,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
-				"file" : 0,
-				"line" : 98,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
 				"file" : 0,
 				"line" : 58,
 				"parent" : 0
 			},
 			{
-				"command" : 4,
+				"command" : 3,
 				"file" : 0,
 				"line" : 87,
 				"parent" : 0
 			},
 			{
-				"command" : 5,
+				"command" : 4,
 				"file" : 0,
-				"line" : 132,
+				"line" : 117,
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 5,
 				"file" : 0,
 				"line" : 81,
 				"parent" : 0
@@ -74,13 +68,13 @@
 			{
 				"command" : 6,
 				"file" : 0,
-				"line" : 129,
+				"line" : 114,
 				"parent" : 0
 			},
 			{
 				"command" : 7,
 				"file" : 0,
-				"line" : 118,
+				"line" : 109,
 				"parent" : 0
 			}
 		]
@@ -94,19 +88,19 @@
 					"fragment" : "-O3 -DNDEBUG"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"fragment" : "-Wall"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"fragment" : "-Wextra"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"fragment" : "-Wunreachable-code"
 				},
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"fragment" : "-Wpedantic"
 				},
 				{
@@ -116,24 +110,20 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 5,
+					"backtrace" : 4,
 					"path" : "C:/boost_1_87_0"
 				},
 				{
-					"backtrace" : 6,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail"
+					"backtrace" : 5,
+					"path" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/detail"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/include"
-				},
-				{
-					"backtrace" : 7,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include"
-				},
-				{
-					"backtrace" : 3,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include"
+					"path" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include"
 				}
 			],
 			"language" : "CXX",
@@ -141,31 +131,19 @@
 			{
 				"backtraces" : 
 				[
-					8,
-					7
+					7,
+					6
 				],
 				"standard" : "20"
 			},
 			"sourceIndexes" : 
 			[
 				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6
+				1
 			]
 		}
 	],
-	"dependencies" : 
-	[
-		{
-			"backtrace" : 3,
-			"id" : "kav_check::@404fdaaff201ab1dc039"
-		}
-	],
-	"id" : "kav_logger::@6890427a1f51a3e7e1df",
+	"id" : "kav_check::@404fdaaff201ab1dc039",
 	"install" : 
 	{
 		"destinations" : 
@@ -180,12 +158,12 @@
 			"path" : "C:/Program Files (x86)/kav_logger"
 		}
 	},
-	"name" : "kav_logger",
-	"nameOnDisk" : "libkav_logger.a",
+	"name" : "kav_check",
+	"nameOnDisk" : "libkav_check.a",
 	"paths" : 
 	{
-		"build" : ".",
-		"source" : "."
+		"build" : "kav_check",
+		"source" : "kav_check"
 	},
 	"sourceGroups" : 
 	[
@@ -194,57 +172,22 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-				6
+				1
 			]
 		}
 	],
 	"sources" : 
 	[
 		{
-			"backtrace" : 9,
+			"backtrace" : 8,
 			"compileGroupIndex" : 0,
-			"path" : "src/logger/config.cpp",
+			"path" : "kav_check/src/checkFile.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
-			"backtrace" : 9,
+			"backtrace" : 8,
 			"compileGroupIndex" : 0,
-			"path" : "src/logger/identifyFile.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 9,
-			"compileGroupIndex" : 0,
-			"path" : "src/logger/logger.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 9,
-			"compileGroupIndex" : 0,
-			"path" : "src/logger/loging.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 9,
-			"compileGroupIndex" : 0,
-			"path" : "src/logger/run.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 9,
-			"compileGroupIndex" : 0,
-			"path" : "src/logger/setup.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 9,
-			"compileGroupIndex" : 0,
-			"path" : "src/monitorSender/monitorSender.cpp",
+			"path" : "kav_check/src/operationFileAndJSON.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

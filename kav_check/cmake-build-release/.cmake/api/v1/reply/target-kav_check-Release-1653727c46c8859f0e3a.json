@@ -14,7 +14,6 @@
 			"add_library",
 			"install",
 			"target_compile_options",
-			"include_directories",
 			"target_include_directories",
 			"target_link_libraries",
 			"target_compile_features",
@@ -38,7 +37,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 211,
+				"line" : 204,
 				"parent" : 0
 			},
 			{
@@ -50,31 +49,31 @@
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 87,
+				"line" : 81,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 110,
 				"parent" : 0
 			},
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 117,
+				"line" : 77,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 81,
+				"line" : 107,
 				"parent" : 0
 			},
 			{
 				"command" : 6,
 				"file" : 0,
-				"line" : 114,
-				"parent" : 0
-			},
-			{
-				"command" : 7,
-				"file" : 0,
-				"line" : 109,
+				"line" : 102,
 				"parent" : 0
 			}
 		]
@@ -115,15 +114,15 @@
 				},
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check/include/kav/detail"
+					"path" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/detail"
 				},
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check/include"
+					"path" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include"
 				},
 				{
 					"backtrace" : 6,
-					"path" : "C:/Users/Alexander/CLionProjects/search_engine/kav_check/nlohmann_json/include"
+					"path" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/nlohmann_json/include"
 				}
 			],
 			"language" : "CXX",

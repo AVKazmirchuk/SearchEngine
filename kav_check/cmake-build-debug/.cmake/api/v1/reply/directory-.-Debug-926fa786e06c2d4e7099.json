@@ -17,37 +17,43 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 206,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 206,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 206,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 219,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 226,
+				"line" : 197,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 238,
+				"line" : 204,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 216,
 				"parent" : 0
 			}
 		]
@@ -60,7 +66,7 @@
 			"destination" : "include/../include/kav",
 			"paths" : 
 			[
-				"include/kav/logger.h"
+				"include/kav/operationFileAndJSON.h"
 			],
 			"type" : "file"
 		},
@@ -70,7 +76,7 @@
 			"destination" : "include/../include/kav/detail",
 			"paths" : 
 			[
-				"include/kav/detail/monitorSender.h"
+				"include/kav/detail/checkFileException.h"
 			],
 			"type" : "file"
 		},
@@ -80,48 +86,58 @@
 			"destination" : "include/../include/kav/detail",
 			"paths" : 
 			[
-				"include/kav/detail/types.h"
+				"include/kav/detail/errorCode.h"
 			],
 			"type" : "file"
 		},
 		{
 			"backtrace" : 4,
 			"component" : "Unspecified",
-			"destination" : "share/cmake/kav_logger",
+			"destination" : "include/../include/kav/detail",
 			"paths" : 
 			[
-				"cmake-build-debug/kav_loggerConfig.cmake",
-				"cmake-build-debug/kav_loggerConfigVersion.cmake"
+				"include/kav/detail/types.h"
 			],
 			"type" : "file"
 		},
 		{
 			"backtrace" : 5,
 			"component" : "Unspecified",
-			"destination" : "lib",
+			"destination" : "share/cmake/kav_check",
 			"paths" : 
 			[
-				"libkav_loggerd.a"
+				"cmake-build-debug/kav_checkConfig.cmake",
+				"cmake-build-debug/kav_checkConfigVersion.cmake"
 			],
-			"targetId" : "kav_logger::@6890427a1f51a3e7e1df",
-			"targetIndex" : 1,
-			"type" : "target"
+			"type" : "file"
 		},
 		{
 			"backtrace" : 6,
 			"component" : "Unspecified",
-			"destination" : "share/cmake/kav_logger",
-			"exportName" : "kav_loggerTargets",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"libkav_checkd.a"
+			],
+			"targetId" : "kav_check::@6890427a1f51a3e7e1df",
+			"targetIndex" : 0,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 7,
+			"component" : "Unspecified",
+			"destination" : "share/cmake/kav_check",
+			"exportName" : "kav_checkTargets",
 			"exportTargets" : 
 			[
 				{
-					"id" : "kav_logger::@6890427a1f51a3e7e1df",
-					"index" : 1
+					"id" : "kav_check::@6890427a1f51a3e7e1df",
+					"index" : 0
 				}
 			],
 			"paths" : 
 			[
-				"CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets.cmake"
+				"CMakeFiles/Export/share/cmake/kav_check/kav_checkTargets.cmake"
 			],
 			"type" : "export"
 		}

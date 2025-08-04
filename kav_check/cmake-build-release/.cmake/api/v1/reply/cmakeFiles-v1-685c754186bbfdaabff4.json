@@ -175,59 +175,13 @@
 		},
 		{
 			"path" : "nlohmann_json/cmake/config.cmake.in"
-		},
-		{
-			"path" : "kav_check/CMakeLists.txt"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/ExternalProject.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindBoost.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageMessage.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in"
-		},
-		{
-			"path" : "kav_check/cmake/config.cmake.in"
-		},
-		{
-			"isCMake" : true,
-			"isExternal" : true,
-			"path" : "C:/Program Files/JetBrains/CLion 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release",
-		"source" : "C:/Users/Alexander/CLionProjects/search_engine/kav_logger"
+		"build" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release",
+		"source" : "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check"
 	},
 	"version" : 
 	{

@@ -17,25 +17,31 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 191,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 191,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 191,
+				"line" : 184,
 				"parent" : 0
 			},
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 191,
+				"line" : 184,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 197,
 				"parent" : 0
 			},
 			{
@@ -47,13 +53,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 211,
-				"parent" : 0
-			},
-			{
-				"command" : 0,
-				"file" : 0,
-				"line" : 223,
+				"line" : 216,
 				"parent" : 0
 			}
 		]
@@ -106,8 +106,8 @@
 			"destination" : "share/cmake/kav_check",
 			"paths" : 
 			[
-				"cmake-build-debug/kav_checkConfig.cmake",
-				"cmake-build-debug/kav_checkConfigVersion.cmake"
+				"cmake-build-release/kav_checkConfig.cmake",
+				"cmake-build-release/kav_checkConfigVersion.cmake"
 			],
 			"type" : "file"
 		},
@@ -117,7 +117,7 @@
 			"destination" : "lib",
 			"paths" : 
 			[
-				"libkav_checkd.a"
+				"libkav_check.a"
 			],
 			"targetId" : "kav_check::@6890427a1f51a3e7e1df",
 			"targetIndex" : 0,

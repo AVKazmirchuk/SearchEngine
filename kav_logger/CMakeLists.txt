@@ -55,47 +55,36 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # Установить уровни предупреждений для разных компиляторов
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-    target_compile_options( kav_logger PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
+    target_compile_options( ${PROJECT_NAME} PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    target_compile_options( kav_logger PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
+    target_compile_options( ${PROJECT_NAME} PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
 endif()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    target_compile_options( kav_logger PRIVATE /W4 /w44265 /w44061 /w44062 )
+    target_compile_options( ${PROJECT_NAME} PRIVATE /W4 /w44265 /w44061 /w44062 )
 endif()
 
 
 
 #find_package(nlohmann_json REQUIRED)
-#set(JSON_BuildTests OFF CACHE INTERNAL "")
-#arget_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-
 if (NOT TARGET nlohmann_json)
-
-add_subdirectory(nlohmann_json)
+    add_subdirectory(nlohmann_json)
+endif()
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(JSON_Install ON CACHE INTERNAL "")
-
-
-endif()
-target_link_libraries(kav_logger PRIVATE nlohmann_json::nlohmann_json)
-
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
-set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
-find_package(Boost COMPONENTS REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIR})
+find_package(Boost REQUIRED)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(kav_logger ${Boost_LIBRARIES})
-
-if (NOT TARGET kav_check)
-add_subdirectory(kav_check)
-set(check_Install ON CACHE INTERNAL "")
 #find_package(kav_check REQUIRED)
-#endif()
+if (NOT TARGET kav_check)
+    add_subdirectory(kav_check)
 endif()
-target_link_libraries(kav_logger PRIVATE kav_check::kav_check)
+set(check_Install ON CACHE INTERNAL "")
+target_link_libraries(${PROJECT_NAME} PRIVATE kav_check::kav_check)
+
 
 
 # Является ли текущий проект проектом верхнего уровня

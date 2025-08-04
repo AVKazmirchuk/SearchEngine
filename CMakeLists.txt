@@ -23,79 +23,52 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../runtime")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
 
+set(Application_Name "search_engine")
 set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include CACHE INTERNAL "")
+
+
 message(STATUS "SE_INCLUDE_DIR ${SE_INCLUDE_DIR}")
-#target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 
-set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
-#set(Boost_LIBRARY_DIR "C:\\boost_1_87_0\\stage\\lib")
-
-find_package(Boost REQUIRED)
-#include_directories(${Boost_INCLUDE_DIR})
-#target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIR})
-#target_link_directories(${PROJECT_NAME} Boost::)
-
-#target_link_libraries(search_engine ${Boost_LIBRARIES})
-
-
-
-#if (NOT TARGET nlohmann_json)
-
-    message(STATUS "begin nlohmann_json")
-    add_subdirectory(nlohmann_json)
-    set(JSON_BuildTests OFF CACHE INTERNAL "")
-    message(STATUS "end nlohmann_json")
-#    target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
-
-#endif()
 
 #find_package(nlohmann_json REQUIRED)
-#set(JSON_BuildTests OFF CACHE INTERNAL "")
-#target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+if (NOT TARGET nlohmann_json)
+    add_subdirectory(nlohmann_json)
+endif()
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+set(JSON_Install ON CACHE INTERNAL "")
+#target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
+set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
+find_package(Boost REQUIRED)
+#target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
-
-
-
-
-#if (NOT TARGET kav_check)
-#message(STATUS "begin kav_check")
-add_subdirectory(kav_check)
-#message(STATUS "end kav_check")
-#set(check_Install ON CACHE INTERNAL "")
-#list(APPEND CMAKE_PREFIX_PATH "C:/kav_check/install")
-#message(STATUS ${CMAKE_PREFIX_PATH})
 #find_package(kav_check REQUIRED)
-#target_link_libraries(search_engine PRIVATE kav_check::kav_check)
-#endif()
+if (NOT TARGET kav_check)
+    add_subdirectory(kav_check)
+endif()
+set(check_Install ON CACHE INTERNAL "")
+#target_link_libraries(${PROJECT_NAME} PRIVATE kav_check::kav_check)
 
-#if (NOT TARGET kav_logger)
-#message(STATUS "kav_check added")
-#find_package(kav_logger REQUIRED)
-#set(logger_Install ON CACHE INTERNAL "")
-#target_link_libraries(search_engine PRIVATE kav_logger::kav_logger)
-#endif()
-#message(STATUS "begin kav_logger")
-#if (NOT TARGET kav_logger)
-add_subdirectory(kav_logger)
-#endif()
-#message(STATUS "end kav_logger")
-#include(kav_logger/CMakeLists.txt)
-#set(logger_Install ON CACHE INTERNAL "")
+#find_package(kav_check REQUIRED)
+if (NOT TARGET kav_logger)
+    add_subdirectory(kav_logger)
+endif()
+set(logger_Install ON CACHE INTERNAL "")
+#target_link_libraries(${PROJECT_NAME} PRIVATE kav_logger::kav_logger)
 
-#add_subdirectory(monitor)
 
-#set(SE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
-#target_include_directories(search_engine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 #include(src/CMakeLists.txt)
 
-#target_link_libraries(search_engine PRIVATE ${Boost_LIBRARIES} PRIVATE nlohmann_json::nlohmann_json PRIVATE kav_check::kav_check PRIVATE kav_logger::kav_logger)
 add_subdirectory(src)
 
-#message(STATUS "src added")
-#add_subdirectory(tests)
+#target_include_directories(${Application_Name} PRIVATE ${Boost_INCLUDE_DIRS})
+#target_include_directories(${Application_Name} PUBLIC ${SE_INCLUDE_DIR})
+
+target_link_libraries(${Application_Name} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${Application_Name} PRIVATE kav_check::kav_check)
+target_link_libraries(${Application_Name} PRIVATE kav_logger::kav_logger)
 
 #target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 #target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

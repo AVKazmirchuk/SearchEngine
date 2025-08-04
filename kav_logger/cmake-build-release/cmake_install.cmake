@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Alexander/CLionProjects/search_engine/kav_logger
+# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,47 +34,47 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/nlohmann_json/cmake_install.cmake")
+  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/nlohmann_json/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/kav_check/cmake_install.cmake")
+  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_check/cmake_install.cmake")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/logger.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/logger.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail/monitorSender.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail/monitorSender.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail/types.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail/types.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger" TYPE FILE FILES
-    "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/kav_loggerConfig.cmake"
-    "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/kav_loggerConfigVersion.cmake"
+    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_loggerConfig.cmake"
+    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/kav_loggerConfigVersion.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/libkav_logger.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/libkav_logger.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger/kav_loggerTargets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger/kav_loggerTargets.cmake"
-         "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets.cmake")
+         "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger/kav_loggerTargets-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -83,9 +83,9 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/kav_logger" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/CMakeFiles/Export/share/cmake/kav_logger/kav_loggerTargets-release.cmake")
   endif()
 endif()
 
@@ -97,5 +97,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
