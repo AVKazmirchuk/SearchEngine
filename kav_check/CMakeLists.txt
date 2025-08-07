@@ -1,9 +1,10 @@
 # Установить минимальную версию cmake
-cmake_minimum_required(VERSION 3.21)#
+cmake_minimum_required(VERSION 3.21)
 
 # Задать имя для проекта, версию, название языка
-project(kav_check VERSION 1.0.0 LANGUAGES CXX)#
-message(STATUS "kav_check: ${PROJECT_NAME}")
+project(kav_check VERSION 1.0.0 LANGUAGES CXX)
+
+# TODO Непонятно работает (нестабильно в разных по-вложенности CMakeLists), можно поразбираться
 #function(add_subdirectory _dir)
 #    get_filename_component(_fullpath ${_dir} REALPATH)
 #    if (EXISTS ${_fullpath} AND EXISTS ${_fullpath}/CMakeLists.txt)
@@ -17,29 +18,32 @@ message(STATUS "kav_check: ${PROJECT_NAME}")
 #        message(WARNING "add_subdirectory: Can't find ${_fullpath}/CMakeLists.txt")
 #    endif()
 #    message(STATUS "kav_logger: path _dir: ${_fullpath}/CMakeLists.txt")
-#ndfunction(add_subdirectory _dir)
+#endfunction(add_subdirectory _dir)
 
-set(MAIN_PROJECT OFF)
-if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    set(MAIN_PROJECT ON)
-endif()
-message(STATUS "MAIN_PROJECT: ${MAIN_PROJECT}")
+#set(MAIN_PROJECT OFF)
+#if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+#    set(MAIN_PROJECT ON)
+#endif()
+#message(STATUS "MAIN_PROJECT: ${MAIN_PROJECT}")
 
+# Не совсем понял для чего это нужно
+# Установить путь поиска модулей CMake
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+# Загрузить модуль
 include(ExternalProject)
 
 # Установить стандарт C++
-set(CMAKE_CXX_STANDARD 20)#
+set(CMAKE_CXX_STANDARD 20)
 # Установить требование стандарта С++
-set(CMAKE_CXX_STANDARD_REQUIRED ON)#
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Отключить расширения компилятора
-set(CMAKE_CXX_EXTENSIONS OFF)#
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Установить библиотеку как статическую
+# Установить библиотеку по умолчанию как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
-option(check_Install "Install CMake targets during install step." ${MAIN_PROJECT})
+# Разрешить инсталлирование библиотеки
+option(check_Install "Install CMake targets during install step." ${PROJECT_IS_TOP_LEVEL})
 
-#if (NOT TARGET kav_check)
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
     # Добавить в проект библиотеку как разделяемую
@@ -51,23 +55,20 @@ endif()
 
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-#endif()
 
 # Установить уровни предупреждений для разных компиляторов
-if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU" )
-    target_compile_options( ${PROJECT_NAME} PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
+# Насколько оправданы эти установки здесь - не знаю
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU")
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
 endif()
-if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
-    target_compile_options( ${PROJECT_NAME} PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn )
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wweak-vtables -Wexit-time-destructors -Wglobal-constructors -Wmissing-noreturn)
 endif()
-if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-    target_compile_options( ${PROJECT_NAME} PRIVATE /W4 /w44265 /w44061 /w44062 )
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /w44265 /w44061 /w44062)
 endif()
 
-
-
-
-
+# В зависимости от добавления библиотеки в проект, закомментировать-раскомментировать if-endif и find_package
 #find_package(nlohmann_json REQUIRED)
 if (NOT TARGET nlohmann_json)
     add_subdirectory(nlohmann_json)
@@ -80,31 +81,24 @@ set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
 find_package(Boost REQUIRED)
 target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
-
-
-# Является ли текущий проект проектом верхнего уровня
-if (NOT ${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
-    message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
-else()
-    message(STATUS "This project is a top-level one")
-endif()
-
+# Здесь не нужно. Пока оставляю
 # Является ли текущий проект проектом верхнего уровня
 if (PROJECT_IS_TOP_LEVEL)
-    message(STATUS "This project is a top-level one")
+    message(STATUS "This project (${PROJECT_NAME}) is a top-level one")
 else()
-    message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
+    message(STATUS "This project (${PROJECT_NAME}) has a top-level one called [${CMAKE_PROJECT_NAME}]")
 endif()
-
-message(STATUS "!!!${PROJECT_NAME}, ${CMAKE_PROJECT_NAME}")
 
 # Добавить только исходные тексты
 target_sources(${PROJECT_NAME}
         PRIVATE
-        src/checkFile.cpp src/operationFileAndJSON.cpp
-        )
+        src/checkFile.cpp
+        src/operationFileAndJSON.cpp
+)
+
+# Имеет ли смысл указывать это - не знаю
 # Добавить в цель ожидаемые функции компилятора
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)#
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
 # Добавить включаемые каталоги в целевую папку
 target_include_directories(${PROJECT_NAME}
@@ -116,9 +110,9 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         # где внешние проекты будут искать общедоступные заголовки библиотеки
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-        )
+)
 
-#message(STATUS ${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
+# Пока закомментировано. Можно указать при установки библиотеки
 # Изменить путь установки по умолчанию
 #if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 #    message(
@@ -139,69 +133,83 @@ target_include_directories(${PROJECT_NAME}
 #    )
 #endif()
 
-#message(${PROJECT_SOURCE_DIR})
-#message(${CMAKE_CURRENT_SOURCE_DIR})
-#message(${CMAKE_INSTALL_INCLUDEDIR})
-#message(${PROJECT_NAME})
+###8
+# Установить файл pkg-config, чтобы другие инструменты могли найти
+# Скопировать файл с выполнением преобразований содержимого файла
+CONFIGURE_FILE(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkg-config.pc.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+)
 
 # Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
 # и использования пакета
-include(CMakePackageConfigHelpers)#
+include(CMakePackageConfigHelpers)
 
-###5 Создать файл версии для проекта
+###5
+# Создать файл версии для проекта
 write_basic_package_version_file(
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         VERSION "${PROJECT_VERSION}"
         COMPATIBILITY AnyNewerVersion
 ) # another function is used: configure_file
-###4 Создать файл конфигурации для проекта
+
+###4
+# Создать файл конфигурации для проекта
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         INSTALL_DESTINATION cmake
-        ) # another function is used: configure_file
+) # another function is used: configure_file
 
 if(check_Install)
 
     # Определить переменные каталога установки
-    include(GNUInstallDirs)#
+    include(GNUInstallDirs)
 
-# Прописать заголовки
-set(public_headers
-        include/kav/operationFileAndJSON.h
-        include/kav/detail/checkFileException.h
-        include/kav/detail/errorCode.h
-        include/kav/detail/types.h
-        )
+    # Прописать заголовки
+    set(public_headers
+            include/kav/operationFileAndJSON.h
+            include/kav/detail/checkFileException.h
+            include/kav/detail/errorCode.h
+            include/kav/detail/types.h
+    )
 
-###6 вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
-# set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
-# поэтому вместо этого мы перебираем общедоступные заголовки и устанавливаем их "вручную".
-foreach(header ${public_headers})
-    message(${CMAKE_CURRENT_SOURCE_DIR})
-    message(${header})
-   file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
-   get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
-   install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
-endforeach() # another function is usedF
+    ###6
+    # Вариант со свойством PUBLIC_HEADER, к сожалению, не сохраняет структуру папок
+    # set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${public_headers}")
+    # поэтому вместо этого мы перебираем общедоступные заголовки и устанавливаем их "вручную".
+    # Или использовать это (надо проверить):
+    # Просто копирует каталог
+    #install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    foreach(header ${public_headers})
+        file(RELATIVE_PATH header_file_path "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}/${header}")
+        get_filename_component(header_directory_path "${header_file_path}" DIRECTORY)
+        install(FILES ${header} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${header_directory_path}")
+    endforeach() # another function is used
 
-# Определить отладочный суффикс
-set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
+    # Определить отладочный суффикс
+    set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
-# Просто копирует каталог
-#install(
-#        DIRECTORY ${PROJECT_SOURCE_DIR}/include
-#        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-#)
-
-    ###3 Установить конфигурационные файлы
+    ###3
+    # Установить конфигурационные файлы
     install(FILES
             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-            DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
-            )
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME} # ...cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
+    )
 
-###1 Установить цель и связанные с ней файлы, создать экспортный набор
-install(TARGETS ${PROJECT_NAME}
+    ###7
+    #Экспортировать цели или пакеты для внешних проектов, чтобы использовать их непосредственно в дереве сборки текущего
+    # проекта без установки. Создать файл, который может быть включён во внешние проекты для импорта целей из дерева сборки
+    # текущего проекта.
+    export(TARGETS
+            ${PROJECT_NAME}
+            NAMESPACE ${PROJECT_NAME}::
+            FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+    )
+
+    ###1
+    # Установить цель и связанные с ней файлы, создать экспортный набор
+    install(TARGETS ${PROJECT_NAME}
         EXPORT "${PROJECT_NAME}Targets"
         # они получают значения по умолчанию из GNUInstallDirs, устанавливать их не нужно
         #RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} # bin
@@ -210,31 +218,33 @@ install(TARGETS ${PROJECT_NAME}
         # за исключением общедоступных заголовков, поскольку мы хотим, чтобы они находились внутри папки библиотеки
         #PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} # not in nlohmann
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-        )
+    )
 
-###2 Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
-install(EXPORT "${PROJECT_NAME}Targets"
+    ###2
+    # Сгенерировать и установить файл CMake, экспортирующий цели для зависимых проектов
+    install(EXPORT "${PROJECT_NAME}Targets"
         #FILE "${PROJECT_NAME}Targets.cmake" # not in nlohmann
         # пространство имён библиотеки
         NAMESPACE ${PROJECT_NAME}::
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}#cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
-        )#
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME} # ...cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
+    )
+
+    ###9
+    # Установить файлы для проекта (предназначено для установки программ, которые не являются целевыми)
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/pkgconfig
+    )
 
 
-
-
-
-# Создать цели экспорта для дерева сборки
-# (не понятно для чего это нужно, но это вызывает проблемы,
-# поэтому пока закомментировано)
-#
-# Экспортировать цели или пакеты для внешних проектов, чтобы использовать их непосредственно в дереве сборки текущего
-# проекта без установки. Создать файл, который может быть включён во внешние проекты для импорта целей из дерева сборки
-# текущего проекта
- export(EXPORT "${PROJECT_NAME}Targets"
-     FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
-     NAMESPACE ${PROJECT_NAME}::
- )
+    # Якобы это может вызывать проблемы. Я не заметил. Но пока закомментировал
+    # Экспортировать цели или пакеты для внешних проектов, чтобы использовать их непосредственно в дереве сборки текущего
+    # проекта без установки. Создать файл, который может быть включён во внешние проекты для импорта целей из дерева сборки
+    # текущего проекта. Это то же самое, что и сигнатура export(TARGETS), за исключением того, что цели не перечисляются явно
+    #export(EXPORT "${PROJECT_NAME}Targets"
+    #        FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
+    #        NAMESPACE ${PROJECT_NAME}::
+    #)
 
 endif()
 
