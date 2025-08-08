@@ -20,12 +20,6 @@ project(kav_check VERSION 1.0.0 LANGUAGES CXX)
 #    message(STATUS "kav_logger: path _dir: ${_fullpath}/CMakeLists.txt")
 #endfunction(add_subdirectory _dir)
 
-#set(MAIN_PROJECT OFF)
-#if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-#    set(MAIN_PROJECT ON)
-#endif()
-#message(STATUS "MAIN_PROJECT: ${MAIN_PROJECT}")
-
 # Не совсем понял для чего это нужно
 # Установить путь поиска модулей CMake
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
@@ -41,8 +35,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Установить библиотеку по умолчанию как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
-# Разрешить инсталлирование библиотеки
+# Разрешить инсталлирование библиотеки, если проект является проектом верхнего уровня
 option(check_Install "Install CMake targets during install step." ${PROJECT_IS_TOP_LEVEL})
+# Разрешить собрать тесты, если проект является проектом верхнего уровня
+option(check_BuildTests "Build the unit tests when BUILD_TESTING is enabled." ${PROJECT_IS_TOP_LEVEL})
 
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
@@ -56,8 +52,8 @@ endif()
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# Установить уровни предупреждений для разных компиляторов
 # Насколько оправданы эти установки здесь - не знаю
+# Установить уровни предупреждений для разных компиляторов
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU")
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wunreachable-code -Wpedantic)
 endif()
@@ -107,12 +103,12 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/include/kav/detail
         PUBLIC
         # где проект верхнего уровня будет искать общедоступные заголовки библиотеки
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         # где внешние проекты будут искать общедоступные заголовки библиотеки
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-# Пока закомментировано. Можно указать при установки библиотеки
+# Пока закомментировано. Можно указать при установки библиотеки вручную
 # Изменить путь установки по умолчанию
 #if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 #    message(
@@ -141,6 +137,13 @@ CONFIGURE_FILE(
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
 )
 
+
+if (check_BuildTests)
+#    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
 # Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
 # и использования пакета
 include(CMakePackageConfigHelpers)
@@ -159,6 +162,8 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         INSTALL_DESTINATION cmake
 ) # another function is used: configure_file
+
+
 
 if(check_Install)
 

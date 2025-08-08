@@ -1,0 +1,11 @@
+# ninja log v5
+2	27	0	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/CMakeFiles/cmake.verify_globs	fa7c9c2ccfc1d1f2
+47	1339	7763539065150897	_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	c2c7479facf6bdc7
+29	119	7763543558484776	lib/libgtest_maind.a	5d3426862d028d39
+18	1013	7763575021976751	tests/CMakeFiles/kav_check_test.dir/test.cpp.obj	cf8c9c50618876c7
+24	2247	7763542379105836	lib/libgtestd.a	f76fcfd476a1dda8
+34	5463	7763539106237418	_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	a4b15bac348bdb6a
+1	27	0	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/CMakeFiles/cmake.verify_globs	fa7c9c2ccfc1d1f2
+9	1204	7763579653779889	tests/CMakeFiles/kav_check_test.dir/test.cpp.obj	f4e73a8fc71fd3f0
+15	1993	7763579661659590	tests/CMakeFiles/kav_check_test.dir/__/src/checkFile.cpp.obj	cd2147ba1e68451b
+25	3189	7763579673548269	tests/CMakeFiles/kav_check_test.dir/__/src/operationFileAndJSON.cpp.obj	2805e2f5888b9190

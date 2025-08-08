@@ -1,0 +1,21 @@
+# ninja log v5
+1848	1931	7763537275030456	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	cec7106b1c2f7f66
+2079	2146	7763537277184289	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	914d782557ad6c5c
+0	215	7763536573096360	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	52b17b9220d911d5
+1931	2011	7763537275835230	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	1983813cbd50fa05
+0	215	7763536573096360	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	52b17b9220d911d5
+1	1847	7763537274167793	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	af1df45f6c67c642
+2011	2078	7763537276515214	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	dd746d5e93b07238
+1931	2011	7763537275835230	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	1983813cbd50fa05
+1	1847	7763537274167793	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	af1df45f6c67c642
+1848	1931	7763537275030456	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	cec7106b1c2f7f66
+2011	2078	7763537276515214	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	dd746d5e93b07238
+2271	2363	7763537279357512	CMakeFiles/googletest-populate-complete	9ed9500f702cf565
+2079	2146	7763537277184289	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	914d782557ad6c5c
+2146	2212	7763537277843269	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	6ec229399ba084e9
+2146	2212	7763537277843269	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	6ec229399ba084e9
+2212	2271	7763537278443265	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	ce89cf67a66f9fd3
+2212	2271	7763537278443265	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	ce89cf67a66f9fd3
+2271	2363	7763537279357512	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	9ed9500f702cf565
+2271	2363	7763537279357512	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	9ed9500f702cf565
+2271	2363	7763537279357512	C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	9ed9500f702cf565
