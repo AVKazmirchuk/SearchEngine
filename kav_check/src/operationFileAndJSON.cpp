@@ -18,7 +18,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
     std::cout << "writeJSONFile: " << callingFunction.function_name() << std::endl;
 
     //Создать объект для записи
-    std::ofstream outFile{filePath};
+    std::ofstream outFile(filePath);
 
     ErrorCode errorCode{ErrorCode::no_error};
 

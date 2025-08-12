@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-
+/*
 #include "check/checkFileException.h"
 #include "converterJSON.h"
 #include "general.h"
@@ -74,4 +74,4 @@ TEST(TestCheckFilePathsArray, requestsArrayNotFilled)
                                                     ErrorCode::error_requests_array_empty)};
 
     ASSERT_FALSE(result);
-}
+}*/

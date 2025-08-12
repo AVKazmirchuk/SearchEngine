@@ -2,14 +2,39 @@
 // Created by Alexander on 27.03.2025.
 //
 
-#include "general.h"
+//#include "general.h"
 #include "testGeneral.h"
 
 
 
 namespace testConstants {
 
-    const JSON configWrongTemplate = JSON::parse(R"(
+    const kav::JSON configTemplate = kav::JSON::parse(R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1",
+        "max_responses": 5
+      },
+     "files": [
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
+     ]
+    }
+    )");
+
+    const kav::JSON requestsTemplate = kav::JSON::parse(R"(
+    {
+      "requests": [
+        "of the and water is year",
+        "water another good see",
+        "music"
+      ]
+    }
+    )");
+
+    const kav::JSON configWrongTemplate = kav::JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -22,7 +47,7 @@ namespace testConstants {
     }
     )");
 
-    const JSON requestsWrongTemplate = JSON::parse(R"(
+    const kav::JSON requestsWrongTemplate = kav::JSON::parse(R"(
     {
       "requests": [
 
@@ -30,7 +55,7 @@ namespace testConstants {
     }
     )");
 
-    const JSON configWrongArray = JSON::parse(R"(
+    const kav::JSON configWrongArray = kav::JSON::parse(R"(
     {
         "config": {
         "name": "SkillboxSearchEngine",
@@ -58,7 +83,7 @@ namespace testConstants {
                     }
             };
 
-    const JSON answersTest = JSON::parse(R"(
+    const kav::JSON answersTest = kav::JSON::parse(R"(
     {
         "answers": {
             "request001": {
@@ -117,4 +142,18 @@ void deleteFiles()
 {
     std::filesystem::remove("configNotValid.json");
     std::filesystem::remove("configNotMatch.json");
+}
+
+namespace constants
+{
+
+    const std::string configFilePath{"config.json"};
+    const std::string requestsFilePath{"requests.json"};
+    const std::string answersFilePath{"answers.json"};
+    const std::string configLoggerFilePath{"logger.json"};
+    const std::string configWriterMessageFilePath{"messageQueue.json"};
+
+    const int precision{6};
+    const int formatByWidth{2};
+
 }
