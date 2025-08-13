@@ -13,6 +13,8 @@ namespace testConstants
 {
     extern const kav::JSON configTemplate;
 
+    extern const kav::JSON configNotMatchTemplate;
+
     extern const kav::JSON requestsTemplate;
 
     extern const kav::JSON configWrongTemplate;
@@ -56,6 +58,10 @@ namespace constants
     extern const std::string requestsFilePath;
     //Путь файла ответов
     extern const std::string answersFilePath;
+
+    extern const std::string configNotValid;
+
+    extern const std::string fileText;
 
     //Путь файла конфигурации логирования
     extern const std::string configLoggerFilePath;

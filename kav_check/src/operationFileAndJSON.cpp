@@ -22,8 +22,9 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
 
     ErrorCode errorCode{ErrorCode::no_error};
 
-    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
-    else if (!outFile.is_open()) errorCode = ErrorCode::error_file_not_open_write;
+    //if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    //else
+    if (!outFile.is_open()) errorCode = ErrorCode::error_file_not_open_write;
 
     if (errorCode == ErrorCode::no_error)
     {

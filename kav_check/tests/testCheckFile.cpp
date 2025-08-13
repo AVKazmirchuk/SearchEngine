@@ -1,5 +1,7 @@
 #include <filesystem>
 
+#include "windows.h"
+
 #include "gtest/gtest.h"
 
 //#include "kav/operationFileAndJSON.h"
@@ -49,34 +51,60 @@
     }
 }*/
 
-//Запустить проверку на запись JSON-файла (файл отсутствует)
-//kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth, const boost::source_location &callingFunction)
-/*TEST(TestCheckFile, fileNotExist)
+//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует - не блокируется)
+TEST(TestWriteJSONFile, fileNotExist)
 {
     putFiles();
 
-    std::filesystem::remove(constants::configFilePath);
+    //std::filesystem::remove(constants::configFilePath);
 
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
 
     bool result{};
 
-    if (errorCode == kav::ErrorCode::error_file_missing)
-    {
-        result = false;
-    }
-    else
+    if (errorCode == kav::ErrorCode::no_error)
     {
         result = true;
     }
 
-    deleteFiles();
+    //deleteFiles();
 
-    ASSERT_FALSE(result);
-}*/
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует - не блокируется)
+TEST(TestWriteJSONFile, fileNotOpen)
+{
+    putFiles();
+
+    //Создать объект для записи
+    HANDLE hFile=CreateFile(constants::configFilePath.c_str(), // file to open
+                            GENERIC_READ, // open for writing
+                            0x00000000, // share for writing
+                            NULL, // default security
+                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                            FILE_ATTRIBUTE_NORMAL, // normal file
+                            NULL // no attr. template
+    );
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
+
+    CloseHandle(hFile);
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_not_open_write)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
 
 //Запустить проверку на чтение JSON-файла (файл присутствует, открыт для чтения)
-TEST(TestCheckFile, fileExist)
+TEST(TestReadJSONFile, fileExist)
 {
     putFiles();
 
@@ -89,12 +117,12 @@ TEST(TestCheckFile, fileExist)
         result = true;
     }
 
-    deleteFiles();
+    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
 //Запустить проверку на чтение JSON-файла (файл отсутствует)
-TEST(TestCheckFile, fileNotExist)
+TEST(TestReadJSONFile, fileNotExist)
 {
     putFiles();
 
@@ -109,20 +137,29 @@ TEST(TestCheckFile, fileNotExist)
         result = true;
     }
 
-    deleteFiles();
+    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на чтение JSON-файла (файл не открыт для чтения)
-TEST(TestCheckFile, fileNotOpen)
+//Запустить проверку на чтение JSON-файла (файл не открыт)
+TEST(TestReadJSONFile, fileNotOpen)
 {
-    //putFiles();
+    putFiles();
 
     //Создать объект для записи
-    //std::ofstream outFile(constants::configFilePath, std::ios::app);
+    HANDLE hFile=CreateFile(constants::configFilePath.c_str(), // file to open
+                     GENERIC_WRITE, // open for writing
+                     FILE_SHARE_WRITE, // share for writing
+                     NULL, // default security
+                     OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                     FILE_ATTRIBUTE_NORMAL, // normal file
+                     NULL // no attr. template
+                     );
 
     kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readJSONFile(constants::configFilePath)).second};
+
+    CloseHandle(hFile);
 
     bool result{};
 
@@ -131,7 +168,135 @@ TEST(TestCheckFile, fileNotOpen)
         result = true;
     }
 
-    deleteFiles();
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение JSON-файла (повреждённая JSON-структура)
+TEST(TestReadJSONFile, fileJSONStructureNotValid)
+{
+    putFiles();
+
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readJSONFile(constants::configNotValid)).second};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_json_structure_corrupted)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение текстового файла (файл присутствует, открыт для чтения)
+TEST(TestReadTextFile, fileExist)
+{
+    putFiles();
+
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(constants::fileText)).second};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::no_error)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение текстового файла (файл отсутствует)
+TEST(TestReadTextFile, fileNotExist)
+{
+    putFiles();
+
+    std::filesystem::remove(constants::fileText);
+
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(constants::fileText)).second};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_missing)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение текстового файла (файл не открыт)
+TEST(TestReadTextFile, fileNotOpen)
+{
+    putFiles();
+
+    //Создать объект для записи
+    HANDLE hFile=CreateFile(constants::fileText.c_str(), // file to open
+                            GENERIC_WRITE, // open for writing
+                            FILE_SHARE_WRITE, // share for writing
+                            NULL, // default security
+                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                            FILE_ATTRIBUTE_NORMAL, // normal file
+                            NULL // no attr. template
+    );
+
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(constants::fileText)).second};
+
+    CloseHandle(hFile);
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_not_open_read)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку JSON-структуры на соответствие шаблону (файл соответствует)
+TEST(TestCheckJSONStructureMatch, JSONStructureMatch)
+{
+    putFiles();
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(constants::configFilePath, testConstants::configTemplate, testConstants::configTemplate)};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::no_error)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку JSON-структуры на соответствие шаблону (файл не соответствует)
+TEST(TestCheckJSONStructureMatch, JSONStructureNotMatch)
+{
+    putFiles();
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(constants::configFilePath, testConstants::configNotMatchTemplate, testConstants::configTemplate)};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_json_structure_not_match)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
 
     ASSERT_TRUE(result);
 }

@@ -24,6 +24,20 @@ namespace testConstants {
     }
     )");
 
+    const kav::JSON configNotMatchTemplate = kav::JSON::parse(R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1"
+      },
+     "files": [
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
+     ]
+    }
+    )");
+
     const kav::JSON requestsTemplate = kav::JSON::parse(R"(
     {
       "requests": [
@@ -122,6 +136,7 @@ void putFiles()
     std::filesystem::remove("config.json");
     std::filesystem::remove("configNotValid.json");
     std::filesystem::remove("configNotMatch.json");
+    std::filesystem::remove("file001.txt");
     std::filesystem::remove("requests.json");
     std::filesystem::remove("answers.json");
 
@@ -132,6 +147,7 @@ void putFiles()
     std::filesystem::copy("../../tests/resources/config.json", "config.json");
     std::filesystem::copy("../../tests/resources/configNotValid.json", "configNotValid.json");
     std::filesystem::copy("../../tests/resources/configNotMatch.json", "configNotMatch.json");
+    std::filesystem::copy("../../tests/resources/file001.txt", "file001.txt");
     std::filesystem::copy("../../tests/resources/requests.json", "requests.json");
     std::filesystem::copy("../../tests/resources/answers.json", "answers.json");
 
@@ -150,6 +166,8 @@ namespace constants
     const std::string configFilePath{"config.json"};
     const std::string requestsFilePath{"requests.json"};
     const std::string answersFilePath{"answers.json"};
+    const std::string configNotValid{"configNotValid.json"};
+    const std::string fileText{"file001.txt"};
     const std::string configLoggerFilePath{"logger.json"};
     const std::string configWriterMessageFilePath{"messageQueue.json"};
 

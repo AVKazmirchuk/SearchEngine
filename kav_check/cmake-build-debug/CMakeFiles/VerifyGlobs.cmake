@@ -38,6 +38,7 @@ set(OLD_GLOB
   "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/config.json"
   "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/configNotMatch.json"
   "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/configNotValid.json"
+  "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/file001.txt"
   "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/requests.json"
   "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/resources"
   "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests/resources/resources/file001.txt"
