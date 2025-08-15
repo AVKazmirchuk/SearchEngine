@@ -51,7 +51,7 @@
     }
 }*/
 
-//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует - не блокируется)
+//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует, не блокируется)
 TEST(TestWriteJSONFile, fileNotExist)
 {
     putFiles();
@@ -72,15 +72,15 @@ TEST(TestWriteJSONFile, fileNotExist)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует - не блокируется)
+//Запустить проверку на запись JSON-файла (файл блокируется)
 TEST(TestWriteJSONFile, fileNotOpen)
 {
     putFiles();
 
     //Создать объект для записи
     HANDLE hFile=CreateFile(constants::configFilePath.c_str(), // file to open
-                            GENERIC_READ, // open for writing
-                            0x00000000, // share for writing
+                            GENERIC_READ, // open for
+                            0x00000000, // share for
                             NULL, // default security
                             OPEN_ALWAYS, // OPEN_EXISTING // existing file only
                             FILE_ATTRIBUTE_NORMAL, // normal file

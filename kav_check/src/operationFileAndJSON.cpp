@@ -8,6 +8,8 @@
 #include <iostream>
 #include <filesystem>
 
+#include "windows.h"
+
 #include "kav/operationFileAndJSON.h"
 
 
@@ -30,6 +32,8 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
     {
         //Записать JSON-объект в файл
         outFile << std::setw(formatByWidth) << objectJSON;
+
+        if (outFile.bad()) errorCode = ErrorCode::error_file_not_write;
     }
 
     return errorCode;
@@ -48,8 +52,26 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
 
     if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
     else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
-        //else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
-    else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+    //    //else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
+
+
+
+    //inFile.close();
+    //Создать объект для записи
+    /*HANDLE hFile=CreateFile(filePath.c_str(), // file to open
+                            GENERIC_READ, // open for
+                            0x00000000, // share for
+                            NULL, // default security
+                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                            FILE_ATTRIBUTE_NORMAL, // normal file
+                            NULL // no attr. template
+    );*/
+    if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+
+
+
+    //else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+    //else if (inFile.fail()) errorCode = ErrorCode::error_file_not_read;
 
     return {objectJSON, errorCode};
 }
