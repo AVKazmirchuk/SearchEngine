@@ -8,8 +8,6 @@
 #include <iostream>
 #include <filesystem>
 
-#include "windows.h"
-
 #include "kav/operationFileAndJSON.h"
 
 
@@ -30,10 +28,16 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
 
     if (errorCode == ErrorCode::no_error)
     {
+        system("disconnectDisk.bat");
+
         //Записать JSON-объект в файл
         outFile << std::setw(formatByWidth) << objectJSON;
 
-        if (outFile.bad()) errorCode = ErrorCode::error_file_not_write;
+        outFile.close();
+
+        if (outFile.fail()) errorCode = ErrorCode::error_file_not_write;
+
+        std::cout << '\n' << "outFile: " << outFile.good() << " " << outFile.bad() << " " << outFile.fail() << " " << outFile.rdstate() << '\n';
     }
 
     return errorCode;
@@ -54,21 +58,44 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
     else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
     //    //else if (!CheckJSON::isJSONStructureValid(inFile)) errorCode = ErrorCode::error_json_structure_corrupted;
 
+    //if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+
+    //Прочитать файл документа и вернуть документ
+    if (errorCode == ErrorCode::no_error)
+    {
+        system("disconnectDisk.bat");
 
 
-    //inFile.close();
-    //Создать объект для записи
-    /*HANDLE hFile=CreateFile(filePath.c_str(), // file to open
-                            GENERIC_READ, // open for
-                            0x00000000, // share for
-                            NULL, // default security
-                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
-                            FILE_ATTRIBUTE_NORMAL, // normal file
-                            NULL // no attr. template
-    );*/
-    if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+        /*int i{};
+        for (std::string word; inFile >> word; ++i)
+        {
+            tmp += word;
+            if (i == 9)
+            {
+                //system("disconnectDisk.bat");
+                //break;
+            }
+        }*/
+        try
+        {
 
+            objectJSON = JSON::parse(inFile, nullptr, false);
+        }
+        catch (const std::exception& e)
+        {
+            errorCode = ErrorCode::error_file_not_read;
+            std::cout << "Exception: " << e.what() << ". " << '\n' << "inFile: " << inFile.good() << " " << inFile.bad() << " " << inFile.fail() << " " << inFile.rdstate() << '\n';
+        }
 
+        std::cout << '\n' << "inFile: " << inFile.good() << " " << inFile.bad() << " " << inFile.fail() << " " << inFile.rdstate() << '\n';
+
+        //if (!inFile.good()) errorCode = ErrorCode::error_file_not_read;
+        if (objectJSON.is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+        else
+        {
+            return {objectJSON, errorCode};
+        }
+    }
 
     //else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
     //else if (inFile.fail()) errorCode = ErrorCode::error_file_not_read;
@@ -82,14 +109,46 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     //Создать объект для чтения файла документа
     std::ifstream inFile(filePath);
 
+    std::string tmp;
+
     ErrorCode errorCode{ErrorCode::no_error};
 
     if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
     else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
 
     //Прочитать файл документа и вернуть документ
-    if (errorCode == ErrorCode::no_error) return {{(std::istreambuf_iterator<char>(inFile)), {}}, errorCode};
-    return {{}, errorCode};
+    if (errorCode == ErrorCode::no_error)
+    {
+        system("disconnectDisk.bat");
+        //std::string tmp;
+
+        /*int i{};
+        for (std::string word; inFile >> word; ++i)
+        {
+            tmp += word;
+            if (i == 9)
+            {
+                //system("disconnectDisk.bat");
+                //break;
+            }
+        }*/
+        try
+        {
+
+            tmp = {(std::istreambuf_iterator<char>(inFile)), {}};
+        }
+        catch (const std::exception& e)
+        {
+            errorCode = ErrorCode::error_file_not_read;
+            std::cout << "Exception: " << e.what() << ". " << '\n' << "inFile: " << inFile.good() << " " << inFile.bad() << " " << inFile.fail() << " " << inFile.rdstate() << '\n';
+        }
+
+        std::cout << '\n' << "inFile: " << inFile.good() << " " << inFile.bad() << " " << inFile.fail() << " " << inFile.rdstate() << '\n';
+
+        //if (inFile.fail()) errorCode = ErrorCode::error_file_not_read;
+    }
+
+    return {tmp, errorCode};
 }
 
 kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,

@@ -51,12 +51,10 @@
     }
 }*/
 
-//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует, не блокируется)
-TEST(TestWriteJSONFile, fileNotExist)
+//Запустить проверку на запись JSON-файла (файл присутствует, не блокируется)
+TEST(TestWriteJSONFile, fileExist)
 {
     putFiles();
-
-    //std::filesystem::remove(constants::configFilePath);
 
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
 
@@ -71,6 +69,27 @@ TEST(TestWriteJSONFile, fileNotExist)
 
     ASSERT_TRUE(result);
 }
+
+//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует, не блокируется)
+/*TEST(TestWriteJSONFile, fileNotExist)
+{
+    putFiles();
+
+    std::filesystem::remove(constants::configFilePath);
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_missing)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}*/
 
 //Запустить проверку на запись JSON-файла (файл блокируется)
 TEST(TestWriteJSONFile, fileNotOpen)
@@ -103,6 +122,31 @@ TEST(TestWriteJSONFile, fileNotOpen)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку на запись JSON-файла (файл не записывается)
+TEST(TestWriteJSONFile, fileNotWrite)
+{
+    putFiles();
+
+    std::filesystem::remove(constants::configFilePath);
+
+    system("connectDisk.bat");
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile("w://config.json", testConstants::configTemplate)};
+
+    if (errorCode == kav::ErrorCode::error_file_not_write) std::cout << "error_file_not_write";
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_not_write)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
 //Запустить проверку на чтение JSON-файла (файл присутствует, открыт для чтения)
 TEST(TestReadJSONFile, fileExist)
 {
@@ -121,6 +165,7 @@ TEST(TestReadJSONFile, fileExist)
 
     ASSERT_TRUE(result);
 }
+
 //Запустить проверку на чтение JSON-файла (файл отсутствует)
 TEST(TestReadJSONFile, fileNotExist)
 {
@@ -164,6 +209,30 @@ TEST(TestReadJSONFile, fileNotOpen)
     bool result{};
 
     if (errorCode == kav::ErrorCode::error_file_not_open_read)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение JSON-файла (файл не читается)
+TEST(TestReadJSONFile, fileNotRead)
+{
+    putFiles();
+
+    system("connectDisk.bat");
+
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readJSONFile("w://config.json")).second};
+
+    if (errorCode == kav::ErrorCode::error_file_not_read) std::cout << "error_file_not_read";
+
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_not_read)
     {
         result = true;
     }
@@ -254,6 +323,29 @@ TEST(TestReadTextFile, fileNotOpen)
     bool result{};
 
     if (errorCode == kav::ErrorCode::error_file_not_open_read)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение текстового файла (файл не читается)
+TEST(TestReadTextFile, fileNotRead)
+{
+    putFiles();
+
+    system("connectDisk.bat");
+
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile("w://file001.txt")).second};
+
+    if (errorCode == kav::ErrorCode::error_file_not_read) std::cout << "error_file_not_read";
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_file_not_read)
     {
         result = true;
     }
