@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/tests
+# Install script for directory: C:/Users/Alexander/CLionProjects/search_engine/kav_check/tests
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,11 +34,11 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/cmake_install.cmake")
+  include("C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/cmake_install.cmake")
 endif()
 

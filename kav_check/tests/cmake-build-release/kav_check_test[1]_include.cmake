@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/Alexander/CLionProjects/search_engine/kav_check/tests/cmake-build-release/kav_check_test[1]_tests.cmake")
+  include("C:/Users/Alexander/CLionProjects/search_engine/kav_check/tests/cmake-build-release/kav_check_test[1]_tests.cmake")
+else()
+  add_test(kav_check_test_NOT_BUILT kav_check_test_NOT_BUILT)
+endif()

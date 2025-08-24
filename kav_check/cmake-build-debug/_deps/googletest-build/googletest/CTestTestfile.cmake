@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-src/googletest
-# Build directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/_deps/googletest-build/googletest
+# Source directory: C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/_deps/googletest-src/googletest
+# Build directory: C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/_deps/googletest-build/googletest
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

@@ -1,5 +1,5 @@
-if(EXISTS "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/tests/kav_check_test[1]_tests.cmake")
-  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-debug/tests/kav_check_test[1]_tests.cmake")
+if(EXISTS "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/tests/kav_check_test[1]_tests.cmake")
+  include("C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/tests/kav_check_test[1]_tests.cmake")
 else()
   add_test(kav_check_test_NOT_BUILT kav_check_test_NOT_BUILT)
 endif()

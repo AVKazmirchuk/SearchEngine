@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-src/googletest
+# Install script for directory: C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-src/googletest
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,14 +34,14 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objdump.exe")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest/GTestTargets.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest/GTestTargets.cmake"
-         "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets.cmake")
+         "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest/GTestTargets-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -50,36 +50,36 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/CMakeFiles/Export/lib/cmake/GTest/GTestTargets-release.cmake")
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/GTest" TYPE FILE FILES
-    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/GTestConfigVersion.cmake"
-    "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/GTestConfig.cmake"
+    "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/GTestConfigVersion.cmake"
+    "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/GTestConfig.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-src/googletest/include/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-src/googletest/include/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/lib/libgtest.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/lib/libgtest.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/lib/libgtest_main.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/lib/libgtest_main.a")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/gtest.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/gtest.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/gtest_main.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-release/_deps/googletest-build/googletest/generated/gtest_main.pc")
 endif()
 

@@ -8,7 +8,6 @@
 #include "testGeneral.h"
 
 
-
 //Запустить проверку файла на существование, на неповреждённость JSON-структуры, на соответствие JSON-структуры шаблону
 /*bool testCheckFile(const std::string& filePath, const kav::JSON& templateJSON, kav::ErrorCode errorCode)
 {
