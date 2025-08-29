@@ -4,7 +4,6 @@
 
 #include "gtest/gtest.h"
 
-//#include "kav/operationFileAndJSON.h"
 #include "testGeneral.h"
 
 
@@ -50,7 +49,7 @@
     }
 }*/
 
-//Запустить проверку на запись JSON-файла (файл присутствует, не блокируется)
+//Запустить проверку на запись JSON-файла (файл присутствует или отсутствует, открыт, записывается)
 TEST(TestWriteJSONFile, fileExist)
 {
     putFiles();
@@ -90,7 +89,7 @@ TEST(TestWriteJSONFile, fileExist)
     ASSERT_TRUE(result);
 }*/
 
-//Запустить проверку на запись JSON-файла (файл блокируется)
+//Запустить проверку на запись JSON-файла (файл не открыт)
 TEST(TestWriteJSONFile, fileNotOpen)
 {
     putFiles();
@@ -105,7 +104,7 @@ TEST(TestWriteJSONFile, fileNotOpen)
                             NULL // no attr. template
     );
 
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile("config/config.json", testConstants::configTemplate)};
 
     CloseHandle(hFile);
 
@@ -146,7 +145,7 @@ TEST(TestWriteJSONFile, fileNotWrite)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на чтение JSON-файла (файл присутствует, открыт для чтения)
+//Запустить проверку на чтение JSON-файла (файл присутствует, открыт, читается, JSON-структура неповреждена)
 TEST(TestReadJSONFile, fileExist)
 {
     putFiles();
@@ -241,7 +240,7 @@ TEST(TestReadJSONFile, fileNotRead)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на чтение JSON-файла (повреждённая JSON-структура)
+//Запустить проверку на чтение JSON-файла (JSON-структура повреждена)
 TEST(TestReadJSONFile, fileJSONStructureNotValid)
 {
     putFiles();
@@ -260,7 +259,7 @@ TEST(TestReadJSONFile, fileJSONStructureNotValid)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на чтение текстового файла (файл присутствует, открыт для чтения)
+//Запустить проверку на чтение текстового файла (файл присутствует, открыт, читается)
 TEST(TestReadTextFile, fileExist)
 {
     putFiles();
