@@ -140,7 +140,7 @@ CONFIGURE_FILE(
 
 if (check_BuildTests)
 #    include(CTest)
-    enable_testing()
+#    enable_testing()
     add_subdirectory(tests)
 endif()
 
