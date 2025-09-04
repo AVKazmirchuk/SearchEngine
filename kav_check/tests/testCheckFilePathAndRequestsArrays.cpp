@@ -3,6 +3,8 @@
 //
 
 #include "gtest/gtest.h"
+
+#include "testGeneral.h"
 /*
 #include "check/checkFileException.h"
 #include "converterJSON.h"
@@ -56,22 +58,42 @@ TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
                                                     ErrorCode::error_file_paths_array_empty)};
 
     ASSERT_FALSE(result);
-}
+}*/
 
-//Проверить массив запросов на заполненность
-TEST(TestCheckFilePathsArray, requestsArrayFilled)
+//Проверить массив на заполненность
+TEST(TestCheckArray, arrayFilled)
 {
-    bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, constants::requestsTemplate,
-                                                    ErrorCode::error_requests_array_empty)};
+    putFiles();
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configTemplate["files"])};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::no_error)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
 
-//Проверить массив запросов на пустоту
-TEST(TestCheckFilePathsArray, requestsArrayNotFilled)
+//Проверить массив на пустоту
+TEST(TestCheckArray, arrayNotFilled)
 {
-    bool result{testCheckFilePathsAndRequestsArrays(constants::configTemplate, testConstants::requestsWrongTemplate,
-                                                    ErrorCode::error_requests_array_empty)};
+    putFiles();
 
-    ASSERT_FALSE(result);
-}*/
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configWrongTemplate["files"])};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_array_empty)
+    {
+        result = true;
+    }
+
+    //deleteFiles();
+
+    ASSERT_TRUE(result);
+}

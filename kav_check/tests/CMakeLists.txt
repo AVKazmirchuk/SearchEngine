@@ -52,7 +52,7 @@ file(GLOB_RECURSE CPP_CHECK_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.
 #file(GLOB CPP_GENERAL CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/general/*.cpp")
 #file(GLOB CPP_MONITOR CONFIGURE_DEPENDS "../kav_logger/src/monitorSender/*.cpp")
 
-add_executable(${Application_Name_Test} main.cpp test.cpp testCheckFile.cpp testGeneral.cpp
+add_executable(${Application_Name_Test} main.cpp test.cpp testCheckFile.cpp testGeneral.cpp testCheckFilePathAndRequestsArrays.cpp
         #${CPP_CONVERTER_JSON}
         #${CPP_INVERTED_INDEX}
         #${CPP_RELEVANT_RESPONSE}

@@ -20,8 +20,7 @@ namespace kav
         error_file_not_write,
         error_json_structure_corrupted,
         error_json_structure_not_match,
-        error_file_paths_array_empty,
-        error_requests_array_empty
+        error_array_empty
     };
 
     static const std::map<ErrorCode, std::string> descriptionErrorCode{
@@ -34,8 +33,7 @@ namespace kav
             {ErrorCode::error_file_not_write,           "This file has not been write."},
             {ErrorCode::error_json_structure_corrupted, "The structure of this file is corrupted"},
             {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one"},
-            {ErrorCode::error_file_paths_array_empty,   "The array of this file paths is empty"},
-            {ErrorCode::error_requests_array_empty,     "The query array of this file is empty"}
+            {ErrorCode::error_array_empty,              "The array is empty"}
 
     };
 

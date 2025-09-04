@@ -8,78 +8,118 @@
 
 
 
-kav::ErrorCode DispatcherDetermineValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, ErrorLevel errorLevel,
+ErrorCode DispatcherDetermineValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, ErrorLevel errorLevel,
                                                      const std::string& message, const int formatByWidth, const boost::source_location &callingFunction)
 {
 
     std::cout << "writeJSONFile: " << callingFunction.function_name() << std::endl;
 
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(filePath, objectJSON, formatByWidth, callingFunction)};
+    kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::writeJSONFile(filePath, objectJSON, formatByWidth, callingFunction)};
+
+    ErrorCode errorCode{convertErrorCodeFrom(errorCodeOriginal)};
 
     determineValidity(filePath, errorCode, errorLevel, message, callingFunction);
 
     return errorCode;
 }
 
-std::pair<JSON, kav::ErrorCode> DispatcherDetermineValidity::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<JSON, ErrorCode> DispatcherDetermineValidity::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
                                                                      const std::string& message,
                                                                      const boost::source_location &callingFunction)
 {
     std::cout << "readJSONFile: " << callingFunction.function_name() << std::endl;
 
-    std::pair<JSON, kav::ErrorCode> tmp{kav::OperationFileAndJSON::readJSONFile(filePath, callingFunction)};
+    std::pair<JSON, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readJSONFile(filePath, callingFunction)};
+
+    std::pair<JSON, ErrorCode> tmp{std::move(tmpOriginal.first), convertErrorCodeFrom(tmpOriginal.second)};
 
     determineValidity(filePath, tmp.second, errorLevel, message, callingFunction);
 
-    return {tmp.first, tmp.second};
+    return tmp;
 
 }
 
-std::pair<std::string, kav::ErrorCode> DispatcherDetermineValidity::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<std::string, ErrorCode> DispatcherDetermineValidity::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
                                                                             const std::string& message,
                                                                             const boost::source_location &callingFunction)
 {
     std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
 
-    std::pair<JSON, kav::ErrorCode> tmp{kav::OperationFileAndJSON::readTextFile(filePath, callingFunction)};
+    std::pair<std::string, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readTextFile(filePath, callingFunction)};
+
+    std::pair<std::string, ErrorCode> tmp{std::move(tmpOriginal.first), convertErrorCodeFrom(tmpOriginal.second)};
 
     determineValidity(filePath, tmp.second, errorLevel, message, callingFunction);
 
     //Прочитать файл документа и вернуть документ
-    return {tmp.first, tmp.second};
+    return tmp;
 }
 
-kav::ErrorCode DispatcherDetermineValidity::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+ErrorCode DispatcherDetermineValidity::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                                                                ErrorLevel errorLevel, const std::string& message,
                                                                const boost::source_location &callingFunction)
 {
     std::cout << "checkJSONStructureMatch: " << callingFunction.function_name() << std::endl;
 
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(filePath, objectJSON, objectJSONTemplate, callingFunction)};
+    kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkJSONStructureMatch(filePath, objectJSON, objectJSONTemplate, callingFunction)};
+
+    ErrorCode errorCode{convertErrorCodeFrom(errorCodeOriginal)};
 
     determineValidity(filePath, errorCode, errorLevel, message, callingFunction);
 
     return errorCode;
 }
 
-kav::ErrorCode DispatcherDetermineValidity::checkFilePathsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherDetermineValidity::checkFilePathsArray(JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                            const boost::source_location &callingFunction)
 {
     std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
 
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkFilePathsArray(objectJSON, callingFunction)};
+    kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON, callingFunction)};
+
+    ErrorCode errorCode{convertErrorCodeFrom(errorCodeOriginal)};
+
+    if (errorCode == ErrorCode::error_array_empty)
+    {
+        errorCode = ErrorCode::error_file_paths_array_empty;
+    }
 
     determineValidity("", errorCode, errorLevel, message, callingFunction);
+
+    if (errorCode != ErrorCode::error_file_paths_array_empty)
+    {
+        for (std::size_t idx{}; idx < objectJSON.size(); ++idx)
+        {
+            if (!std::filesystem::exists(objectJSON[idx]))
+            {
+                auto missingFile = objectJSON[idx];
+
+                objectJSON.erase(idx);
+                --idx;
+
+                errorCode = ErrorCode::error_file_missing;
+
+                determineValidity(missingFile, errorCode, ErrorLevel::error, "File " + std::string(missingFile) + " is missing!", callingFunction);
+            }
+        }
+    }
 
     return errorCode;
 }
 
-kav::ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                           const boost::source_location &callingFunction)
 {
     std::cout << "checkRequestsArray: " << callingFunction.function_name() << std::endl;
 
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkRequestsArray(objectJSON, callingFunction)};
+    kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON, callingFunction)};
+
+    ErrorCode errorCode{convertErrorCodeFrom(errorCodeOriginal)};
+
+    if (errorCode == ErrorCode::error_array_empty)
+    {
+        errorCode = ErrorCode::error_requests_array_empty;
+    }
 
     determineValidity("", errorCode, errorLevel, message, callingFunction);
 

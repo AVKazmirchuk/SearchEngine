@@ -163,25 +163,16 @@ kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const std::str
     return errorCode;
 }
 
-kav::ErrorCode kav::OperationFileAndJSON::checkFilePathsArray(const JSON& objectJSON, const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON, const boost::source_location &callingFunction)
 {
-    std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
+    std::cout << "checkArray: " << callingFunction.function_name() << std::endl;
 
     ErrorCode errorCode{ErrorCode::no_error};
 
-    if (objectJSON.empty()) errorCode = ErrorCode::error_file_paths_array_empty;
+    if (objectJSON.empty()) errorCode = ErrorCode::error_array_empty;
 
     return errorCode;
 }
 
-kav::ErrorCode kav::OperationFileAndJSON::checkRequestsArray(const JSON& objectJSON, const boost::source_location &callingFunction)
-{
-    std::cout << "checkFilePathsArray: " << callingFunction.function_name() << std::endl;
 
-    ErrorCode errorCode{ErrorCode::no_error};
-
-    if (objectJSON.empty()) errorCode = ErrorCode::error_requests_array_empty;
-
-    return errorCode;
-}
 

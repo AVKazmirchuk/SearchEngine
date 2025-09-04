@@ -79,11 +79,8 @@ namespace kav
                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
-        static ErrorCode checkFilePathsArray(const JSON &objectJSON,
+        static ErrorCode checkArray(const JSON &objectJSON,
                                              const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-        static ErrorCode checkRequestsArray(const JSON &objectJSON,
-                                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
         /**
          * Прочитать JSON-файл
