@@ -1,30 +1,7 @@
 "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger
--- kav_logger: kav_logger
--- MAIN_PROJECT: ON
 -- Using the multi-header code from C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include/
--- kav_check: kav_check
--- MAIN_PROJECT: OFF
--- This project has a top-level one called [kav_logger]
--- This project has a top-level one called [kav_logger]
--- !!!kav_check, kav_logger
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
-include/kav/operationFileAndJSON.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
-include/kav/detail/checkFileException.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
-include/kav/detail/errorCode.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check
-include/kav/detail/types.h
--- This project is a top-level one
--- This project is a top-level one
--- !!!kav_logger, kav_logger
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger
-include/kav/logger.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger
-include/kav/detail/monitorSender.h
-C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger
-include/kav/detail/types.h
--- OK
+-- This project (kav_check) has a top-level one called [kav_logger]
+-- This project (kav_logger) is a top-level one
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug

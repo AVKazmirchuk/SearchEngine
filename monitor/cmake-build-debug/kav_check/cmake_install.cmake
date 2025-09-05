@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Alexander/CLionProjects/search_engine/monitor/kav_check
+# Install script for directory: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/kav_check
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,6 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/objdump.exe")
 endif()
 

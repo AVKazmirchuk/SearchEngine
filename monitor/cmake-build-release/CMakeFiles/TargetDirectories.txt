@@ -1,6 +1,6 @@
-C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release/CMakeFiles/search_engine_monitor.dir
-C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release/CMakeFiles/edit_cache.dir
-C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release/CMakeFiles/rebuild_cache.dir
-C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release/kav_check/CMakeFiles/kav_check.dir
-C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release/kav_check/CMakeFiles/edit_cache.dir
-C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release/kav_check/CMakeFiles/rebuild_cache.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/CMakeFiles/search_engine_monitor.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/CMakeFiles/edit_cache.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/CMakeFiles/rebuild_cache.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/kav_check/CMakeFiles/kav_check.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/kav_check/CMakeFiles/edit_cache.dir
+C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/kav_check/CMakeFiles/rebuild_cache.dir

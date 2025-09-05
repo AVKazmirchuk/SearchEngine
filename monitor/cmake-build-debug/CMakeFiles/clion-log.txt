@@ -1,8 +1,8 @@
-"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\Alexander\CLionProjects\search_engine\monitor
--- The CXX compiler identification is GNU 15.1.0
+"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\monitor
+-- The CXX compiler identification is GNU 13.2.0
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/c++.exe - skipped
+-- Check for working CXX compiler: C:/MinGW-W64/x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1/bin/c++.exe - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Found Boost: C:\boost_1_87_0 (found version "1.87.0")  
@@ -12,4 +12,4 @@
 -- 1
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-debug
+-- Build files have been written to: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-debug
