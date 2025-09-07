@@ -10,7 +10,7 @@
 
 //#include "boost/assert/source_location.hpp"
 
-#include "kav/operationFileAndJSON.h"
+//#include "kav/operationFileAndJSON.h"
 #include "dispatcherDetermineValidity.h"
 #include "readTextFile.h"
 
@@ -32,18 +32,31 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
         futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
     }
 
+    long int errorNumber{};
+
     try
     {
         //Ожидать завершение потоков
         for (auto &future: futures)
         {
+            if (future.get().second != ErrorCode::no_error)
+            {
+                ++errorNumber;
+            }
+
             //Добавить документ
             documents.push_back(future.get().first);
+
         }
     }
     catch (const std::exception& e)
     {
         throw;
+    }
+
+    if (errorNumber == filePaths.size())
+    {
+
     }
 
     //Вернуть документы

@@ -109,7 +109,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     //Создать объект для чтения файла документа
     std::ifstream inFile(filePath);
 
-    std::string tmp;
+    std::string tmp{};
 
     ErrorCode errorCode{ErrorCode::no_error};
 

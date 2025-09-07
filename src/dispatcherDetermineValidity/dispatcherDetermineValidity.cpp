@@ -51,7 +51,6 @@ std::pair<std::string, ErrorCode> DispatcherDetermineValidity::readTextFile(cons
 
     determineValidity(filePath, tmp.second, errorLevel, message, callingFunction);
 
-    //Прочитать файл документа и вернуть документ
     return tmp;
 }
 
@@ -86,7 +85,7 @@ ErrorCode DispatcherDetermineValidity::checkFilePathsArray(JSON& objectJSON, Err
 
     determineValidity("", errorCode, errorLevel, message, callingFunction);
 
-    if (errorCode != ErrorCode::error_file_paths_array_empty)
+    /*if (errorCode != ErrorCode::error_file_paths_array_empty)
     {
         for (std::size_t idx{}; idx < objectJSON.size(); ++idx)
         {
@@ -102,7 +101,7 @@ ErrorCode DispatcherDetermineValidity::checkFilePathsArray(JSON& objectJSON, Err
                 determineValidity(missingFile, errorCode, ErrorLevel::error, "File " + std::string(missingFile) + " is missing!", callingFunction);
             }
         }
-    }
+    }*/
 
     return errorCode;
 }

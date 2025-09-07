@@ -173,7 +173,6 @@ if(check_Install)
     # Прописать заголовки
     set(public_headers
             include/kav/operationFileAndJSON.h
-            include/kav/detail/checkFileException.h
             include/kav/detail/errorCode.h
             include/kav/detail/types.h
     )
