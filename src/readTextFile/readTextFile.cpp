@@ -8,14 +8,17 @@
 #include <list>
 #include <vector>
 
-//#include "boost/assert/source_location.hpp"
-
-//#include "kav/operationFileAndJSON.h"
 #include "dispatcherDetermineValidity.h"
 #include "readTextFile.h"
 
 
-
+void ReadTextFile::checkAllFilesHaveErrors(const long int errorNumber, const std::vector<std::string>& filePaths)
+{
+    if (errorNumber == filePaths.size())
+    {
+        DispatcherDetermineValidity::checkAllFilesHaveErrors("", BOOST_CURRENT_LOCATION);
+    }
+}
 
 std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::string>& filePaths)
 {
@@ -54,10 +57,7 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
         throw;
     }
 
-    if (errorNumber == filePaths.size())
-    {
-
-    }
+    checkAllFilesHaveErrors(errorNumber, filePaths);
 
     //Вернуть документы
     return documents;

@@ -32,6 +32,10 @@ public:
      */
     static std::vector<std::string> readTextFile(const std::vector<std::string>& filePaths);
 
+private:
+
+    static void checkAllFilesHaveErrors(const long int errorNumber, const std::vector<std::string>& filePaths);
+
 };
 
 #endif //SEARCH_ENGINE_READTEXTFILE_H

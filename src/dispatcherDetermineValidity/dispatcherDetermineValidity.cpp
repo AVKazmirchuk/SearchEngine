@@ -124,3 +124,16 @@ ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON
 
     return errorCode;
 }
+
+ErrorCode DispatcherDetermineValidity::checkAllFilesHaveErrors(const std::string& message, const boost::source_location &callingFunction)
+{
+    std::cout << "checkAllFilesHaveErrors: " << callingFunction.function_name() << std::endl;
+
+    ErrorCode errorCode{ErrorCode::error_all_files_have_errors};
+
+    ErrorLevel errorLevel{ErrorLevel::info};
+
+    determineValidity("", errorCode, errorLevel, message, callingFunction);
+
+    return errorCode;
+}

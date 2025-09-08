@@ -34,7 +34,8 @@ enum class ErrorCode
     error_json_structure_not_match,
     error_array_empty,
     error_file_paths_array_empty,
-    error_requests_array_empty
+    error_requests_array_empty,
+    error_all_files_have_errors
 };
 
 static const std::map<ErrorCode, std::string> descriptionErrorCode{
@@ -49,7 +50,8 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
         {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one:"},
         {ErrorCode::error_array_empty,              "The array is empty"},
         {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty:"},
-        {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt:"}
+        {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt:"},
+        {ErrorCode::error_all_files_have_errors,    "All files have errors"}
 
 };
 
@@ -138,6 +140,8 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    static ErrorCode checkAllFilesHaveErrors(const std::string& message = "", const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
 private:
 
     static const ErrorCode convertErrorCodeFrom(const kav::ErrorCode errorCode)
@@ -160,13 +164,44 @@ private:
 
     }
 
+    static const ErrorLevel getErrorCodeFrom(const std::string& functionName)
+    {
+        const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
+                {"ReadTextFile::readTextFile",                   ErrorLevel::error},
+                {"ConverterJSON::checkRequests",                 ErrorLevel::fatal},
+                {"ConverterJSON::checkFilePath",                 ErrorLevel::fatal},
+                {"SearchEngine::ConfigSearchEngine::initialize", ErrorLevel::fatal},
+                {"ReadTextFile::checkAllFilesHaveErrors",        ErrorLevel::fatal}
+        };
+
+        return matchingFunctionNameAndErrorLevel.at(functionName);
+    }
+
     static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
                                   ErrorLevel errorLevel = ErrorLevel::fatal,
                                   const std::string &message = "",
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
     {
+        std::string callingFunctionStr{callingFunction.to_string()};
+
+        std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
+        std::string::size_type beginNameFunction{endNameFunction};
+        std::string::size_type symbolsNumber{};
+
+        for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
+        {
+
+        }
+
+        //if (callingFunctionStr.substr(beginNameFunction, endNameFunction).find("eadTextFile::readTextFil") != std::string::npos)
+        //{
+            std::cout << "\n!!!" << callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber) << " - " << static_cast<int>(errorLevel) << "!!!\n";
+        //}
+
+        errorLevel = getErrorCodeFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
+
         std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
-                                     static_cast<std::string>("Calling function: ") + callingFunction.to_string() + ". " + message};
+                                     static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
 
         if (errorCode != ErrorCode::no_error)
         {
