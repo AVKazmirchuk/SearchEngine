@@ -51,7 +51,7 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
         {ErrorCode::error_array_empty,              "The array is empty"},
         {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty:"},
         {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt:"},
-        {ErrorCode::error_all_files_have_errors,    "All files have errors"}
+        {ErrorCode::error_all_files_not_read,       "All files have not been read"}
 
 };
 
@@ -140,7 +140,7 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode checkAllFilesHaveErrors(const std::string& message = "", const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+        static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths);
 
 private:
 

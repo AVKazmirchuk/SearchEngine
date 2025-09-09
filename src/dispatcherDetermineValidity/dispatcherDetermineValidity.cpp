@@ -125,15 +125,52 @@ ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON
     return errorCode;
 }
 
-ErrorCode DispatcherDetermineValidity::checkAllFilesHaveErrors(const std::string& message, const boost::source_location &callingFunction)
+std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths)
 {
-    std::cout << "checkAllFilesHaveErrors: " << callingFunction.function_name() << std::endl;
+    //Документы
+    std::vector<std::string> documents;
 
-    ErrorCode errorCode{ErrorCode::error_all_files_have_errors};
+    //Контейнер результатов потоков
+    std::list<std::future<std::pair<std::string, ErrorCode>>> futures;
 
-    ErrorLevel errorLevel{ErrorLevel::info};
+    //Для каждого документа
+    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
+    {
+        //Запустить чтение из файла
+        futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
+    }
+
+    std::size_t errorNumber{};
+
+    try
+    {
+        //Ожидать завершение потоков
+        for (auto &future: futures)
+        {
+            if (future.get().second != ErrorCode::no_error)
+            {
+                ++errorNumber;
+            }
+
+            //Добавить документ
+            documents.push_back(future.get().first);
+
+        }
+    }
+    catch (const std::exception& e)
+    {
+        throw;
+    }
+
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    if (errorNumber == filePaths.size())
+    {
+        errorCode = ErrorCode::error_all_files_not_read;
+    }
 
     determineValidity("", errorCode, errorLevel, message, callingFunction);
 
-    return errorCode;
+    //Вернуть документы
+    return {documents, errorCode};
 }
