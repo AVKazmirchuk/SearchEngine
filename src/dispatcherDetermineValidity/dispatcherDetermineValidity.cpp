@@ -125,7 +125,8 @@ ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON
     return errorCode;
 }
 
-std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths)
+std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
+                                                                                                  const boost::source_location &callingFunction)
 {
     //Документы
     std::vector<std::string> documents;
@@ -137,6 +138,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::read
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
+        //futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID])));
         futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
     }
 
@@ -147,18 +149,22 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::read
         //Ожидать завершение потоков
         for (auto &future: futures)
         {
-            if (future.get().second != ErrorCode::no_error)
+            std::pair<std::string, ErrorCode> tmp{future.get()};
+
+            //Добавить документ
+            documents.push_back(tmp.first);
+
+            if (tmp.second != ErrorCode::no_error)
             {
                 ++errorNumber;
             }
-
-            //Добавить документ
-            documents.push_back(future.get().first);
 
         }
     }
     catch (const std::exception& e)
     {
+        std::cout << "!!!!!!!!!!";
+        std::cout << '\n' << e.what() << '\n';
         throw;
     }
 
@@ -169,6 +175,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::read
         errorCode = ErrorCode::error_all_files_not_read;
     }
 
+    std::cout << errorNumber << filePaths.size();
     determineValidity("", errorCode, errorLevel, message, callingFunction);
 
     //Вернуть документы

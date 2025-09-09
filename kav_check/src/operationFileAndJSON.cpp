@@ -28,7 +28,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
 
     if (errorCode == ErrorCode::no_error)
     {
-        system("disconnectDisk.bat");
+        //system("disconnectDisk.bat");
 
         //Записать JSON-объект в файл
         outFile << std::setw(formatByWidth) << objectJSON;
@@ -63,7 +63,7 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
     //Прочитать файл документа и вернуть документ
     if (errorCode == ErrorCode::no_error)
     {
-        system("disconnectDisk.bat");
+        //system("disconnectDisk.bat");
 
 
         /*int i{};
@@ -119,7 +119,9 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     //Прочитать файл документа и вернуть документ
     if (errorCode == ErrorCode::no_error)
     {
-        system("disconnectDisk.bat");
+        //system("disconnectDisk.bat");
+
+
         //std::string tmp;
 
         /*int i{};

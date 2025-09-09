@@ -12,7 +12,7 @@
 
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
-    return ReadTextFile::readTextFile(converterJSONObj.getFilePaths());
+    return DispatcherDetermineValidity::readMultipleTextFiles(converterJSONObj.getFilePaths()).first;
 }
 
 void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath)

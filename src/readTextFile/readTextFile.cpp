@@ -11,7 +11,7 @@
 #include "dispatcherDetermineValidity.h"
 #include "readTextFile.h"
 
-
+/*
 void ReadTextFile::checkAllFilesHaveErrors(const long int errorNumber, const std::vector<std::string>& filePaths)
 {
     if (errorNumber == filePaths.size())
@@ -62,3 +62,4 @@ std::vector<std::string> ReadTextFile::readTextFile(const std::vector<std::strin
     //Вернуть документы
     return documents;
 }
+*/

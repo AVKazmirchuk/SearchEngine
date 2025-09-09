@@ -11,10 +11,11 @@
 #include <vector>
 
 
-
+#ifdef COMMENT
 /**
  * Класс реализует чтение текстовых файлов
  */
+
 class ReadTextFile
 {
 
@@ -37,5 +38,5 @@ private:
     static void checkAllFilesHaveErrors(const long int errorNumber, const std::vector<std::string>& filePaths);
 
 };
-
+#endif
 #endif //SEARCH_ENGINE_READTEXTFILE_H

@@ -2,30 +2,16 @@
   "answers": {
     "request001": {
       "result": "true",
-      "relevance": [
-        {
-          "docid": 0,
-          "rank": null
-        }
-      ]
+      "docid": 2,
+      "rank": 1.0
     },
     "request002": {
-      "result": "true",
-      "relevance": [
-        {
-          "docid": 0,
-          "rank": null
-        }
-      ]
+      "result": "false"
     },
     "request003": {
       "result": "true",
-      "relevance": [
-        {
-          "docid": 0,
-          "rank": null
-        }
-      ]
+      "docid": 2,
+      "rank": 0.166667
     }
   }
 }

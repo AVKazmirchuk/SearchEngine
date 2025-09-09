@@ -35,7 +35,7 @@ enum class ErrorCode
     error_array_empty,
     error_file_paths_array_empty,
     error_requests_array_empty,
-    error_all_files_have_errors
+    error_all_files_not_read
 };
 
 static const std::map<ErrorCode, std::string> descriptionErrorCode{
@@ -140,7 +140,9 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-        static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths);
+        static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, ErrorLevel errorLevel = ErrorLevel::fatal,
+                                                                                    const std::string &message = "",
+                                                                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
@@ -167,11 +169,12 @@ private:
     static const ErrorLevel getErrorCodeFrom(const std::string& functionName)
     {
         const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
-                {"ReadTextFile::readTextFile",                   ErrorLevel::error},
-                {"ConverterJSON::checkRequests",                 ErrorLevel::fatal},
-                {"ConverterJSON::checkFilePath",                 ErrorLevel::fatal},
-                {"SearchEngine::ConfigSearchEngine::initialize", ErrorLevel::fatal},
-                {"ReadTextFile::checkAllFilesHaveErrors",        ErrorLevel::fatal}
+                {"SearchEngine::ConfigSearchEngine::initialize",       ErrorLevel::fatal},
+                {"ConverterJSON::checkFilePath",                       ErrorLevel::fatal},
+                {"ConverterJSON::checkRequests",                       ErrorLevel::fatal},
+                {"DispatcherDetermineValidity::readMultipleTextFiles", ErrorLevel::error},
+                {"SearchEngine::readDocsFromFiles",                    ErrorLevel::fatal},
+                {"SearchEngine::writeAnswersToFile",                   ErrorLevel::fatal}
         };
 
         return matchingFunctionNameAndErrorLevel.at(functionName);
