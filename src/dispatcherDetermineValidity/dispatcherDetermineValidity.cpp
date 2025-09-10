@@ -159,12 +159,14 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::read
                 ++errorNumber;
             }
 
+            //future.get();
         }
+
     }
     catch (const std::exception& e)
     {
-        std::cout << "!!!!!!!!!!";
-        std::cout << '\n' << e.what() << '\n';
+        kav::Logger::debug("!!!!!!!!!!");
+        //std::cout << '\n' << e.what() << '\n';
         throw;
     }
 

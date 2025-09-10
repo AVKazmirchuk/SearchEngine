@@ -26,7 +26,7 @@ void LoggerMonitor::outputToConsole(const std::string& message)
     if (message.find("DEBUG") != std::string::npos) std::cout << termcolor::white << message << std::endl;
     else if (message.find("INFO") != std::string::npos) std::cout << termcolor::green << message << std::endl;
     else if (message.find("WARNING") != std::string::npos) std::cout << termcolor::yellow << message << std::endl;
-    else if (message.find("ERROR") != std::string::npos) std::cout << termcolor::red << message << std::endl;
+    else if (message.find("ERROR") != std::string::npos) std::cout << termcolor::bright_red << message << std::endl;
     else if (message.find("FATAL") != std::string::npos) std::cout << termcolor::red << message << std::endl;
     else if (message.find("Logger") != std::string::npos) std::cout << termcolor::cyan << message << std::endl;
 }
