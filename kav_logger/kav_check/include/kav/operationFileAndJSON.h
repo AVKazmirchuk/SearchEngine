@@ -13,7 +13,7 @@
 #include "boost/assert/source_location.hpp"
 #include "nlohmann/json.hpp"
 
-#include "kav/detail/checkFileException.h"
+#include "kav/detail/errorCode.h"
 #include "kav/detail/types.h"
 
 
@@ -79,11 +79,8 @@ namespace kav
                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
-        static ErrorCode checkFilePathsArray(const JSON &objectJSON,
+        static ErrorCode checkArray(const JSON &objectJSON,
                                              const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-        static ErrorCode checkRequestsArray(const JSON &objectJSON,
-                                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
         /**
          * Прочитать JSON-файл

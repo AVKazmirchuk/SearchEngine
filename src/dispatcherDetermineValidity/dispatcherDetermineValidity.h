@@ -140,7 +140,7 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-        static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, ErrorLevel errorLevel = ErrorLevel::fatal,
+    static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, ErrorLevel errorLevel = ErrorLevel::fatal,
                                                                                     const std::string &message = "",
                                                                                     const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 

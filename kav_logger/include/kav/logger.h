@@ -8,6 +8,7 @@
 
 
 #include <atomic>
+#include <chrono>
 #include <iostream>
 #include <string>
 #include <filesystem>
@@ -108,6 +109,7 @@ namespace kav
                 //Выбросить исключение, так как более обного объекта создавать запрещено
                 throw OnlyOneObject();
             }
+            std::this_thread::sleep_for(std::chrono::seconds(5));
         }
 
         ~Logger()
@@ -118,9 +120,10 @@ namespace kav
             //Вывести отдельный поток логирования из ожидания
             pushMessage = true;
             cvPushMessage.notify_one();
-
+std::cout << '\n' << "before resultOfWriteToFileAndMonitor.wait()" << '\n';
             //Ждать окончания работы отдельного потока логирования
             resultOfWriteToFileAndMonitor.wait();
+            std::cout << '\n' << "after resultOfWriteToFileAndMonitor.wait()" << '\n';
         }
 
 

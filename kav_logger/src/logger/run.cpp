@@ -182,4 +182,7 @@ void kav::Logger::WriterMessage::run()
     messages = std::move(Logger::ptrToLogger->messages);
     //Обработать очередь сообщений
     processMessageContainer();
+
+    std::cout << '\n' << "end run()" << '\n' << std::endl;
+
 }

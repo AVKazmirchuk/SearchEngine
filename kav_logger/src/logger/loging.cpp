@@ -86,4 +86,6 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
 
     //Сигнализировать о добавлении сообщения в контейнер сообщений
     cvPushMessage.notify_one();
+
+    std::cout << '\n' << "end log()" << '\n' << std::endl;
 }
