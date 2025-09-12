@@ -109,7 +109,7 @@ namespace kav
                 //Выбросить исключение, так как более обного объекта создавать запрещено
                 throw OnlyOneObject();
             }
-            std::this_thread::sleep_for(std::chrono::seconds(5));
+            //std::this_thread::sleep_for(std::chrono::seconds(5));
         }
 
         ~Logger()

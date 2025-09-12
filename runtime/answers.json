@@ -5,15 +5,7 @@
       "relevance": [
         {
           "docid": 0,
-          "rank": 1.0
-        },
-        {
-          "docid": 2,
-          "rank": 0.947368
-        },
-        {
-          "docid": 1,
-          "rank": 0.77193
+          "rank": null
         }
       ]
     },
@@ -21,19 +13,19 @@
       "result": "true",
       "relevance": [
         {
-          "docid": 1,
-          "rank": 0.070175
-        },
-        {
           "docid": 0,
-          "rank": 0.035088
+          "rank": null
         }
       ]
     },
     "request003": {
       "result": "true",
-      "docid": 2,
-      "rank": 0.157895
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": null
+        }
+      ]
     }
   }
 }

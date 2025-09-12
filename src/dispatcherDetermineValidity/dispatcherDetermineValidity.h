@@ -15,6 +15,7 @@
 
 enum class ErrorLevel
 {
+    no_level,
     debug,
     info,
     warning,
@@ -107,21 +108,21 @@ class DispatcherDetermineValidity
 public:
 
     static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
-                                   ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
+                                   ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
                                    const int formatByWidth = 2,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     static ErrorCode
     checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                            ErrorLevel errorLevel = ErrorLevel::fatal, const std::string &message = "",
+                            ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 
-    static ErrorCode checkFilePathsArray(JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+    static ErrorCode checkFilePathsArray(JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
                                          const std::string &message = "",
                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::fatal,
+    static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
                                         const std::string &message = "",
                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
@@ -131,16 +132,16 @@ public:
      * @return JSON-файл
      */
     static std::pair<JSON, ErrorCode>
-    readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+    readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     static std::pair<std::string, ErrorCode>
-    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::fatal,
+    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, ErrorLevel errorLevel = ErrorLevel::fatal,
+    static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, ErrorLevel errorLevel = ErrorLevel::no_level,
                                                                                     const std::string &message = "",
                                                                                     const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
@@ -166,7 +167,7 @@ private:
 
     }
 
-    static const ErrorLevel getErrorCodeFrom(const std::string& functionName)
+    static const ErrorLevel getErrorLevelFrom(const std::string& functionName)
     {
         const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
                 {"SearchEngine::ConfigSearchEngine::initialize",       ErrorLevel::fatal},
@@ -180,13 +181,8 @@ private:
         return matchingFunctionNameAndErrorLevel.at(functionName);
     }
 
-    static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
-                                  ErrorLevel errorLevel = ErrorLevel::fatal,
-                                  const std::string &message = "",
-                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
+    static ErrorLevel getFunctionName(const std::string& callingFunctionStr)
     {
-        std::string callingFunctionStr{callingFunction.to_string()};
-
         std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
         std::string::size_type beginNameFunction{endNameFunction};
         std::string::size_type symbolsNumber{};
@@ -198,15 +194,28 @@ private:
 
         //if (callingFunctionStr.substr(beginNameFunction, endNameFunction).find("eadTextFile::readTextFil") != std::string::npos)
         //{
-            std::cout << "\n!!!" << callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber) << " - " << static_cast<int>(errorLevel) << "!!!\n";
+        //std::cout << "\n!!!" << callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber) << " - " << static_cast<int>(errorLevel) << "!!!\n";
         //}
 
-        errorLevel = getErrorCodeFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
+        return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
+    }
+
+    static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
+                                  ErrorLevel errorLevel = ErrorLevel::no_level,
+                                  const std::string &message = "",
+                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
+    {
+        std::string callingFunctionStr{callingFunction.to_string()};
+
+        if (errorLevel == ErrorLevel::no_level)
+        {
+            errorLevel = getFunctionName(callingFunctionStr);
+        }
 
         std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                      static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
 
-        if (errorCode != ErrorCode::no_error)
+        if (errorCode != ErrorCode::no_error || errorLevel != ErrorLevel::no_level)
         {
             switch (errorLevel)
             {
