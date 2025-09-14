@@ -214,8 +214,8 @@ private:
 
         std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                      static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
-
-        if (errorCode != ErrorCode::no_error || errorLevel != ErrorLevel::no_level)
+        if (errorCode != ErrorCode::no_error || (errorCode == ErrorCode::no_error && errorLevel != ErrorLevel::no_level))
+        //if (errorCode != ErrorCode::no_error)
         {
             switch (errorLevel)
             {
