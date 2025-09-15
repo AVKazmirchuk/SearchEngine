@@ -120,10 +120,10 @@ namespace kav
             //Вывести отдельный поток логирования из ожидания
             pushMessage = true;
             cvPushMessage.notify_one();
-std::cout << '\n' << "before resultOfWriteToFileAndMonitor.wait()" << '\n';
+            //std::cout << '\n' << "before resultOfWriteToFileAndMonitor.wait()" << '\n';
             //Ждать окончания работы отдельного потока логирования
             resultOfWriteToFileAndMonitor.wait();
-            std::cout << '\n' << "after resultOfWriteToFileAndMonitor.wait()" << '\n';
+            //std::cout << '\n' << "after resultOfWriteToFileAndMonitor.wait()" << '\n';
         }
 
 

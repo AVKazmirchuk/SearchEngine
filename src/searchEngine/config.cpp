@@ -8,9 +8,8 @@
 
 void SearchEngine::ConfigSearchEngine::initialize()
 {
-
     //Создать JSON-объект конфигурации
-    configJSON = DispatcherDetermineValidity::readJSONFile(configFilePath, ErrorLevel::debug).first;
+    configJSON = DispatcherDetermineValidity::readJSONFile(configFilePath).first;
 
     DispatcherDetermineValidity::checkJSONStructureMatch(configFilePath, configJSON, configTemplate);
 

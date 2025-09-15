@@ -21,9 +21,9 @@
 namespace kav
 {
 
-/**
- * Класс реализует проверку файла и его содержимого (JSON-структуру)
- */
+    /**
+     * Класс реализует проверку соответствия JSON-структуры шаблону
+     */
     class CheckJSON
     {
 
@@ -32,7 +32,7 @@ namespace kav
         CheckJSON() = delete;
 
         /**
-         * Проверить JSON-структуру файла на соответствие шаблону
+         * Проверить JSON-структуру на соответствие шаблону
          * @param objectJSON JSON-объект проверяемого
          * @param objectJSONTemplate JSON-объект шаблона
          * @return Файл соответствуе(true)/не соответствует(false)
@@ -41,12 +41,14 @@ namespace kav
 
     private:
 
+        /**
+         * Класс используется для выброса исключения (при несовпадении JSON-структуры)
+         */
         class JSONStructureNotMatch
-        {
-        };
+        {};
 
         /**
-         * Проверить JSON-структуру файла на соответствие шаблону (реализация)
+         * Проверить JSON-структуру на соответствие шаблону (реализация)
          * @param objectJSON JSON-объект проверяемого
          * @param objectJSONTemplate JSON-объект шаблона
          * @return Файл соответствуе(true)/не соответствует(false)
@@ -55,9 +57,9 @@ namespace kav
 
     };
 
-/**
- * Класс реализует чтение и запись JSON-файлов
- */
+    /**
+     * Класс реализует чтение и запись файлов с проверкой
+     */
     class OperationFileAndJSON
     {
 
@@ -65,31 +67,53 @@ namespace kav
 
         OperationFileAndJSON() = delete;
 
-
         /**
          * Записать JSON-файл
-         * @param objectJSON JSON-объект
          * @param filePath Путь JSON-файла
+         * @param objectJSON JSON-объект для записи
+         * @param formatByWidth Ширина отступа
+         * @param callingFunction Ссылка на вызывающую функцию
+         * @return Код ошибки
          */
         static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
                                        const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+        /**
+         * Проверить JSON-структуру на соответствие шаблону
+         * @param filePath Путь JSON-файла
+         * @param objectJSON JSON-объект для записи
+         * @param objectJSONTemplate JSON-объект шаблона
+         * @param callingFunction Ссылка на вызывающую функцию
+         * @return Код ошибки
+         */
         static ErrorCode
         checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-
+/**
+         * Проверить массив JSON-объекта
+         * @param objectJSON JSON-объект для записи
+         * @param callingFunction Ссылка на вызывающую функцию
+         * @return Код ошибки
+         */
         static ErrorCode checkArray(const JSON &objectJSON,
                                              const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
         /**
          * Прочитать JSON-файл
          * @param filePath Путь JSON-файла
-         * @return JSON-файл
+         * @param callingFunction Ссылка на вызывающую функцию
+         * @return Пара JSON-объекта и кода ошибки
          */
         static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath,
                                                        const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+        /**
+         * Прочитать текстовый файл
+         * @param filePath Путь JSON-файла
+         * @param callingFunction Ссылка на вызывающую функцию
+         * @return Пара текста и кода ошибки
+         */
         static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath,
                                                               const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 

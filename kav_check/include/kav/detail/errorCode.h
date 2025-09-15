@@ -10,6 +10,9 @@
 namespace kav
 {
 
+    /**
+     * Коды ошибок работы с файлами
+     */
     enum class ErrorCode
     {
         no_error,
@@ -23,6 +26,9 @@ namespace kav
         error_array_empty
     };
 
+    /**
+     * Описание кодов ошибок
+     */
     static const std::map<ErrorCode, std::string> descriptionErrorCode{
 
             {ErrorCode::no_error,                       ""},

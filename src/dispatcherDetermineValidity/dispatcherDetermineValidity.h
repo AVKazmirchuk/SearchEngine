@@ -210,13 +210,17 @@ private:
         if (errorLevel == ErrorLevel::no_level)
         {
             errorLevel = getFunctionName(callingFunctionStr);
+            //if (filePath == "config.json") std::cout << static_cast<int>(errorLevel);
         }
 
         std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                      static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
-        if (errorCode != ErrorCode::no_error || (errorCode == ErrorCode::no_error && errorLevel != ErrorLevel::no_level))
-        //if (errorCode != ErrorCode::no_error)
+        //if (errorCode != ErrorCode::no_error ||
+        //    (errorCode == ErrorCode::no_error && errorLevel != ErrorLevel::no_level &&
+        //    errorLevel != ErrorLevel::fatal && errorLevel != ErrorLevel::error && errorLevel != ErrorLevel::warning))
+        if (errorCode != ErrorCode::no_error)
         {
+            //if (filePath == "config.json") std::cout << static_cast<int>(errorLevel);
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:

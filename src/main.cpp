@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& exception)
     {
-        std::cout << '\n' << "from main in catch" << '\n' << std::endl;
-        kav::Logger::fatal("from auxiliary", exception);
+        //std::cout << '\n' << "from main in catch" << '\n' << std::endl;
+        //kav::Logger::fatal("from auxiliary", exception);
 
         return EXIT_FAILURE;
     }
