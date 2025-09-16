@@ -7,141 +7,92 @@
 #include "testGeneral.h"
 
 
-//Запустить проверку файла на существование, на неповреждённость JSON-структуры, на соответствие JSON-структуры шаблону
-/*bool testCheckFile(const std::string& filePath, const kav::JSON& templateJSON, kav::ErrorCode errorCode)
-{
-    try 
-    {
-        //Запустить проверку файла
-        kav::checkFile(filePath, templateJSON);
-        //Файл соответствует всем требованиям
-        return true;
-    }
-    //Одно из требований не выполняется
-    catch (const kav::CheckFileException& e)
-    {
-        //Если коды исключения не совпадают - тест составлен неверно
-        EXPECT_EQ(e.getErrorCode(), errorCode);
-        //Файл не соответствует какому-либо требованию
-        return false;
-    }
-}*/
-
-//Запустить проверку файла на существование, на неповреждённость JSON-структуры, на соответствие JSON-структуры шаблону
-/*bool testCheckFile(const std::string& filePath, const kav::JSON& templateJSON, kav::ErrorCode errorCode)
-{
-
-
-    try
-    {
-        //Запустить проверку файла
-        kav::checkFile(filePath, templateJSON);
-        //Файл соответствует всем требованиям
-        return true;
-    }
-    //Одно из требований не выполняется
-    catch (const kav::CheckFileException& e)
-    {
-        //Если коды исключения не совпадают - тест составлен неверно
-        EXPECT_EQ(e.getErrorCode(), errorCode);
-        //Файл не соответствует какому-либо требованию
-        return false;
-    }
-}*/
 
 //Запустить проверку на запись JSON-файла (файл присутствует или отсутствует, открыт, записывается)
 TEST(TestWriteJSONFile, fileExist)
 {
+    //Записать файлы для тестирования
     putFiles();
 
+    //Записать JSON-файл
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
 
+    //Обнулить результат операции
     bool result{};
 
+    //Если запись файла прошла без ошибок
     if (errorCode == kav::ErrorCode::no_error)
     {
+        //Установить результат операции
         result = true;
     }
 
-    //deleteFiles();
-
+    //Проверить утверждение
     ASSERT_TRUE(result);
 }
-
-//Запустить проверку на запись JSON-файла (файл отсутствует или присутствует, не блокируется)
-/*TEST(TestWriteJSONFile, fileNotExist)
-{
-    putFiles();
-
-    std::filesystem::remove(constants::configFilePath);
-
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile(constants::configFilePath, testConstants::configTemplate)};
-
-    bool result{};
-
-    if (errorCode == kav::ErrorCode::error_file_missing)
-    {
-        result = true;
-    }
-
-    //deleteFiles();
-
-    ASSERT_TRUE(result);
-}*/
 
 //Запустить проверку на запись JSON-файла (файл не открыт)
 TEST(TestWriteJSONFile, fileNotOpen)
 {
+    //Записать файлы для тестирования
     putFiles();
 
-    //Создать объект для записи
+    //Создать объект для записи. Запретить доступ к файлу
     HANDLE hFile=CreateFile(constants::configFilePath.c_str(), // file to open
                             GENERIC_READ, // open for
                             0x00000000, // share for
                             NULL, // default security
-                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                            OPEN_ALWAYS, // OPEN_EXISTING - existing file only
                             FILE_ATTRIBUTE_NORMAL, // normal file
                             NULL // no attr. template
     );
 
+    //Записать JSON-файл
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile("config/config.json", testConstants::configTemplate)};
 
+    //Закрыть дескриптор. Освободить файл
     CloseHandle(hFile);
 
+    //Обнулить результат операции
     bool result{};
 
+    //Если открыть файл не удалось
     if (errorCode == kav::ErrorCode::error_file_not_open_write)
     {
+        //Установить результат операции
         result = true;
     }
 
-    //deleteFiles();
-
+    //Проверить утверждение
     ASSERT_TRUE(result);
 }
 
 //Запустить проверку на запись JSON-файла (файл не записывается)
 TEST(TestWriteJSONFile, fileNotWrite)
 {
+    //Записать файлы для тестирования
     putFiles();
 
+    //Удалить проверяемый файл
     std::filesystem::remove(constants::configFilePath);
 
+    //Подключить диск с проверяемым файлом
     system("connectDisk.bat");
 
+    //Записать JSON-файл
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeJSONFile("w://config.json", testConstants::configTemplate)};
 
-    if (errorCode == kav::ErrorCode::error_file_not_write) std::cout << "error_file_not_write";
-
+    //Обнулить результат операции
     bool result{};
 
+    //Если записать файл не удалось
     if (errorCode == kav::ErrorCode::error_file_not_write)
     {
+        //Установить результат операции
         result = true;
     }
 
-    //deleteFiles();
-
+    //Проверить утверждение
     ASSERT_TRUE(result);
 }
 
@@ -158,8 +109,6 @@ TEST(TestReadJSONFile, fileExist)
     {
         result = true;
     }
-
-    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
@@ -179,8 +128,6 @@ TEST(TestReadJSONFile, fileNotExist)
     {
         result = true;
     }
-
-    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
@@ -211,8 +158,6 @@ TEST(TestReadJSONFile, fileNotOpen)
         result = true;
     }
 
-    //deleteFiles();
-
     ASSERT_TRUE(result);
 }
 
@@ -235,8 +180,6 @@ TEST(TestReadJSONFile, fileNotRead)
         result = true;
     }
 
-    //deleteFiles();
-
     ASSERT_TRUE(result);
 }
 
@@ -254,8 +197,6 @@ TEST(TestReadJSONFile, fileJSONStructureNotValid)
         result = true;
     }
 
-    //deleteFiles();
-
     ASSERT_TRUE(result);
 }
 
@@ -272,8 +213,6 @@ TEST(TestReadTextFile, fileExist)
     {
         result = true;
     }
-
-    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
@@ -293,8 +232,6 @@ TEST(TestReadTextFile, fileNotExist)
     {
         result = true;
     }
-
-    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
@@ -325,8 +262,6 @@ TEST(TestReadTextFile, fileNotOpen)
         result = true;
     }
 
-    //deleteFiles();
-
     ASSERT_TRUE(result);
 }
 
@@ -348,8 +283,6 @@ TEST(TestReadTextFile, fileNotRead)
         result = true;
     }
 
-    //deleteFiles();
-
     ASSERT_TRUE(result);
 }
 
@@ -366,8 +299,6 @@ TEST(TestCheckJSONStructureMatch, JSONStructureMatch)
     {
         result = true;
     }
-
-    //deleteFiles();
 
     ASSERT_TRUE(result);
 }
@@ -386,84 +317,5 @@ TEST(TestCheckJSONStructureMatch, JSONStructureNotMatch)
         result = true;
     }
 
-    //deleteFiles();
-
     ASSERT_TRUE(result);
 }
-
-//Запустить проверку файла на существование
-/*TEST(TestCheckFile, fileExist)
-{
-    putFiles();
-
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_file_missing)};
-
-    deleteFiles();
-
-    ASSERT_TRUE(result);
-}*/
-
-//Запустить проверку файла на несуществование
-/*TEST(TestCheckFile, fileNotExist)
-{
-    putFiles();
-
-    std::filesystem::remove(constants::configFilePath);
-
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_file_missing)};
-
-    deleteFiles();
-
-    ASSERT_FALSE(result);
-}*/
-
-//Запустить проверку файла на неповреждённость JSON-структуры
-/*TEST(TestCheckFile, fileJSONStructureValid)
-{
-    putFiles();
-
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_json_structure_corrupted)};
-
-    deleteFiles();
-
-    ASSERT_TRUE(result);
-}*/
-
-//Запустить проверку файла на повреждённость JSON-структуры
-/*TEST(TestCheckFile, fileJSONStructureNotValid)
-{
-    putFiles();
-
-    const std::string configNotValidFilePath{"configNotValid.json"};
-
-    bool result{testCheckFile(configNotValidFilePath, constants::configTemplate, ErrorCode::error_json_structure_corrupted)};
-
-    deleteFiles();
-
-    ASSERT_FALSE(result);
-}*/
-//Запустить проверку файла на соответствие JSON-структуры шаблону
-/*TEST(TestCheckFile, fileJSONStructureMatch)
-{
-    putFiles();
-
-    bool result{testCheckFile(constants::configFilePath, constants::configTemplate, ErrorCode::error_json_structure_not_match)};
-
-    deleteFiles();
-
-    ASSERT_TRUE(result);
-}*/
-
-//Запустить проверку файла на несоответствие JSON-структуры шаблону
-/*TEST(TestCheckFile, fileJSONStructureNotMatch)
-{
-    putFiles();
-
-    const std::string configNotMatchFilePath{"configNotMatch.json"};
-
-    bool result{testCheckFile(configNotMatchFilePath, constants::configTemplate, ErrorCode::error_json_structure_not_match)};
-
-    deleteFiles();
-
-    ASSERT_FALSE(result);
-}*/

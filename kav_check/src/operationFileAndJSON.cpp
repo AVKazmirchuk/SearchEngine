@@ -76,90 +76,74 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
             errorCode = ErrorCode::error_file_not_read;
         }
 
+        //Если структура JSON-объекта повреждена - установить соответствующий код ошибки
         if (objectJSON.is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
-        else
-        {
-            return {objectJSON, errorCode};
-        }
     }
 
-    //else if ((objectJSON = JSON::parse(inFile, nullptr, false)).is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
-    //else if (inFile.fail()) errorCode = ErrorCode::error_file_not_read;
-
+    //Вернуть пару JSON-объекта и кода ошибки
     return {objectJSON, errorCode};
 }
 
 std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::string& filePath, const boost::source_location &callingFunction)
 {
-    //std::cout << "readTextFile: " << callingFunction.function_name() << std::endl;
     //Создать объект для чтения файла документа
     std::ifstream inFile(filePath);
 
+    //Подготовить документ для записи
     std::string tmp{};
 
-
+    //Обнулить код ошибки
     ErrorCode errorCode{ErrorCode::no_error};
 
+    //Если файл не существует - установить соответствующий код ошибки
     if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    //В противном случае, если файл не открыт - установить соответствующий код ошибки
     else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
 
-    //Прочитать файл документа и вернуть документ
+    //Если ошибки нет
     if (errorCode == ErrorCode::no_error)
     {
+        //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
         //system("disconnectDisk.bat");
 
-
-        //std::string tmp;
-
-        /*int i{};
-        for (std::string word; inFile >> word; ++i)
-        {
-            tmp += word;
-            if (i == 9)
-            {
-                //system("disconnectDisk.bat");
-                //break;
-            }
-        }*/
         try
         {
-
+            //Читать файл
             tmp = {(std::istreambuf_iterator<char>(inFile)), {}};
         }
         catch (const std::exception& e)
         {
+            //Если при чтении произошла ошибка - установить соответствующий код ошибки
             errorCode = ErrorCode::error_file_not_read;
-            //std::cout << "Exception: " << e.what() << ". " << '\n' << "inFile: " << inFile.good() << " " << inFile.bad() << " " << inFile.fail() << " " << inFile.rdstate() << '\n';
         }
-
-        //std::cout << '\n' << "inFile: " << inFile.good() << " " << inFile.bad() << " " << inFile.fail() << " " << inFile.rdstate() << '\n';
-
-        //if (inFile.fail()) errorCode = ErrorCode::error_file_not_read;
     }
 
+    //Пара текста и кода ошибки
     return {tmp, errorCode};
 }
 
 kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                                                         const boost::source_location &callingFunction)
 {
-    //std::cout << "checkJSONStructureMatch: " << callingFunction.function_name() << std::endl;
-
+    //Обнулить код ошибки
     ErrorCode errorCode{ErrorCode::no_error};
 
+    //Если JSON-структура не соответствует шаблону - установить соответствующий код ошибки
     if (!CheckJSON::isJSONStructureMatch(objectJSON, objectJSONTemplate)) errorCode = ErrorCode::error_json_structure_not_match;
 
+    //Вернуть код ошибки
     return errorCode;
 }
 
 kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON, const boost::source_location &callingFunction)
 {
-    //std::cout << "checkArray: " << callingFunction.function_name() << std::endl;
-
+    //Обнулить код ошибки
     ErrorCode errorCode{ErrorCode::no_error};
 
+    //Если массив JSON-объекта пуст - установить соответствующий код ошибки
     if (objectJSON.empty()) errorCode = ErrorCode::error_array_empty;
 
+    //Вернуть код ошибки
     return errorCode;
 }
 

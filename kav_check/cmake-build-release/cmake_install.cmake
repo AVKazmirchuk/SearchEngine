@@ -52,10 +52,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/detail/checkFileException.h")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/../include/kav/detail" TYPE FILE FILES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_check/include/kav/detail/errorCode.h")
 endif()
 

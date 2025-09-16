@@ -5,14 +5,47 @@
 #include "gtest/gtest.h"
 
 #include "testGeneral.h"
+
+
+
+//Проверить массив на заполненность
+TEST(TestCheckArray, arrayFilled)
+{
+    putFiles();
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configTemplate["files"])};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::no_error)
+    {
+        result = true;
+    }
+
+    ASSERT_TRUE(result);
+}
+
+//Проверить массив на пустоту
+TEST(TestCheckArray, arrayNotFilled)
+{
+    putFiles();
+
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configWrongTemplate["files"])};
+
+    bool result{};
+
+    if (errorCode == kav::ErrorCode::error_array_empty)
+    {
+        result = true;
+    }
+
+    ASSERT_TRUE(result);
+}
+
+
+
+//Для примера, когда можно контролировать правильность составления теста
 /*
-#include "check/checkFileException.h"
-#include "converterJSON.h"
-#include "general.h"
-#include "testGeneral.h"
-
-
-
 //Проверить пути файлов документов, запросы (соответствующие массивы в объектах)
 bool testCheckFilePathsAndRequestsArrays(const JSON& configJSON, const JSON& requestsJSON, ErrorCode errorCode)
 {
@@ -59,41 +92,3 @@ TEST(TestCheckFilePathsArray, filePathsArrayNotFilled)
 
     ASSERT_FALSE(result);
 }*/
-
-//Проверить массив на заполненность
-TEST(TestCheckArray, arrayFilled)
-{
-    putFiles();
-
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configTemplate["files"])};
-
-    bool result{};
-
-    if (errorCode == kav::ErrorCode::no_error)
-    {
-        result = true;
-    }
-
-    //deleteFiles();
-
-    ASSERT_TRUE(result);
-}
-
-//Проверить массив на пустоту
-TEST(TestCheckArray, arrayNotFilled)
-{
-    putFiles();
-
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configWrongTemplate["files"])};
-
-    bool result{};
-
-    if (errorCode == kav::ErrorCode::error_array_empty)
-    {
-        result = true;
-    }
-
-    //deleteFiles();
-
-    ASSERT_TRUE(result);
-}

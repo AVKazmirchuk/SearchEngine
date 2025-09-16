@@ -91,7 +91,7 @@ namespace kav
                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 /**
-         * Проверить массив JSON-объекта
+         * Проверить массив JSON-объекта на пустоту
          * @param objectJSON JSON-объект для записи
          * @param callingFunction Ссылка на вызывающую функцию
          * @return Код ошибки
