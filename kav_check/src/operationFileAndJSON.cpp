@@ -12,7 +12,7 @@
 
 
 
-kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth, const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth)
 {
     //Создать объект для записи
     std::ofstream outFile(filePath);
@@ -43,7 +43,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
     return errorCode;
 }
 
-std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(const std::string& filePath, const boost::source_location &callingFunction)
+std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(const std::string& filePath)
 {
     //Создать объект для чтения
     std::ifstream inFile(filePath);
@@ -84,7 +84,7 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
     return {objectJSON, errorCode};
 }
 
-std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::string& filePath, const boost::source_location &callingFunction)
+std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::string& filePath)
 {
     //Создать объект для чтения файла документа
     std::ifstream inFile(filePath);
@@ -122,8 +122,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     return {tmp, errorCode};
 }
 
-kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
-                                                        const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const JSON& objectJSON, const JSON& objectJSONTemplate)
 {
     //Обнулить код ошибки
     ErrorCode errorCode{ErrorCode::no_error};
@@ -135,7 +134,7 @@ kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const std::str
     return errorCode;
 }
 
-kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON, const boost::source_location &callingFunction)
+kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON)
 {
     //Обнулить код ошибки
     ErrorCode errorCode{ErrorCode::no_error};

@@ -88,7 +88,7 @@ endif()
 # Добавить только исходные тексты
 target_sources(${PROJECT_NAME}
         PRIVATE
-        src/checkFile.cpp
+        src/checkJSONStructureMatch.cpp
         src/operationFileAndJSON.cpp
 )
 
@@ -251,6 +251,10 @@ if(check_Install)
     #)
 
 endif()
+
+
+
+#TODO Ниже использованные ссылки и примеры. Потом разгребу
 
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed

@@ -13,21 +13,26 @@
 
 namespace testConstants
 {
+    //Путь файла конфигурации
+    extern const std::string configFilePath;
+
+    //JSON-шаблон файла конфигурации
     extern const kav::JSON configTemplate;
 
+    //Несоответствующий структуре JSON-шаблон файла конфигурации
     extern const kav::JSON configNotMatchTemplate;
 
-    extern const kav::JSON requestsTemplate;
-
+    //JSON-шаблон файла конфигурации с пустым массивом
     extern const kav::JSON configWrongTemplate;
 
-    extern const kav::JSON requestsWrongTemplate;
+    //Путь файла конфигурации с повреждённой структурой
+    extern const std::string configNotValid;
 
-    extern const kav::JSON configWrongArray;
+    //Путь текстового файла
+    extern const std::string fileText;
 
-    extern const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers;
-
-    extern const kav::JSON answersTest;
+    //Имя поля массива
+    extern const std::string files;
 
 }
 
@@ -36,36 +41,6 @@ namespace testConstants
  */
 void putFiles();
 
-/*
- * Удалить файлы для тестирования
- */
-void deleteFiles();
 
-//Константы переменных
-namespace constants
-{
-
-    //Путь файла конфигурации
-    extern const std::string configFilePath;
-    //Путь файла запросов
-    extern const std::string requestsFilePath;
-    //Путь файла ответов
-    extern const std::string answersFilePath;
-
-    extern const std::string configNotValid;
-
-    extern const std::string fileText;
-
-    //Путь файла конфигурации логирования
-    extern const std::string configLoggerFilePath;
-    //Путь файла конфигурации очереди сообщений
-    extern const std::string configWriterMessageFilePath;
-
-    //Количество знаков после запятой
-    extern const int precision;
-    //Ширина вывода
-    extern const int formatByWidth;
-
-}
 
 #endif //SEARCH_ENGINE_TESTGENERAL_H

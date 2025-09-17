@@ -234,6 +234,10 @@ if(logger_Install)
 
 endif()
 
+
+
+#TODO Ниже использованные ссылки и примеры. Потом разгребу
+
 #https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache
 #https://stackoverflow.com/questions/69338088/error-while-configuring-cmake-project-running-nmake-failed
 #https://habr.com/ru/articles/904992/

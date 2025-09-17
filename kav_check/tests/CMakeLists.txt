@@ -17,55 +17,31 @@ include(CMakePrintHelpers)
 set(Application_Name_Test "kav_check_test")
 # Задать переменную списка директорий с заголовками
 set(Include_Directories "")
-# Добавить директории с заголовками
+# Добавить директории с заголовками. Может что-то лишнее из списка?
 LIST(APPEND Include_Directories ${CMAKE_CURRENT_SOURCE_DIR}/include)
 LIST(APPEND Include_Directories ${CMAKE_CURRENT_SOURCE_DIR})
 LIST(APPEND Include_Directories ${CMAKE_SOURCE_DIR}/include)
 
+#Загрузить и запустить код CMake из файла или модуля
 include(FetchContent)
+#Записать параметры, описывающие способ заполнения указанного контента
 FetchContent_Declare(
         googletest
         URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
 )
-
+#Добавьте каталоги include в сборку
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
+#Отключить поддержку многопоточности в библиотеке Google Test (gtest)
 set(gtest_disable_pthreads on)
-
+#Не позволить GoogleTest изменять настройки компилятора и компоновщика при сборке
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
+#Гарантировать, что к моменту возврата каждая из указанных зависимостей будет доступна для проекта
 FetchContent_MakeAvailable(googletest)
-
-
-
-#file(GLOB CPP_CONVERTER_JSON CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/converterJSON/*.cpp")
-#file(GLOB CPP_INVERTED_INDEX CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/invertedIndex/*.cpp")
-#file(GLOB CPP_RELEVANT_RESPONSE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/relevantResponse/*.cpp")
-#file(GLOB CPP_PREPARED_REQUEST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/relevantResponse/preparedRequest/*.cpp")
+#Определить файлы-исходники проекта в переменную
 file(GLOB_RECURSE CPP_CHECK_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp")
-#file(GLOB CPP_DOCUMENTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/documents/*.cpp")
-#file(GLOB CPP_REQUESTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/requests/*.cpp")
-#file(GLOB CPP_SEARCH_ENGINE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/searchEngine/*.cpp")
-#file(GLOB CPP_READ_WRITE_JSON_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/dispatcherDetermineValidity/*.cpp")
-#file(GLOB CPP_READ_TEXT_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/readTextFile/*.cpp")
-#file(GLOB CPP_LOGGER CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/Logger/*.cpp")
-#file(GLOB CPP_GENERAL CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/general/*.cpp")
-#file(GLOB CPP_MONITOR CONFIGURE_DEPENDS "../kav_logger/src/monitorSender/*.cpp")
-
-add_executable(${Application_Name_Test} main.cpp test.cpp testCheckFile.cpp testGeneral.cpp testCheckFilePathAndRequestsArrays.cpp
-        #${CPP_CONVERTER_JSON}
-        #${CPP_INVERTED_INDEX}
-        #${CPP_RELEVANT_RESPONSE}
-        #${CPP_PREPARED_REQUEST}
+#Добавить цель, исполняемый файл, для сборки из исходных файлов, перечисленных в вызове команды
+add_executable(${Application_Name_Test} main.cpp test.cpp testOperation.cpp testGeneral.cpp
         ${CPP_CHECK_FILE}
-        #${CPP_DOCUMENTS}
-        #${CPP_REQUESTS}
-        #${CPP_SEARCH_ENGINE}
-        #${CPP_READ_WRITE_JSON_FILE}
-        #${CPP_READ_TEXT_FILE}
-        #${CPP_LOGGER}
-        #${CPP_MONITOR}
-        #${CPP_GENERAL} testRelevantResponse.cpp testGeneral.cpp testCheckFilePathAndRequestsArrays.cpp testGeneral.h testCheckSetAnswers.cpp main.cpp
 )
 
 # Задать переменную списка поддиректорий с заголовками
@@ -76,21 +52,19 @@ foreach(subdirectory ${Include_Directories})
     LIST(APPEND Include_Subdirectories ${subdirectory_List} ${subdirectory})
 endforeach()
 
-# Для отладки. Пока оставлю
-cmake_print_variables(Include_Subdirectories)
+# Для отладки
+#cmake_print_variables(Include_Subdirectories)
 
 # Добавить к цели директории с заголовками
 target_include_directories(${Application_Name_Test} PRIVATE ${Boost_INCLUDE_DIRS})
 target_include_directories(${Application_Name_Test} PUBLIC ${Include_Subdirectories})
 
+#Подключить библиотеку
 target_link_libraries(${Application_Name_Test} PRIVATE nlohmann_json::nlohmann_json)
-
-#target_link_libraries(kav_check_test ${Boost_LIBRARIES})
-
 target_link_libraries(${Application_Name_Test} PRIVATE gtest_main)
-
+#Загрузить и запустить код CMake из файла или модуля
 include(GoogleTest)
-
+#Автоматически добавить тесты с помощью CTest, запрашивая у скомпилированного исполняемого файла теста информацию о доступных тестах
 gtest_discover_tests(${Application_Name_Test})
 
 

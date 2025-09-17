@@ -13,6 +13,9 @@
 
 
 
+/**
+ * Уровни логирования
+ */
 enum class ErrorLevel
 {
     no_level,
@@ -23,6 +26,9 @@ enum class ErrorLevel
     fatal
 };
 
+/**
+ * Коды ошибок работы с файлами
+ */
 enum class ErrorCode
 {
     no_error,
@@ -39,6 +45,9 @@ enum class ErrorCode
     error_all_files_not_read
 };
 
+/**
+ * Описание кодов ошибок
+ */
 static const std::map<ErrorCode, std::string> descriptionErrorCode{
 
         {ErrorCode::no_error,                       ""},
@@ -101,7 +110,11 @@ private:
 };
 
 
-
+/**
+ * Класс диспетчер операций.
+ * Выполняет операции с файлами (чтение-запись), проверку JSON-объекта и при необходимости определяет уровень логирования,
+ * и логирует события, по имени вызывающей функции при ошибке операции.
+ */
 class DispatcherDetermineValidity
 {
 
@@ -188,14 +201,7 @@ private:
         std::string::size_type symbolsNumber{};
 
         for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
-        {
-
-        }
-
-        //if (callingFunctionStr.substr(beginNameFunction, endNameFunction).find("eadTextFile::readTextFil") != std::string::npos)
-        //{
-        //std::cout << "\n!!!" << callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber) << " - " << static_cast<int>(errorLevel) << "!!!\n";
-        //}
+        {}
 
         return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
     }
@@ -215,12 +221,9 @@ private:
 
         std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                      static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
-        //if (errorCode != ErrorCode::no_error ||
-        //    (errorCode == ErrorCode::no_error && errorLevel != ErrorLevel::no_level &&
-        //    errorLevel != ErrorLevel::fatal && errorLevel != ErrorLevel::error && errorLevel != ErrorLevel::warning))
+
         if (errorCode != ErrorCode::no_error)
         {
-            //if (filePath == "config.json") std::cout << static_cast<int>(errorLevel);
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:

@@ -75,8 +75,7 @@ namespace kav
          * @param callingFunction Ссылка на вызывающую функцию
          * @return Код ошибки
          */
-        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
-                                       const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2);
 
         /**
          * Проверить JSON-структуру на соответствие шаблону
@@ -87,8 +86,7 @@ namespace kav
          * @return Код ошибки
          */
         static ErrorCode
-        checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                                const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+        checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
 /**
          * Проверить массив JSON-объекта на пустоту
@@ -96,8 +94,7 @@ namespace kav
          * @param callingFunction Ссылка на вызывающую функцию
          * @return Код ошибки
          */
-        static ErrorCode checkArray(const JSON &objectJSON,
-                                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+        static ErrorCode checkArray(const JSON &objectJSON);
 
         /**
          * Прочитать JSON-файл
@@ -105,8 +102,7 @@ namespace kav
          * @param callingFunction Ссылка на вызывающую функцию
          * @return Пара JSON-объекта и кода ошибки
          */
-        static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath,
-                                                       const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+        static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath);
 
         /**
          * Прочитать текстовый файл
@@ -114,8 +110,7 @@ namespace kav
          * @param callingFunction Ссылка на вызывающую функцию
          * @return Пара текста и кода ошибки
          */
-        static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath,
-                                                              const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+        static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
 
     };
 
