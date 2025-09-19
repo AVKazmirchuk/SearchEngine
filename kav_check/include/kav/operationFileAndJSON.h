@@ -2,8 +2,8 @@
 // Created by Alexander on 25.02.2025.
 //
 
-#ifndef SEARCH_ENGINE_OPERATIONFILEANDJSON_H
-#define SEARCH_ENGINE_OPERATIONFILEANDJSON_H
+#ifndef KAV_CHECK_OPERATIONFILEANDJSON_H
+#define KAV_CHECK_OPERATIONFILEANDJSON_H
 
 
 
@@ -33,8 +33,8 @@ namespace kav
 
         /**
          * Проверить JSON-структуру на соответствие шаблону
-         * @param objectJSON JSON-объект проверяемого
-         * @param objectJSONTemplate JSON-объект шаблона
+         * @param objectJSON Ссылка на JSON-объект проверяемого
+         * @param objectJSONTemplate Ссылка на JSON-объект шаблона
          * @return Файл соответствуе(true)/не соответствует(false)
          */
         static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
@@ -49,8 +49,8 @@ namespace kav
 
         /**
          * Проверить JSON-структуру на соответствие шаблону (реализация)
-         * @param objectJSON JSON-объект проверяемого
-         * @param objectJSONTemplate JSON-объект шаблона
+         * @param objectJSON Ссылка на JSON-объект проверяемого
+         * @param objectJSONTemplate Ссылка на JSON-объект шаблона
          * @return Файл соответствуе(true)/не соответствует(false)
          */
         static bool isJSONStructureMatchImpl(const JSON &objectJSON, const JSON &objectJSONTemplate);
@@ -58,7 +58,7 @@ namespace kav
     };
 
     /**
-     * Класс реализует чтение и запись файлов с проверкой
+     * Класс реализует чтение и запись файлов с проверкой, а также проверку JSON-объектов
      */
     class OperationFileAndJSON
     {
@@ -69,45 +69,39 @@ namespace kav
 
         /**
          * Записать JSON-файл
-         * @param filePath Путь JSON-файла
-         * @param objectJSON JSON-объект для записи
+         * @param filePath Ссылка на путь JSON-файла
+         * @param objectJSON Ссылка на JSON-объект для записи
          * @param formatByWidth Ширина отступа
-         * @param callingFunction Ссылка на вызывающую функцию
          * @return Код ошибки
          */
         static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2);
 
         /**
          * Проверить JSON-структуру на соответствие шаблону
-         * @param filePath Путь JSON-файла
-         * @param objectJSON JSON-объект для записи
-         * @param objectJSONTemplate JSON-объект шаблона
-         * @param callingFunction Ссылка на вызывающую функцию
+         * @param objectJSON Ссылка на JSON-объект для проверки
+         * @param objectJSONTemplate Ссылка на JSON-объект шаблона
          * @return Код ошибки
          */
         static ErrorCode
         checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
-/**
+       /**
          * Проверить массив JSON-объекта на пустоту
-         * @param objectJSON JSON-объект для записи
-         * @param callingFunction Ссылка на вызывающую функцию
+         * @param objectJSON Ссылка на JSON-объект для проверки
          * @return Код ошибки
          */
         static ErrorCode checkArray(const JSON &objectJSON);
 
         /**
          * Прочитать JSON-файл
-         * @param filePath Путь JSON-файла
-         * @param callingFunction Ссылка на вызывающую функцию
+         * @param filePath Ссылка на путь JSON-файла
          * @return Пара JSON-объекта и кода ошибки
          */
         static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath);
 
         /**
          * Прочитать текстовый файл
-         * @param filePath Путь JSON-файла
-         * @param callingFunction Ссылка на вызывающую функцию
+         * @param filePath Ссылка на путь текстового файла
          * @return Пара текста и кода ошибки
          */
         static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
@@ -118,4 +112,4 @@ namespace kav
 
 
 
-#endif //SEARCH_ENGINE_OPERATIONFILEANDJSON_H
+#endif //KAV_CHECK_OPERATIONFILEANDJSON_H

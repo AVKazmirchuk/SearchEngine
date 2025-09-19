@@ -7,29 +7,15 @@
 #include "converterJSON.h"
 
 
-#include "dispatcherDetermineValidity.h"
-
 
 void ConverterJSON::checkFilePath()
 {
-
+    //Проверить массив JSON-объекта путей файлов на пустоту
     DispatcherDetermineValidity::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
-
-    /*for (std::size_t idx{}; idx < configJSON[ConfigConverterJSON::filesStr].size(); ++idx)
-    {
-        if (!std::filesystem::exists(configJSON[ConfigConverterJSON::filesStr][idx]))
-        {
-            auto missingFile = configJSON[ConfigConverterJSON::filesStr][idx];
-
-            configJSON[ConfigConverterJSON::filesStr].erase(idx);
-            --idx;
-            Logger::error("File " + std::string(missingFile) + " is missing!");
-        }
-    }*/
-
 }
 
 void ConverterJSON::checkRequests()
 {
+    //Проверить массив JSON-объекта запросов на пустоту
     DispatcherDetermineValidity::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
 }

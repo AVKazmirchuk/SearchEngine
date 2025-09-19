@@ -9,7 +9,7 @@
 
 #include "kav/operationFileAndJSON.h"
 #include "kav/logger.h"
-#include "general.h"
+#include "types.h"
 
 
 
@@ -75,8 +75,8 @@ public:
 
     /**
      * Инициализирует код исключения
-     * @param in_errorCode Код исключения
-     * @param in_information Информация по исключению
+     * @param in_errorCode Код ошибки
+     * @param in_information Ссылка на информацию по ошибке
      */
     explicit CheckFileException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode(
             in_errorCode)
@@ -99,12 +99,15 @@ public:
      */
     [[nodiscard]] ErrorCode getErrorCode() const
     {
+        //Вернуть код ошибки
         return errorCode;
     }
 
 private:
 
+    //Код ошибки
     ErrorCode errorCode;
+    //Информация по ошибке
     std::string information;
 
 };
@@ -120,48 +123,107 @@ class DispatcherDetermineValidity
 
 public:
 
-    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON,
+    /**
+      * Записать JSON-файл
+      * @param filePath Ссылка на путь JSON-файла
+      * @param objectJSON Ссылка на JSON-объект для записи
+      * @param formatByWidth Ширина отступа
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Код ошибки
+      */
+    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
                                    ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                                   const int formatByWidth = 2,
                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+      * Проверить JSON-структуру на соответствие шаблону
+      * @param filePath Ссылка на путь JSON-файла
+      * @param objectJSON Ссылка на JSON-объект для проверки
+      * @param objectJSONTemplate Ссылка на JSON-объект шаблона
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Код ошибки
+      */
     static ErrorCode
     checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
                             ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-
+    /**
+      * Проверить массив JSON-объекта путей файлов на пустоту
+      * @param objectJSON Ссылка на JSON-объект для проверки
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Код ошибки
+      */
     static ErrorCode checkFilePathsArray(JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
                                          const std::string &message = "",
                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+      * Проверить массив JSON-объекта запросов на пустоту
+      * @param objectJSON Ссылка на JSON-объект для проверки
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Код ошибки
+      */
     static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
                                         const std::string &message = "",
                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
-     * Прочитать JSON-файл
-     * @param filePath Путь JSON-файла
-     * @return JSON-файл
-     */
+      * Прочитать JSON-файл
+      * @param filePath Ссылка на путь JSON-файла
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара JSON-объекта и кода ошибки
+      */
     static std::pair<JSON, ErrorCode>
     readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+      * Прочитать текстовый файл
+      * @param filePath Ссылка на путь текстового файла
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара текста и кода ошибки
+      */
     static std::pair<std::string, ErrorCode>
     readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+      * Прочитать несколько текстовых файлов одновременно в разных потоках
+      * @param filePaths Ссылка на путь контейнера путей файлов
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара контейнер текстов и кода ошибки
+      */
     static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, ErrorLevel errorLevel = ErrorLevel::no_level,
                                                                                     const std::string &message = "",
                                                                                     const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
+    /**
+     * Преобразовать код ошибки из внешней функции во внутренний код ошибки
+     * @param errorCode Код ошибки из внешней функции
+     * @return Код ошибки внутренний
+     */
     static const ErrorCode convertErrorCodeFrom(const kav::ErrorCode errorCode)
     {
+        //Соответствие кодов ошибки внутреннего и внешнего
         const std::map<kav::ErrorCode, ErrorCode> matchingErrorCodes{
 
                 {kav::ErrorCode::no_error,                       ErrorCode::no_error},
@@ -176,12 +238,19 @@ private:
 
         };
 
+        //Вернуть внутренний код ошибки
         return matchingErrorCodes.at(errorCode);
 
     }
 
+    /**
+     * Получить уровень логирования на основе вызывающей функции
+     * @param functionName Ссылка на имя функции
+     * @return Уровень логировани
+     */
     static const ErrorLevel getErrorLevelFrom(const std::string& functionName)
     {
+        //Соответствие имени вызывающей функции и уровня логирования
         const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
                 {"SearchEngine::ConfigSearchEngine::initialize",       ErrorLevel::fatal},
                 {"ConverterJSON::checkFilePath",                       ErrorLevel::fatal},
@@ -191,43 +260,67 @@ private:
                 {"SearchEngine::writeAnswersToFile",                   ErrorLevel::fatal}
         };
 
+        //Вернуть уровень логирования
         return matchingFunctionNameAndErrorLevel.at(functionName);
     }
 
+    /**
+     * Получить уровень логирования из объекта предоставленного BOOST_CURRENT_LOCATION
+     * @param callingFunctionStr Ссылка на объект предоставленный BOOST_CURRENT_LOCATION
+     * @return Уровень логирования
+     */
     static ErrorLevel getFunctionName(const std::string& callingFunctionStr)
     {
+        //Подготовить переменные для определения начала и конца имени функции
         std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
         std::string::size_type beginNameFunction{endNameFunction};
+        //Количество символов имени функции
         std::string::size_type symbolsNumber{};
 
+        //Подсчитать количествоо символов имени функции
         for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
         {}
 
+        //Вернуть уровень логирования
         return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
     }
 
+    /**
+     * Логировать событие по коду ошибки и уровню логирования
+     * @param filePath Ссылка на путь к файлу
+     * @param errorCode Код ошибки
+     * @param errorLevel Уровень логирования
+     * @param message Ссылка на сообщение
+     * @param callingFunction Ссылка на вызывающую функцию
+     */
     static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
                                   ErrorLevel errorLevel = ErrorLevel::no_level,
                                   const std::string &message = "",
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
     {
+        //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
         std::string callingFunctionStr{callingFunction.to_string()};
 
+        //Если уровень логирования не указан
         if (errorLevel == ErrorLevel::no_level)
         {
+            //Определить уровень логирования по имени функции
             errorLevel = getFunctionName(callingFunctionStr);
-            //if (filePath == "config.json") std::cout << static_cast<int>(errorLevel);
         }
 
+        //Подготовить окончательное сообщение для логирования
         std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                      static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
 
+        //Если при операции с файлом или JSON-объектом произошла ошибка
         if (errorCode != ErrorCode::no_error)
         {
+            //Записать в лог по уровню логирования
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
                     kav::Logger::fatal(completedMessage, CheckFileException(errorCode, filePath));
+                    //Выбросить исключение
                     throw CheckFileException(errorCode, filePath);
                 case ErrorLevel::error:
                     kav::Logger::error(completedMessage);

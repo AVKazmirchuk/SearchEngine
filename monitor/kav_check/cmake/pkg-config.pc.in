@@ -12,6 +12,6 @@
 #Cflags: -I${includedir}
 
 Name: ${PROJECT_NAME}
-Description: kav_check
+Description: kav_check2
 Version: ${PROJECT_VERSION}
 Cflags: -I${CMAKE_INSTALL_FULL_INCLUDEDIR}

@@ -68,7 +68,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
     std::size_t updatedMaxResponses{(answers[0].size() <= maxResponses ? answers[0].size() : maxResponses)};
 
     //Точность (количество знаков после запятой) вывода относительной релевантности
-    float epsilon{1/static_cast<float>(std::pow(10, constants::precision))};
+    float epsilon{1/static_cast<float>(std::pow(10, precision))};
 
     //Для каждого запроса
     for (std::size_t requestId{}; requestId < answers.size(); ++requestId)

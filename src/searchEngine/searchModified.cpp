@@ -12,12 +12,14 @@
 
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
+    //Прочитать документы
     return DispatcherDetermineValidity::readMultipleTextFiles(converterJSONObj.getFilePaths()).first;
 }
 
-void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath)
+void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
 {
-    DispatcherDetermineValidity::writeJSONFile(filePath, objectJSON);
+    //Записать результаты поиска
+    DispatcherDetermineValidity::writeJSONFile(filePath, objectJSON, formatByWidth);
 }
 
 void SearchEngine::searchModifiedAll()
@@ -44,7 +46,7 @@ void SearchEngine::searchModifiedAll()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
+    writeAnswersToFile(converterJSONObj.getAnswersJSON(), answersFilePath, formatByWidth);
 }
 
 void SearchEngine::searchModifiedDocuments()
@@ -65,7 +67,7 @@ void SearchEngine::searchModifiedDocuments()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
+    writeAnswersToFile(converterJSONObj.getAnswersJSON(), answersFilePath, formatByWidth);
 }
 
 void SearchEngine::searchModifiedRequests()
@@ -83,5 +85,5 @@ void SearchEngine::searchModifiedRequests()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(converterJSONObj.getAnswersJSON(), constants::answersFilePath);
+    writeAnswersToFile(converterJSONObj.getAnswersJSON(), answersFilePath, formatByWidth);
 }

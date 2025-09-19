@@ -39,7 +39,17 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/nlohmann_json/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/kav_check/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/monitor/cmake-build-release/src/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

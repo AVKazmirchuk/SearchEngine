@@ -13,18 +13,15 @@ void kav::Logger::ConfigLogger::initialize()
 {
 
     //Создать JSON-объект конфигурации
-    if (auto tmp = kav::OperationFileAndJSON::readJSONFile(configLoggerFilePath);tmp.second != kav::ErrorCode::no_error)
+    if (auto tmp = OperationFileAndJSON::readJSONFile(configLoggerFilePath);tmp.second != ErrorCode::no_error)
     {
-        //throw(Chek);
+        //Выбросить соответствующее исключение
+        throw LoggerException(tmp.second, configLoggerFilePath);
     }
     else
     {
         configLoggerJSON = tmp.first;
     }
-
-
-
-    //ReadWriteJSONFile::checkJSON(configLoggerFilePath, configLoggerJSON, configLoggerTemplate);
 
     //Интервалы времени хранения файла
 
@@ -67,14 +64,13 @@ void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
     //Создать JSON-объект конфигурации
     if (auto tmp = kav::OperationFileAndJSON::readJSONFile(configWriterMessageFilePath);tmp.second != kav::ErrorCode::no_error)
     {
-        //throw(Chek);
+        //Выбросить соответствующее исключение
+        throw LoggerException(tmp.second, configWriterMessageFilePath);
     }
     else
     {
         configWriterMessageJSON = tmp.first;
     }
-
-    //ReadWriteJSONFile::checkJSON(configWriterMessageFilePath, configWriterMessageJSON, configWriterMessageTemplate);
 
     //Имя очереди
     nameOfQueueValue = configWriterMessageJSON["messageQueue"]["nameOfQueue"];

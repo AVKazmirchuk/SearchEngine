@@ -48,7 +48,6 @@ void kav::Logger::WriterMessage::processMessageContainer()
 
         //Отправить в монитор
         writeToMonitor(message);
-
     }
 }
 
@@ -140,26 +139,14 @@ void kav::Logger::WriterMessage::run()
 {
     //Ожидать запуска монитора (другого процесса)
     waitForMonitorToStart();
-    //std::cout << '\n' << "###" << '\n' << std::endl;
-    //std::cout << "before while" << '\n' << std::endl;
-    //std::cout << "###" << '\n' << std::endl;
-    //std::cout.flush();
-    //std::cout << Logger::ptrToLogger->stopLogger.load() << std::endl;
+
     //Пока не получено уведомление о завершении работы
     while (!Logger::ptrToLogger->stopLogger.load())
     {
-
-        //std::cout << '\n' << "###" << '\n' << std::endl;
-        //std::cout << "in" << '\n' << std::endl;
-        //std::cout << "###" << '\n' << std::endl;
-        //std::cout.flush();
         //Ожидать сигнал о добавлении сообщения в контейнер сообщений
         std::unique_lock<std::mutex> uniqueLock(Logger::ptrToLogger->mutReadWriteMessages);
         Logger::ptrToLogger->cvPushMessage.wait(uniqueLock, [this]() { return Logger::ptrToLogger->pushMessage; });
-        //std::cout << '\n' << "###" << '\n' << std::endl;
-        //std::cout << "out" << '\n' << std::endl;
-        //std::cout << "###" << '\n' << std::endl;
-        //std::cout.flush();
+
         //Переместить сообщения из основного потока
         messages = std::move(Logger::ptrToLogger->messages);
 
@@ -168,7 +155,6 @@ void kav::Logger::WriterMessage::run()
 
         //Разблокировать доступ к контейнеру сообщений из основного потока
         uniqueLock.unlock();
-
 
         //Обработать контейнер сообщений
         processMessageContainer();
@@ -182,7 +168,4 @@ void kav::Logger::WriterMessage::run()
     messages = std::move(Logger::ptrToLogger->messages);
     //Обработать очередь сообщений
     processMessageContainer();
-
-    //std::cout << '\n' << "end run()" << '\n' << std::endl;
-
 }

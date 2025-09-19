@@ -2,8 +2,8 @@
 // Created by Alexander on 13.06.2025.
 //
 
-#ifndef SEARCH_ENGINE_ERRORCODE_H
-#define SEARCH_ENGINE_ERRORCODE_H
+#ifndef KAV_CHECK_ERRORCODE_H
+#define KAV_CHECK_ERRORCODE_H
 
 
 
@@ -45,4 +45,4 @@ namespace kav
 
 }
 
-#endif //SEARCH_ENGINE_ERRORCODE_H
+#endif //KAV_CHECK_ERRORCODE_H

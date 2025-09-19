@@ -1,8 +1,4 @@
 # ninja log v5
-8	1607	7775810511140919	CMakeFiles/search_engine_monitor.dir/general.cpp.obj	52e490d9208f31ef
 16	4772	7775810542780908	kav_check/CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj	dc138eec6f349d70
 20	2096	7775810516030910	kav_check/CMakeFiles/kav_check.dir/src/checkFile.cpp.obj	52a82eabcba79d60
-5	2528	7775810520350910	CMakeFiles/search_engine_monitor.dir/monitorReceiver.cpp.obj	d1637e06e466d717
 4772	4839	7775810543470911	kav_check/libkav_check.a	fa987fe9d3581ec2
-1	5528	7775810550340908	CMakeFiles/search_engine_monitor.dir/main.cpp.obj	49eca83b27e09ecb
-12	5706	7775810552120908	CMakeFiles/search_engine_monitor.dir/monitor.cpp.obj	3c60e1be05eb2e3f

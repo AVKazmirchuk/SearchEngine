@@ -59,7 +59,7 @@ endif()
 set(check_Install ON CACHE INTERNAL "")
 
 # В зависимости от добавления библиотеки в проект, закомментировать-раскомментировать if-endif и find_package
-#find_package(kav_check REQUIRED)
+#find_package(kav_logger REQUIRED)
 if (NOT TARGET kav_logger)
     add_subdirectory(kav_logger)
 endif()

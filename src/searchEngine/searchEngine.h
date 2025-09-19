@@ -16,14 +16,9 @@
 #include "invertedIndex.h"
 #include "requests.h"
 #include "relevantResponse.h"
-#include "readTextFile.h"
 #include "kav/operationFileAndJSON.h"
 #include "general.h"
 #include "kav/logger.h"
-
-
-
-
 
 
 
@@ -35,52 +30,28 @@ class SearchEngine
 
 public:
 
-    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath)
+    /**
+     * Инициализирует объекты классов
+     * @param in_configFilePath Ссылка на путь файла конфигурации
+     * @param in_requestsFilePath Ссылка на путь файла запросов
+     * @param in_answersFilePath Ссылка на путь файла ответов
+     * @param in_precision Количество знаков после запятой
+     * @param in_formatByWidth Ширина вывода
+     */
+    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, int in_precision, int in_formatByWidth)
     : configSearchEngine(in_configFilePath, in_requestsFilePath),
 
-      converterJSONObj(configSearchEngine.getConfigJSON(), configSearchEngine.getRequestsJSON()),
+      converterJSONObj(configSearchEngine.getConfigJSON(), configSearchEngine.getRequestsJSON(), in_precision),
       documentsObj{},
       invertedIndexObj(documentsObj.getDocuments()),
       requestsObj{},
-      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
+      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
+      answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}
 
     {
+        //Логировать сообщение о программе
         kav::Logger::info(converterJSONObj.about());
     }
-
-    /**
-     * Инициализирует объекты классов
-     * @param in_configJSON
-     * @param in_requestsJSON
-     */
-    /*SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
-
-    : converterJSONObj(in_configJSON, in_requestsJSON),
-      documentsObj{},
-      invertedIndexObj(documentsObj.getDocuments()),
-      requestsObj{},
-      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
-
-    {
-        Logger::info(converterJSONObj.about());
-    }*/
-
-    /**
-     * Инициализирует объекты классов
-     * @param in_configJSON
-     * @param in_requestsJSON
-     */
-    /*SearchEngine(JSON&& in_configJSON, JSON&& in_requestsJSON)
-
-    : converterJSONObj(std::move(in_configJSON), std::move(in_requestsJSON)),
-      documentsObj{},
-      invertedIndexObj(documentsObj.getDocuments()),
-      requestsObj{},
-      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
-
-    {
-        Logger::info(converterJSONObj.about());
-    }*/
 
     /**
      * Рассчитать релевантность ответов
@@ -113,6 +84,11 @@ private:
 
     public:
 
+        /**
+         * Инициализирует класс
+         * @param in_configFilePath Ссылка на путь файла конфигурации
+         * @param in_requestsFilePath Ссылка на путь файла запросов
+         */
         explicit ConfigSearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath)
         : configFilePath{in_configFilePath}, requestsFilePath{in_requestsFilePath}
         {
@@ -121,9 +97,6 @@ private:
 
         [[nodiscard]] JSON getConfigJSON() const {return configJSON;}
         [[nodiscard]] JSON getRequestsJSON() const {return requestsJSON;}
-
-
-
 
     private:
 
@@ -152,11 +125,13 @@ private:
     }
     )");
 
-        //Путь файла конфигурации логирования
+        //Путь файла конфигурации
         std::string configFilePath;
+        //Путь файла запросов
         std::string requestsFilePath;
-        //JSON-объект конфигурации логирования
+        //JSON-объект конфигурации
         JSON configJSON;
+        //JSON-объект запросов
         JSON requestsJSON;
 
         /**
@@ -166,11 +141,10 @@ private:
 
     };
 
-    //Объект чтения и хранения параметров для настройки класса Logger
+    /**
+     * Объект чтения и хранения параметров для настройки класса SearchEngine
+     */
     ConfigSearchEngine configSearchEngine;
-
-    JSON configJSON;
-    JSON requestsJSON;
 
     /**
      * JSON-объекты
@@ -198,12 +172,28 @@ private:
     RelevantResponse relevantResponseObj;
 
     /**
-     * Записать в JSON-файл результаты поиска
-     * @param objectJSON
-     * @param filePath
+     * Путь файла ответов
      */
-    void writeAnswersToFile(const JSON& objectJSON, const std::string& filePath);
+    std::string answersFilePath;
 
+    /**
+     * Ширина вывода
+     */
+    int formatByWidth;
+
+    /**
+     * Записать в JSON-файл результаты поиска
+     * @param objectJSON Ссылка на JSON-объект для записи
+     * @param filePath Ссылка на путь файла
+     * @param formatByWidth Ширина вывода
+     */
+    void writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth);
+
+    /**
+     * Читать документы из файлов
+     * @param filePaths Ссылка на контейнер путей файлов
+     * @return Контейнер документов
+     */
     std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths);
 
 };

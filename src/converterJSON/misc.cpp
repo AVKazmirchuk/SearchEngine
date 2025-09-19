@@ -11,7 +11,9 @@
 
 void ConverterJSON::initialize()
 {
+    //Проверить пути файлов документов (существование)
     checkFilePath();
+    //Проверить запросы (существование)
     checkRequests();
 }
 
@@ -29,6 +31,7 @@ JSON& ConverterJSON::getAnswersJSON()
 
 std::vector<std::string> ConverterJSON::getFilePaths()
 {
+    //Определить список путей файлов документов
     std::vector<std::string> filePaths(configJSON[ConfigConverterJSON::filesStr]);
 
     return filePaths;
@@ -36,17 +39,17 @@ std::vector<std::string> ConverterJSON::getFilePaths()
 
 int ConverterJSON::getMaxResponses()
 {
-
     return configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::max_responsesStr];
-
 }
 
 std::vector<std::string> ConverterJSON::getRequests()
 {
     std::vector<std::string> requests;
 
+    //Каждый запрос в JSON-объекте
     for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[ConfigConverterJSON::requestsStr]))
     {
+        //Добавить в контейнер
         requests.push_back(elem);
     }
 

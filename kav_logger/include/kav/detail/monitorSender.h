@@ -2,8 +2,8 @@
 // Created by Alexander on 15.04.2025.
 //
 
-#ifndef SEARCH_ENGINE_MONITORSENDER_H
-#define SEARCH_ENGINE_MONITORSENDER_H
+#ifndef KAV_LOGGER_MONITORSENDER_H
+#define KAV_LOGGER_MONITORSENDER_H
 
 
 
@@ -25,6 +25,10 @@ namespace kav
          * Открыть или создать очередь сообщений.
          * Если процесс получения и вывода сообщений запущен, - значит очередь сообщений существует, - открыть очередь сообщений.
          * Если процесс получения и вывода сообщений не запущен, - значит очередь сообщений не существует, - создать очередь сообщений.
+         * @param in_nameOfQueue Имя очереди
+         * @param in_maxNumberOfMessages Максимальное количество сообщений
+         * @param in_maxMessageSize Максимальный размер сообщения
+         * @param in_fileNameOfMonitor Имя файла монитора
          */
         MonitorSender(const std::string &in_nameOfQueue,
                       const boost::interprocess::message_queue::size_type in_maxNumberOfMessages,
@@ -69,6 +73,11 @@ namespace kav
 
         public:
 
+            /**
+             * Удалить очередь сообщений
+             * @param in_nameOfQueue Имя очереди
+             * @param in_fileNameOfMonitor Имя файла монитора
+             */
             RemoveMessageQueue(const std::string &in_nameOfQueue, const std::string &in_fileNameOfMonitor)
             {
                 //Процесс получения и вывода сообщений не запущен
@@ -76,7 +85,6 @@ namespace kav
                 {
                     //Удалить оставшуюся очередь (скорее всего, заблокированную)
                     boost::interprocess::message_queue::remove(in_nameOfQueue.c_str());
-
                 }
             }
 
@@ -88,15 +96,15 @@ namespace kav
              * @return Процесс запущен (true)/не запущен (false)
              */
             bool isProcessRun(const char *processName);
-
         };
 
+        //Объект удаления очереди сообщений. Используется только его конструктор
         RemoveMessageQueue removeMessageQueue;
+        //Объект оригинальной очереди сообщений
         boost::interprocess::message_queue mq;
-
     };
 }
 
 
 
-#endif //SEARCH_ENGINE_MONITORSENDER_H
+#endif //KAV_LOGGER_MONITORSENDER_H

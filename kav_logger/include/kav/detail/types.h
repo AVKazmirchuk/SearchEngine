@@ -2,8 +2,8 @@
 // Created by Alexander on 15.06.2025.
 //
 
-#ifndef SEARCH_ENGINE_TYPES_H
-#define SEARCH_ENGINE_TYPES_H
+#ifndef KAV_LOGGER_TYPES_H
+#define KAV_LOGGER_TYPES_H
 
 
 
@@ -29,4 +29,4 @@ namespace kav
 
 
 
-#endif //SEARCH_ENGINE_TYPES_H
+#endif //KAV_LOGGER_TYPES_H

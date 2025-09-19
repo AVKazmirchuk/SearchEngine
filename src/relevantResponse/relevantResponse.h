@@ -29,14 +29,16 @@ public:
      * , объект класса PreparedRequests, ссылку на подготовленную базу запросов
      * @param in_invertedIndexes Ссылка на базу инвертированных индексов
      * @param in_requests Ссылка на базу запросов
+     * @param in_precision Количество знаков после запятой
      */
     RelevantResponse(const std::map<std::string, std::vector<Entry>>& in_invertedIndexes,
-                     const std::vector<std::string>& in_requests)
+                     const std::vector<std::string>& in_requests, int in_precision)
 
     : invertedIndexes{in_invertedIndexes},
       requests{in_requests},
       preparedRequestObj{in_invertedIndexes, in_requests},
-      preparedRequests{preparedRequestObj.getPreparedRequests()}
+      preparedRequests{preparedRequestObj.getPreparedRequests()},
+      precision{in_precision}
 
     {}
 
@@ -187,7 +189,15 @@ private:
      */
     float maxAbsoluteRelevance{};
 
-    //Определить количество документов
+    /**
+     * Количество знаков после запятой
+     */
+    int precision;
+
+    /**
+     * Определить количество документов
+     * @return Количество документов
+     */
     std::size_t discoverNumberOfDocuments();
 
     /**

@@ -29,6 +29,7 @@ bool kav::Logger::isFileUsageTimeExceeded()
     //Закрыть файл
     inFile.close();
 
+    //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
     std::tm tm{};
     std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
     iss >> std::get_time(&tm, configLogger.dateTimeFormat().c_str());
@@ -38,11 +39,12 @@ bool kav::Logger::isFileUsageTimeExceeded()
     //Вычислить интервал времени, в течение которого можно использовать текущий файл
     std::chrono::system_clock::duration usageTimeCurrent = std::chrono::system_clock::now() - tp;
 
+    //Вычислить интервал времени, до которого можно использовать текущий файл
     std::chrono::system_clock::duration usageTimeLimit = Weeks(configLogger.weeksUsage()) + Days(configLogger.daysUsage()) + Hours(configLogger.hoursUsage()) +
                                                          Minutes(configLogger.minutesUsage()) + Seconds(configLogger.secondsUsage());
 
 
-    //Время использования текущего файла превышено
+    //Если время использования текущего файла превышено
     if (usageTimeCurrent >= usageTimeLimit)
     {
         //Заменить файл
@@ -86,12 +88,13 @@ void kav::Logger::identifyFilesByLastModification(const std::string& directoryPa
 
 void kav::Logger::identifyNewFile()
 {
+    //Преобразовать текущее значение времени в нужный формат
     std::time_t t{std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())};
-
+    //Подготовить переменную
     std::string ts(256,0);
-
+    //Определить имя файла по формату даты и времени
     ts.resize(std::strftime(&ts[0], ts.size(), configLogger.fileNameFormat().c_str(), std::localtime(&t)));
-
+    //Задать имя файла
     file = configLogger.filesDirectory() + ts + ".log";
 }
 

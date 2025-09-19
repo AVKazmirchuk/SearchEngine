@@ -10,7 +10,7 @@
 #include "nlohmann/json.hpp"
 
 
-
+/*
 //Тип объектов заменён на nlohmann::ordered_json (сохраняет порядок вставки)
 //Тип для чисел с плавающей запятой заменён на float
 using JSON = nlohmann::basic_json<
@@ -21,30 +21,7 @@ using JSON = nlohmann::basic_json<
         std::int64_t,
         std::uint64_t,
         float>;
-
-//Константы переменных
-namespace constants
-{
-
-    //Путь файла конфигурации
-    extern const std::string configFilePath;
-    //Путь файла запросов
-    extern const std::string requestsFilePath;
-    //Путь файла ответов
-    extern const std::string answersFilePath;
-
-    //Путь файла конфигурации логирования
-    extern const std::string configLoggerFilePath;
-    //Путь файла конфигурации очереди сообщений
-    extern const std::string configWriterMessageFilePath;
-
-    //Количество знаков после запятой
-    extern const int precision;
-    //Ширина вывода
-    extern const int formatByWidth;
-
-}
-
+*/
 
 
 #endif //SEARCH_ENGINE_GENERAL_H

@@ -2,8 +2,8 @@
 // Created by Alexander on 09.03.2025.
 //
 
-#ifndef SEARCH_ENGINE_LOGGER_H
-#define SEARCH_ENGINE_LOGGER_H
+#ifndef KAV_LOGGER_LOGGER_H
+#define KAV_LOGGER_LOGGER_H
 
 
 
@@ -17,11 +17,63 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <exception>
 
 
 #include "kav/detail/types.h"
 #include "kav/detail/monitorSender.h"
+#include "kav/operationFileAndJSON.h"
 
+
+namespace kav
+{
+/**
+ * Класс реализует генерацию исключений
+ */
+    class LoggerException : public std::exception
+    {
+
+    public:
+
+        /**
+         * Создать объект исключения
+         * @param in_errorCode Код ошибки
+         * @param in_information Ссылка на информацию по ошибке
+         */
+        explicit LoggerException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode{
+                in_errorCode}
+        {
+            information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
+        }
+
+        /**
+         * Получить информацию по исключению
+         * @return Информация по исключению
+         */
+        [[nodiscard]] const char *what() const noexcept override
+        {
+            return information.c_str();
+        }
+
+        /**
+         * Получить код исключения
+         * @return Код исключения
+         */
+        [[nodiscard]] ErrorCode getErrorCode() const
+        {
+            //Вернуть код ошибки
+            return errorCode;
+        }
+
+    private:
+
+        //Код ошибки
+        ErrorCode errorCode;
+        //Информация по ошибке
+        std::string information;
+
+    };
+}
 
 namespace kav
 {
@@ -68,7 +120,6 @@ namespace kav
     )");
 }
 
-
 namespace kav
 {
     /**
@@ -91,6 +142,11 @@ namespace kav
 
     public:
 
+        /**
+         * Инициализировать объекты настройки класса и записи сообщений
+         * @param in_configLoggerFilePath Путь файла конфигурации логирования
+         * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
+         */
         Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath)
                 : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath)
         {
@@ -109,7 +165,6 @@ namespace kav
                 //Выбросить исключение, так как более обного объекта создавать запрещено
                 throw OnlyOneObject();
             }
-            //std::this_thread::sleep_for(std::chrono::seconds(5));
         }
 
         ~Logger()
@@ -120,10 +175,9 @@ namespace kav
             //Вывести отдельный поток логирования из ожидания
             pushMessage = true;
             cvPushMessage.notify_one();
-            //std::cout << '\n' << "before resultOfWriteToFileAndMonitor.wait()" << '\n';
+
             //Ждать окончания работы отдельного потока логирования
             resultOfWriteToFileAndMonitor.wait();
-            //std::cout << '\n' << "after resultOfWriteToFileAndMonitor.wait()" << '\n';
         }
 
 
@@ -138,60 +192,60 @@ namespace kav
 
         /**
          * Записать сообщение уровня debug
-         * @param message Сообщение
-         * @param exception Исключение
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
          */
         static void debug(const std::string &message, const std::exception &exception);
 
         /**
          * Записать сообщение уровня information
-         * @param message Сообщение
+         * @param message Ссылка на сообщение
          */
         static void info(const std::string &message);
 
         /**
          * Записать сообщение уровня information
-         * @param message Сообщение
-         * @param exception Исключение
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
          */
         static void info(const std::string &message, const std::exception &exception);
 
         /**
          * Записать сообщение уровня warning
-         * @param message Сообщение
+         * @param message Ссылка на сообщение
          */
         static void warning(const std::string &message);
 
         /**
          * Записать сообщение уровня warning
-         * @param message Сообщение
-         * @param exception Исключение
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
          */
         static void warning(const std::string &message, const std::exception &exception);
 
         /**
          * Записать сообщение уровня error
-         * @param message Сообщение
+         * @param message Ссылка на сообщение
          */
         static void error(const std::string &message);
 
         /**
          * Записать сообщение уровня error
-         * @param message Сообщение
-         * @param exception Исключение
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
          */
         static void error(const std::string &message, const std::exception &exception);
 
         /**
          * Записать сообщение уровня fatal
-         * @param message Сообщение
+         * @param message Ссылка на сообщение
          */
         static void fatal(const std::string &message);
 
         /**
          * Записать сообщение уровня fatal
-         * @param message Сообщение
-         * @param exception Исключение
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
          */
         static void fatal(const std::string &message, const std::exception &exception);
 
@@ -205,51 +259,111 @@ namespace kav
 
         public:
 
+            /**
+             * Инициализировать объект
+             * @param in_configLoggerFilePath Ссылка на путь файла конфигурации логирования
+             */
             explicit ConfigLogger(const std::string &in_configLoggerFilePath) : configLoggerFilePath{
                     in_configLoggerFilePath}
             {
                 initialize();
             }
 
+            /**
+             * Получить интервал времени хранения файла
+             * @return Количество недель
+             */
             [[nodiscard]] std::int64_t weeksStorage() const
             { return weeksStorageTime; }
 
+            /**
+             * Получить интервал времени хранения файла
+             * @return Количество дней
+             */
             [[nodiscard]] std::int64_t daysStorage() const
             { return daysStorageTime; }
 
+            /**
+             * Получить интервал времени хранения файла
+             * @return Количество часов
+             */
             [[nodiscard]] std::int64_t hoursStorage() const
             { return hoursStorageTime; }
 
+            /**
+             * Получить интервал времени хранения файла
+             * @return Количество минут
+             */
             [[nodiscard]] std::int64_t minutesStorage() const
             { return minutesStorageTime; }
 
+            /**
+             * Получить интервал времени хранения файла
+             * @return Количество секунд
+             */
             [[nodiscard]] std::int64_t secondsStorage() const
             { return secondsStorageTime; }
 
+            /**
+             * Получить интервал времени использования файла
+             * @return Количество недель
+             */
             [[nodiscard]] std::int64_t weeksUsage() const
             { return weeksUsageTime; }
 
+            /**
+             * Получить интервал времени использования файла
+             * @return Количество дней
+             */
             [[nodiscard]] std::int64_t daysUsage() const
             { return daysUsageTime; }
 
+            /**
+             * Получить интервал времени использования файла
+             * @return Количество часов
+             */
             [[nodiscard]] std::int64_t hoursUsage() const
             { return hoursUsageTime; }
 
+            /**
+             * Получить интервал времени использования файла
+             * @return Количество минут
+             */
             [[nodiscard]] std::int64_t minutesUsage() const
             { return minutesUsageTime; }
 
+            /**
+             * Получить интервал времени использования файла
+             * @return Количество секунд
+             */
             [[nodiscard]] std::int64_t secondsUsage() const
             { return secondsUsageTime; }
 
+            /**
+             * Получить формат даты и времени записи в файл
+             * @return Формат даты и времени
+             */
             [[nodiscard]] const std::string &dateTimeFormat() const
             { return dateTimeFmt; }
 
+            /**
+             * Получить формат имени файл
+             * @return Формат имени
+             */
             [[nodiscard]] const std::string &fileNameFormat() const
             { return fileNameFmt; }
 
+            /**
+             * Получить предельный размер файла
+             * @return Размер файла
+             */
             [[nodiscard]] std::uint64_t fileSizeLimit() const
             { return fileSizeLmt; }
 
+            /**
+             * Получить директорию с лог-файлами
+             * @return Директория с лог-файлами
+             */
             [[nodiscard]] const std::string &filesDirectory() const
             { return filesDir; }
 
@@ -310,6 +424,10 @@ namespace kav
 
         public:
 
+            /**
+             * Настроить объект для чтения и хранения параметров и объект монитора отправки сообщений
+             * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
+             */
             explicit WriterMessage(const std::string &in_configWriterMessageFilePath)
                     : configWriterMessage(in_configWriterMessageFilePath),
                       monitorSender(configWriterMessage.nameOfQueue(),
@@ -333,30 +451,62 @@ namespace kav
 
             public:
 
+                /**
+                 * Инициализировать класс
+                 * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
+                 */
                 explicit ConfigWriterMessage(const std::string &in_configWriterMessageFilePath)
                         : configWriterMessageFilePath{in_configWriterMessageFilePath}
                 {
                     initialize();
                 }
 
+                /**
+                 * Получить имя очереди сообщений
+                 * @return Имя очереди
+                 */
                 [[nodiscard]] const std::string &nameOfQueue() const
                 { return nameOfQueueValue; }
 
+                /**
+                 * Получить максимальное количество сообщений в очереди
+                 * @return Максимальное количество сообщений
+                 */
                 [[nodiscard]] boost::interprocess::message_queue::size_type maxNumberOfMessages() const
                 { return maxNumberOfMessagesValue; }
 
+                /**
+                 * Получить максимальный размер сообщения
+                 * @return Максимальный размер сообщения
+                 */
                 [[nodiscard]] boost::interprocess::message_queue::size_type maxMessageSize() const
                 { return maxMessageSizeValue; }
 
+                /**
+                 * Получить имя файла основной программы
+                 * @return Имя файла
+                 */
                 [[nodiscard]] const std::string &fileNameOfMainProgram() const
                 { return fileNameOfMainProgramValue; }
 
+                /**
+                 * Получить имя файла монитора
+                 * @return Имя файла
+                 */
                 [[nodiscard]] const std::string &fileNameOfMonitor() const
                 { return fileNameOfMonitorValue; }
 
+                /**
+                 * Получить имя консоли
+                 * @return Имя консоли
+                 */
                 [[nodiscard]] const std::string &nameOfConsole() const
                 { return nameOfConsoleValue; }
 
+                /**
+                 * Получить признак запуска монитора
+                 * @return Признак запуска
+                 */
                 [[nodiscard]] const std::string &indicatesMonitorStarting() const
                 { return indicatesMonitorStartingValue; }
 
@@ -432,7 +582,6 @@ namespace kav
             /**
              * Отправить информацию в монитор в отдельном потоке
              * @param messageForOutput Ссылка на сообщение для вывода
-             * @param monitorSender Ссылка на объект класса отправки сообщений для вывода на монитор
              */
             void writeToMonitor(const std::string &messageForOutput);
 
@@ -525,14 +674,12 @@ namespace kav
         template<typename TP>
         std::time_t to_time_t(TP tp)
         {
-            using namespace std::chrono;
-            auto sctp = time_point_cast<system_clock::duration>(tp - TP::clock::now()
-                                                                + system_clock::now());
-            return system_clock::to_time_t(sctp);
+            auto sctp = time_point_cast<std::chrono::system_clock::duration>(tp - TP::clock::now() + std::chrono::system_clock::now());
+            return std::chrono::system_clock::to_time_t(sctp);
         }
 
         /**
-         * Определить, превышено ли  время использования файла
+         * Определить, превышено ли время использования файла
          * @return Превышено (true)/ Непревышено (false)
          */
         bool isFileUsageTimeExceeded();
@@ -557,8 +704,8 @@ namespace kav
         /**
          * Сформировать сообщение для вывода
          * @param level Уровень логирования
-         * @param message Сообщение
-         * @param exception Исключение
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
          * @param timeEvent Текущее время
          * @return Сообщение для вывода
          */
@@ -632,16 +779,15 @@ namespace kav
              */
             [[nodiscard]] const char *what() const noexcept override
             {
-                return "There should be only one object of the Logger class.";
+                return "There should be only one object of the Logger class";
             }
-
         };
-
     };
 }
 
 
-#endif //SEARCH_ENGINE_LOGGER_H
+
+#endif //KAV_LOGGER_LOGGER_H
 
 
 

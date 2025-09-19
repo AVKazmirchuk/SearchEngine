@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/tests/cmake-build-release/search_engine_test[1]_tests.cmake")
+  include("C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/tests/cmake-build-release/search_engine_test[1]_tests.cmake")
+else()
+  add_test(search_engine_test_NOT_BUILT search_engine_test_NOT_BUILT)
+endif()

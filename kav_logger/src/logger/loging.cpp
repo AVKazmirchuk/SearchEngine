@@ -70,9 +70,7 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
 
     //Сформировать сообщение для вывода
     std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
-    //std::cout << '\n' << "@@@" << '\n' << std::endl;
-    //std::cout << exception.what() << '\n' << std::endl;
-    //std::cout << "@@@" << '\n' << std::endl;
+
     //Заблокировать доступ к контейнеру сообщений из отдельного потока
     std::unique_lock<std::mutex> uniqueLock(mutReadWriteMessages);
 
@@ -86,6 +84,4 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
 
     //Сигнализировать о добавлении сообщения в контейнер сообщений
     cvPushMessage.notify_one();
-
-    //std::cout << '\n' << "end log()" << '\n' << std::endl;
 }

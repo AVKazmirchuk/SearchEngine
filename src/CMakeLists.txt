@@ -44,13 +44,9 @@ add_executable(${Application_Name} main.cpp
 
         documents/documents.cpp
 
-        general/general.cpp
-
         invertedIndex/updateInvertedIndexes.cpp
         invertedIndex/startInvertedIndexing.cpp
         invertedIndex/misc.cpp
-
-        readTextFile/readTextFile.cpp
 
         relevantResponse/updateRelevantResponses.cpp
         relevantResponse/countRelevanceOfResponses.cpp

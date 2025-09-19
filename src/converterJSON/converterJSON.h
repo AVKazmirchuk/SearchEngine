@@ -8,6 +8,7 @@
 
 
 #include <fstream>
+#include <future>
 #include <string>
 #include <vector>
 #include <utility>
@@ -15,14 +16,13 @@
 
 #include <thread>
 #include <mutex>
-#include <future>
+
 
 #include "nlohmann/json.hpp"
 
-#include "general.h"
+#include "dispatcherDetermineValidity.h"
+#include "types.h"
 
-#include "kav/operationFileAndJSON.h"
-#include <iostream>
 
 
 /**
@@ -37,10 +37,11 @@ public:
      * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
      * @param in_configJSON Ссылка на JSON-объект конфигурации
      * @param in_requestsJSON Ссылка на JSON-объект запросов
+     * @param in_precision Количество знаков после запятой
      */
-    ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
+    ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON, int in_precision)
 
-    : configJSON(in_configJSON), requestsJSON(in_requestsJSON)
+    : configJSON(in_configJSON), requestsJSON(in_requestsJSON), precision{in_precision}
 
     {
         initialize();
@@ -108,8 +109,8 @@ public:
     std::string about();
 
     /**
-     * Получить список файлов документов
-     * @return Список файлов документов
+     * Получить список путей файлов документов
+     * @return Список путей файлов документов
      */
     std::vector<std::string> getFilePaths();
 
@@ -157,10 +158,17 @@ private:
      */
     JSON answersJSON;
 
-
+    //Инициализировать
     void initialize();
 
+
+
     //ВСПОМОГАТЕЛЬНЫЕ ДАННЫЕ И ФУНКЦИИ
+
+    /**
+     * Количество знаков после запятой
+     */
+    int precision;
 
     /**
      * Проверить пути файлов документов (существование)
