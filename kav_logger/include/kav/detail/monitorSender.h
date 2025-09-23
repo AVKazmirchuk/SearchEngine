@@ -37,9 +37,7 @@ namespace kav
                 removeMessageQueue(in_nameOfQueue, in_fileNameOfMonitor),
                 mq(boost::interprocess::open_or_create, in_nameOfQueue.c_str(), in_maxNumberOfMessages,
                    in_maxMessageSize)
-        {
-
-        }
+        {}
 
         /**
          * Отправить сообщение в очередь сообщений

@@ -32,11 +32,6 @@ namespace constants
 //Вспомогательная функция запуска самой программы. Вынесено отдельно, для корректной обработки исключений
 void auxiliary()
 {
-
-
-    //Вывести в лог запуск программы
-    kav::Logger::info("Start SearchEngine");
-
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
     SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth);
 
@@ -54,34 +49,43 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    //Создать объект класса логирования событий
-    kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
-
-    //Запустить саму программу
     try
     {
+        //Создать объект класса логирования событий
+        kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
 
-        auxiliary();
+        try
+        {
+            //Вывести в лог запуск программы
+            kav::Logger::info("Start SearchEngine");
+
+            //Запустить саму программу
+            auxiliary();
+
+            //Вывести в лог завершение программы
+            kav::Logger::info("Stop SearchEngine");
+        }
+        catch (const std::exception& exception)
+        {
+            //std::cout << '\n' << "from main in catch" << '\n' << std::endl;
+            //kav::Logger::fatal("from auxiliary", exception);
+
+            //Вывести в лог завершение работы программы
+            kav::Logger::info("Stop SearchEngine");
+
+            return EXIT_FAILURE;
+        }
+
+
     }
     catch (const kav::LoggerException& exception)
     {
         std::cout << exception.what() << std::endl;
-        //Вывести в лог завершение работы программы
+        //Вывести сообщение о завершении работы программы
         std::cout << "Stop SearchEngine" << std::endl;
+
         return EXIT_FAILURE;
     }
-    catch (const std::exception& exception)
-    {
-        //std::cout << '\n' << "from main in catch" << '\n' << std::endl;
-        //kav::Logger::fatal("from auxiliary", exception);
-
-        //Вывести в лог завершение работы программы
-        kav::Logger::info("Stop SearchEngine");
-        return EXIT_FAILURE;
-    }
-
-    //Вывести в лог завершение работы программы
-    kav::Logger::info("Stop SearchEngine");
 
     return EXIT_SUCCESS;
 }

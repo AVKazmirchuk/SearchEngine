@@ -153,6 +153,7 @@ namespace kav
             //Объект класса не создан
             if (ptrToLogger == nullptr)
             {
+                //Получить адрес объекта
                 ptrToLogger = this;
 
                 //Настроить класс
@@ -160,7 +161,8 @@ namespace kav
 
                 //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
                 resultOfWriteToFileAndMonitor = std::async(&Logger::WriterMessage::run, &writerMessage);
-            } else
+            }
+            else
             {
                 //Выбросить исключение, так как более обного объекта создавать запрещено
                 throw OnlyOneObject();
@@ -179,8 +181,6 @@ namespace kav
             //Ждать окончания работы отдельного потока логирования
             resultOfWriteToFileAndMonitor.wait();
         }
-
-
 
         //Общие функции логирования
 
@@ -781,7 +781,9 @@ namespace kav
             {
                 return "There should be only one object of the Logger class";
             }
+
         };
+
     };
 }
 
