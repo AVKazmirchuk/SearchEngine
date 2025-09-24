@@ -16,8 +16,10 @@
 //Проверить запись в JSON-объект результатов поиска
 TEST(TestCheckConverterJSON, setAnswersJSON)
 {
+    int precision{6};
+
     //Создать объект с фиктивными параметрами. Объект используется только для проверки соответствия записи в JSON-объект результатов поиска
-    ConverterJSON converterJsonObj{constants::configTemplate, constants::requestsTemplate};
+    ConverterJSON converterJsonObj{testConstants::configTemplate, testConstants::requestsTemplate, precision};
 
     converterJsonObj.setAnswersJSON(testConstants::answers, converterJsonObj.getMaxResponses());
 

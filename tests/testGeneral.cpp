@@ -2,6 +2,7 @@
 // Created by Alexander on 27.03.2025.
 //
 
+#include "types.h"
 #include "general.h"
 #include "testGeneral.h"
 
@@ -9,40 +10,29 @@
 
 namespace testConstants {
 
-    const JSON configWrongTemplate = JSON::parse(R"(
+    const JSON configTemplate = JSON::parse(R"(
     {
-      "config": {
-        "name": "SkillboxSearchEngine",
-        "version": "0.1",
-        "max_responses": 5
-      },
-     "files": [
-
-     ]
-    }
-    )");
-
-    const JSON requestsWrongTemplate = JSON::parse(R"(
-    {
-      "requests": [
-
-      ]
-    }
-    )");
-
-    const JSON configWrongArray = JSON::parse(R"(
-    {
-        "config": {
-        "name": "SkillboxSearchEngine",
-        "version": "0.1",
-        "max_responses": 5
-    },
-    "files": [
+  "config": {
+    "name": "SkillboxSearchEngine",
+    "version": "1.0.0",
+    "max_responses": 5
+  },
+  "files": [
     "resources/file001.txt",
-    "resources/file999.txt",
+    "resources/file002.txt",
     "resources/file003.txt"
-    ]
-    }
+  ]
+}
+    )");
+
+    const JSON requestsTemplate = JSON::parse(R"(
+    {
+  "requests": [
+    "of the and water is year",
+    "water another good see",
+    "music"
+  ]
+}
     )");
 
     const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers =

@@ -1,12 +1,5 @@
 "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\Alexander\CLionProjects\search_engine\monitor
--- The CXX compiler identification is GNU 15.1.0
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: C:/MinGW-W64/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/bin/c++.exe - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
 -- Using the multi-header code from C:/Users/Alexander/CLionProjects/search_engine/monitor/nlohmann_json/include/
--- Found Boost: C:\boost_1_87_0 (found version "1.87.0")  
 -- This project (kav_check) has a top-level one called [logger_monitor]
 -- Include_Subdirectories="C:/Users/Alexander/CLionProjects/search_engine/monitor/include;C:/Users/Alexander/CLionProjects/search_engine/monitor/src"
 -- Configuring done

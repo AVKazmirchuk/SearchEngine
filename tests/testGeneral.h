@@ -7,14 +7,17 @@
 
 
 
+#include "nlohmann/json.hpp"
+
+#include "types.h"
+
+
 namespace testConstants
 {
 
-    extern const JSON configWrongTemplate;
+    extern const JSON configTemplate;
 
-    extern const JSON requestsWrongTemplate;
-
-    extern const JSON configWrongArray;
+    extern const JSON requestsTemplate;
 
     extern const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers;
 

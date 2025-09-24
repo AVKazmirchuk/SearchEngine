@@ -9,7 +9,7 @@
 #include "converterJSON.h"
 #include "relevantResponse.h"
 #include "invertedIndex.h"
-
+#include "testGeneral.h"
 
 
 //Проверить рассчёт релевантности ответов. Тест №1. Просто тест
@@ -21,6 +21,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
             "americano cappuccino"
     };
     const std::vector<std::string> request = {"milk water", "sugar"};
+    const int precision{6};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
                     {2, 1},
@@ -37,7 +38,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
     };
     InvertedIndex idx(docs);
     idx.updateInvertedIndexes();
-    RelevantResponse srv(idx.getInvertedIndexes(), request);
+    RelevantResponse srv(idx.getInvertedIndexes(), request, precision);
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
     ASSERT_EQ(result, expected);
@@ -70,6 +71,7 @@ TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
             "warsaw is the capital of poland",
     };
     const std::vector<std::string> request = {"moscow is the capital of russia"};
+    const int precision{6};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
                     {7, 1},
@@ -81,10 +83,10 @@ TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
     };
     InvertedIndex idx(docs);
     idx.updateInvertedIndexes();
-    RelevantResponse srv(idx.getInvertedIndexes(), request);
+    RelevantResponse srv(idx.getInvertedIndexes(), request, precision);
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
-    result[0].resize(ConverterJSON(constants::configTemplate, constants::requestsTemplate).getMaxResponses());
+    result[0].resize(ConverterJSON(testConstants::configTemplate, testConstants::requestsTemplate, precision).getMaxResponses());
 
     ASSERT_EQ(result, expected);
 }
