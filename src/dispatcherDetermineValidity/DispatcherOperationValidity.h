@@ -66,9 +66,9 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
 };
 
 /**
- * Класс реализует генерацию исключений
+ * Класс реализует исключение
  */
-class CheckFileException : public std::exception
+class OperationException : public std::exception
 {
 
 public:
@@ -78,7 +78,7 @@ public:
      * @param in_errorCode Код ошибки
      * @param in_information Ссылка на информацию по ошибке
      */
-    explicit CheckFileException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode(
+    explicit OperationException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode(
             in_errorCode)
     {
         information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
@@ -118,7 +118,7 @@ private:
  * Выполняет операции с файлами (чтение-запись), проверку JSON-объекта и при необходимости определяет уровень логирования,
  * и логирует события, по имени вызывающей функции при ошибке операции.
  */
-class DispatcherDetermineValidity
+class DispatcherOperationValidity
 {
 
 public:
@@ -319,9 +319,9 @@ private:
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
-                    kav::Logger::fatal(completedMessage, CheckFileException(errorCode, filePath));
+                    kav::Logger::fatal(completedMessage, OperationException(errorCode, filePath));
                     //Выбросить исключение
-                    throw CheckFileException(errorCode, filePath);
+                    throw OperationException(errorCode, filePath);
                 case ErrorLevel::error:
                     kav::Logger::error(completedMessage);
                     return;

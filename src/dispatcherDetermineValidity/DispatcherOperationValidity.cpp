@@ -4,11 +4,11 @@
 
 
 
-#include "dispatcherDetermineValidity.h"
+#include "DispatcherOperationValidity.h"
 
 
 
-ErrorCode DispatcherDetermineValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
+ErrorCode DispatcherOperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
                                                      ErrorLevel errorLevel, const std::string& message, const boost::source_location &callingFunction)
 {
     //Записать JSON-файл
@@ -22,7 +22,7 @@ ErrorCode DispatcherDetermineValidity::writeJSONFile(const std::string& filePath
     return errorCode;
 }
 
-std::pair<JSON, ErrorCode> DispatcherDetermineValidity::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<JSON, ErrorCode> DispatcherOperationValidity::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
                                                                      const std::string& message,
                                                                      const boost::source_location &callingFunction)
 {
@@ -38,7 +38,7 @@ std::pair<JSON, ErrorCode> DispatcherDetermineValidity::readJSONFile(const std::
 
 }
 
-std::pair<std::string, ErrorCode> DispatcherDetermineValidity::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
                                                                             const std::string& message,
                                                                             const boost::source_location &callingFunction)
 {
@@ -53,7 +53,7 @@ std::pair<std::string, ErrorCode> DispatcherDetermineValidity::readTextFile(cons
     return tmp;
 }
 
-ErrorCode DispatcherDetermineValidity::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+ErrorCode DispatcherOperationValidity::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                                                                ErrorLevel errorLevel, const std::string& message,
                                                                const boost::source_location &callingFunction)
 {
@@ -68,7 +68,7 @@ ErrorCode DispatcherDetermineValidity::checkJSONStructureMatch(const std::string
     return errorCode;
 }
 
-ErrorCode DispatcherDetermineValidity::checkFilePathsArray(JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherOperationValidity::checkFilePathsArray(JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                            const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту
@@ -89,7 +89,7 @@ ErrorCode DispatcherDetermineValidity::checkFilePathsArray(JSON& objectJSON, Err
     return errorCode;
 }
 
-ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherOperationValidity::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                           const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту
@@ -109,7 +109,7 @@ ErrorCode DispatcherDetermineValidity::checkRequestsArray(const JSON& objectJSON
     return errorCode;
 }
 
-std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
+std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
                                                                                                   const boost::source_location &callingFunction)
 {
     //Документы
@@ -122,7 +122,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherDetermineValidity::read
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        futures.push_back(std::async(DispatcherDetermineValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
+        futures.push_back(std::async(DispatcherOperationValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
     }
     //Количество непрочитанных документов
     std::size_t errorNumber{};

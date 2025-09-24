@@ -25,8 +25,34 @@
 #include "kav/operationFileAndJSON.h"
 
 
+
 namespace kav
 {
+
+    /**
+     * Коды ошибок класса Logger
+     */
+    enum class LoggerErrorCode
+    {
+        no_error,
+        only_one_object
+    };
+
+    /**
+     * Описание кодов ошибок
+     */
+    static const std::map<LoggerErrorCode, std::string> descriptionLoggerErrorCode{
+
+            {LoggerErrorCode::no_error,                    ""},
+            {LoggerErrorCode::only_one_object,             "There should be only one object of the Logger class"}
+
+    };
+
+}
+
+namespace kav
+{
+
 /**
  * Класс реализует генерацию исключений
  */
@@ -73,6 +99,7 @@ namespace kav
         std::string information;
 
     };
+
 }
 
 namespace kav

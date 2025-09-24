@@ -25,7 +25,7 @@ rule CUSTOM_COMMAND
 rule CXX_COMPILER__kav_check_Release
   depfile = $DEP_FILE
   deps = gcc
-  command = C:\MinGW-W64\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = C:\MinGW-W64\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
@@ -33,7 +33,7 @@ rule CXX_COMPILER__kav_check_Release
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__kav_check_Release
-  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E rm -f $TARGET_FILE && C:\MinGW-W64\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW-W64\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E rm -f $TARGET_FILE && C:\MinGW-W64\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\bin\ar.exe qc $TARGET_FILE $LINK_FLAGS $in && C:\MinGW-W64\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\bin\ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -44,7 +44,7 @@ rule CXX_STATIC_LIBRARY_LINKER__kav_check_Release
 rule CXX_COMPILER__logger_monitor_Release
   depfile = $DEP_FILE
   deps = gcc
-  command = C:\MinGW-W64\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = C:\MinGW-W64\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
@@ -52,7 +52,7 @@ rule CXX_COMPILER__logger_monitor_Release
 # Rule for linking CXX executable.
 
 rule CXX_EXECUTABLE_LINKER__logger_monitor_Release
-  command = cmd.exe /C "$PRE_LINK && C:\MinGW-W64\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\bin\c++.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && C:\MinGW-W64\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\bin\c++.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
@@ -61,7 +61,7 @@ rule CXX_EXECUTABLE_LINKER__logger_monitor_Release
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\monitor -BC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\monitor\cmake-build-release
+  command = "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Alexander\CLionProjects\search_engine\monitor -BC:\Users\Alexander\CLionProjects\search_engine\monitor\cmake-build-release
   description = Re-running CMake...
   generator = 1
 
@@ -70,7 +70,7 @@ rule RERUN_CMAKE
 # Rule for re-checking globbed directories.
 
 rule VERIFY_GLOBS
-  command = "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\monitor\cmake-build-release\CMakeFiles\VerifyGlobs.cmake
+  command = "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P C:\Users\Alexander\CLionProjects\search_engine\monitor\cmake-build-release\CMakeFiles\VerifyGlobs.cmake
   description = Re-checking globbed directories...
   generator = 1
 

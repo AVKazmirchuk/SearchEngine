@@ -40,7 +40,7 @@ add_executable(${Application_Name} main.cpp
         converterJSON/check.cpp
         converterJSON/misc.cpp
 
-        dispatcherDetermineValidity/dispatcherDetermineValidity.cpp
+        dispatcherDetermineValidity/DispatcherOperationValidity.cpp
 
         documents/documents.cpp
 

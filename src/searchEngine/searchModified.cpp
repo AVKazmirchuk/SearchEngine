@@ -6,20 +6,20 @@
 #include "general.h"
 #include "searchEngine.h"
 
-#include "dispatcherDetermineValidity.h"
+#include "DispatcherOperationValidity.h"
 
 
 
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
     //Прочитать документы
-    return DispatcherDetermineValidity::readMultipleTextFiles(converterJSONObj.getFilePaths()).first;
+    return DispatcherOperationValidity::readMultipleTextFiles(converterJSONObj.getFilePaths()).first;
 }
 
 void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
 {
     //Записать результаты поиска
-    DispatcherDetermineValidity::writeJSONFile(filePath, objectJSON, formatByWidth);
+    DispatcherOperationValidity::writeJSONFile(filePath, objectJSON, formatByWidth);
 }
 
 void SearchEngine::searchModifiedAll()
