@@ -114,7 +114,7 @@ private:
 
 
 /**
- * Класс диспетчер операций.
+ * Класс диспетчер операций c файлами и JSON-объектами
  * Выполняет операции с файлами (чтение-запись), проверку JSON-объекта и при необходимости определяет уровень логирования,
  * и логирует события, по имени вызывающей функции при ошибке операции.
  */
@@ -160,7 +160,7 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
-    static ErrorCode checkFilePathsArray(JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
+    static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
                                          const std::string &message = "",
                                          const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
@@ -252,7 +252,7 @@ private:
     {
         //Соответствие имени вызывающей функции и уровня логирования
         const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
-                {"SearchEngine::ConfigSearchEngine::initialize",       ErrorLevel::fatal},
+                {"ConverterJSON::ConfigConverterJSON::initialize",     ErrorLevel::fatal},
                 {"ConverterJSON::checkFilePath",                       ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                       ErrorLevel::fatal},
                 {"DispatcherDetermineValidity::readMultipleTextFiles", ErrorLevel::error},

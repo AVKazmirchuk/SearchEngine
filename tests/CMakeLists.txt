@@ -43,6 +43,8 @@ FetchContent_MakeAvailable(googletest)
 
 #Определить файлы-исходники проекта в переменные
 #file(GLOB_RECURSE CPP_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp") # Внимание!!! Добавляет второй раз main.cpp
+#Пока сделал простым перечислением всех директорий
+#TODO Надо научиться добавлять исключения
 file(GLOB CPP_CONVERTER_JSON CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/converterJSON/*.cpp")
 file(GLOB CPP_DISPATCHER_OPERATION_VALIDITY CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/dispatcherOperationValidity/*.cpp")
 file(GLOB CPP_DOCUMENTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/documents/*.cpp")

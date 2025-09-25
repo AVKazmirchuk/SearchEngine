@@ -35,13 +35,14 @@ public:
 
     /**
      * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
-     * @param in_configJSON Ссылка на JSON-объект конфигурации
-     * @param in_requestsJSON Ссылка на JSON-объект запросов
+     * @param in_configFilePath Ссылка на путь файла конфигурации
+     * @param in_requestsFilePath Ссылка на путь файла запросов
      * @param in_precision Количество знаков после запятой
      */
-    ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON, int in_precision)
+    ConverterJSON(const std::string& in_configFilePath, const std::string& in_requestsFilePath, int in_precision)
 
-    : configJSON(in_configJSON), requestsJSON(in_requestsJSON), precision{in_precision}
+    : configConverterJson(in_configFilePath, in_requestsFilePath),
+    configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
 
     {
         initialize();
@@ -49,58 +50,18 @@ public:
 
     /**
      * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
-     * @param in_configJSON Ссылка на JSON-объект конфигурации
-     * @param in_requestsJSON Ссылка на JSON-объект запросов
+     * @param in_configFilePath Ссылка на путь файла конфигурации
+     * @param in_requestsFilePath Ссылка на путь файла запросов
+     * @param in_precision Количество знаков после запятой
      */
-    ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
+    ConverterJSON(std::string&& in_configFilePath, std::string&& in_requestsFilePath, int in_precision)
 
-            : configJSON(std::move(in_configJSON)), requestsJSON(std::move(in_requestsJSON))
+            : configConverterJson(std::move(in_configFilePath), std::move(in_requestsFilePath)),
+            configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
 
     {
         initialize();
     }
-
-    //Класс содержит переменные названий полей файлов конфигурации, запросов, ответов
-    class ConfigConverterJSON
-    {
-
-    public:
-
-        ConfigConverterJSON() = delete;
-
-        //Имя поля "config" файла конфигурации
-        inline static const std::string configStr{"config"};
-        //Имя поля "name" файла конфигурации
-        inline static const std::string nameStr{"name"};
-        //Имя поля "version" файла конфигурации
-        inline static const std::string versionStr{"version"};
-        //Имя поля "max_responses" файла конфигурации
-        inline static const std::string max_responsesStr{"max_responses"};
-        //Имя поля "files" файла конфигурации
-        inline static const std::string filesStr{"files"};
-
-        //Имя поля "requests" файла запросов
-        inline static const std::string requestsStr{"requests"};
-
-        //Имя поля "answers" файла ответов
-        inline static const std::string answersStr{"answers"};
-        //Имя поля "request" файла ответов
-        inline static const std::string requestStr{"request"};
-        //Имя поля "result" файла ответов
-        inline static const std::string resultStr{"result"};
-        //Значение "true" поля "result" файла ответов
-        inline static const std::string trueStr{"true"};
-        //Значение "false" поля "result" файла ответов
-        inline static const std::string falseStr{"false"};
-        //Имя поля "relevance" файла ответов
-        inline static const std::string relevanceStr{"relevance"};
-        //Имя поля "docid" файла ответов
-        inline static const std::string docIdStr{"docid"};
-        //Имя поля "rank" файла ответов
-        inline static const std::string rankStr{"rank"};
-
-    };
-
 
     /**
      * О программе
@@ -141,17 +102,150 @@ public:
 
 private:
 
+    /**
+     * Класс реализует чтение и хранение параметров для настройки класса ConverterJSON
+     */
+    class ConfigConverterJSON
+    {
+
+    public:
+
+        /**
+         * Инициализирует класс
+         * @param in_configFilePath Ссылка на путь файла конфигурации
+         * @param in_requestsFilePath Ссылка на путь файла запросов
+         */
+        ConfigConverterJSON(const std::string& in_configFilePath, const std::string& in_requestsFilePath)
+                : configFilePath{in_configFilePath}, requestsFilePath{in_requestsFilePath}
+        {
+            initialize();
+        }
+
+        /**
+         * Инициализирует класс
+         * @param in_configFilePath Ссылка на путь файла конфигурации
+         * @param in_requestsFilePath Ссылка на путь файла запросов
+         */
+        ConfigConverterJSON(std::string&& in_configFilePath, std::string&& in_requestsFilePath)
+                : configFilePath{std::move(in_configFilePath)}, requestsFilePath{std::move(in_requestsFilePath)}
+        {
+            initialize();
+        }
+
+        /**
+         * Получить ссылку на JSON-объект конфигурации
+         * @return JSON-объект конфигурации
+         */
+        [[nodiscard]] const JSON& getConfigJSON() const {return configJSON;}
+
+        /**
+         * Получить ссылку на JSON-объект запросов
+         * @return JSON-объект запросов
+         */
+        [[nodiscard]] const JSON& getRequestsJSON() const {return requestsJSON;}
+
+    private:
+
+        //Шаблон JSON-объекта конфигурации
+        const JSON configTemplate = JSON::parse(R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1",
+        "max_responses": 5
+      },
+     "files": [
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
+     ]
+    }
+    )");
+
+        //Шаблон JSON-объекта запросов
+        const JSON requestsTemplate = JSON::parse(R"(
+    {
+      "requests": [
+        "of the and water is year",
+        "water another good see",
+        "music"
+      ]
+    }
+    )");
+
+        //Путь файла конфигурации
+        std::string configFilePath;
+        //Путь файла запросов
+        std::string requestsFilePath;
+        //JSON-объект конфигурации
+        JSON configJSON;
+        //JSON-объект запросов
+        JSON requestsJSON;
+
+        /**
+         * Инициализировать (настроить) класс
+         */
+        void initialize();
+
+    };
+
+    //Класс содержит переменные названий полей файлов конфигурации, запросов, ответов
+    class FileFieldNames
+    {
+
+    public:
+
+        FileFieldNames() = delete;
+
+        //Имя поля "config" файла конфигурации
+        inline static const std::string configStr{"config"};
+        //Имя поля "name" файла конфигурации
+        inline static const std::string nameStr{"name"};
+        //Имя поля "version" файла конфигурации
+        inline static const std::string versionStr{"version"};
+        //Имя поля "max_responses" файла конфигурации
+        inline static const std::string max_responsesStr{"max_responses"};
+        //Имя поля "files" файла конфигурации
+        inline static const std::string filesStr{"files"};
+
+        //Имя поля "requests" файла запросов
+        inline static const std::string requestsStr{"requests"};
+
+        //Имя поля "answers" файла ответов
+        inline static const std::string answersStr{"answers"};
+        //Имя поля "request" файла ответов
+        inline static const std::string requestStr{"request"};
+        //Имя поля "result" файла ответов
+        inline static const std::string resultStr{"result"};
+        //Значение "true" поля "result" файла ответов
+        inline static const std::string trueStr{"true"};
+        //Значение "false" поля "result" файла ответов
+        inline static const std::string falseStr{"false"};
+        //Имя поля "relevance" файла ответов
+        inline static const std::string relevanceStr{"relevance"};
+        //Имя поля "docid" файла ответов
+        inline static const std::string docIdStr{"docid"};
+        //Имя поля "rank" файла ответов
+        inline static const std::string rankStr{"rank"};
+
+    };
+
     //ОСНОВНЫЕ ДАННЫЕ И ФУНКЦИИ
 
     /**
-     * JSON-объект конфигурации
+     * Объект чтения и хранения параметров для настройки класса ConverterJSON
      */
-    JSON configJSON;
+    ConfigConverterJSON configConverterJson;
 
     /**
-     * JSON-объект запросов
+     * Ссылка на JSON-объект конфигурации
      */
-    JSON requestsJSON;
+    const JSON& configJSON;
+
+    /**
+     * Ссылка на JSON-объект запросов
+     */
+    const JSON& requestsJSON;
 
     /**
      * JSON-объект ответов

@@ -68,7 +68,7 @@ ErrorCode DispatcherOperationValidity::checkJSONStructureMatch(const std::string
     return errorCode;
 }
 
-ErrorCode DispatcherOperationValidity::checkFilePathsArray(JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherOperationValidity::checkFilePathsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                            const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту

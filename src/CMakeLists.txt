@@ -48,8 +48,7 @@ add_executable(${Application_Name} main.cpp
 
         searchEngine/searchModified.cpp
         searchEngine/exportRelevantResponses.cpp
-        searchEngine/config.cpp
-)
+        )
 
 # Задать переменную списка поддиректорий с заголовками
 set(Include_Subdirectories "")

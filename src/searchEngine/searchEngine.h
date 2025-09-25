@@ -17,7 +17,6 @@
 #include "requests.h"
 #include "relevantResponse.h"
 #include "kav/operationFileAndJSON.h"
-#include "general.h"
 #include "kav/logger.h"
 
 
@@ -31,7 +30,7 @@ class SearchEngine
 public:
 
     /**
-     * Инициализирует объекты классов
+     * Инициализирует объекты всех классов
      * @param in_configFilePath Ссылка на путь файла конфигурации
      * @param in_requestsFilePath Ссылка на путь файла запросов
      * @param in_answersFilePath Ссылка на путь файла ответов
@@ -39,14 +38,33 @@ public:
      * @param in_formatByWidth Ширина вывода
      */
     SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, int in_precision, int in_formatByWidth)
-    : configSearchEngine(in_configFilePath, in_requestsFilePath),
-
-      converterJSONObj(configSearchEngine.getConfigJSON(), configSearchEngine.getRequestsJSON(), in_precision),
+    : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
       documentsObj{},
       invertedIndexObj(documentsObj.getDocuments()),
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
       answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}
+
+    {
+        //Логировать сообщение о программе
+        kav::Logger::info(converterJSONObj.about());
+    }
+
+    /**
+     * Инициализирует объекты всех классов
+     * @param in_configFilePath Ссылка на путь файла конфигурации
+     * @param in_requestsFilePath Ссылка на путь файла запросов
+     * @param in_answersFilePath Ссылка на путь файла ответов
+     * @param in_precision Количество знаков после запятой
+     * @param in_formatByWidth Ширина вывода
+     */
+    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, int in_precision, int in_formatByWidth)
+            : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
+              documentsObj{},
+              invertedIndexObj(documentsObj.getDocuments()),
+              requestsObj{},
+              relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
+              answersFilePath{std::move(in_answersFilePath)}, formatByWidth{in_formatByWidth}
 
     {
         //Логировать сообщение о программе
@@ -68,83 +86,7 @@ public:
      */
     void searchModifiedRequests();
 
-    /**
-     * Преобразовать базу релевантности ответов в другой тип
-     * @return Преобразованная база релевантности ответов
-     */
-    std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
-
 private:
-
-    /**
-     * Класс реализует чтение и хранение параметров для настройки класса SearchEngine
-     */
-    class ConfigSearchEngine
-    {
-
-    public:
-
-        /**
-         * Инициализирует класс
-         * @param in_configFilePath Ссылка на путь файла конфигурации
-         * @param in_requestsFilePath Ссылка на путь файла запросов
-         */
-        explicit ConfigSearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath)
-        : configFilePath{in_configFilePath}, requestsFilePath{in_requestsFilePath}
-        {
-            initialize();
-        }
-
-        [[nodiscard]] JSON getConfigJSON() const {return configJSON;}
-        [[nodiscard]] JSON getRequestsJSON() const {return requestsJSON;}
-
-    private:
-
-        const JSON configTemplate = JSON::parse(R"(
-    {
-      "config": {
-        "name": "SkillboxSearchEngine",
-        "version": "0.1",
-        "max_responses": 5
-      },
-     "files": [
-       "resources/file001.txt",
-       "resources/file002.txt",
-       "resources/file003.txt"
-     ]
-    }
-    )");
-
-        const JSON requestsTemplate = JSON::parse(R"(
-    {
-      "requests": [
-        "of the and water is year",
-        "water another good see",
-        "music"
-      ]
-    }
-    )");
-
-        //Путь файла конфигурации
-        std::string configFilePath;
-        //Путь файла запросов
-        std::string requestsFilePath;
-        //JSON-объект конфигурации
-        JSON configJSON;
-        //JSON-объект запросов
-        JSON requestsJSON;
-
-        /**
-         * Инициализировать (настроить) класс
-         */
-        void initialize();
-
-    };
-
-    /**
-     * Объект чтения и хранения параметров для настройки класса SearchEngine
-     */
-    ConfigSearchEngine configSearchEngine;
 
     /**
      * JSON-объекты
@@ -180,6 +122,12 @@ private:
      * Ширина вывода
      */
     int formatByWidth;
+
+    /**
+     * Преобразовать базу релевантности ответов в другой тип
+     * @return Преобразованная база релевантности ответов
+     */
+    std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
 
     /**
      * Записать в JSON-файл результаты поиска

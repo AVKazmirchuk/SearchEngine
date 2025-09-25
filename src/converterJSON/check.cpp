@@ -11,11 +11,11 @@
 void ConverterJSON::checkFilePath()
 {
     //Проверить массив JSON-объекта путей файлов на пустоту
-    DispatcherOperationValidity::checkFilePathsArray(configJSON[ConfigConverterJSON::filesStr]);
+    DispatcherOperationValidity::checkFilePathsArray(configJSON[FileFieldNames::filesStr]);
 }
 
 void ConverterJSON::checkRequests()
 {
     //Проверить массив JSON-объекта запросов на пустоту
-    DispatcherOperationValidity::checkRequestsArray(requestsJSON[ConfigConverterJSON::requestsStr]);
+    DispatcherOperationValidity::checkRequestsArray(requestsJSON[FileFieldNames::requestsStr]);
 }

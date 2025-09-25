@@ -9,6 +9,19 @@
 
 
 
+void ConverterJSON::ConfigConverterJSON::initialize()
+{
+    //Создать JSON-объект конфигурации
+    configJSON = DispatcherOperationValidity::readJSONFile(configFilePath).first;
+    //Проверить JSON-структуру на соответствие шаблону
+    DispatcherOperationValidity::checkJSONStructureMatch(configFilePath, configJSON, configTemplate);
+
+    //Создать JSON-объект запросов
+    requestsJSON = DispatcherOperationValidity::readJSONFile(requestsFilePath).first;
+    //Проверить JSON-структуру на соответствие шаблону
+    DispatcherOperationValidity::checkJSONStructureMatch(requestsFilePath, requestsJSON, requestsTemplate);
+}
+
 void ConverterJSON::initialize()
 {
     //Проверить пути файлов документов (существование)
@@ -20,8 +33,8 @@ void ConverterJSON::initialize()
 std::string ConverterJSON::about()
 {
     //Вернуть строку о программе (название, версия)
-    return to_string(configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::nameStr]) + ", v." +
-           to_string(configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::versionStr]);
+    return to_string(configJSON[FileFieldNames::configStr][FileFieldNames::nameStr]) + ", v." +
+           to_string(configJSON[FileFieldNames::configStr][FileFieldNames::versionStr]);
 }
 
 JSON& ConverterJSON::getAnswersJSON()
@@ -32,14 +45,14 @@ JSON& ConverterJSON::getAnswersJSON()
 std::vector<std::string> ConverterJSON::getFilePaths()
 {
     //Определить список путей файлов документов
-    std::vector<std::string> filePaths(configJSON[ConfigConverterJSON::filesStr]);
+    std::vector<std::string> filePaths(configJSON[FileFieldNames::filesStr]);
 
     return filePaths;
 }
 
 int ConverterJSON::getMaxResponses()
 {
-    return configJSON[ConfigConverterJSON::configStr][ConfigConverterJSON::max_responsesStr];
+    return configJSON[FileFieldNames::configStr][FileFieldNames::max_responsesStr];
 }
 
 std::vector<std::string> ConverterJSON::getRequests()
@@ -47,7 +60,7 @@ std::vector<std::string> ConverterJSON::getRequests()
     std::vector<std::string> requests;
 
     //Каждый запрос в JSON-объекте
-    for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[ConfigConverterJSON::requestsStr]))
+    for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[FileFieldNames::requestsStr]))
     {
         //Добавить в контейнер
         requests.push_back(elem);
