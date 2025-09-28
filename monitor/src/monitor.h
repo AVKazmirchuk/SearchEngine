@@ -22,7 +22,7 @@ namespace kav
 {
 
 /**
- * Класс логирования событий в монитор
+ * Класс реализует логирование событий в монитор
  */
     class LoggerMonitor
     {
@@ -30,7 +30,7 @@ namespace kav
     public:
 
         /**
-         * Создать объект классов LoggerMonitor и СonfigLoggerMonitor
+         * /Создать объект классов СonfigLoggerMonitor и monitorReceiver
          * @param in_configLoggerMonitorFilePath Файл конфигурации монитора
          */
         explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)
@@ -68,7 +68,7 @@ namespace kav
     private:
 
         /**
-             * Класс реализует чтение и хранение параметров для настройки класса LoggerMonitor, MonitorReceiver
+             * Класс реализует чтение и хранение параметров для настройки классов LoggerMonitor, MonitorReceiver
              */
         class ConfigLoggerMonitor
         {
@@ -170,7 +170,7 @@ namespace kav
         //Объект монитора получения сообщений
         MonitorReceiver monitorReceiver;
 
-        //Контейнер очередей
+        //Контейнер очередей сообщений
         inline static std::list<std::string> queuesInUse;
 
         /**
@@ -180,7 +180,7 @@ namespace kav
         void outputToConsole(const std::string &message);
 
         /**
-         * Завершить работу
+         * Завершить работу. Используется в обработчике нажатия клавиш консоли
          */
         static void stop();
 

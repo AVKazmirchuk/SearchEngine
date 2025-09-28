@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug/
+cmake_ninja_workdir = C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug/
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target kav_logger
 
@@ -49,52 +49,52 @@ cmake_ninja_workdir = C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_lo
 
 build cmake_object_order_depends_target_kav_logger: phony || cmake_object_order_depends_target_kav_check
 
-build CMakeFiles/kav_logger.dir/src/logger/config.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/logger/config.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/logger/config.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/logger/config.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\logger\config.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\logger
 
-build CMakeFiles/kav_logger.dir/src/logger/identifyFile.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/logger/identifyFile.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/logger/identifyFile.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/logger/identifyFile.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\logger\identifyFile.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\logger
 
-build CMakeFiles/kav_logger.dir/src/logger/logger.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/logger/logger.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/logger/logger.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/logger/logger.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\logger\logger.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\logger
 
-build CMakeFiles/kav_logger.dir/src/logger/loging.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/logger/loging.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/logger/loging.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/logger/loging.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\logger\loging.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\logger
 
-build CMakeFiles/kav_logger.dir/src/logger/run.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/logger/run.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/logger/run.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/logger/run.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\logger\run.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\logger
 
-build CMakeFiles/kav_logger.dir/src/logger/setup.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/logger/setup.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/logger/setup.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/logger/setup.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\logger\setup.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\logger
 
-build CMakeFiles/kav_logger.dir/src/monitorSender/monitorSender.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/src/monitorSender/monitorSender.cpp || cmake_object_order_depends_target_kav_logger
+build CMakeFiles/kav_logger.dir/src/monitorSender/monitorSender.cpp.obj: CXX_COMPILER__kav_logger_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/src/monitorSender/monitorSender.cpp || cmake_object_order_depends_target_kav_logger
   DEP_FILE = CMakeFiles\kav_logger.dir\src\monitorSender\monitorSender.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include
   OBJECT_DIR = CMakeFiles\kav_logger.dir
   OBJECT_FILE_DIR = CMakeFiles\kav_logger.dir\src\monitorSender
 
@@ -119,7 +119,7 @@ build libkav_loggerd.a: CXX_STATIC_LIBRARY_LINKER__kav_logger_Debug CMakeFiles/k
 # Utility command for install/local
 
 build CMakeFiles/install/local.util: CUSTOM_COMMAND all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
   DESC = Installing only the local directory...
   pool = console
   restat = 1
@@ -131,7 +131,7 @@ build install/local: phony CMakeFiles/install/local.util
 # Utility command for install
 
 build CMakeFiles/install.util: CUSTOM_COMMAND all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
   DESC = Install the project...
   pool = console
   restat = 1
@@ -143,7 +143,7 @@ build install: phony CMakeFiles/install.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -154,7 +154,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger -BC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Alexander\CLionProjects\search_engine\kav_logger -BC:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -172,7 +172,7 @@ build list_install_components: phony
 # Utility command for install/strip
 
 build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
   DESC = Installing the project stripped...
   pool = console
   restat = 1
@@ -181,7 +181,7 @@ build install/strip: phony CMakeFiles/install/strip.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
-# C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/CMakeLists.txt
+# C:/Users/Alexander/CLionProjects/search_engine/kav_logger/CMakeLists.txt
 # =============================================================================
 
 
@@ -189,7 +189,7 @@ build install/strip: phony CMakeFiles/install/strip.util
 # Utility command for install/strip
 
 build nlohmann_json/CMakeFiles/install/strip.util: CUSTOM_COMMAND nlohmann_json/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
   DESC = Installing the project stripped...
   pool = console
   restat = 1
@@ -201,7 +201,7 @@ build nlohmann_json/install/strip: phony nlohmann_json/CMakeFiles/install/strip.
 # Utility command for install/local
 
 build nlohmann_json/CMakeFiles/install/local.util: CUSTOM_COMMAND nlohmann_json/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
   DESC = Installing only the local directory...
   pool = console
   restat = 1
@@ -213,7 +213,7 @@ build nlohmann_json/install/local: phony nlohmann_json/CMakeFiles/install/local.
 # Utility command for install
 
 build nlohmann_json/CMakeFiles/install.util: CUSTOM_COMMAND nlohmann_json/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
   DESC = Install the project...
   pool = console
   restat = 1
@@ -225,7 +225,7 @@ build nlohmann_json/install: phony nlohmann_json/CMakeFiles/install.util
 # Utility command for edit_cache
 
 build nlohmann_json/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -236,7 +236,7 @@ build nlohmann_json/edit_cache: phony nlohmann_json/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build nlohmann_json/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger -BC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\nlohmann_json && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Alexander\CLionProjects\search_engine\kav_logger -BC:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -251,7 +251,7 @@ build nlohmann_json/list_install_components: phony
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
-# C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/CMakeLists.txt
+# C:/Users/Alexander/CLionProjects/search_engine/kav_logger/CMakeLists.txt
 # =============================================================================
 
 
@@ -269,17 +269,17 @@ build kav_check/list_install_components: phony
 
 build cmake_object_order_depends_target_kav_check: phony || kav_check/CMakeFiles/kav_check.dir
 
-build kav_check/CMakeFiles/kav_check.dir/src/checkFile.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/src/checkFile.cpp || cmake_object_order_depends_target_kav_check
-  DEP_FILE = kav_check\CMakeFiles\kav_check.dir\src\checkFile.cpp.obj.d
+build kav_check/CMakeFiles/kav_check.dir/src/checkJSONStructureMatch.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/src/checkJSONStructureMatch.cpp || cmake_object_order_depends_target_kav_check
+  DEP_FILE = kav_check\CMakeFiles\kav_check.dir\src\checkJSONStructureMatch.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include
   OBJECT_DIR = kav_check\CMakeFiles\kav_check.dir
   OBJECT_FILE_DIR = kav_check\CMakeFiles\kav_check.dir\src
 
-build kav_check/CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/src/operationFileAndJSON.cpp || cmake_object_order_depends_target_kav_check
+build kav_check/CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj: CXX_COMPILER__kav_check_Debug C$:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/src/operationFileAndJSON.cpp || cmake_object_order_depends_target_kav_check
   DEP_FILE = kav_check\CMakeFiles\kav_check.dir\src\operationFileAndJSON.cpp.obj.d
   FLAGS = -g -Wall -Wextra -Wunreachable-code -Wpedantic -std=c++20
-  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include/kav/detail -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/kav_check/include -IC:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/nlohmann_json/include
+  INCLUDES = -IC:/boost_1_87_0 -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include/kav/detail -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/kav_check/include -IC:/Users/Alexander/CLionProjects/search_engine/kav_logger/nlohmann_json/include
   OBJECT_DIR = kav_check\CMakeFiles\kav_check.dir
   OBJECT_FILE_DIR = kav_check\CMakeFiles\kav_check.dir\src
 
@@ -291,7 +291,7 @@ build kav_check/CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj: CXX_C
 #############################################
 # Link the static library kav_check\libkav_checkd.a
 
-build kav_check/libkav_checkd.a: CXX_STATIC_LIBRARY_LINKER__kav_check_Debug kav_check/CMakeFiles/kav_check.dir/src/checkFile.cpp.obj kav_check/CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj
+build kav_check/libkav_checkd.a: CXX_STATIC_LIBRARY_LINKER__kav_check_Debug kav_check/CMakeFiles/kav_check.dir/src/checkJSONStructureMatch.cpp.obj kav_check/CMakeFiles/kav_check.dir/src/operationFileAndJSON.cpp.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = kav_check\CMakeFiles\kav_check.dir
   POST_BUILD = cd .
@@ -304,7 +304,7 @@ build kav_check/libkav_checkd.a: CXX_STATIC_LIBRARY_LINKER__kav_check_Debug kav_
 # Utility command for install/local
 
 build kav_check/CMakeFiles/install/local.util: CUSTOM_COMMAND kav_check/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
   DESC = Installing only the local directory...
   pool = console
   restat = 1
@@ -316,7 +316,7 @@ build kav_check/install/local: phony kav_check/CMakeFiles/install/local.util
 # Utility command for install
 
 build kav_check/CMakeFiles/install.util: CUSTOM_COMMAND kav_check/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -P cmake_install.cmake"
   DESC = Install the project...
   pool = console
   restat = 1
@@ -328,7 +328,7 @@ build kav_check/install: phony kav_check/CMakeFiles/install.util
 # Utility command for edit_cache
 
 build kav_check/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -339,7 +339,7 @@ build kav_check/edit_cache: phony kav_check/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build kav_check/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger -BC:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Alexander\CLionProjects\search_engine\kav_logger -BC:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -351,7 +351,7 @@ build kav_check/rebuild_cache: phony kav_check/CMakeFiles/rebuild_cache.util
 # Utility command for install/strip
 
 build kav_check/CMakeFiles/install/strip.util: CUSTOM_COMMAND kav_check/all
-  COMMAND = cmd.exe /C "cd /D C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  COMMAND = cmd.exe /C "cd /D C:\Users\Alexander\CLionProjects\search_engine\kav_logger\cmake-build-debug\kav_check && "C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
   DESC = Installing the project stripped...
   pool = console
   restat = 1
@@ -373,21 +373,21 @@ build libkav_checkd.a: phony kav_check/libkav_checkd.a
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug
+# Folder: C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug
 
 build all: phony libkav_loggerd.a nlohmann_json/all kav_check/all
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug/kav_check
+# Folder: C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug/kav_check
 
 build kav_check/all: phony kav_check/libkav_checkd.a
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-debug/nlohmann_json
+# Folder: C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-debug/nlohmann_json
 
 build nlohmann_json/all: phony
 
@@ -398,14 +398,14 @@ build nlohmann_json/all: phony
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../cmake/config.cmake.in ../kav_check/CMakeLists.txt ../kav_check/cmake/config.cmake.in ../nlohmann_json/CMakeLists.txt ../nlohmann_json/cmake/config.cmake.in ../nlohmann_json/cmake/nlohmann_jsonConfigVersion.cmake.in ../nlohmann_json/cmake/pkg-config.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/ExternalProject.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindBoost.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../cmake/config.cmake.in ../kav_check/CMakeLists.txt ../kav_check/cmake/config.cmake.in ../kav_check/cmake/pkg-config.pc.in ../nlohmann_json/CMakeLists.txt ../nlohmann_json/cmake/config.cmake.in ../nlohmann_json/cmake/nlohmann_jsonConfigVersion.cmake.in ../nlohmann_json/cmake/pkg-config.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/ExternalProject.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindBoost.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt ../cmake/config.cmake.in ../kav_check/CMakeLists.txt ../kav_check/cmake/config.cmake.in ../nlohmann_json/CMakeLists.txt ../nlohmann_json/cmake/config.cmake.in ../nlohmann_json/cmake/nlohmann_jsonConfigVersion.cmake.in ../nlohmann_json/cmake/pkg-config.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/ExternalProject.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindBoost.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake: phony
+build ../CMakeLists.txt ../cmake/config.cmake.in ../kav_check/CMakeLists.txt ../kav_check/cmake/config.cmake.in ../kav_check/cmake/pkg-config.pc.in ../nlohmann_json/CMakeLists.txt ../nlohmann_json/cmake/config.cmake.in ../nlohmann_json/cmake/nlohmann_jsonConfigVersion.cmake.in ../nlohmann_json/cmake/pkg-config.pc.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakePackageConfigHelpers.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/ExternalProject.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindBoost.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/GNUInstallDirs.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake C$:/Program$ Files/JetBrains/CLion$ 2021.3.4/bin/cmake/win/share/cmake-3.21/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCXXCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake: phony
 
 
 #############################################

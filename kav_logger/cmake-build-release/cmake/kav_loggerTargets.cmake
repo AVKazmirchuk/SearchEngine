@@ -46,7 +46,7 @@ add_library(kav_logger::kav_logger STATIC IMPORTED)
 
 set_target_properties(kav_logger::kav_logger PROPERTIES
   INTERFACE_COMPILE_FEATURES "cxx_std_20"
-  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/include"
   INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:nlohmann_json::nlohmann_json>;\$<LINK_ONLY:kav_check::kav_check>"
 )
 
@@ -54,7 +54,7 @@ set_target_properties(kav_logger::kav_logger PROPERTIES
 set_property(TARGET kav_logger::kav_logger APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(kav_logger::kav_logger PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_RELEASE "CXX"
-  IMPORTED_LOCATION_RELEASE "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger/cmake-build-release/libkav_logger.a"
+  IMPORTED_LOCATION_RELEASE "C:/Users/Alexander/CLionProjects/search_engine/kav_logger/cmake-build-release/libkav_logger.a"
   )
 
 # Make sure the targets which have been exported in some other

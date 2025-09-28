@@ -49,7 +49,7 @@ namespace kav
         std::string receive(const boost::interprocess::message_queue::size_type maxMessageSize);
 
         /**
-         * Получить константную ссылку на объект класса boost::interprocess::message_queue
+         * Получить объект класса boost::interprocess::message_queue
          * @return Константная ссылка на объект класса boost::interprocess::message_queue
          */
         [[nodiscard]] const boost::interprocess::message_queue &get() const
@@ -58,7 +58,7 @@ namespace kav
         }
 
         /**
-         * Получить ссылку на объект класса boost::interprocess::message_queue
+         * Получить объект класса boost::interprocess::message_queue
          * @return Ссылка на объект класса boost::interprocess::message_queue
          */
         boost::interprocess::message_queue &get()
@@ -68,7 +68,7 @@ namespace kav
 
     private:
 
-        //Вспомогательный класс для удаления оставшейся очереди сообщений (во избежание ошибок) перед инициализацией очереди
+        //Класс реализует удаление оставшейся очереди сообщений (во избежание ошибок) перед инициализацией очереди
         class RemoveMessageQueue
         {
 
