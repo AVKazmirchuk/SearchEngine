@@ -73,7 +73,7 @@
 
 ## Как использовать проект
 
-Программа использует файлы конфигурации и запросов (config.json, logger.json и requests.json). По результатам поиска в документах по запросам формируется файл answers.json, находящийся по этому же пути.\
+Программа использует файлы конфигурации и запросов (config.json, logger.json, messageQueue.json и requests.json). По результатам поиска в документах по запросам формируется файл answers.json, находящийся по этому же пути, что и запускной файл.\
 Файл config.json:
 ```json
 {
@@ -101,7 +101,49 @@
   ]
 }
 ```
-В поле "requests" прописываются сами запросы; по ним будет вестись поиск в документах.\
+В поле "requests" прописываются сами запросы; по ним будет вестись поиск в документах.
+\
+Файл logger.json:
+```json
+{
+	"usageTimeLimit" : {
+		"seconds" : 0,
+		"minutes" : 1,
+		"hours" : 0,
+		"days" : 0,
+		"weeks" : 0
+	},
+	"storageTimeLimit" : {
+		"seconds" : 0,
+		"minutes" : 7,
+		"hours" : 0,
+		"days" : 0,
+		"weeks" : 0
+	},
+	"dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
+	"fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
+	"fileSizeLimit" : 2000,
+	"filesDirectory" : ".\\Logs\\"
+}
+```
+В полях "usageTimeLimit", "storageTimeLimit" указываются значения использования (записи) и хранения файла логирования соответственно. Назначение других полей очевидно.
+\
+Файл messageQueue.json:
+```json
+{
+    "messageQueue" : {
+        "nameOfQueue" : "search_engine",
+        "maxNumberOfMessages" : 100,
+        "maxMessageSize" : 1024,
+        "fileNameOfMainProgram" : "search_engine.exe",
+        "fileNameOfMonitor" : "logger_monitor.exe",
+        "nameOfConsole" : "Logger Monitor",
+        "indicatesMonitorStarting" : "C:\\Windows\\Temp\\logger_monitor"
+    }
+}
+```
+В полях указаны значения для создания очереди сообщений и синронизации работы между двумя процессами search_engine.exe и logger_monitor.exe. Поле "indicatesMonitorStarting" является сигналом готовности процесса logger_monitor.exe.
+\
 Файл answers.json:
 ```json
 {
