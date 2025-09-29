@@ -6,9 +6,16 @@
 
 В организациях бывает потребность поиска информации по базе документов. Программе указываются в файлах JSON пути документов и запросы. По документам строится база инвертированного индекса, на основе которого определяется релевантность ответа (содержимого документа) для каждого запроса. По завершении поиска результаты выводятся в файл JSON, где для каждого запроса указан документ со степенью релевантности.\
 \
-В проекте использована многопоточная обработка (использована стандартная библиотека), - где необходимо. Использована сторонняя библиотека для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json/blob/develop/README.md). Использована сторонняя библиотека для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue). Использована сторонняя библиотека для предоставления местоположения в 
-исходном коде - [boost/assert/source_location](https://www.boost.org/doc/libs/latest/libs/assert/doc/html/assert.html#:~:text=for%20security%20reasons.-,Source%20Location%20Support%2C%20%3Cboost/assert/source_location.hpp%3E,-Description). Также использована сторонняя библиотека для вывода информации на консоль в цвете - [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst)
-Проект может быть использован в виде готовой программы (консольного типа) или как библиотека. Архитектура и подробное описание классов приводится в [документации](./docs/ru/index.md).
+В проекте использована многопоточная обработка (использована стандартная библиотека), - где необходимо.\
+Использованы следующие сторонние библиотеки:
+- для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json/blob/develop/README.md).
+- для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue).
+- для предоставления местоположения в исходном коде - [boost/assert/source_location](https://www.boost.org/doc/libs/latest/libs/assert/doc/html/assert.html#:~:text=for%20security%20reasons.-,Source%20Location%20Support%2C%20%3Cboost/assert/source_location.hpp%3E,-Description).
+- для вывода информации на консоль в цвете - [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).\
+\ 
+Проект состоит из основной части (ядро) и две библиотеки (kav_check, kav_logger). Все три подробно описаны в документации.\
+Проект может быть использован в виде готовой программы консольного типа, скачанной из репозитария, или собран и скомпилирован самостоятельно.\
+Архитектура и подробное описание всех классов приводится в [документации](./docs/ru/index.md).
 
 ## Зависимости
 
