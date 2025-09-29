@@ -13,7 +13,7 @@
 - для предоставления местоположения в исходном коде - [boost/assert/source_location](https://www.boost.org/doc/libs/latest/libs/assert/doc/html/assert.html#:~:text=for%20security%20reasons.-,Source%20Location%20Support%2C%20%3Cboost/assert/source_location.hpp%3E,-Description).
 - для вывода информации на консоль в цвете - [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).
 
-Проект состоит из основной части (ядро) и две библиотеки (kav_check, kav_logger). Все три подробно описаны в документации.\
+Проект состоит из основной части (ядро) и двух библиотек (kav_check, kav_logger). Все три подробно описаны в документации.\
 Проект может быть использован в виде готовой программы консольного типа, скачанной из репозитария, или собран и скомпилирован самостоятельно.\
 Архитектура и подробное описание всех классов приводится в [документации](./docs/ru/index.md).
 
