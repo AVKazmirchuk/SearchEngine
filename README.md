@@ -22,7 +22,7 @@
 Программа была разработана на С++ версии 20 и протестирована на ОС MS Windows 10, MS Windows 11. Для интеграции библиотек в проект можно воспользоваться следующими ссылками:
 - библиотека [nlohmann/json](https://github.com/nlohmann/json/#integration) для работы с JSON-форматом;
 - библиотека [boost](https://www.boost.org/doc/libs/1_88_0/more/getting_started/windows.html);
-- библиотека [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).
+- библиотека [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst#installation).
 
 Для запуска программы, скаченной из репозитория, не требуется устанавливать дополнительные компоненты. Программа скомпилирована с необходимыми статическими библиотеками. 
 
