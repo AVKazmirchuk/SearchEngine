@@ -179,7 +179,7 @@
 Для запуска программы надо просто запустить файл search_engine.exe без ключей.\
 Для работы необходимо, чтобы файлы конфигурации и запросов (config.json, logger.json, messageQueue.json и requests.json) находились в директории с программой. В этой же директории по окончании поиска будет создан файл ответов answers.json.
 
-### Библиотека
+### Рассчёт релевантности
 
 Для использования в самой программе (в функции main) необходимо оперировать объектом класса SearchEngine. Он уже в свою очередь управляет взаимодействием между другими классами.\
 Есть следующие функции рассчёта релевантности:
@@ -189,8 +189,8 @@
 
 Пример:
 ```cpp
-SearchEngine searchEngine(ReadWriteJSONFile().readJSONFile(constants::configFilePath),
-                              ReadWriteJSONFile().readJSONFile(constants::requestsFilePath));
+//Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
+SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth);
 
 //...
 //Меняются документы и запросы
