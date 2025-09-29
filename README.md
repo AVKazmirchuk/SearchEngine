@@ -216,7 +216,7 @@ searchEngine.searchModifiedRequests();
 
 ## Тестирование
 
-В проекте использована система юнит-тестирования [GoogleTest](https://github.com/google/googletest); реализована как независимый подпроект, - в репозитории в директории "tests" имеются исходные тесты. С помощью них тестируются основные классы, а именно: логика рассчёта релевантности (ядро программы), чтение файлов конфигурации и ответов и проверка их содержимого, создание JSON-объекта ответов. Подробно о функциях тестирования можно ознакомиться в [документации](./docs/ru/index.md). 
+В проекте использована система юнит-тестирования [GoogleTest](https://github.com/google/googletest), - в репозитории в директории "tests" имеются исходные тесты. С помощью них тестируется логика рассчёта релевантности (ядро программы) и создание JSON-объекта ответов. Также есть тесты для бибилиотеки kav_check. Для библиотеки kav_logger и подпроекта "logger_monitor" тесты отсутствуют. Подробно о функциях тестирования можно ознакомиться в [документации](./docs/ru/index.md). 
 
 ## Документация
 
@@ -224,7 +224,7 @@ searchEngine.searchModifiedRequests();
 
 ## Лицензия
 
-Этот класс лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).\
+Этот проект лицензирован в соответствии с [MIT License](https://opensource.org/licenses/MIT).\
 Copyright (c) 2025 Alexander Kazmirchuk
 
 * * *
@@ -232,6 +232,7 @@ Copyright (c) 2025 Alexander Kazmirchuk
 - Проект содержит копию библиотеки [nlohmann/json](https://github.com/nlohmann/json) Нильса Ломанна, лицензированную в соответствии с [MIT License](https://opensource.org/licenses/MIT).
 - Также проект использует компоненты библиотеки [boost](https://www.boost.org), лицензированную в соответствии с [The Boost Software License](https://www.boost.org/users/license.html).
 - Также проект использует библиотеку юнит-тестирования [GoogleTest](https://github.com/google/googletest/blob/main/README.md), лицензированную как [BSD 3-Clause "New" or "Revised" License](https://github.com/google/googletest/blob/main/LICENSE).
+- Также проект использует библиотеку [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst) Ihor Kalnytskyi, лицензированную как BSD (3-clause) License.
 
 ## Поддержка
 
