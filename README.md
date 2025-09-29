@@ -19,7 +19,7 @@
 
 ## Зависимости
 
-Программа была разработана на С++ версии 17 и протестирована на ОС MS Windows 10, MS Windows 11. Для интеграции библиотек в проект можно воспользоваться следующими ссылками:
+Программа была разработана на С++ версии 20 и протестирована на ОС MS Windows 10, MS Windows 11. Для интеграции библиотек в проект можно воспользоваться следующими ссылками:
 - библиотека [nlohmann/json](https://github.com/nlohmann/json/#integration) для работы с JSON-форматом;
 - библиотека  [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/1_88_0/more/getting_started/windows.html).
 
