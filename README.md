@@ -8,9 +8,9 @@
 \
 В проекте использована многопоточная обработка (использована стандартная библиотека), - где необходимо.\
 Использованы следующие сторонние библиотеки:
-- для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json/blob/develop/README.md).
-- для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue).
-- для предоставления местоположения в исходном коде - [boost/assert/source_location](https://www.boost.org/doc/libs/latest/libs/assert/doc/html/assert.html#:~:text=for%20security%20reasons.-,Source%20Location%20Support%2C%20%3Cboost/assert/source_location.hpp%3E,-Description).
+- для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json/blob/develop/README.md);
+- для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue);
+- для предоставления местоположения в исходном коде - [boost/assert/source_location](https://www.boost.org/doc/libs/latest/libs/assert/doc/html/assert.html#:~:text=for%20security%20reasons.-,Source%20Location%20Support%2C%20%3Cboost/assert/source_location.hpp%3E,-Description);
 - для вывода информации на консоль в цвете - [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).
 
 Проект состоит из основной части (ядро) и двух библиотек (kav_check, kav_logger). Все три подробно описаны в документации.\
@@ -21,9 +21,10 @@
 
 Программа была разработана на С++ версии 20 и протестирована на ОС MS Windows 10, MS Windows 11. Для интеграции библиотек в проект можно воспользоваться следующими ссылками:
 - библиотека [nlohmann/json](https://github.com/nlohmann/json/#integration) для работы с JSON-форматом;
-- библиотека  [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/1_88_0/more/getting_started/windows.html).
+- библиотека [boost](https://www.boost.org/doc/libs/1_88_0/more/getting_started/windows.html);
+- библиотека [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).
 
-Для запуска программы (скаченной из репозитория релиза) не требуется устанавливать дополнительные компоненты. Программа скомпилирована с необходимыми статическими библиотеками. 
+Для запуска программы, скаченной из репозитория, не требуется устанавливать дополнительные компоненты. Программа скомпилирована с необходимыми статическими библиотеками. 
 
 ## Установка
 
