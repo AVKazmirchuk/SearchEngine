@@ -11,7 +11,7 @@
 - для работы с форматом JSON - [nlohmann/json](https://github.com/nlohmann/json/blob/develop/README.md).
 - для межпроцессного обмена данными с помощью очереди сообщений - [boost/interprocess/ipc/message_queue](https://www.boost.org/doc/libs/master/doc/html/interprocess/synchronization_mechanisms.html#interprocess.synchronization_mechanisms.message_queue).
 - для предоставления местоположения в исходном коде - [boost/assert/source_location](https://www.boost.org/doc/libs/latest/libs/assert/doc/html/assert.html#:~:text=for%20security%20reasons.-,Source%20Location%20Support%2C%20%3Cboost/assert/source_location.hpp%3E,-Description).
-- для вывода информации на консоль в цвете - [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).\
+- для вывода информации на консоль в цвете - [Termcolor](https://github.com/ikalnytskyi/termcolor/blob/master/README.rst).
 
 Проект состоит из основной части (ядро) и две библиотеки (kav_check, kav_logger). Все три подробно описаны в документации.\
 Проект может быть использован в виде готовой программы консольного типа, скачанной из репозитария, или собран и скомпилирован самостоятельно.\
