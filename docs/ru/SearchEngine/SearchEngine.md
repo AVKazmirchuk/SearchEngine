@@ -12,14 +12,15 @@
 4. Рассчитывает релевантность ответов, при изменении запросов.
 5. Преобразует базу релевантности ответов в другой тип.
 ### Конструкторы:
-Инициализирует объекты классов.
+Инициализирует объекты всех классов.
 ```cpp
-SearchEngine(const JSON& in_configJSON, const JSON& in_requestsJSON)
-    : converterJSONObj(in_configJSON, in_requestsJSON),
+SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, int in_precision, int in_formatByWidth)
+    : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
       documentsObj{},
       invertedIndexObj(documentsObj.getDocuments()),
       requestsObj{},
-      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests())
+      relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
+      answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}
 ```
 Объект не является копируемым и перемещаемым (содержит объект класса InvertedIndex (содержит мьютекс)).
 ### Общедоступные функции-члены:
@@ -35,11 +36,6 @@ void searchModifiedDocuments();
 ```cpp
 void searchModifiedRequests();
 ```
-#### Преобразовать базу релевантности ответов в другой тип:
-```cpp
-std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
-```
-Возвращаемое значение: база релевантности ответов
 ### Примеры
 ```cpp
 #include "searchEngine.h"
@@ -48,7 +44,7 @@ std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponse
 int main()
 {
     //Создать объект
-    SearchEngine searchEngine;
+    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth);
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
 
@@ -72,8 +68,5 @@ int main()
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
-
-    //Преобразовать базу релевантности ответов в другой тип
-    std::vector<std::vector<std::pair<std::uint64_t, float>>> baseOfRelevantResponses{searchEngine.exportRelevantResponses()};
 }
 ```
