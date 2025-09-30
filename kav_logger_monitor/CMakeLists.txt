@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 # Задать имя для проекта, версию, название языка
-project(logger_monitor VERSION 1.0.0 LANGUAGES CXX)
+project(kav_logger_monitor VERSION 1.0.0 LANGUAGES CXX)
 
 # TODO Непонятно работает (нестабильно в разных по-вложенности CMakeLists), можно поразбираться
 #function(add_subdirectory _dir)
