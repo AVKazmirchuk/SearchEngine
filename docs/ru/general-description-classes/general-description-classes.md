@@ -4,7 +4,7 @@
 ### [Оглавление](../index.md)
 
 ## Общее описание классов
-Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme.png">Общая схема интерфейсов 1</a>), (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme2.png">Общая схема интерфейсов 2</a>)
+Общую схему интерфейсов классов можно взять здесь: (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme1.png">Общая схема интерфейсов 1</a>), (<a id="raw-url" href="https://raw.githubusercontent.com/AVKazmirchuk/SearchEngine/master/general-scheme2.png">Общая схема интерфейсов 2</a>)
 
 ### В программе используются следующие классы:
 
