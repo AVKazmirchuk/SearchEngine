@@ -1,7 +1,1 @@
-"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -G Ninja C:\Users\Alexander\CLionProjects\search_engine\monitor
--- Using the multi-header code from C:/Users/Alexander/CLionProjects/search_engine/monitor/nlohmann_json/include/
--- This project (kav_check) has a top-level one called [logger_monitor]
--- Include_Subdirectories="C:/Users/Alexander/CLionProjects/search_engine/monitor/include;C:/Users/Alexander/CLionProjects/search_engine/monitor/src"
--- Configuring done
--- Generating done
--- Build files have been written to: C:/Users/Alexander/CLionProjects/search_engine/monitor/cmake-build-release
+CMakeLists.txt not found in C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\monitor Select CMakeLists.txt
