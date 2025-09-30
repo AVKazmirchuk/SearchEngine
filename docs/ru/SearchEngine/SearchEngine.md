@@ -39,7 +39,6 @@ void searchModifiedRequests();
 ### Примеры
 ```cpp
 #include "searchEngine.h"
-#include "general.h"
 
 int main()
 {
