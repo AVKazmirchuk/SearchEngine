@@ -12,6 +12,8 @@
 Класс реализует работу с JSON-объектами.
 #### 1.1. ConverterJSON::ConfigConverterJSON (закрытый класс)
 Класс реализует чтение и хранение параметров для настройки класса ConverterJSON.
+#### 1.2. ConverterJSON::FileFieldNames (закрытый класс)
+Класс содержит переменные названий полей файлов конфигурации, запросов, ответов.
 #### 2. DispatcherOperationValidity
 Класс реализует диспетчер операций c файлами и JSON-объектами.
 #### 3. OperationException
