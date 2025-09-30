@@ -11,7 +11,7 @@
 3. Читает список файлов документов и предоставляет его.
 4. Читает из JSON-объекта конфигурациии имя программы, версию и максимальное количество ответов, и использует их.
 5. Читает запросы из JSON-объекта запросов.
-6. Записывает в JSON-объект оветов результаты поиска.
+6. Записывает в JSON-объект ответов результаты поиска.
 7. Хранит JSON-объекты конфигурации, запросов, ответов.
 8. Предоставляет ссылку на JSON-объект ответов.
 ### Файлы конфигурации, запросов и ответов
@@ -89,13 +89,14 @@
 - rank: поисковый рейтинг
 
 ### Конструкторы:
-Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов.
+Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов, количество знаков после запятой.
 ```cpp
  ConverterJSON(const std::string& in_configFilePath, const std::string& in_requestsFilePath, int in_precision)
 
     : configConverterJson(in_configFilePath, in_requestsFilePath),
     configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
 ```
+Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, количество знаков после запятой
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
 #### О программе
@@ -135,11 +136,11 @@ JSON& getAnswersJSON();
 int main()
 {
     //...
-    //Создать/получить JSON-объекты конфигурации и запросов (configJSON, requestsJSON)
+    //Получить пути файлов конфигурации и запросов (configFilePath, requestsFilePath) и количество знаков после запятой (precision) 
     //...
 
     //Создать объект класса ConverterJSON и инициализироать JSON-объектами конфигурации и запросов
-    ConverterJSON converterJSONObj(configJSON, requestsJSON);
+    converterJSONObj(configFilePath, requestsFilePath,precision)
 
     //Получить список файлов документов
     std::vector<std::string> filePaths(converterJSONObj.getFilePaths());
