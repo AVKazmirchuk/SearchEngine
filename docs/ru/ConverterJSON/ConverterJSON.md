@@ -6,8 +6,8 @@
 ## Класс ConverterJSON
 Класс реализует работу с JSON-объектами.
 ### Выполняет следующие функции:
-1. Получает и хранит JSON-объект конфигурации.
-2. Получает и хранит JSON-объект запросов.
+1. Получает файл конфигурации.
+2. Получает файл запросов.
 3. Читает список файлов документов и предоставляет его.
 4. Читает из JSON-объекта конфигурациии имя программы, версию и максимальное количество ответов, и использует их.
 5. Читает запросы из JSON-объекта запросов.
@@ -91,14 +91,10 @@
 ### Конструкторы:
 Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов.
 ```cpp
- ConverterJSON(const JSON& in_configJSON, const JSON& in_requestsJSON)
-     : configJSON(in_configJSON),
-       requestsJSON(in_requestsJSON)
+ ConverterJSON(const std::string& in_configFilePath, const std::string& in_requestsFilePath, int in_precision)
 
-ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
-    : configJSON(std::move(in_configJSON)),
-      requestsJSON(std::move(in_requestsJSON))
-
+    : configConverterJson(in_configFilePath, in_requestsFilePath),
+    configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
 ```
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
@@ -107,11 +103,11 @@ ConverterJSON(JSON&& in_configJSON, JSON&& in_requestsJSON)
 std::string about();
 ```
 Возвращаемое значение: строка о программе (название, версия)
-#### Получить список файлов документов:
+#### Получить список путей файлов документов:
 ```cpp
 std::vector<std::string> getFilePaths();
 ```
-Возвращаемое значение: список файлов документов
+Возвращаемое значение: Список путей файлов документов
 #### Получить запросы:
 ```cpp
 std::vector<std::string> getRequests();
