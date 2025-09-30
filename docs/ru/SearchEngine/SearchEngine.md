@@ -22,6 +22,7 @@ SearchEngine(const std::string& in_configFilePath, const std::string& in_request
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
       answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}
 ```
+Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, ссылка на путь файла ответов, количество знаков после запятой, ширина вывода.\
 Объект не является копируемым и перемещаемым (содержит объект класса InvertedIndex (содержит мьютекс)).
 ### Общедоступные функции-члены:
 #### Рассчитать релевантность ответов:
