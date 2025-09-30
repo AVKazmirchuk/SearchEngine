@@ -96,7 +96,8 @@
     : configConverterJson(in_configFilePath, in_requestsFilePath),
     configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
 ```
-Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, количество знаков после запятой.\
+Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, количество знаков после запятой.
+\
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
 #### О программе
