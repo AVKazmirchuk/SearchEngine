@@ -44,13 +44,16 @@
 Инициализирует: ссылку на базу инвертированных индексов, cсылку на базу запросов, объект класса PreparedRequests, ссылку на подготовленную базу запросов.
 ```cpp
 RelevantResponse(const std::map<std::string, std::vector<Entry>>& in_invertedIndexes,
-                 const std::vector<std::string>& in_requests)
+                     const std::vector<std::string>& in_requests, int in_precision)
+
     : invertedIndexes{in_invertedIndexes},
       requests{in_requests},
       preparedRequestObj{in_invertedIndexes, in_requests},
-      preparedRequests{preparedRequestObj.getPreparedRequests()}
+      preparedRequests{preparedRequestObj.getPreparedRequests()},
+      precision{in_precision}
     {}
 ```
+Параметры: ссылка на базу инвертированных индексов, ссылка на базу запросов, количество знаков после запятой
 Оператор присваивания неявно удалён (содержит ссылки на базы).\
 Копирование - затратная операция.
 ### Общедоступные функции-члены:
@@ -70,11 +73,11 @@ const std::vector<std::vector<RelativeIndex>>& getRelevantResponses();
 int main()
 {
     //...
-    //Получить ссылку на базу инвертированных индексов, cсылку на базу запросов (in_invertedIndexes, in_requests)
+    //Получить ссылку на базу инвертированных индексов, cсылку на базу запросов (in_invertedIndexes, in_requests), количество знаков после запятой (in_precision)
     //...
 
     //Создать объект класса RelevantResponse
-    RelevantResponse relevantResponseObj(in_invertedIndexes, in_requests);
+    RelevantResponse relevantResponseObj(in_invertedIndexes, in_requests, in_precision);
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
     //Получить ссылку на базу релевантности ответов
