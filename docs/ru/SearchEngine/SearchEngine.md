@@ -43,8 +43,11 @@ void searchModifiedRequests();
 
 int main()
 {
+    //Получить ссылки на путь файла конфигурации (configFilePath), запросов (requestsFilePath), ответов (answersFilePath); получить количество знаков после запятой (precision), ширину вывода (formatByWidth)
+
+
     //Создать объект
-    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth);
+    SearchEngine searchEngine(configFilePath, requestsFilePath, answersFilePath, precision, formatByWidth);
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
 
