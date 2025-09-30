@@ -10,8 +10,8 @@
 
 #### 1. ConverterJSON
 Класс реализует работу с JSON-объектами.
-#### 1.1. ConverterJSON::ConfigConverterJSON
-Класс реализует чтение и хранение параметров для настройки класса ConverterJSON
+#### 1.1. ConverterJSON::ConfigConverterJSON (закрытый класс)
+Класс реализует чтение и хранение параметров для настройки класса ConverterJSON.
 #### 2. DispatcherOperationValidity
 Класс реализует диспетчер операций c файлами и JSON-объектами.
 #### 3. OperationException
