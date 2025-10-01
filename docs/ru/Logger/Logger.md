@@ -87,8 +87,8 @@
 - indicatesMonitorStarting: признак запуска монитора
 
 ### Конструкторы:
-Создать объекты: СonfigLogger, WriterMessage. Настроить класс Logger и запустить в отдельном потоке запись сообщений 
-в лог-файл и отправку сообщений в монитор
+Создаёт объекты: СonfigLogger, WriterMessage. Настраивает класс Logger и запускает в отдельном потоке запись сообщений 
+в лог-файл и отправку сообщений в монитор.
 ```cpp
 Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath)
                 : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath)
@@ -117,6 +117,25 @@ Logger(const std::string &in_configLoggerFilePath, const std::string &in_configW
 В отдельном потоке запускается запись сообщений в лог-файл и отправка сообщений в монитор.\
 \
 Объект не является копируемым и перемещаемым (содержит мьютекс).
+### Деструктор:
+Уведомляет отдельный поток логирования о завершении работы и ожидает его окончания.
+```cpp
+~Logger()
+        {
+            //Уведомить отдельный поток логирования о завершении работы
+            stopLogger.store(true);
+
+            //Вывести отдельный поток логирования из ожидания
+            pushMessage = true;
+            cvPushMessage.notify_one();
+
+            //Ждать окончания работы отдельного потока логирования
+            resultOfWriteToFileAndMonitor.wait();
+        }
+```
+Необходим для корректного завершения работы, чтобы все сообщения были записаны в лог-файл и отправлены в очередь сообщений для вывода на консоль.
+\
+
 ### Общедоступные функции-члены:
 #### Инициализировать (настроить) класс
 ```cpp
