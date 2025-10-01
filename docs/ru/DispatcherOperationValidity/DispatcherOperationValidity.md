@@ -22,6 +22,7 @@
 1. Перечисление уровней логирования (enum class ErrorLevel).
 2. Перечисление кодов ошибок работы с файлами (enum class ErrorCode).
 3. Описание кодов ошибок (static const std::map<ErrorCode, std::string> descriptionErrorCode).
+\
 В подробном описании эти компоненты не нуждаются, так как очевидно их использование.
 
 ### Конструкторы:
