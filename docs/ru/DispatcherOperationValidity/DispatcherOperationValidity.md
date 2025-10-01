@@ -33,7 +33,7 @@ static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJS
 Возвращаемое значение: код ошибки.
 #### Проверить JSON-структуру на соответствие шаблону:
 ```cpp
-checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
+static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
                             ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
@@ -49,9 +49,9 @@ static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLev
 Возвращаемое значение: код ошибки.
 #### Проверить массив JSON-объекта запросов на пустоту:
 ```cpp
-static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                         const std::string &message = "",
-                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
+                                        const std::string &message = "",
+                                        const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
 Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
@@ -65,7 +65,8 @@ static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, Erro
 Возвращаемое значение: пара JSON-объекта и кода ошибки.
 #### Прочитать текстовый файл:
 ```cpp
-static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
+static std::pair<std::string, ErrorCode>
+    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
@@ -86,10 +87,52 @@ static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(cons
 int main()
 {
     //...
-    //Получить cписок путей документов (filePaths)
+    //Получить ссылку на JSON-объект для проверки (objectJSON)
     //...
 
-    //Прочитать документы в отдельных потоках
-    std::vector<std::string> documents{ReadTextFile::readTextFile(filePaths)};
+    //Проверить массив JSON-объекта путей файлов на пустоту
+    DispatcherOperationValidity::checkFilePathsArray(objectJSON);
+
+   //...
+   //Получить ссылку на JSON-объект для проверки (objectJSON)
+   //...
+
+   //Проверить массив JSON-объекта запросов на пустоту
+   DispatcherOperationValidity::checkRequestsArray(objectJSON);
+
+   //...
+   //Получить ссылку на путь контейнера путей файлов (filePaths)
+   //...
+
+  //Прочитать документы
+  std::vector<std::string> documents{DispatcherOperationValidity::readMultipleTextFiles(filePaths).first};
+
+  //...
+  //Получить ссылку на путь текстового файла (filePath)
+  //...
+
+  //Прочитать документ
+  std::string document{DispatcherOperationValidity::readTextFile(filePath).first};
+
+  //...
+  //Получить ссылку на путь JSON-файла (filePath)
+  //...
+
+  //Прочитать JSON-файл
+  JSON configJSON{DispatcherOperationValidity::readJSONFile(filePath).first};
+
+  //...
+  //Получить ссылку на путь JSON-файла (filePath), ссылку на JSON-объект для проверки (objectJSON), ссылку на JSON-объект шаблона (objectJSONTemplate)
+  //...
+
+  //Проверить JSON-структуру на соответствие шаблону
+  DispatcherOperationValidity::checkJSONStructureMatch(filePath, objectJSON, objectJSONTemplate);
+
+  //...
+  //Получить ссылку на путь JSON-файла (filePath), ссылку на JSON-объект для записи (objectJSON)
+  //...
+
+  //Записать JSON-файл
+  DispatcherOperationValidity::writeJSONFile(filePath, objectJSON);
 }
 ```
