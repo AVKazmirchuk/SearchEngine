@@ -14,7 +14,7 @@
 2. Выводит события в консоль.
 
 Эти функции осуществляются в другом потоке и приложении, чтобы минимизировать время ожидания обработки событий для основного потока. 
-### Файл конфигурации
+### Файлы конфигурации
 Класс использует файл конфигурации (logger.json) для настройки логирования.\
 \
 Файл logger.json:
@@ -36,10 +36,9 @@
 	},
 	"dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
 	"fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
-	"fileSizeLimit" : 1048576,
+	"fileSizeLimit" : 2000,
 	"filesDirectory" : ".\\Logs\\"
 }
-
 ```
 Назначение полей:
 - storageTimeLimit: интервалы времени хранения файла
@@ -60,6 +59,26 @@
 - fileNameFormat: формат имени файла
 - fileSizeLimit: предельный размер файла
 - filesDirectory: директория с файлами
+
+\
+Класс использует файл конфигурации (messageQueue.json) для настройки очереди сообщений.\
+\
+Файл messageQueue.json:
+```json
+{
+    "messageQueue" : {
+        "nameOfQueue" : "search_engine",
+        "maxNumberOfMessages" : 100,
+        "maxMessageSize" : 1024,
+        "fileNameOfMainProgram" : "search_engine.exe",
+        "fileNameOfMonitor" : "logger_monitor.exe",
+        "nameOfConsole" : "Logger Monitor",
+        "indicatesMonitorStarting" : "C:\\Windows\\Temp\\logger_monitor"
+    }
+}
+```
+
+
 ### Конструкторы:
 ```cpp
 Logger() = default;
