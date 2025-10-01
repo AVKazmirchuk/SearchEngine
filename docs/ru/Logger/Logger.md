@@ -137,11 +137,6 @@ Logger(const std::string &in_configLoggerFilePath, const std::string &in_configW
 \
 
 ### Общедоступные функции-члены:
-#### Инициализировать (настроить) класс
-```cpp
-static void initialize(const std::string& configFilePath);
-```
-Параметры: путь к файлу конфигурации
 #### Записать сообщение уровня debug:
 ```cpp
 static void debug(const std::string& message);
@@ -199,11 +194,11 @@ static void fatal(const std::string& message, const std::exception& exception);
 int main()
 {
     //...
-    //Получить путь файла настроек (configFilePath)
+    //Получить путь файлов настроек (сonfigLoggerFilePath, configWriterMessageFilePath)
     //...
 
-    //Инициализировать (настроить) класс
-    Logger::initialize(configFilePath);
+    //Создать объект логирования событий
+    kav::Logger logger(сonfigLoggerFilePath, configWriterMessageFilePath);
 
     //...
     //Получить сообщение уровня debug (message)
