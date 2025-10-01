@@ -1,4 +1,0 @@
-Cannot generate into C:\Users\Alexander\CLionProjects\search_engine\kav_check\cmake-build-release
-It is already used for project C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_check
-
-Please either delete it manually or select another generation directory
