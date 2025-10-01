@@ -27,30 +27,75 @@ OperationFileAndJSON() = delete;
 ```
 Отсутствуют. Класс имеет только статические функции-члены.
 ### Общедоступные функции-члены:
-#### Прочитать JSON-файл:
-```cpp
-static JSON readJSONFile(const std::string& filePath);
-```
-Параметры: путь JSON-файла\
-Возвращаемое значение: JSON-файл
 #### Записать JSON-файл:
 ```cpp
-static void writeJSONFile(const JSON& objectJSON, const std::string& filePath);
+static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2);
 ```
-Параметры: JSON-объект, путь JSON-файла
+Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для записи, ширина отступа.\
+Возвращаемое значение: код ошибки.
+#### Проверить JSON-структуру на соответствие шаблону:
+```cpp
+static ErrorCode checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
+```
+Параметры: ссылка на JSON-объект для проверки, ссылка на JSON-объект шаблона.\
+Возвращаемое значение: код ошибки.
+#### Проверить массив JSON-объекта на пустоту:
+```cpp
+static ErrorCode checkArray(const JSON &objectJSON);
+```
+Параметры: ссылка на JSON-объект для проверки.\
+Возвращаемое значение: код ошибки.
+#### Прочитать JSON-файл:
+```cpp
+static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath);
+```
+Параметры: ссылка на путь JSON-файла.\
+Возвращаемое значение: пара JSON-объекта и кода ошибки.
+#### Прочитать текстовый файл:
+```cpp
+static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
+```
+Параметры: ссылка на путь текстового файла.\
+Возвращаемое значение: пара текста и кода ошибки.
 ### Примеры
 ```cpp
-#include "readWriteJSONFile.h"
+#include "kav/operationFileAndJSON.h"
 
 int main()
 {
-    //...
-    //Получить путь JSON-файла (filePath)
-    //...
+   //...
+   //Получить ссылку на JSON-объект для проверки (objectJSON)
+   //...
 
-    //Прочитать JSON-файл
-    JSON JSONObj{ReadWriteJSONFile::readJSONFile(filePath)};
-    //Записать JSON-файл
-    ReadWriteJSONFile::writeJSONFile(JSONObj, filePath);
+   //Проверить массив JSON-объекта на пустоту
+   kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON)};
+      
+  //...
+  //Получить ссылку на путь текстового файла (filePath)
+  //...
+
+  //Прочитать текстовый файл
+    std::pair<std::string, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readTextFile(filePath)};
+
+  //...
+  //Получить ссылку на путь JSON-файла (filePath)
+  //...
+
+  //Прочитать JSON-файл
+  std::pair<JSON, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readJSONFile(filePath)};
+
+  //...
+  //Получить ссылку на JSON-объект для проверки (objectJSON), ссылку на JSON-объект шаблона (objectJSONTemplate)
+  //...
+
+  //Проверить JSON-структуру на соответствие шаблону
+  kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkJSONStructureMatch(objectJSON, objectJSONTemplate)};
+
+  //...
+  //Получить ссылку на путь JSON-файла (filePath), ссылку на JSON-объект для записи (objectJSON), ширину отступа (formatByWidth)
+  //...
+
+  //Записать JSON-файл
+  kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::writeJSONFile(filePath, objectJSON, formatByWidth)};
 }
 ```
