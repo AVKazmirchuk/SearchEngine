@@ -6,7 +6,7 @@
 ## Класс DispatcherOperationValidity
 Класс реализует диспетчер операций c файлами и JSON-объектами.\
 Логирование операций при наличии ошибок происходит именно в этом классе. В вызывающей функции логировать не надо.\
-Если требуется логирование в любом случае - тогда надо логировать при вызове операции (пока сделано так, но надо предусмотреть и эту возможность).
+Если требуется логирование в любом случае (без ошибки) - тогда надо логировать при вызове операции (пока сделано так, но надо предусмотреть и эту возможность).
 ### Выполняет следующие функции:
 1. Читает/записывает текстовый файл.
 2. Читает/записывает JSON-файл.
@@ -31,7 +31,54 @@ static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJS
 ```
 Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для записи, ширина отступа, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
-
+#### Проверить JSON-структуру на соответствие шаблону:
+```cpp
+checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
+                            ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
+                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для проверки, ссылка на JSON-объект шаблона, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: код ошибки.
+#### Проверить массив JSON-объекта путей файлов на пустоту:
+```cpp
+static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
+                                         const std::string &message = "",
+                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: код ошибки.
+#### Проверить массив JSON-объекта запросов на пустоту:
+```cpp
+static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
+                                         const std::string &message = "",
+                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: код ошибки.
+#### Прочитать JSON-файл:
+```cpp
+static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
+                 const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на путь JSON-файла, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: пара JSON-объекта и кода ошибки.
+#### Прочитать текстовый файл:
+```cpp
+static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
+                 const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на путь текстового файла, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: пара текста и кода ошибки.
+#### Прочитать несколько текстовых файлов одновременно в разных потоках:
+```cpp
+static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths,
+                 ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на путь контейнера путей файлов, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: пара контейнер текстов и кода ошибки.
 ### Примеры
 ```cpp
 #include "readTextFile.h"
