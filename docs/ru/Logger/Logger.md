@@ -77,7 +77,14 @@
     }
 }
 ```
-
+Назначение полей:
+- nameOfQueue: имя очереди
+- maxNumberOfMessages: максимальное количество сообщений в очереди
+- maxMessageSize: максимальный размер сообщения
+- fileNameOfMainProgram: имя файла основной программы
+- fileNameOfMonitor: имя файла монитора
+- nameOfConsole: имя консоли
+- indicatesMonitorStarting: признак запуска монитора
 
 ### Конструкторы:
 ```cpp
