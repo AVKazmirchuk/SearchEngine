@@ -11,7 +11,7 @@
 7. [Класс RelevantResponse](./RelevantResponse/RelevantResponse.md)
 8. [Класс Requests](./Requests/Requests.md)
 9. [Класс SearchEngine](./SearchEngine/SearchEngine.md)
-10. [Класс ReadWriteJSONFile](./ReadWriteJSONFile/ReadWriteJSONFile.md)
+10. [Библиотека OperationFileAndJSON](./OperationFileAndJSON/OperationFileAndJSON.md)
 11. [Класс CheckFile](./CheckFile/CheckFile.md)
 12. [Класс Logger](./Logger/Logger.md)
 13. [Класс MonitorSender](./MonitorSender/MonitorSender.md)
