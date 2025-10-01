@@ -62,56 +62,7 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
         {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty:"},
         {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt:"},
         {ErrorCode::error_all_files_not_read,       "All files have not been read"}
-
 };
-
-/**
- * Класс реализует исключение
- */
-class OperationException : public std::exception
-{
-
-public:
-
-    /**
-     * Инициализирует код исключения
-     * @param in_errorCode Код ошибки
-     * @param in_information Ссылка на информацию по ошибке
-     */
-    explicit OperationException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode(
-            in_errorCode)
-    {
-        information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
-    }
-
-    /**
-     * Получить информацию по исключению
-     * @return Информация по исключению
-     */
-    [[nodiscard]] const char *what() const noexcept override
-    {
-        return information.c_str();
-    }
-
-    /**
-     * Получить код исключения
-     * @return Код исключения
-     */
-    [[nodiscard]] ErrorCode getErrorCode() const
-    {
-        //Вернуть код ошибки
-        return errorCode;
-    }
-
-private:
-
-    //Код ошибки
-    ErrorCode errorCode;
-    //Информация по ошибке
-    std::string information;
-
-};
-
 
 /**
  * Класс реализует диспетчер операций c файлами и JSON-объектами
@@ -121,7 +72,60 @@ private:
 class DispatcherOperationValidity
 {
 
+private:
+
+
+
+    /**
+     * Класс реализует исключение
+     */
+    class OperationException : public std::exception
+    {
+
+    public:
+
+        /**
+         * Инициализирует код исключения
+         * @param in_errorCode Код ошибки
+         * @param in_information Ссылка на информацию по ошибке
+         */
+        explicit OperationException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode(
+                in_errorCode)
+        {
+            information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
+        }
+
+        /**
+         * Получить информацию по исключению
+         * @return Информация по исключению
+         */
+        [[nodiscard]] const char *what() const noexcept override
+                {
+                        return information.c_str();
+                }
+
+        /**
+         * Получить код исключения
+         * @return Код исключения
+         */
+        [[nodiscard]] ErrorCode getErrorCode() const
+        {
+            //Вернуть код ошибки
+            return errorCode;
+        }
+
+    private:
+
+        //Код ошибки
+        ErrorCode errorCode;
+        //Информация по ошибке
+        std::string information;
+
+    };
+
 public:
+
+    DispatcherOperationValidity() = delete;
 
     /**
       * Записать JSON-файл

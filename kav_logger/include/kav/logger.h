@@ -41,12 +41,12 @@ namespace kav
     /**
      * Описание кодов ошибок
      */
-    static const std::map<LoggerErrorCode, std::string> descriptionLoggerErrorCode{
+    /*static const std::map<LoggerErrorCode, std::string> descriptionLoggerErrorCode{
 
             {LoggerErrorCode::no_error,                    ""},
             {LoggerErrorCode::only_one_object,             "There should be only one object of the Logger class"}
 
-    };
+    };*/
 
 }
 
