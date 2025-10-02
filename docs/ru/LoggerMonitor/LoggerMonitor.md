@@ -32,7 +32,8 @@ explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)
             }
         }
 ```
-Создаёт объект классов СonfigLoggerMonitor и monitorReceiver.
+Создаёт объект классов СonfigLoggerMonitor и monitorReceiver.\
+Параметры: файл конфигурации монитора.
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
 #### Проверить файл на целостность JSON-структуры:
