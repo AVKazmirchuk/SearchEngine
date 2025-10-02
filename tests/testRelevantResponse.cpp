@@ -72,6 +72,7 @@ TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
     };
     const std::vector<std::string> request = {"moscow is the capital of russia"};
     const int precision{6};
+    const int maxResponses{5};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
                     {7, 1},
@@ -86,7 +87,7 @@ TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
     RelevantResponse srv(idx.getInvertedIndexes(), request, precision);
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
-    result[0].resize(ConverterJSON(testConstants::configTemplate, testConstants::requestsTemplate, precision).getMaxResponses());
+    result[0].resize(maxResponses);
 
     ASSERT_EQ(result, expected);
 }

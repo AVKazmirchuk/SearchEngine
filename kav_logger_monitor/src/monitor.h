@@ -22,7 +22,7 @@ namespace kav
 {
 
 /**
- * Класс реализует логирование событий в монитор
+ * Класс реализует вывод сообщений на консоль
  */
     class LoggerMonitor
     {
@@ -30,7 +30,7 @@ namespace kav
     public:
 
         /**
-         * /Создать объект классов СonfigLoggerMonitor и monitorReceiver
+         * Создать объект классов СonfigLoggerMonitor и monitorReceiver
          * @param in_configLoggerMonitorFilePath Файл конфигурации монитора
          */
         explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)

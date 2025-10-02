@@ -25,9 +25,6 @@ namespace testConstants
 
 }
 
-void putFiles();
-
-void deleteFiles();
 
 
 #endif //SEARCH_ENGINE_TESTGENERAL_H

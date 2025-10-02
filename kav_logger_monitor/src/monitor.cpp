@@ -53,9 +53,6 @@ void kav::LoggerMonitor::run()
         //Исключительная ситуация
         if (message == (configLoggerMonitor.nameOfQueue() + "Stop"))
         {
-            //std::ofstream file{"LoggerMonitor.txt", std::ios::app};
-            //file << message << std::endl;
-
             break;
         }
 
