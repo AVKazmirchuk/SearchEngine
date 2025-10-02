@@ -62,36 +62,24 @@ explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)
 Параметры: файл конфигурации монитора.\
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
-#### Проверить файл на целостность JSON-структуры:
+#### Запустить монитор:
 ```cpp
-static bool isJSONStructureValid(const std::string &fileName);
+void run();
 ```
-Параметры: ссылка на имя файла
-Возвращаемое значение: целостность JSON-структуры 
-#### Проверить JSON-структуру файла на соответствие шаблону:
-```cpp
-static bool isJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
-```
-Параметры: ссылка на проверяемый JSON-объект, ссылка на JSON-объект шаблона
-Возвращаемое значение: соотвествие JSON-структуры шаблону
 ### Примеры
 ```cpp
-#include "checkFile.h"
+#include "monitor.h"
 
 int main()
 {
     //...
-    //Получить имя файла (fileName)
+    //Получить файл конфигурации монитора (configLoggerMonitorFilePath)
     //...
     
-    //Проверить файл на целостность JSON-структуры
-    bool JSONStructureValid{CheckFile::isJSONStructureValid(fileName)};
+    //Создать объект класса логирования событий в монитор
+    kav::LoggerMonitor loggerMonitor(configLoggerMonitorFilePath);
 
-    //...
-    //Получить JSON-объекты шаблона и проверяемого (objectJSONTemplate, objectJSON)
-    //...
-
-    //Проверить JSON-структуру файла на соответствие шаблону
-    bool JSONStructureMatch{CheckFile::isJSONStructureMatch(objectJSONTemplate, objectJSON)};
+    //Запустить монитор
+    loggerMonitor.run();
 }
 ```
