@@ -58,7 +58,7 @@ void InvertedIndex::startInvertedIndexing()
 }
 ```
 Как видно, функция запускает функцию "void InvertedIndex::defineWord(std::size_t docID, const std::string& document)" в отдельных потоках для каждого документа.\
-В свою очередь она запускает функцию "void InvertedIndex::addWord(const std::string& word, std::size_t docID)" для добавления слова и структуру инвертированного индекса в базу инвертированных индексов:
+В свою очередь она запускает функцию "void InvertedIndex::addWord(const std::string& word, std::size_t docID)" для добавления слова и структуры инвертированного индекса в базу инвертированных индексов:
 ```cpp
 void InvertedIndex::addWord(const std::string& word, std::size_t docID)
 {
