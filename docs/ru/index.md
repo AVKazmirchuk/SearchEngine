@@ -16,6 +16,5 @@
 12. [Программа Logger Monitor](./LoggerMonitor/LoggerMonitor.md)
 13. [Класс MonitorSender](./MonitorSender/MonitorSender.md)
 14. [Класс MonitorReceiver](./MonitorReceiver/MonitorReceiver.md)
-15. [Класс CheckFile](./CheckFile/CheckFile.md)
-16. [Класс CheckFileException](./CheckFileException/CheckFileException.md)
-17. [Тесты](./Tests/tests.md)
+15. [Класс CheckFileException](./CheckFileException/CheckFileException.md)
+16. [Тесты](./Tests/tests.md)
