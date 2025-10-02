@@ -14,7 +14,30 @@
 2. Выводит полученные сообщения на консоль в разных цветах согласно уровню логирования каждого сообщения.
 
 Для настройки класса используется файл конфигураци: messageQueue.json.\
-
+### Файлы конфигурации
+Класс использует файл конфигурации (messageQueue.json) для настройки очереди сообщений.\
+Файл messageQueue.json:
+```json
+{
+    "messageQueue" : {
+        "nameOfQueue" : "search_engine",
+        "maxNumberOfMessages" : 100,
+        "maxMessageSize" : 1024,
+        "fileNameOfMainProgram" : "search_engine.exe",
+        "fileNameOfMonitor" : "logger_monitor.exe",
+        "nameOfConsole" : "Logger Monitor",
+        "indicatesMonitorStarting" : "C:\\Windows\\Temp\\logger_monitor"
+    }
+}
+```
+Назначение полей:
+- nameOfQueue: имя очереди
+- maxNumberOfMessages: максимальное количество сообщений в очереди
+- maxMessageSize: максимальный размер сообщения
+- fileNameOfMainProgram: имя файла основной программы
+- fileNameOfMonitor: имя файла монитора
+- nameOfConsole: имя консоли
+- indicatesMonitorStarting: признак запуска монитора
 ### Конструкторы:
 ```cpp
 explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)
