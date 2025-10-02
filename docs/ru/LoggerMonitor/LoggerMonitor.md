@@ -58,7 +58,7 @@ explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)
             }
         }
 ```
-Создаёт объект классов СonfigLoggerMonitor и monitorReceiver.\
+Создаёт объект классов СonfigLoggerMonitor и monitorReceiver, регистрирует обработчик событий.\
 Параметры: файл конфигурации монитора.\
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Наиболее важные (интересные) закрытые функции-члены обработки сообщений:
