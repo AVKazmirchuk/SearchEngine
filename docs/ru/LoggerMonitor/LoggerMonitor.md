@@ -4,19 +4,35 @@
 ### [Оглавление](../index.md)
 
 Программа Logger Monitor (logger_monitor.exe) выводит сообщения на консоль. Сообщения получает из очереди сообщений, основанной на оригинальной очереди boost::interprocess::message_queue.\
+Работа зависит от запускаемого файла с библиотекой kav::logger, так как сообщения читаются именно из очереди поступившие из этой библиотеки.\
 Используется основной класс kav::LoggerMonitor и вспомогательный закрытый класс kav::ConfigLoggerMonitor. Вспомогательный класс подробно описываться не будет. В исходных файлах есть все необходимые комментарии, а так же приведена элементарная логика работы на схеме.
 
-## Класс CheckFile
-Класс реализует проверку файла и его содержимого.
+## Класс LoggerMonitor
+Класс реализует вывод сообщений на консоль.
 ### Выполняет следующие функции:
-1. Проверяет файл на существование.
-2. Проверяет файл на пустоту.
-3. Проверяет файл на целостность JSON-структуры.
-4. Проверяет JSON-структуру файла на соответствие шаблону.
+1. Читает сообщения из очереди сообщений.
+2. Выводит полученные сообщения на консоль в разных цветах согласно уровню логирования каждого сообщения.
 ### Конструкторы:
 ```cpp
-CheckFile() = default;
+explicit LoggerMonitor(const std::string &in_configLoggerMonitorFilePath)
+                : configLoggerMonitor(in_configLoggerMonitorFilePath),
+                  monitorReceiver(configLoggerMonitor.nameOfQueue(),
+                                  configLoggerMonitor.maxNumberOfMessages(),
+                                  configLoggerMonitor.maxMessageSize(),
+                                  configLoggerMonitor.fileNameOfMainProgram())
+        {
+            //Добавить в контейнер имя очереди
+            queuesInUse.push_back(configLoggerMonitor.nameOfQueue());
+
+            //TODO Зачем поставил это условие - не помню
+            if (queuesInUse.size() == 1)
+            {
+                //Зарегистрировать обработчик нажатия клавиш консоли
+                SetConsoleCtrlHandler(&ConsoleCtrlEventHandler, TRUE);
+            }
+        }
 ```
+Создаёт объект классов СonfigLoggerMonitor и monitorReceiver.
 Объект является копируемым (неявно) и перемещаемым (неявно).
 ### Общедоступные функции-члены:
 #### Проверить файл на целостность JSON-структуры:
