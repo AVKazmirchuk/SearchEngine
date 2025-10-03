@@ -12,17 +12,12 @@
 #include "types.h"
 
 
+
 namespace testConstants
 {
+    extern const int precision;
 
-    extern const JSON configTemplate;
-
-    extern const JSON requestsTemplate;
-
-    extern const std::vector<std::vector<std::pair<std::uint64_t , float>>> answers;
-
-    extern const JSON answersTest;
-
+    extern const int maxResponses;
 }
 
 

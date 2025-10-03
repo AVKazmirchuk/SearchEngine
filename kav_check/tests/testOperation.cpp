@@ -39,6 +39,29 @@ TEST(TestWriteJSONFile, fileExist)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку на запись JSON-файла (файл присутствует или отсутствует, открыт, записывается)
+TEST(TestWriteTextFile, fileExist)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Записать JSON-файл
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(testConstants::textFileForWrite, testConstants::textString, std::ios::app)};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если запись файла прошла без ошибок
+    if (errorCode == kav::ErrorCode::no_error)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
 //Запустить проверку на запись JSON-файла (файл не открыт)
 TEST(TestWriteJSONFile, fileNotOpen)
 {
@@ -245,7 +268,7 @@ TEST(TestReadTextFile, fileExist)
     putFiles();
 
     //Прочитать файл
-    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::fileText)).second};
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::textFile)).second};
 
     //Обнулить результат операции
     bool result{};
@@ -268,10 +291,10 @@ TEST(TestReadTextFile, fileNotExist)
     putFiles();
 
     //Удалить проверяемый файл
-    std::filesystem::remove(testConstants::fileText);
+    std::filesystem::remove(testConstants::textFile);
 
     //Прочитать файл
-    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::fileText)).second};
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::textFile)).second};
 
     //Обнулить результат операции
     bool result{};
@@ -294,7 +317,7 @@ TEST(TestReadTextFile, fileNotOpen)
     putFiles();
 
     //Создать объект для записи. Запретить чтение
-    HANDLE hFile=CreateFile(testConstants::fileText.c_str(), // file to open
+    HANDLE hFile=CreateFile(testConstants::textFile.c_str(), // file to open
                             GENERIC_WRITE, // open for writing
                             FILE_SHARE_WRITE, // share for writing
                             NULL, // default security
@@ -304,7 +327,7 @@ TEST(TestReadTextFile, fileNotOpen)
     );
 
     //Прочитать файл
-    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::fileText)).second};
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::textFile)).second};
 
     //Закрыть дескриптор. Освободить файл
     CloseHandle(hFile);
@@ -356,7 +379,7 @@ TEST(TestCheckJSONStructureMatch, JSONStructureMatch)
     putFiles();
 
     //Проверить JSON-структуру на соответствие шаблону
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(testConstants::configFilePath, testConstants::configTemplate, testConstants::configTemplate)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(testConstants::configTemplate, testConstants::configTemplate)};
 
     //Обнулить результат операции
     bool result{};
@@ -379,7 +402,7 @@ TEST(TestCheckJSONStructureMatch, JSONStructureNotMatch)
     putFiles();
 
     //Проверить JSON-структуру на соответствие шаблону
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(testConstants::configFilePath, testConstants::configNotMatchTemplate, testConstants::configTemplate)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(testConstants::configNotMatchTemplate, testConstants::configTemplate)};
 
     //Обнулить результат операции
     bool result{};
@@ -425,7 +448,7 @@ TEST(TestCheckArray, arrayNotFilled)
     putFiles();
 
     //Проверить массив JSON-объекта на пустоту
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configWrongTemplate[testConstants::files])};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkArray(testConstants::configArrayEmptyTemplate[testConstants::files])};
 
     //Обнулить результат операции
     bool result{};

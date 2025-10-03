@@ -6,10 +6,10 @@
 
 #include "gtest/gtest.h"
 
-#include "converterJSON.h"
 #include "relevantResponse.h"
 #include "invertedIndex.h"
 #include "testGeneral.h"
+
 
 
 //Проверить рассчёт релевантности ответов. Тест №1. Просто тест
@@ -71,8 +71,6 @@ TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
             "warsaw is the capital of poland",
     };
     const std::vector<std::string> request = {"moscow is the capital of russia"};
-    const int precision{6};
-    const int maxResponses{5};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
                     {7, 1},
@@ -84,10 +82,10 @@ TEST(TestCaseRelevantResponse, TestTopMaxResponses) {
     };
     InvertedIndex idx(docs);
     idx.updateInvertedIndexes();
-    RelevantResponse srv(idx.getInvertedIndexes(), request, precision);
+    RelevantResponse srv(idx.getInvertedIndexes(), request, testConstants::precision);
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
-    result[0].resize(maxResponses);
+    result[0].resize(testConstants::maxResponses);
 
     ASSERT_EQ(result, expected);
 }

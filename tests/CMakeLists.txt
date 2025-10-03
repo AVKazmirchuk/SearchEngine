@@ -55,7 +55,7 @@ file(GLOB CPP_REQUESTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/requests/*.c
 file(GLOB CPP_SEARCH_ENGINE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/searchEngine/*.cpp")
 
 #Добавить цель, исполняемый файл, для сборки из исходных файлов, перечисленных в вызове команды
-add_executable(${Application_Name_Test} main.cpp test.cpp testSetAnswers.cpp testGeneral.cpp testInvertedIndex.cpp
+add_executable(${Application_Name_Test} main.cpp test.cpp testGeneral.cpp testInvertedIndex.cpp
         testRelevantResponse.cpp
         ${CPP_CONVERTER_JSON}
         ${CPP_DISPATCHER_OPERATION_VALIDITY}
