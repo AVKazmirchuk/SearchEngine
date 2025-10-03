@@ -2,7 +2,7 @@
 #include "searchEngine.h"
 #include "kav/logger.h"
 
-
+#include <fstream>
 
 //Константы переменных
 namespace constants

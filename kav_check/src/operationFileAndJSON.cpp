@@ -122,7 +122,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     return {tmp, errorCode};
 }
 
-kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &filePath, const std::string &text, std::ios::openmode openModeFile)
+kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile)
 {
     //Создать объект для записи
     std::ofstream outFile(filePath, openModeFile);
@@ -140,7 +140,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &fileP
         //system("disconnectDisk.bat");
 
         //Записать текст в файл
-        outFile << text << std::endl;
+        outFile << text;
 
         //Закрыть файл
         outFile.close();

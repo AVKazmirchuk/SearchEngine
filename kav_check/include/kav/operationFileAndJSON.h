@@ -111,7 +111,7 @@ namespace kav
          * @param filePath Ссылка на путь текстового файла
          * @return Пара текста и кода ошибки
          */
-        static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios::openmode openModeFile = std::ios::out);
+        static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out);
 
     };
 
