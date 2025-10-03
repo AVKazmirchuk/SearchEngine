@@ -23,13 +23,19 @@ namespace testConstants
     extern const kav::JSON configNotMatchTemplate;
 
     //JSON-шаблон файла конфигурации с пустым массивом
-    extern const kav::JSON configWrongTemplate;
+    extern const kav::JSON configArrayEmptyTemplate;
 
     //Путь файла конфигурации с повреждённой структурой
     extern const std::string configNotValid;
 
     //Путь текстового файла
-    extern const std::string fileText;
+    extern const std::string textFile;
+
+    //Путь текстового файла для записи
+    extern const std::string textFileForWrite;
+
+    //Текстовая строка для записи
+    extern const std::string textString;
 
     //Имя поля массива
     extern const std::string files;

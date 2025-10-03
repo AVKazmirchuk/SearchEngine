@@ -28,6 +28,7 @@ void runLoggerMonitor()
 {
     //Создать объект класса логирования событий в монитор
     kav::LoggerMonitor loggerMonitor(constants::configLoggerMonitorFilePath);
+
     //Запустить монитор
     loggerMonitor.run();
 }

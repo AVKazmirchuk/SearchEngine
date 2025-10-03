@@ -122,6 +122,37 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     return {tmp, errorCode};
 }
 
+kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &filePath, const std::string &text, std::ios::openmode openModeFile)
+{
+    //Создать объект для записи
+    std::ofstream outFile(filePath, openModeFile);
+
+    //Обнулить код ошибки
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    //Если файл не открыт - установить соответствующий код ошибки
+    if (!outFile.is_open()) errorCode = ErrorCode::error_file_not_open_write;
+
+    //Если ошибки нет
+    if (errorCode == ErrorCode::no_error)
+    {
+        //Для прохождения теста на эмуляцию ошибки во время записи раскомментировать
+        //system("disconnectDisk.bat");
+
+        //Записать текст в файл
+        outFile << text << std::endl;
+
+        //Закрыть файл
+        outFile.close();
+
+        //Если были ошибки во время записи - установить соответствующий код ошибки
+        if (outFile.fail()) errorCode = ErrorCode::error_file_not_write;
+    }
+
+    //Вернуть код ошибки
+    return errorCode;
+}
+
 kav::ErrorCode kav::OperationFileAndJSON::checkJSONStructureMatch(const JSON& objectJSON, const JSON& objectJSONTemplate)
 {
     //Обнулить код ошибки

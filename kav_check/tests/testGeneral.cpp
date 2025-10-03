@@ -13,7 +13,11 @@ namespace testConstants {
 
     const std::string configNotValid{"configNotValid.json"};
 
-    const std::string fileText{"file001.txt"};
+    const std::string textFile{"file001.txt"};
+
+    const std::string textFileForWrite{"textFileForWrite.txt"};
+
+    const std::string textString{"It's just a text string!"};
 
     const std::string files{"files"};
 
@@ -46,7 +50,7 @@ namespace testConstants {
     }
     )");
 
-    const kav::JSON configWrongTemplate = kav::JSON::parse(R"(
+    const kav::JSON configArrayEmptyTemplate = kav::JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -65,20 +69,14 @@ void putFiles()
 {
     std::filesystem::remove("config.json");
     std::filesystem::remove("configNotValid.json");
-    //std::filesystem::remove("configNotMatch.json");
     std::filesystem::remove("file001.txt");
     std::filesystem::remove("connectDisk.bat");
     std::filesystem::remove("disconnectDisk.bat");
 
-    //std::filesystem::remove_all("resources");
-
     std::filesystem::copy("../../tests/resources/config.json", "config.json");
     std::filesystem::copy("../../tests/resources/configNotValid.json", "configNotValid.json");
-    //std::filesystem::copy("../../tests/resources/configNotMatch.json", "configNotMatch.json");
     std::filesystem::copy("../../tests/resources/file001.txt", "file001.txt");
     std::filesystem::copy("../../tests/resources/connectDisk.bat", "connectDisk.bat");
     std::filesystem::copy("../../tests/resources/disconnectDisk.bat", "disconnectDisk.bat");
-
-    //std::filesystem::copy("../../tests/resources/resources", "resources");
 }
 
