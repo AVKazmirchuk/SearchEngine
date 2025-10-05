@@ -20,10 +20,17 @@ void kav::Logger::WriterMessage::writeToMonitor(const std::string& message)
 void kav::Logger::WriterMessage::writeToFile(const std::string& message)
 {
     //Создать объект для записи в файл
-    std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
+    //std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(absolute(Logger::ptrToLogger->file).string(), message + '\n', std::ios::app)};
 
-    //Файл открывается для записи
-    if (outFile.is_open())
+    //При попытке записи в лог-файл произошли ошибки
+    if (errorCode != kav::ErrorCode::no_error)
+    {
+        //Отправить сообщение монитору о невозможности открытия файла для записи
+        monitorSender.send("Logger: Errors occurred when trying to write to the log file " + absolute(Logger::ptrToLogger->file).string() + ": " + kav::descriptionErrorCode.at(errorCode));
+    }
+
+    /*if (outFile.is_open())
     {
         //Записать сообщение в файл
         outFile << message << std::endl;
@@ -35,7 +42,7 @@ void kav::Logger::WriterMessage::writeToFile(const std::string& message)
     {
         //Отправить сообщение монитору о невозможности открытия файла для записи
         monitorSender.send("Logger: This file cannot be opened for writing: " + Logger::ptrToLogger->file.string());
-    }
+    }*/
 }
 
 void kav::Logger::WriterMessage::processMessageContainer()

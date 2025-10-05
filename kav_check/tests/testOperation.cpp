@@ -39,10 +39,6 @@ TEST(TestWriteJSONFile, fileExist)
     ASSERT_TRUE(result);
 }
 
-kav::ErrorCode writeTextFileOnly(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out)
-{
-    return kav::OperationFileAndJSON::writeTextFile(filePath, text, openModeFile);
-}
 //Запустить проверку на запись JSON-файла (файл присутствует или отсутствует, открыт, записывается)
 TEST(TestWriteTextFile, fileExist)
 {
@@ -50,7 +46,7 @@ TEST(TestWriteTextFile, fileExist)
     putFiles();
 
     //Записать JSON-файл
-    kav::ErrorCode errorCode{writeTextFileOnly(testConstants::textFileForWrite, testConstants::textString, std::ios_base::app)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(testConstants::textFileForWrite, testConstants::textString, std::ios_base::app)};
 
     //Обнулить результат операции
     bool result{};
