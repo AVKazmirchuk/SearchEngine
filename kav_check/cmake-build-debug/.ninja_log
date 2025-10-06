@@ -1,0 +1,24 @@
+# ninja log v5
+24	4436	7813680884694252	tests/CMakeFiles/kav_check_test.dir/__/src/operationFileAndJSON.cpp.obj	2b28a316c4a8b4af
+12	4169	7813680882024278	tests/CMakeFiles/kav_check_test.dir/testGeneral.cpp.obj	1596f0141fab9194
+1	35	0	C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/CMakeFiles/cmake.verify_globs	32cbcccd4a49b410
+33	1504	7813680855434254	_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj	4f5e0c0cadea39d1
+19	5063	7813680891014254	tests/CMakeFiles/kav_check_test.dir/testOperation.cpp.obj	fcc5b28b06280efd
+4	1996	7813680860364307	tests/CMakeFiles/kav_check_test.dir/main.cpp.obj	df754decbf336a83
+7704	8512	7813680925511441	tests/kav_check_test.exe	616c7e106872743a
+8	2098	7813680861374261	tests/CMakeFiles/kav_check_test.dir/test.cpp.obj	ca55e4febce340d2
+15	2917	7813680869554258	tests/CMakeFiles/kav_check_test.dir/__/src/checkJSONStructureMatch.cpp.obj	39db48671ada07c
+30	7517	7813680915443430	_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.obj	7255a439bbdc70c8
+6681	6792	7812212216545643	lib/libgtestd.a	db8b19c4b4ef1004
+7704	8512	7813680925511441	tests/kav_check_test[1]_tests.cmake	616c7e106872743a
+6792	6848	7812212217115639	lib/libgtest_maind.a	2c9115cd675c6a01
+7704	8512	7813680925511441	C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/tests/kav_check_test[1]_tests.cmake	616c7e106872743a
+7517	7654	7813680916953344	lib/libgtest.a	97dd2922c6a4ae0c
+7654	7704	7813680917456692	lib/libgtest_main.a	63d83afa335a6d43
+27	2223	7813705218308127	build.ninja	27efba1c3b433d5
+2	27	0	C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/CMakeFiles/cmake.verify_globs	32cbcccd4a49b410
+1	28	0	C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/CMakeFiles/cmake.verify_globs	32cbcccd4a49b410
+5	4323	7813709071017353	tests/CMakeFiles/kav_check_test.dir/testOperation.cpp.obj	fcc5b28b06280efd
+4323	5115	7813709078950050	tests/kav_check_test.exe	616c7e106872743a
+4323	5115	7813709078950050	tests/kav_check_test[1]_tests.cmake	616c7e106872743a
+4323	5115	7813709078950050	C:/Users/Alexander/CLionProjects/search_engine/kav_check/cmake-build-debug/tests/kav_check_test[1]_tests.cmake	616c7e106872743a
