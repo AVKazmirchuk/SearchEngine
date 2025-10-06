@@ -39,7 +39,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Отключить расширения компилятора
 set(CMAKE_CXX_EXTENSIONS OFF)
 # Установить языковые флаги при сборке для всех конфигураций. Эти флаги будут передаваться при всех вызовах компилятора
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -lwinpthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -static -LC:\\MinGW-W64\\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\\x86_64-w64-mingw32\\lib -lwinpthread")
 
 # Установить библиотеку по умолчанию как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
