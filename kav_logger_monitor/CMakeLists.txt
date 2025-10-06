@@ -30,7 +30,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Поместить все целевые файлы RUNTIME при сборке
 set(Runtime_Output_Directory "../../../runtime")
 # Установить языковые флаги при сборке для всех конфигураций. Эти флаги будут передаваться при всех вызовах компилятора
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -lwinpthread")
 
 # Задать имя приложения
 set(Application_Name "logger_monitor")
