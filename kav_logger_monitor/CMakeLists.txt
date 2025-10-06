@@ -43,7 +43,7 @@ LIST(APPEND Include_Directories ${CMAKE_SOURCE_DIR}/src)
 # В зависимости от добавления библиотеки в проект, закомментировать-раскомментировать if-endif и find_package
 #find_package(nlohmann_json REQUIRED)
 if (NOT TARGET nlohmann_json)
-    add_subdirectory(nlohmann_json)
+    add_subdirectory(./libraries/nlohmann_json)
 endif()
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(JSON_Install ON CACHE INTERNAL "")
@@ -54,7 +54,7 @@ find_package(Boost REQUIRED)
 # В зависимости от добавления библиотеки в проект, закомментировать-раскомментировать if-endif и find_package
 #find_package(kav_check REQUIRED)
 if (NOT TARGET kav_check)
-    add_subdirectory(kav_check)
+    add_subdirectory(./libraries/kav_check)
 endif()
 set(check_Install ON CACHE INTERNAL "")
 
