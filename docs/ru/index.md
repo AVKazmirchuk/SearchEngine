@@ -14,5 +14,4 @@
 10. [Библиотека kav::OperationFileAndJSON](./OperationFileAndJSON/OperationFileAndJSON.md)
 11. [Библиотека kav::Logger](./Logger/Logger.md)
 12. [Программа Logger Monitor](./LoggerMonitor/LoggerMonitor.md)
-13. [Класс CheckFileException](./CheckFileException/CheckFileException.md)
-14. [Тесты](./Tests/tests.md)
+13. [Тесты](./Tests/tests.md)
