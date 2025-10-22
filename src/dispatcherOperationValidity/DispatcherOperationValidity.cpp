@@ -5,7 +5,7 @@
 
 
 #include "DispatcherOperationValidity.h"
-
+#include "timer.h"
 
 
 ErrorCode DispatcherOperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
@@ -112,18 +112,32 @@ ErrorCode DispatcherOperationValidity::checkRequestsArray(const JSON& objectJSON
 std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
                                                                                                   const boost::source_location &callingFunction)
 {
+    //Timer test
+    Timer t;
     //Документы
     std::vector<std::string> documents;
 
     //Контейнер результатов потоков
     std::list<std::future<std::pair<std::string, ErrorCode>>> futures;
 
+    //Timer test
+    //std::size_t errorNumber{};
+
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
         futures.push_back(std::async(DispatcherOperationValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
+
+        //Timer test
+        //std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION)};
+        //documents.push_back(tmp.first);
+        //if (tmp.second != ErrorCode::no_error)
+        //{
+        //    ++errorNumber;
+        //}
     }
+
     //Количество непрочитанных документов
     std::size_t errorNumber{};
 
@@ -161,7 +175,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
     }
     //Логировать событие по коду ошибки и уровню логирования
     determineValidity("", errorCode, errorLevel, message, callingFunction);
-
+std::cout << '\n' << t.elapsed() << '\n';
     //Вернуть пару контейнера текстов и кода ошибки
     return {documents, errorCode};
 }

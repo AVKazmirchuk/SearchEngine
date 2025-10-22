@@ -5,6 +5,7 @@
 
 
 #include "searchEngine.h"
+#include "timer.h"
 
 #include "DispatcherOperationValidity.h"
 
