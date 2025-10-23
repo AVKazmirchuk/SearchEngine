@@ -1,0 +1,95 @@
+std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
+                                                                                                  const boost::source_location &callingFunction)
+{
+    //Timer test
+    Timer t;
+    //Документы
+    std::vector<std::string> documents;
+
+    //Контейнер результатов потоков
+    std::list<std::future<std::pair<std::string, ErrorCode>>> futures;
+
+    //Timer test
+    //std::size_t errorNumber{};
+
+    //Для каждого документа
+    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
+    {
+        //Запустить чтение из файла
+        futures.push_back(std::async(DispatcherOperationValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
+
+        //Timer test
+        //std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION)};
+        //documents.push_back(tmp.first);
+        //if (tmp.second != ErrorCode::no_error)
+        //{
+        //    ++errorNumber;
+        //}
+    }
+
+    //Количество непрочитанных документов
+    std::size_t errorNumber{};
+
+    try
+    {
+        //Ожидать завершение потоков
+        for (auto &future: futures)
+        {
+            //Получить результат работы потока
+            std::pair<std::string, ErrorCode> tmp{future.get()};
+
+            //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+            documents.push_back(tmp.first);
+            //Если при чтении произошла ошибка
+            if (tmp.second != ErrorCode::no_error)
+            {
+                //Увеличить количество непрочитанных документов
+                ++errorNumber;
+            }
+        }
+    }
+    catch (const std::exception& e)
+    {
+        //Регенерировать исключение выше. Будет обработано в главной функции
+        throw;
+    }
+
+    //Определить код ошибки
+    ErrorCode errorCode{ErrorCode::no_error};
+    //Если все документы не прочитаны
+    if (errorNumber == filePaths.size())
+    {
+        //Установить соответствующий код ошибки
+        errorCode = ErrorCode::error_all_files_not_read;
+    }
+    //Логировать событие по коду ошибки и уровню логирования
+    determineValidity("", errorCode, errorLevel, message, callingFunction);
+std::cout << '\n' << t.elapsed() << '\n';
+    //Вернуть пару контейнера текстов и кода ошибки
+    return {documents, errorCode};
+}
+
+void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
+{
+    //Контейнер результатов потоков
+    std::list<std::future<void>> futures;
+
+    //Запустить потоки
+    for (std::size_t docID{}; docID < documents.size(); ++docID)
+    {
+        //Запустить поток для определения слова (выделения) в документе
+        futures.push_back(std::async(&InvertedIndex::defineWord, this, docID, std::cref(documents[docID])));
+    }
+
+    try
+    {
+        //Ожидать завершения потоков
+        for (auto &future: futures)
+            future.wait();
+    }
+    //Обработать все исключения, выброшенные в потоках
+    catch (const std::exception& e)
+    {
+        throw;
+    }
+}

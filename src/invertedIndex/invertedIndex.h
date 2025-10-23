@@ -36,7 +36,7 @@ public:
     /**
      * Обновить базу инвертированных индексов
      */
-    void updateInvertedIndexes();
+    void updateInvertedIndexes(const int desiredNumberOfThreads = std::thread::hardware_concurrency());
 
     /**
      * Получить ссылку на базу инвертированных индексов
@@ -80,7 +80,7 @@ private:
     /**
      * Запустить инвертированную индексацию документов в отдельных потоках
      */
-    void startInvertedIndexing();
+    void startInvertedIndexing(const int desiredNumberOfThreads);
 
     /**
      * Определить слово (выделить) в документе

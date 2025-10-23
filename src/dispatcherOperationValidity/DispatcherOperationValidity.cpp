@@ -109,33 +109,74 @@ ErrorCode DispatcherOperationValidity::checkRequestsArray(const JSON& objectJSON
     return errorCode;
 }
 
-std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
+std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, const int desiredNumberOfThreads, ErrorLevel errorLevel, const std::string& message,
                                                                                                   const boost::source_location &callingFunction)
 {
     //Timer test
     Timer t;
-    //Документы
+    //Контейнер прочитанных документов
     std::vector<std::string> documents;
 
-    //Контейнер результатов потоков
-    std::list<std::future<std::pair<std::string, ErrorCode>>> futures;
+    //Если количество документов меньше желаемого количества потоков - использовать количество потоков равным количеству документов.
+    //В противном случае, если количество документов делится с остатком на желаемое количество потоков - использовать на 1 поток больше желаемого.
+    //В противном случае - использовать желаемое количество потоков.
+    int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
 
-    //Timer test
-    //std::size_t errorNumber{};
+    //Определить разницу количества документов между потоками
+    std::size_t difference{filePaths.size() / numberOfThreads};
 
-    //Для каждого документа
-    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
+    if (filePaths.size() % numberOfThreads)
     {
-        //Запустить чтение из файла
-        futures.push_back(std::async(DispatcherOperationValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
+        ++numberOfThreads;
+    }
 
-        //Timer test
-        //std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION)};
-        //documents.push_back(tmp.first);
-        //if (tmp.second != ErrorCode::no_error)
-        //{
-        //    ++errorNumber;
-        //}
+    //Контейнер результатов потоков
+    std::list<std::future<std::pair<std::vector<std::string>, std::size_t>>> futures(numberOfThreads);
+
+
+    std::size_t beginDocID{};
+
+    //Для каждого будущего потока
+    for (auto &future : futures)
+    {
+        std::size_t endDocID{beginDocID + difference - 1};
+
+        if (endDocID >= filePaths.size()) endDocID = filePaths.size() - 1;
+
+        //std::cout << "beginDocID: " << beginDocID << ", endDocID: " << endDocID << '\n';
+
+        //Запустить чтение файлов в своём диапазоне
+        future = std::async([beginDocID, endDocID, &filePaths, &errorLevel, &message, &callingFunction]()
+            {
+                //Контейнер прочитанных документов
+                std::vector<std::string> documents;
+
+                //Количество непрочитанных документов
+                std::size_t errorNumber{};
+
+                //Для каждого документа
+                for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
+                    {
+                        //Запустить чтение из файла
+                        std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(filePaths[currentDocID], errorLevel, message, callingFunction)};
+
+                        //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+                        documents.push_back(tmp.first);
+
+                        //Если при чтении произошла ошибка
+                        if (tmp.second != ErrorCode::no_error)
+                        {
+                            //Увеличить количество непрочитанных документов
+                            ++errorNumber;
+                        }
+                    }
+
+                //Вернуть пару контейнера прочитанных документов и количество ошибок
+                return std::pair{documents, errorNumber};
+            }
+        );
+
+        beginDocID = endDocID + 1;
     }
 
     //Количество непрочитанных документов
@@ -144,18 +185,17 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
     try
     {
         //Ожидать завершение потоков
-        for (auto &future: futures)
+        for (auto &future : futures)
         {
             //Получить результат работы потока
-            std::pair<std::string, ErrorCode> tmp{future.get()};
+            std::pair<std::vector<std::string>, std::size_t> tmp{future.get()};
 
-            //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-            documents.push_back(tmp.first);
-            //Если при чтении произошла ошибка
-            if (tmp.second != ErrorCode::no_error)
+            //Для каждого документа
+            for (auto &document : tmp.first)
             {
-                //Увеличить количество непрочитанных документов
-                ++errorNumber;
+                //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+                documents.push_back(document);
+                errorNumber += tmp.second;
             }
         }
     }
@@ -175,7 +215,8 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
     }
     //Логировать событие по коду ошибки и уровню логирования
     determineValidity("", errorCode, errorLevel, message, callingFunction);
-std::cout << '\n' << t.elapsed() << '\n';
+    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    std::cout << '\n' << t.elapsed() << '\n';
     //Вернуть пару контейнера текстов и кода ошибки
     return {documents, errorCode};
 }

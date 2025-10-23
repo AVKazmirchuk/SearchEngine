@@ -5,6 +5,8 @@
 
 
 #include "invertedIndex.h"
+#include "timer.h"
+
 #include "kav/logger.h"
 
 
@@ -83,16 +85,52 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document)
     }
 }
 
-void InvertedIndex::startInvertedIndexing()
+void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
 {
-    //Контейнер результатов потоков
-    std::list<std::future<void>> futures;
+    //Timer test
+    //Timer t;
 
-    //Запустить потоки
-    for (std::size_t docID{}; docID < documents.size(); ++docID)
+
+    //Если количество документов меньше желаемого количества потоков - использовать количество потоков равным количеству документов.
+    //В противном случае, если количество документов делится с остатком на желаемое количество потоков - использовать на 1 поток больше желаемого.
+    //В противном случае - использовать желаемое количество потоков.
+    int numberOfThreads = documents.size() <= desiredNumberOfThreads ? documents.size() : desiredNumberOfThreads;
+
+    //Определить разницу количества документов между потоками
+    std::size_t difference{documents.size() / numberOfThreads};
+
+    if (documents.size() % numberOfThreads)
     {
-        //Запустить поток для определения слова (выделения) в документе
-        futures.push_back(std::async(&InvertedIndex::defineWord, this, docID, std::cref(documents[docID])));
+        ++numberOfThreads;
+    }
+
+    //Контейнер результатов потоков
+    std::list<std::future<void>> futures(numberOfThreads);
+
+    std::size_t beginDocID{};
+
+    //Для каждого будущего потока
+    for (auto &future : futures)
+    {
+        std::size_t endDocID{beginDocID + difference - 1};
+
+        if (endDocID >= documents.size()) endDocID = documents.size() - 1;
+
+        //std::cout << "beginDocID: " << beginDocID << ", endDocID: " << endDocID << '\n';
+
+        //Запустить чтение файлов в своём диапазоне
+        future = std::async([this, beginDocID, endDocID]()
+                            {
+                                //Для каждого документа
+                                for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
+                                {
+                                    InvertedIndex::defineWord(currentDocID, documents[currentDocID]);
+
+                                }
+                            }
+        );
+
+        beginDocID = endDocID + 1;
     }
 
     try
@@ -106,4 +144,16 @@ void InvertedIndex::startInvertedIndexing()
     {
         throw;
     }
+
+    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    //std::cout << '\n' << t.elapsed() << '\n';
+
+
+    /*for (std::size_t docID{}; docID < documents.size(); ++docID)
+    {
+
+        InvertedIndex::defineWord(docID, documents[docID]);
+    }
+
+    std::cout << '\n' << t.elapsed() << '\n';*/
 }
