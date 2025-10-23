@@ -113,7 +113,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
                                                                                                   const boost::source_location &callingFunction)
 {
     //Timer test
-    Timer t;
+    //Timer t;
     //Контейнер прочитанных документов
     std::vector<std::string> documents;
 
@@ -215,8 +215,8 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
     }
     //Логировать событие по коду ошибки и уровню логирования
     determineValidity("", errorCode, errorLevel, message, callingFunction);
-    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    std::cout << '\n' << t.elapsed() << '\n';
+    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    //std::cout << '\n' << t.elapsed() << '\n';
     //Вернуть пару контейнера текстов и кода ошибки
     return {documents, errorCode};
 }

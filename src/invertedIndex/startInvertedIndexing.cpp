@@ -88,7 +88,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document)
 void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
 {
     //Timer test
-    //Timer t;
+    Timer t;
 
 
     //Если количество документов меньше желаемого количества потоков - использовать количество потоков равным количеству документов.
@@ -145,8 +145,8 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
         throw;
     }
 
-    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    //std::cout << '\n' << t.elapsed() << '\n';
+    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    std::cout << '\n' << t.elapsed() << '\n';
 
 
     /*for (std::size_t docID{}; docID < documents.size(); ++docID)
