@@ -32,7 +32,7 @@ void SearchEngine::searchModifiedAll()
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
 
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes(1);
+    invertedIndexObj.updateInvertedIndexes(10);
 
     //Очистить список запросов
     requestsObj.clearRequests();

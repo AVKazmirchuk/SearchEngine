@@ -87,14 +87,14 @@ private:
      * @param docID ID документа
      * @param document Ссылка на документ
      */
-    void defineWord(std::size_t docID, const std::string& document);
+    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Добавить слово и структуру инвертированного индекса в базу инвертированных индексов
      * @param word Ссылка на слово
      * @param docID ID документа
      */
-    void addWord(const std::string& word, std::size_t docID);
+    void addWord(const std::string& word, std::size_t docID, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Сортировать базу инвертированного индекса по возрастанию ID документа
