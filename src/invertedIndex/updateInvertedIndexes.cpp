@@ -15,5 +15,5 @@ void InvertedIndex::updateInvertedIndexes(const int desiredNumberOfThreads)
     //Запустить инвертированную индексацию документов в отдельных потоках
     startInvertedIndexing(desiredNumberOfThreads);
     //Сортировать базу инвертированного индекса по возрастанию ID документа
-    sortByAscendingDocumentID();
+    //sortByAscendingDocumentID();
 }

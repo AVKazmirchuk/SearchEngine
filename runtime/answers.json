@@ -4,12 +4,188 @@
       "result": "true",
       "relevance": [
         {
-          "docid": 0,
+          "docid": 90,
           "rank": 1.0
         },
         {
-          "docid": 842,
+          "docid": 548,
           "rank": 1.0
+        },
+        {
+          "docid": 594,
+          "rank": 1.0
+        },
+        {
+          "docid": 781,
+          "rank": 1.0
+        },
+        {
+          "docid": 53,
+          "rank": 0.5
+        },
+        {
+          "docid": 57,
+          "rank": 0.5
+        },
+        {
+          "docid": 101,
+          "rank": 0.5
+        },
+        {
+          "docid": 103,
+          "rank": 0.5
+        },
+        {
+          "docid": 106,
+          "rank": 0.5
+        },
+        {
+          "docid": 109,
+          "rank": 0.5
+        },
+        {
+          "docid": 143,
+          "rank": 0.5
+        },
+        {
+          "docid": 162,
+          "rank": 0.5
+        },
+        {
+          "docid": 163,
+          "rank": 0.5
+        },
+        {
+          "docid": 176,
+          "rank": 0.5
+        },
+        {
+          "docid": 273,
+          "rank": 0.5
+        },
+        {
+          "docid": 317,
+          "rank": 0.5
+        },
+        {
+          "docid": 356,
+          "rank": 0.5
+        },
+        {
+          "docid": 358,
+          "rank": 0.5
+        },
+        {
+          "docid": 363,
+          "rank": 0.5
+        },
+        {
+          "docid": 383,
+          "rank": 0.5
+        },
+        {
+          "docid": 398,
+          "rank": 0.5
+        },
+        {
+          "docid": 497,
+          "rank": 0.5
+        },
+        {
+          "docid": 501,
+          "rank": 0.5
+        },
+        {
+          "docid": 525,
+          "rank": 0.5
+        },
+        {
+          "docid": 526,
+          "rank": 0.5
+        },
+        {
+          "docid": 527,
+          "rank": 0.5
+        },
+        {
+          "docid": 529,
+          "rank": 0.5
+        },
+        {
+          "docid": 536,
+          "rank": 0.5
+        },
+        {
+          "docid": 560,
+          "rank": 0.5
+        },
+        {
+          "docid": 611,
+          "rank": 0.5
+        },
+        {
+          "docid": 662,
+          "rank": 0.5
+        },
+        {
+          "docid": 679,
+          "rank": 0.5
+        },
+        {
+          "docid": 695,
+          "rank": 0.5
+        },
+        {
+          "docid": 697,
+          "rank": 0.5
+        },
+        {
+          "docid": 715,
+          "rank": 0.5
+        },
+        {
+          "docid": 731,
+          "rank": 0.5
+        },
+        {
+          "docid": 748,
+          "rank": 0.5
+        },
+        {
+          "docid": 750,
+          "rank": 0.5
+        },
+        {
+          "docid": 757,
+          "rank": 0.5
+        },
+        {
+          "docid": 765,
+          "rank": 0.5
+        },
+        {
+          "docid": 785,
+          "rank": 0.5
+        },
+        {
+          "docid": 821,
+          "rank": 0.5
+        },
+        {
+          "docid": 824,
+          "rank": 0.5
+        },
+        {
+          "docid": 829,
+          "rank": 0.5
+        },
+        {
+          "docid": 841,
+          "rank": 0.5
+        },
+        {
+          "docid": 842,
+          "rank": 0.5
         }
       ]
     }
