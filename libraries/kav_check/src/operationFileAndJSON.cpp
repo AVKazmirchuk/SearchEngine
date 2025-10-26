@@ -118,8 +118,46 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
         }
     }
 
-    //Пара текста и кода ошибки
+    //Вернуть пару текста и кода ошибки
     return {tmp, errorCode};
+}
+
+void kav::OperationFileAndJSON::readTextFileRef(const std::string &filePath, std::pair<std::string, kav::ErrorCode> &tmp)
+{
+    //Создать объект для чтения файла документа
+    std::ifstream inFile(filePath);
+
+    //Подготовить документ для записи
+    //std::string tmp{};
+
+    //Обнулить код ошибки
+    ErrorCode errorCode{ErrorCode::no_error};
+
+    //Если файл не существует - установить соответствующий код ошибки
+    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+        //В противном случае, если файл не открыт - установить соответствующий код ошибки
+    else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+
+    //Если ошибки нет
+    if (errorCode == ErrorCode::no_error)
+    {
+        //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
+        //system("disconnectDisk.bat");
+
+        try
+        {
+            //Читать файл
+            tmp.first = {(std::istreambuf_iterator<char>(inFile)), {}};
+        }
+        catch (const std::exception& e)
+        {
+            //Если при чтении произошла ошибка - установить соответствующий код ошибки
+            errorCode = ErrorCode::error_file_not_read;
+        }
+    }
+
+    //Установить код ошибки
+    tmp.second = errorCode;
 }
 
 kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openMode)

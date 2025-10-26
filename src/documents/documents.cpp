@@ -18,12 +18,13 @@ void Documents::clearDocuments()
     documents.clear();
 }
 
-void Documents::updateDocuments(const std::vector<std::string>& in_documents)
-{
-    documents = in_documents;
-}
+//void Documents::updateDocuments(const std::vector<std::string>& in_documents)
+//{
+//    documents = in_documents;
+//}
 
 void Documents::updateDocuments(std::vector<std::string>&& in_documents)
 {
     documents = std::move(in_documents);
+    //documents = in_documents;
 }

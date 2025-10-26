@@ -206,6 +206,11 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    static void
+    readTextFileRef(const std::string &filePath, std::pair<std::string, ErrorCode> &tmp, ErrorLevel errorLevel = ErrorLevel::no_level,
+                 const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
@@ -214,9 +219,13 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара контейнер текстов и кода ошибки
       */
-    static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, const int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
+    static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
                                                                                     const std::string &message = "",
                                                                                     const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    static void readMultipleTextFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &tmp, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
+                                                                                const std::string &message = "",
+                                                                                const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
@@ -261,6 +270,7 @@ private:
                 {"ConverterJSON::checkRequests",                       ErrorLevel::fatal},
                 {"DispatcherDetermineValidity::readMultipleTextFiles", ErrorLevel::error},
                 {"SearchEngine::readDocsFromFiles",                    ErrorLevel::fatal},
+                {"SearchEngine::readDocsFromFilesRef",                 ErrorLevel::fatal},
                 {"SearchEngine::writeAnswersToFile",                   ErrorLevel::fatal}
         };
 

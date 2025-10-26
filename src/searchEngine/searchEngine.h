@@ -144,6 +144,8 @@ private:
      */
     std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths);
 
+    void readDocsFromFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::basic_string<char>>, ErrorCode> &documents);
+
 };
 
 

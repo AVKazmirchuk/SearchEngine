@@ -106,6 +106,8 @@ namespace kav
          */
         static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
 
+        static void readTextFileRef(const std::string &filePath, std::pair<std::string, kav::ErrorCode> &tmp);
+
         /**
          * Записать текстовый файл
          * @param filePath Ссылка на путь текстового файла

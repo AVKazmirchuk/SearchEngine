@@ -17,6 +17,12 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
     return DispatcherOperationValidity::readMultipleTextFiles(converterJSONObj.getFilePaths(), 14).first;
 }
 
+void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::basic_string<char>>, ErrorCode> &documents)
+{
+    //Прочитать документы
+    DispatcherOperationValidity::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents, 14);
+}
+
 void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
 {
     //Записать результаты поиска
@@ -27,10 +33,14 @@ void SearchEngine::searchModifiedAll()
 {
     //Очистить список документов
     documentsObj.clearDocuments();
-
+Timer t2;
     //Обновить список документов из файлов
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
-
+    //std::pair<std::vector<std::basic_string<char>>, ErrorCode> documents;
+    //readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
+    //documentsObj.updateDocuments(std::move(documents.first));
+    //documents.first.clear();
+std::cout << '\n' << t2.elapsed() << '\n';
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes(14);
 
