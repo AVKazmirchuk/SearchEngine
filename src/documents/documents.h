@@ -26,7 +26,7 @@ public:
      * Обновить базу документов
      * @param in_documents База документов
      */
-    //void updateDocuments(const std::vector<std::string>& in_documents);
+    void updateDocuments(const std::vector<std::string>& in_documents);
 
     /**
      * Обновить базу документов

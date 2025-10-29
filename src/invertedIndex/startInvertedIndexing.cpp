@@ -201,6 +201,7 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
                                     InvertedIndex::defineWord(currentDocID, documents[currentDocID], invertedIndexesForThread);
                                 }
 
+                                //Вернуть базу инвертированных индексов для каждого потока
                                 return invertedIndexesForThread;
                             }
         );

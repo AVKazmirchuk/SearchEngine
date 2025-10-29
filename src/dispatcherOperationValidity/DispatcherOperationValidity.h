@@ -42,7 +42,8 @@ enum class ErrorCode
     error_array_empty,
     error_file_paths_array_empty,
     error_requests_array_empty,
-    error_all_files_not_read
+    error_all_files_not_read,
+    error_any_files_not_read
 };
 
 /**
@@ -61,7 +62,8 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
         {ErrorCode::error_array_empty,              "The array is empty"},
         {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty:"},
         {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt:"},
-        {ErrorCode::error_all_files_not_read,       "All files have not been read"}
+        {ErrorCode::error_all_files_not_read,       "All files have not been read"},
+        {ErrorCode::error_any_files_not_read,       "Any files have not been read"}
 };
 
 /**
@@ -268,7 +270,7 @@ private:
                 {"ConverterJSON::ConfigConverterJSON::initialize",     ErrorLevel::fatal},
                 {"ConverterJSON::checkFilePath",                       ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                       ErrorLevel::fatal},
-                {"DispatcherDetermineValidity::readMultipleTextFiles", ErrorLevel::error},
+                {"DispatcherOperationValidity::readMultipleTextFiles", ErrorLevel::error},
                 {"SearchEngine::readDocsFromFiles",                    ErrorLevel::fatal},
                 {"SearchEngine::readDocsFromFilesRef",                 ErrorLevel::fatal},
                 {"SearchEngine::writeAnswersToFile",                   ErrorLevel::fatal}
