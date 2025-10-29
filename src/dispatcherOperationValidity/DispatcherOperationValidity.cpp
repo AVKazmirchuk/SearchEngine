@@ -119,6 +119,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
      * Чтение документов в нескольких потоках
      */
 
+    /*
     //Контейнер прочитанных документов
     std::pair<std::vector<std::string>, ErrorCode> documents;
 
@@ -209,7 +210,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
      * Чтение документов в одном потоке
      */
 
-    /*//Контейнер прочитанных документов
+    //Контейнер прочитанных документов
     std::pair<std::vector<std::string>, ErrorCode> documents;
 
     //Количество непрочитанных документов
@@ -234,18 +235,16 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
 
     //Определить код ошибки
     documents.second = ErrorCode::no_error;
+
     //Если все документы не прочитаны
     if (errorNumber == filePaths.size())
     {
         //Установить соответствующий код ошибки
         documents.second = ErrorCode::error_all_files_not_read;
     }
-    else
+    else if (errorNumber > 0)
     {
-        if (errorNumber > 0)
-        {
-            documents.second == ErrorCode::error_any_files_not_read;
-        }
+        documents.second = ErrorCode::error_any_files_not_read;
     }
 
     //Для тестирования производительности
