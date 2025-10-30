@@ -164,7 +164,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                        documents.push_back(DispatcherOperationValidity::readTextFile(filePaths[currentDocID], errorLevel, message, BOOST_CURRENT_LOCATION));
+                        documents.push_back(DispatcherOperationValidity::readTextFile(filePaths[currentDocID]));
                     }
 
                 //Вернуть контейнер пар прочитанных документов и кодов ошибок
@@ -220,7 +220,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Запустить чтение из файла
-        std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(filePaths[docID], ErrorLevel::error, "", BOOST_CURRENT_LOCATION)};
+        std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(filePaths[docID])};
 
         //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
         documents.first.push_back(std::move(tmp.first));

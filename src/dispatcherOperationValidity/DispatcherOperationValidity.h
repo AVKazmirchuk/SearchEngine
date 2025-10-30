@@ -271,7 +271,7 @@ private:
                 {"ConverterJSON::checkFilePath",                       ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                       ErrorLevel::fatal},
                 {"DispatcherOperationValidity::readMultipleTextFiles", ErrorLevel::error},
-                {"SearchEngine::readDocsFromFiles",                    ErrorLevel::fatal},
+                {"SearchEngine::readDocsFromFiles",                    ErrorLevel::error},
                 {"SearchEngine::readDocsFromFilesRef",                 ErrorLevel::fatal},
                 {"SearchEngine::writeAnswersToFile",                   ErrorLevel::fatal}
         };
