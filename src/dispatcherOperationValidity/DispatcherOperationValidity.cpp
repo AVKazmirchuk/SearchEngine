@@ -109,8 +109,9 @@ std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFile(cons
     return tmp;
 }
 
-std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel, const std::string& message,
-                                                                                                  const boost::source_location &callingFunction)
+std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFiles(
+        const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
+        const std::string& message, const boost::source_location &callingFunction)
 {
     //Timer test
     Timer t;
@@ -210,19 +211,21 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
      * Чтение документов в одном потоке
      */
 
-    //Контейнер прочитанных документов
+
+    //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
+    
+    //Прочитать текстовые файлы
+    std::pair<std::vector<std::string>, std::vector<kav::ErrorCode>> documentsOriginal{kav::OperationFileAndJSON::readMultipleTextFiles(filePaths, desiredNumberOfThreads)};
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
-        //Запустить чтение из файла
-        std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(filePaths[docID])};
-
-        //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-        documents.first.push_back(std::move(tmp.first));
-        //Добавить код ошибки
-        documents.second.push_back(tmp.second);
+        //Добавить документ в контейнер прочитанных документов
+        documents.first.push_back(std::move(documentsOriginal.first[docID]));
+        //documents.first = std::move(documentsOriginal.first);
+        //Преобразовать код ошибки из типа внешней функции во внутренний тип
+        documents.second.push_back(convertErrorCodeFrom(documentsOriginal.second[docID]));
     }//Чтение документов в одном потоке*/
 
     //Количество непрочитанных документов

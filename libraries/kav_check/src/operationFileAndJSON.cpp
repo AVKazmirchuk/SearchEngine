@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <iostream>
 #include <filesystem>
+#include <future>
+#include <list>
+#include <thread>
 
 #include "kav/operationFileAndJSON.h"
 
@@ -120,6 +123,119 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
 
     //Вернуть пару текста и кода ошибки
     return tmp;
+}
+
+std::pair<std::vector<std::string>, std::vector<kav::ErrorCode>> kav::OperationFileAndJSON::readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
+{
+    /*
+     * Чтение документов в нескольких потоках
+     */
+
+    /*
+    //Контейнер прочитанных документов
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
+
+    //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
+    //В противном случае - использовать желаемое количество потоков.
+    int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
+
+    //Определить разницу количества документов между потоками
+    std::size_t difference{filePaths.size() / numberOfThreads};
+
+    if (filePaths.size() % numberOfThreads)
+    {
+        ++numberOfThreads;
+    }
+
+    //Контейнер результатов потоков
+    std::list<std::future<std::pair<std::vector<std::string>, std::vector<ErrorCode>>>> futures(numberOfThreads);
+
+
+    std::size_t beginDocID{};
+
+    //Для каждого будущего потока
+    for (auto &future : futures)
+    {
+        std::size_t endDocID{beginDocID + difference - 1};
+
+        if (endDocID >= filePaths.size()) endDocID = filePaths.size() - 1;
+
+        //std::cout << "beginDocID: " << beginDocID << ", endDocID: " << endDocID << '\n';
+
+        //Запустить чтение файлов в своём диапазоне
+        future = std::async(
+                [beginDocID = beginDocID, endDocID = endDocID, &filePaths]()
+            {
+                //Контейнер пар прочитанных документов и кодов ошибок
+                std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
+
+                //Для каждого документа
+                for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
+                    {
+                        //Запустить чтение из файла
+                        std::pair<std::string, ErrorCode> tmp{readTextFile(filePaths[currentDocID])};
+
+                        //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+                        documents.first.push_back(std::move(tmp.first));
+                        //Добавить код ошибки
+                        documents.second.push_back(tmp.second);
+                    }
+
+                //Вернуть контейнер пар прочитанных документов и кодов ошибок
+                return documents;
+            }
+        );
+
+        beginDocID = endDocID + 1;
+    }
+
+    try
+    {
+        //Ожидать завершение потоков
+        for (auto &future : futures)
+        {
+            //Получить результат работы потока
+            std::pair<std::vector<std::basic_string<char>>, std::vector<ErrorCode>> tmp{future.get()};
+
+            //Для каждого документа
+            for (std::size_t docID{}; docID < filePaths.size(); ++docID)
+            {
+                //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+                documents.first.push_back(std::move(tmp.first[docID]));
+                //documents.first = std::move(tmp.first);
+                //Добавить код ошибки
+                documents.second.push_back(tmp.second[docID]);
+            }
+        }
+    }
+    catch (const std::exception& e)
+    {
+        //Регенерировать исключение выше. Будет обработано в главной функции
+        throw;
+    }//Чтение документов в нескольких потоках*/
+
+    /*
+     * Чтение документов в одном потоке
+     */
+
+
+    //Контейнер прочитанных документов
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
+
+    //Для каждого документа
+    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
+    {
+        //Запустить чтение из файла
+        std::pair<std::string, ErrorCode> tmp{kav::OperationFileAndJSON::readTextFile(filePaths[docID])};
+
+        //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+        documents.first.push_back(std::move(tmp.first));
+        //Добавить код ошибки
+        documents.second.push_back(tmp.second);
+    }//Чтение документов в одном потоке*/
+
+    //Вернуть пару контейнера текстов и кода ошибки
+    return documents;
 }
 
 void kav::OperationFileAndJSON::readTextFileRef(const std::string &filePath, std::pair<std::string, kav::ErrorCode> &tmp)

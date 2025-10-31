@@ -106,6 +106,14 @@ namespace kav
          */
         static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
 
+        /**
+         * Прочитать текстовые файлы
+         * @param filePaths Ссылка на контейнер путей текстовых файлов
+         * @param desiredNumberOfThreads Желаемое количество потоков
+         * @return Пара контейнеров текстов и кодов ошибок файлов
+         */
+        static std::pair<std::vector<std::string>, std::vector<kav::ErrorCode>> readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency());
+
         static void readTextFileRef(const std::string &filePath, std::pair<std::string, kav::ErrorCode> &tmp);
 
         /**
