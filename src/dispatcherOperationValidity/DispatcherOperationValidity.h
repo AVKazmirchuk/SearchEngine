@@ -221,7 +221,7 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара контейнер текстов и кода ошибки
       */
-    static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
+    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFiles(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
                                                                                     const std::string &message = "",
                                                                                     const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 

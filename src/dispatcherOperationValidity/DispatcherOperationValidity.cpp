@@ -109,7 +109,7 @@ std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFile(cons
     return tmp;
 }
 
-std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel, const std::string& message,
+std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel, const std::string& message,
                                                                                                   const boost::source_location &callingFunction)
 {
     //Timer test
@@ -211,10 +211,7 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
      */
 
     //Контейнер прочитанных документов
-    std::pair<std::vector<std::string>, ErrorCode> documents;
-
-    //Количество непрочитанных документов
-    std::size_t errorNumber{};
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
@@ -224,27 +221,36 @@ std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::read
 
         //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
         documents.first.push_back(std::move(tmp.first));
+        //Добавить код ошибки
+        documents.second.push_back(tmp.second);
+    }//Чтение документов в одном потоке*/
 
+    //Количество непрочитанных документов
+    std::size_t errorNumber{};
+
+    //Для каждого кода ошибки документов
+    for (auto error : documents.second)
+    {
         //Если при чтении произошла ошибка
-        if (tmp.second != ErrorCode::no_error)
+        if (error != ErrorCode::no_error)
         {
             //Увеличить количество непрочитанных документов
             ++errorNumber;
         }
-    }//Чтение документов в одном потоке*/
+    }
 
-    //Определить код ошибки
-    documents.second = ErrorCode::no_error;
+    //Определить код ошибки для всех документов
+    ErrorCode error = ErrorCode::no_error;
 
     //Если все документы не прочитаны
     if (errorNumber == filePaths.size())
     {
         //Установить соответствующий код ошибки
-        documents.second = ErrorCode::error_all_files_not_read;
+        error = ErrorCode::error_all_files_not_read;
     }
     else if (errorNumber > 0)
     {
-        documents.second = ErrorCode::error_any_files_not_read;
+        error = ErrorCode::error_any_files_not_read;
     }
 
     //Для тестирования производительности
