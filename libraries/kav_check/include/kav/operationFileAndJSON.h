@@ -9,6 +9,7 @@
 
 #include <fstream>
 #include <string>
+#include <thread>
 
 #include "boost/assert/source_location.hpp"
 #include "nlohmann/json.hpp"
