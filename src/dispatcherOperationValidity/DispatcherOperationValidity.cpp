@@ -109,9 +109,19 @@ std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFile(cons
     return tmp;
 }
 
-std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFilesImpl(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
-                                                                                      const std::string &message,
-                                                                                      const boost::source_location &callingFunction)
+std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFileFromMultipleFiles(const std::string& filePath, ErrorLevel errorLevel,
+                                                                            const std::string& message,
+                                                                            const boost::source_location &callingFunction)
+{
+    return DispatcherOperationValidity::readTextFile(filePath, errorLevel, message, BOOST_CURRENT_LOCATION);
+}
+
+std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFilesImpl(
+        const std::vector<std::string>& filePaths,
+        const unsigned int desiredNumberOfThreads,
+        ErrorLevel errorLevel,
+        const std::string &message,
+        const boost::source_location &callingFunction)
 {
 
 
@@ -219,7 +229,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
-        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(filePaths[docID])};
+        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, BOOST_CURRENT_LOCATION)};
         //Добавить документ в контейнер прочитанных документов
         documents.first.push_back(std::move(tmp.first));
         //documents.first = std::move(documentsOriginal.first);
@@ -232,14 +242,18 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
 }
 
 std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFiles(
-        const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
-        const std::string& message, const boost::source_location &firstCallingFunction)
+        const std::vector<std::string> &filePaths,
+        const unsigned int desiredNumberOfThreads,
+        std::size_t maximumAllowableErrorsNumber,
+        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
+        const std::string& message,
+        const boost::source_location &callingFunction)
 {
     //Timer test
     Timer t;
 
     //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads)};
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, errorLevelOneFile, message, callingFunction)};
 
 
 
@@ -249,30 +263,26 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
     //Определить общий код ошибки (результат) при чтении всех документов
     ErrorCode error = ErrorCode::no_error;
 
-    boost::source_location finalCallingFunction;
-
     //Если все документы не прочитаны
     if (errorNumber == filePaths.size())
     {
-        //Определить, что все документы не прочитаны
-        finalCallingFunction = determineAllFilesNotRead(error);
+        //Установить соответствующий код ошибки
+        error = ErrorCode::error_all_files_not_read;
     }
     else if (errorNumber > 0)
     {
-        //Определить, что часть документов не прочитаны
-        finalCallingFunction = determineAnyFilesNotRead(error);
+        //Установить соответствующий код ошибки
+        error = ErrorCode::error_any_files_not_read;
     }
 
-    //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
-    std::string finalCallingFunctionStr{finalCallingFunction.to_string()};
-
-    //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
-    std::string firstCallingFunctionStr{firstCallingFunction.to_string()};
-
-    if (static_cast<int>(getErrorLevel(finalCallingFunctionStr)) < static_cast<int>(getErrorLevel(firstCallingFunctionStr)))
+    if (errorNumber <= maximumAllowableErrorsNumber &&
+    (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction.to_string()) == ErrorLevel::fatal))
     {
-        finalCallingFunction = firstCallingFunction;
+        if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
+        else errorLevelMultipleFiles = ErrorLevel::error;
     }
+
+
 
     //Для тестирования производительности
     //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
@@ -280,7 +290,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
     std::cout << '\n' << t.elapsed() << '\n';
 
     //Логировать событие по коду ошибки и уровню логирования
-    determineValidity("", error, errorLevel, message, finalCallingFunction);
+    determineValidity("", error, errorLevelMultipleFiles, message, callingFunction);
 
     //Вернуть пару контейнера текстов и кода ошибки
     return documents;

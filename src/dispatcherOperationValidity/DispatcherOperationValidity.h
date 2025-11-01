@@ -208,6 +208,19 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+      * Прочитать текстовый файл
+      * @param filePath Ссылка на путь текстового файла
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара текста и кода ошибки
+      */
+    static std::pair<std::string, ErrorCode>
+    readTextFileFromMultipleFiles(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
+                 const std::string &message = "",
+                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
     static void
     readTextFileRef(const std::string &filePath, std::pair<std::string, ErrorCode> &tmp, ErrorLevel errorLevel = ErrorLevel::no_level,
                  const std::string &message = "",
@@ -221,9 +234,13 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара контейнер текстов и кода ошибки
       */
-    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFiles(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
-                                                                                    const std::string &message = "",
-                                                                                    const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFiles(
+            const std::vector<std::string>& filePaths,
+            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            std::size_t maximumAllowableErrorsNumber = 1,
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+            const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
@@ -279,13 +296,13 @@ private:
     {
         //Соответствие имени вызывающей функции и уровня логирования
         const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
-                {"ConverterJSON::ConfigConverterJSON::initialize",     ErrorLevel::fatal},
-                {"ConverterJSON::checkFilePath",                       ErrorLevel::fatal},
-                {"ConverterJSON::checkRequests",                       ErrorLevel::fatal},
-                {"DispatcherOperationValidity::readMultipleTextFiles", ErrorLevel::error},
-                {"SearchEngine::readDocsFromFiles",                    ErrorLevel::error},
-                {"SearchEngine::readDocsFromFilesRef",                 ErrorLevel::fatal},
-                {"SearchEngine::writeAnswersToFile",                   ErrorLevel::fatal}
+                {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
+                {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
+                {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
+                {"DispatcherOperationValidity::readTextFileFromMultipleFiles",  ErrorLevel::error},
+                {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
+                {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
+                {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}
         };
 
         //Вернуть уровень логирования
