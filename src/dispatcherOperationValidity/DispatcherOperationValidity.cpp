@@ -113,8 +113,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
                                                                                       const std::string &message,
                                                                                       const boost::source_location &callingFunction)
 {
-    //Timer test
-    Timer t;
+
 
     /*
      * Чтение документов в нескольких потоках
@@ -226,16 +225,22 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
         //Добавить код ошибки
         documents.second.push_back(tmp.second);
     }//Чтение документов в одном потоке*/
+
+    //Вернуть пару контейнера текстов и кода ошибки
+    return documents;
 }
 
 std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFiles(
         const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
         const std::string& message, const boost::source_location &firstCallingFunction)
 {
+    //Timer test
+    Timer t;
+
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads)};
 
-    
+
 
     //Подсчитать количество непрочитанных документов
     std::size_t errorNumber{countErrorsNumber(documents.second)};
