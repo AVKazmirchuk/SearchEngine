@@ -225,6 +225,18 @@ public:
                                                                                     const std::string &message = "",
                                                                                     const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+      * Прочитать несколько текстовых файлов одновременно в разных потоках
+      * @param filePaths Ссылка на путь контейнера путей файлов
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара контейнер текстов и кода ошибки
+      */
+    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
+                                                                                             const std::string &message = "",
+                                                                                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
     static void readMultipleTextFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &tmp, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
                                                                                 const std::string &message = "",
                                                                                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
@@ -285,7 +297,7 @@ private:
      * @param callingFunctionStr Ссылка на объект предоставленный BOOST_CURRENT_LOCATION
      * @return Уровень логирования
      */
-    static ErrorLevel getFunctionName(const std::string& callingFunctionStr)
+    static ErrorLevel getErrorLevel(const std::string& callingFunctionStr)
     {
         //Подготовить переменные для определения начала и конца имени функции
         std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
@@ -299,6 +311,55 @@ private:
 
         //Вернуть уровень логирования
         return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
+    }
+
+    /**
+     * Подсчитать количество непрочитанных документов
+     * @param errors Контейнер кодов ошибок
+     * @return Количество непрочитанных документов
+     */
+    static std::size_t countErrorsNumber(std::vector<ErrorCode> &errors)
+    {
+        //Количество непрочитанных документов
+        std::size_t errorNumber{};
+
+        //Для каждого кода ошибки документов
+        for (auto error : errors)
+        {
+            //Если при чтении произошла ошибка
+            if (error != ErrorCode::no_error)
+            {
+                //Увеличить количество непрочитанных документов
+                ++errorNumber;
+            }
+        }
+
+        //Вернуть количество непрочитанных документов
+        return errorNumber;
+    }
+
+    /**
+     * Определить, что все документы не прочитаны
+     * @param error Общий код ошибки
+     */
+    static boost::source_location determineAllFilesNotRead(ErrorCode &error)
+    {
+        //Установить соответствующий код ошибки
+        error = ErrorCode::error_all_files_not_read;
+
+        return BOOST_CURRENT_LOCATION;
+    }
+
+    /**
+     * Определить, что часть документов не прочитаны
+     * @param error Общий код ошибки
+     */
+    static boost::source_location determineAnyFilesNotRead(ErrorCode &error)
+    {
+        //Установить соответствующий код ошибки
+        error = ErrorCode::error_any_files_not_read;
+
+        return BOOST_CURRENT_LOCATION;
     }
 
     /**
@@ -321,7 +382,7 @@ private:
         if (errorLevel == ErrorLevel::no_level)
         {
             //Определить уровень логирования по имени функции
-            errorLevel = getFunctionName(callingFunctionStr);
+            errorLevel = getErrorLevel(callingFunctionStr);
         }
 
         //Подготовить окончательное сообщение для логирования
