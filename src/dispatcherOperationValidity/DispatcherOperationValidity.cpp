@@ -214,7 +214,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
 
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
-    
+
     //Прочитать текстовые файлы
     std::pair<std::vector<std::string>, std::vector<kav::ErrorCode>> documentsOriginal{kav::OperationFileAndJSON::readMultipleTextFiles(filePaths, desiredNumberOfThreads)};
 
