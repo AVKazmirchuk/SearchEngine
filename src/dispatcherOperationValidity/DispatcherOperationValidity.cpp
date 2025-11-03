@@ -129,10 +129,11 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
      * Чтение документов в нескольких потоках
      */
 
-    /*
-    //Контейнер прочитанных документов
-    std::pair<std::vector<std::string>, ErrorCode> documents;
 
+    //Контейнер прочитанных документов
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
+
+    //Количество дополнительных потоков
     //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
     //В противном случае - использовать желаемое количество потоков.
     int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
@@ -142,30 +143,34 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
 
     if (filePaths.size() % numberOfThreads)
     {
+        //Увеличить количество потоков
         ++numberOfThreads;
     }
 
     //Контейнер результатов потоков
-    std::list<std::future<std::vector<std::pair<std::string, ErrorCode>>>> futures(numberOfThreads);
+    //std::list<std::future<std::vector<std::pair<std::string, ErrorCode>>>> futures(numberOfThreads);
+    std::list<std::future<void>> futures(numberOfThreads);
 
-
+    //ID первого документа для каждого потока
     std::size_t beginDocID{};
 
     //Для каждого будущего потока
     for (auto &future : futures)
     {
+        //ID последнего документа для каждого потока
         std::size_t endDocID{beginDocID + difference - 1};
 
+        //Если ID последнего документа для потока превышает ID документа всех документов
         if (endDocID >= filePaths.size()) endDocID = filePaths.size() - 1;
 
         //std::cout << "beginDocID: " << beginDocID << ", endDocID: " << endDocID << '\n';
 
         //Запустить чтение файлов в своём диапазоне
         future = std::async(
-                [beginDocID, endDocID, &filePaths, &errorLevel, &message, &callingFunction]()
+                [beginDocID, endDocID, &documents, &filePaths, &errorLevel, &message, &callingFunction]()
             {
                 //Контейнер пар прочитанных документов и кодов ошибок
-                std::vector<std::pair<std::string, ErrorCode>> documents;
+                //std::vector<std::pair<std::string, ErrorCode>> documents;
 
                 //Количество непрочитанных документов
                 std::size_t errorNumber{};
@@ -174,20 +179,21 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                        documents.push_back(DispatcherOperationValidity::readTextFile(filePaths[currentDocID], errorLevel,
-                                                                            message, firstCallingFunction));
+                        //documents.push_back(DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction));
+                        auto tmp{DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
+                        documents.first[currentDocID] = std::move(tmp.first);
+                        documents.second[currentDocID] = tmp.second;
+
                     }
 
                 //Вернуть контейнер пар прочитанных документов и кодов ошибок
-                return documents;
+                //return documents;
             }
         );
 
+        //Определить ID первого документа для следующего потока
         beginDocID = endDocID + 1;
     }
-
-    //Количество непрочитанных документов
-    std::size_t errorNumber{};
 
     try
     {
@@ -195,20 +201,18 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
         for (auto &future : futures)
         {
             //Получить результат работы потока
-            std::vector<std::pair<std::string, ErrorCode>> tmp{future.get()};
+            //std::vector<std::pair<std::string, ErrorCode>> tmp{future.get()};
+            future.wait();
 
             //Для каждого документа
-            for (auto &document : tmp)
-            {
-                //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                documents.first.push_back(std::move(document.first));
-                //Если при чтении произошла ошибка
-                if (document.second != ErrorCode::no_error)
-                {
-                    //Увеличить количество непрочитанных документов
-                    ++errorNumber;
-                }
-               }
+            //for (auto &document : tmp)
+            //{
+            //    //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+            //    documents.first.push_back(std::move(document.first));
+
+                //Добавить код ошибки
+            //    documents.second.push_back(document.second);
+            //}
         }
     }
     catch (const std::exception& e)
@@ -221,18 +225,19 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
      * Чтение документов в одном потоке
      */
 
-
+    /*
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
-
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
-        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, BOOST_CURRENT_LOCATION)};
+
+        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, callingFunction)};
+
         //Добавить документ в контейнер прочитанных документов
         documents.first.push_back(std::move(tmp.first));
-        //documents.first = std::move(documentsOriginal.first);
+
         //Добавить код ошибки
         documents.second.push_back(tmp.second);
     }//Чтение документов в одном потоке*/
@@ -255,7 +260,10 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, errorLevelOneFile, message, callingFunction)};
 
-
+    //Для тестирования производительности
+    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    std::cout << '\n' << sizeof(documents) << '\n';
+    std::cout << '\n' << t.elapsed() << '\n';
 
     //Подсчитать количество непрочитанных документов
     std::size_t errorNumber{countErrorsNumber(documents.second)};
@@ -284,10 +292,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
 
 
 
-    //Для тестирования производительности
-    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    std::cout << '\n' << sizeof(documents) << '\n';
-    std::cout << '\n' << t.elapsed() << '\n';
+
 
     //Логировать событие по коду ошибки и уровню логирования
     determineValidity("", error, errorLevelMultipleFiles, message, callingFunction);

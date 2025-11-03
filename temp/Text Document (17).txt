@@ -1,73 +1,4 @@
-std::pair<std::vector<std::string>, ErrorCode> DispatcherOperationValidity::readMultipleTextFiles(const std::vector<std::string> &filePaths, ErrorLevel errorLevel, const std::string& message,
-                                                                                                  const boost::source_location &callingFunction)
-{
-    //Timer test
-    Timer t;
-    //Документы
-    std::vector<std::string> documents;
 
-    //Контейнер результатов потоков
-    std::list<std::future<std::pair<std::string, ErrorCode>>> futures;
-
-    //Timer test
-    //std::size_t errorNumber{};
-
-    //Для каждого документа
-    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
-    {
-        //Запустить чтение из файла
-        futures.push_back(std::async(DispatcherOperationValidity::readTextFile, std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION));
-
-        //Timer test
-        //std::pair<std::string, ErrorCode> tmp{DispatcherOperationValidity::readTextFile(std::cref(filePaths[docID]), ErrorLevel::error, "", BOOST_CURRENT_LOCATION)};
-        //documents.push_back(tmp.first);
-        //if (tmp.second != ErrorCode::no_error)
-        //{
-        //    ++errorNumber;
-        //}
-    }
-
-    //Количество непрочитанных документов
-    std::size_t errorNumber{};
-
-    try
-    {
-        //Ожидать завершение потоков
-        for (auto &future: futures)
-        {
-            //Получить результат работы потока
-            std::pair<std::string, ErrorCode> tmp{future.get()};
-
-            //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-            documents.push_back(tmp.first);
-            //Если при чтении произошла ошибка
-            if (tmp.second != ErrorCode::no_error)
-            {
-                //Увеличить количество непрочитанных документов
-                ++errorNumber;
-            }
-        }
-    }
-    catch (const std::exception& e)
-    {
-        //Регенерировать исключение выше. Будет обработано в главной функции
-        throw;
-    }
-
-    //Определить код ошибки
-    ErrorCode errorCode{ErrorCode::no_error};
-    //Если все документы не прочитаны
-    if (errorNumber == filePaths.size())
-    {
-        //Установить соответствующий код ошибки
-        errorCode = ErrorCode::error_all_files_not_read;
-    }
-    //Логировать событие по коду ошибки и уровню логирования
-    determineValidity("", errorCode, errorLevel, message, callingFunction);
-std::cout << '\n' << t.elapsed() << '\n';
-    //Вернуть пару контейнера текстов и кода ошибки
-    return {documents, errorCode};
-}
 
 void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
 {
@@ -92,4 +23,117 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
     {
         throw;
     }
+}
+
+void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
+{
+    //Timer test
+    Timer t;
+
+
+    //Количество дополнительных потоков
+    //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
+    //В противном случае - использовать желаемое количество потоков.
+    int numberOfThreads = documents.size() <= desiredNumberOfThreads ? documents.size() : desiredNumberOfThreads;
+
+    //Определить количество документов обрабатываемое одним потокам
+    std::size_t difference{documents.size() / numberOfThreads};
+
+    //Если количество документов делится с остатком
+    if (documents.size() % numberOfThreads)
+    {
+        //Увеличить количество потоков
+        ++numberOfThreads;
+    }
+
+    //Контейнер результатов потоков
+    std::list<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
+
+    //ID первого документа для каждого потока
+    std::size_t beginDocID{};
+
+    //Для каждого будущего потока
+    for (auto &future : futures)
+    {
+        //ID последнего документа для каждого потока
+        std::size_t endDocID{beginDocID + difference - 1};
+
+        //Если ID последнего документа для потока превышает ID документа всех документов
+        if (endDocID >= documents.size())
+        {
+            //Установить ID последнего документа для потока равным ID последнего документа всех документов
+            endDocID = documents.size() - 1;
+        }
+
+        //std::cout << "beginDocID: " << beginDocID << ", endDocID: " << endDocID << '\n';
+
+        //Запустить чтение файлов в отдельном потоке в своём диапазоне
+        future = std::async([this, beginDocID = beginDocID, endDocID = endDocID]()
+                            {
+                                //База инвертированных индексов для каждого потока
+                                std::map<std::string, std::vector<Entry>> invertedIndexesForThread;
+
+                                //Для каждого документа
+                                for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
+                                {
+                                    //Определить слово (выделить) в документе
+                                    defineWord(currentDocID, documents[currentDocID], invertedIndexesForThread);
+                                }
+
+                                //Вернуть базу инвертированных индексов для каждого потока
+                                return invertedIndexesForThread;
+                            }
+        );
+
+        //Определить ID первого документа для следующего потока
+        beginDocID = endDocID + 1;
+    }
+
+    try
+    {
+        //Ожидать завершения потоков
+        for (auto &future: futures)
+        {
+            //InvertedIndex::invertedIndexesForThread = future.get();
+
+            for (auto &elem : future.get())
+            {
+                //Найти слово в базе инвертированных индексов
+                auto positionWord{invertedIndexes.find(elem.first)};
+
+                //Слово в базе инвертированных индексов не существует
+                if (positionWord == invertedIndexes.end())
+                {
+                    //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
+                    invertedIndexes.insert({std::move(elem.first), std::move(elem.second)});
+                }
+                else
+                    //Слово в базе инвертированных индексов существует
+                {
+                    for (auto &entry : elem.second)
+                    {
+                        //Добавить структуру инвертированного индекса для нового ID документа по слову
+                        invertedIndexes[elem.first].push_back(entry);
+                    }
+                }
+            }
+        }
+    }
+    //Обработать все исключения, выброшенные в потоках
+    catch (const std::exception& e)
+    {
+        throw;
+    }
+
+    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    std::cout << '\n' << t.elapsed() << '\n';//*/
+
+    /*
+    for (std::size_t docID{}; docID < documents.size(); ++docID)
+    {
+
+        defineWord(docID, documents[docID], invertedIndexes);
+    }
+
+    std::cout << '\n' << t.elapsed() << '\n';//*/
 }

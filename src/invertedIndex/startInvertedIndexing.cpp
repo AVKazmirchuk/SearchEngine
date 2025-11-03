@@ -118,6 +118,7 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
 
 void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
+
     //Разделители слов
     const std::string  delims(" ");
     //Начальный и конечный (за последним символом) индексы слова
@@ -145,16 +146,52 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
         //Искать начало следующего слова
         begIdx = document.find_first_not_of(delims, endIdx);
     }
+
+
+}
+
+std::map<std::basic_string<char>, std::vector<Entry>> mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures)
+{
+    for (int idx{}; idx < futures.size(); idx += 3)
+    {
+        std::map<std::basic_string<char>, std::vector<Entry>> firstInvertedIndexes{futures[idx].get()};
+
+
+        for (auto &elem : futures[idx + 1].get())
+        {
+            //Найти слово в базе инвертированных индексов
+            auto positionWord{firstInvertedIndexes.find(elem.first)};
+
+            //Слово в базе инвертированных индексов не существует
+            if (positionWord == firstInvertedIndexes.end())
+            {
+                //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
+                firstInvertedIndexes.insert({std::move(elem.first), std::move(elem.second)});
+            }
+            else
+                //Слово в базе инвертированных индексов существует
+            {
+                for (auto &entry : elem.second)
+                {
+                    //Добавить структуру инвертированного индекса для нового ID документа по слову
+                    firstInvertedIndexes[elem.first].push_back(entry);
+                }
+            }
+        }
+
+        std::async(mergeInvertedIndexBases, )
+    }
 }
 
 void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
 {
     //Timer test
-    //Timer t;
+    Timer t;
+
 
     //Количество дополнительных потоков
-    //Если количество документов меньше желаемого количества потоков - использовать количество потоков равным количеству документов.
-    //В противном случае - использовать желаемое количество документов.
+    //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
+    //В противном случае - использовать желаемое количество потоков.
     int numberOfThreads = documents.size() <= desiredNumberOfThreads ? documents.size() : desiredNumberOfThreads;
 
     //Определить количество документов обрабатываемое одним потокам
@@ -168,7 +205,7 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
     }
 
     //Контейнер результатов потоков
-    std::list<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
+    std::vector<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
 
     //ID первого документа для каждого потока
     std::size_t beginDocID{};
@@ -198,7 +235,7 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
                                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                                 {
                                     //Определить слово (выделить) в документе
-                                    InvertedIndex::defineWord(currentDocID, documents[currentDocID], invertedIndexesForThread);
+                                    defineWord(currentDocID, documents[currentDocID], invertedIndexesForThread);
                                 }
 
                                 //Вернуть базу инвертированных индексов для каждого потока
@@ -234,7 +271,7 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
                     for (auto &entry : elem.second)
                     {
                         //Добавить структуру инвертированного индекса для нового ID документа по слову
-                        invertedIndexes[elem.first].push_back(std::move(entry));
+                        invertedIndexes[elem.first].push_back(entry);
                     }
                 }
             }
@@ -247,14 +284,14 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
     }
 
     //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    //std::cout << '\n' << t.elapsed() << '\n';
+    std::cout << '\n' << t.elapsed() << '\n';//*/
 
-
-    /*for (std::size_t docID{}; docID < documents.size(); ++docID)
+    /*
+    for (std::size_t docID{}; docID < documents.size(); ++docID)
     {
 
-        InvertedIndex::defineWord(docID, documents[docID]);
+        defineWord(docID, documents[docID], invertedIndexes);
     }
 
-    std::cout << '\n' << t.elapsed() << '\n';*/
+    std::cout << '\n' << t.elapsed() << '\n';//*/
 }
