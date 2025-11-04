@@ -150,37 +150,70 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
 }
 
-std::map<std::basic_string<char>, std::vector<Entry>> mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures)
+void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures)
 {
-    for (int idx{}; idx < futures.size(); idx += 3)
+    int i{};
+
+    for (int idx{}; idx < futures.size() && futures.size() != 1; idx += 2, ++i)
     {
-        std::map<std::basic_string<char>, std::vector<Entry>> firstInvertedIndexes{futures[idx].get()};
 
-
-        for (auto &elem : futures[idx + 1].get())
+        //std::cout << futures.size() << " " << idx << " " << i;
+        //std::cout << "qqq";
+        if ((idx + 1) < futures.size())
         {
-            //Найти слово в базе инвертированных индексов
-            auto positionWord{firstInvertedIndexes.find(elem.first)};
 
-            //Слово в базе инвертированных индексов не существует
-            if (positionWord == firstInvertedIndexes.end())
-            {
-                //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
-                firstInvertedIndexes.insert({std::move(elem.first), std::move(elem.second)});
-            }
-            else
-                //Слово в базе инвертированных индексов существует
-            {
-                for (auto &entry : elem.second)
-                {
-                    //Добавить структуру инвертированного индекса для нового ID документа по слову
-                    firstInvertedIndexes[elem.first].push_back(entry);
-                }
-            }
+            std::map<std::basic_string<char>, std::vector<Entry>> firstInvertedIndexes{std::move(futures[idx]).get()};
+            std::map<std::basic_string<char>, std::vector<Entry>> secondInvertedIndexes{std::move(futures[idx + 1]).get()};
+
+            futures[i] = std::async([&futures, idx = idx, firstInvertedIndexes = std::move(firstInvertedIndexes), secondInvertedIndexes = std::move(secondInvertedIndexes)]() mutable
+                                    {
+
+
+                                        for (auto &elem: secondInvertedIndexes)
+                                        {
+                                            //Найти слово в базе инвертированных индексов
+                                            auto positionWord{firstInvertedIndexes.find(elem.first)};
+
+                                            //Слово в базе инвертированных индексов не существует
+                                            if (positionWord == firstInvertedIndexes.end())
+                                            {
+                                                //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
+                                                firstInvertedIndexes.insert(
+                                                        {elem.first, std::move(elem.second)});
+                                            } else
+                                                //Слово в базе инвертированных индексов существует
+                                            {
+                                                for (auto &entry: elem.second)
+                                                {
+                                                    //Добавить структуру инвертированного индекса для нового ID документа по слову
+                                                    firstInvertedIndexes[elem.first].push_back(entry);
+                                                }
+                                            }
+                                        }
+
+                                        return std::move(firstInvertedIndexes);
+                                    }
+
+            );
+            //std::cout << "eee";
+        }
+        else
+        {
+            //std::cout << "www";
+            futures[i] = std::move(futures[idx]);
         }
 
-        std::async(mergeInvertedIndexBases, )
     }
+
+    //std::cout << "rrr";
+    futures.resize(i);
+
+    if (i > 1)
+    {
+        mergeInvertedIndexBases(futures);
+    }
+
+    //return futures[0].get();
 }
 
 void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
@@ -249,6 +282,7 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
 
     try
     {
+        /*
         //Ожидать завершения потоков
         for (auto &future: futures)
         {
@@ -275,7 +309,10 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
                     }
                 }
             }
-        }
+        }*/
+        mergeInvertedIndexBases(futures);
+
+        invertedIndexes = std::move(futures[0].get());
     }
     //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
