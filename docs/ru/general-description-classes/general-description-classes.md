@@ -14,7 +14,7 @@
 Класс реализует чтение и хранение параметров для настройки класса ConverterJSON.
 #### 1.2. ConverterJSON::FileFieldNames (закрытый класс)
 Класс содержит переменные названий полей файлов конфигурации, запросов, ответов.
-#### 2. DispatcherOperationValidity
+#### 2. DispatcherOperations
 Класс реализует диспетчер операций c файлами и JSON-объектами.
 #### 3. OperationException
 Класс реализует исключение.
@@ -77,7 +77,7 @@
 #### Основные классы:
 ConverterJSON, Documents, InvertedIndex, Requests, RelevantResponse, PreparedRequest
 #### Вспомогательные классы:
-DispatcherOperationValidity, OperationException
+DispatcherOperations, OperationException
 #### Класс управления общей логикой:
 SearchEngine
 

@@ -12,14 +12,14 @@
 void ConverterJSON::ConfigConverterJSON::initialize()
 {
     //Создать JSON-объект конфигурации
-    configJSON = DispatcherOperationValidity::readJSONFile(configFilePath).first;
+    configJSON = DispatcherOperations::readJSONFile(configFilePath).first;
     //Проверить JSON-структуру на соответствие шаблону
-    DispatcherOperationValidity::checkJSONStructureMatch(configFilePath, configJSON, configTemplate);
+    DispatcherOperations::checkJSONStructureMatch(configFilePath, configJSON, configTemplate);
 
     //Создать JSON-объект запросов
-    requestsJSON = DispatcherOperationValidity::readJSONFile(requestsFilePath).first;
+    requestsJSON = DispatcherOperations::readJSONFile(requestsFilePath).first;
     //Проверить JSON-структуру на соответствие шаблону
-    DispatcherOperationValidity::checkJSONStructureMatch(requestsFilePath, requestsJSON, requestsTemplate);
+    DispatcherOperations::checkJSONStructureMatch(requestsFilePath, requestsJSON, requestsTemplate);
 }
 
 void ConverterJSON::initialize()

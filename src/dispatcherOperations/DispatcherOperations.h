@@ -67,16 +67,37 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
 };
 
 /**
+ * Структура инвертированного индекса
+ */
+struct ResultOfReadMultipleTextFiles
+{
+
+    /**
+     * Пара контейнеров текстов и кодов ошибок
+     */
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documentsAndErrors;
+
+    /**
+     * Количество непрочитанных документов
+     */
+    std::size_t errorNumber;
+
+    /**
+     * Код общей ошибки
+     */
+    ErrorCode errorCode;
+
+};
+
+/**
  * Класс реализует диспетчер операций c файлами и JSON-объектами
  * Выполняет операции с файлами (чтение-запись), проверку JSON-объекта и при необходимости определяет уровень логирования,
  * и логирует события, по имени вызывающей функции при ошибке операции.
  */
-class DispatcherOperationValidity
+class DispatcherOperations
 {
 
 private:
-
-
 
     /**
      * Класс реализует исключение
@@ -127,7 +148,7 @@ private:
 
 public:
 
-    DispatcherOperationValidity() = delete;
+    DispatcherOperations() = delete;
 
     /**
       * Записать JSON-файл
@@ -229,12 +250,15 @@ public:
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
-      * @param errorLevel Уровень логирования
+      * @param desiredNumberOfThreads Желаемое количество потоков
+      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
+      * @param errorLevelOneFile Уровень логирования для одного фойла
+      * @param errorLevelMultipleFiles Уровень логирования для всех фойлов
       * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
-      * @return Пара контейнер текстов и кода ошибки
+      * @return Пара контейнеров текстов и кодов ошибок
       */
-    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFiles(
+    static ResultOfReadMultipleTextFiles readMultipleTextFiles(
             const std::vector<std::string>& filePaths,
             const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
             std::size_t maximumAllowableErrorsNumber = 1,
@@ -245,18 +269,26 @@ public:
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
+      * @param desiredNumberOfThreads Желаемое количество потоков
       * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
-      * @return Пара контейнер текстов и кода ошибки
+      * @return Пара контейнеров текстов и кодов ошибок
       */
-    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(const std::vector<std::string>& filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
-                                                                                             const std::string &message = "",
-                                                                                             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
+            const std::vector<std::string>& filePaths,
+            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static void readMultipleTextFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &tmp, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(), ErrorLevel errorLevel = ErrorLevel::no_level,
-                                                                                const std::string &message = "",
-                                                                                const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static void readMultipleTextFilesRef(
+            const std::vector<std::string>& filePaths,
+            std::pair<std::vector<std::string>, ErrorCode> &tmp,
+            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
 private:
 
@@ -299,7 +331,7 @@ private:
                 {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
                 {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
-                {"DispatcherOperationValidity::readTextFileFromMultipleFiles",  ErrorLevel::error},
+                {"DispatcherOperations::readTextFileFromMultipleFiles",  ErrorLevel::error},
                 {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
                 {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
                 {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}

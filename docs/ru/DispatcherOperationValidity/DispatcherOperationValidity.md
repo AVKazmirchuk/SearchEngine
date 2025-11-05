@@ -3,7 +3,7 @@
 
 ### [Оглавление](../index.md)
 
-## Класс DispatcherOperationValidity
+## Класс DispatcherOperations
 Класс реализует диспетчер операций c файлами и JSON-объектами.\
 Логирование операций при наличии ошибок происходит именно в этом классе. В вызывающей функции логировать не надо.\
 Если требуется логирование в любом случае (без ошибки) - тогда надо логировать при вызове операции (пока сделано так, но надо предусмотреть и эту возможность).
@@ -28,7 +28,7 @@
 
 ### Конструкторы:
 ```cpp
-DispatcherOperationValidity() = delete;
+DispatcherOperations() = delete;
 ```
 Отсутствуют. Класс имеет только статические функции-члены. 
 ### Общедоступные функции-члены:
@@ -101,48 +101,48 @@ int main()
     //...
 
     //Проверить массив JSON-объекта путей файлов на пустоту
-    DispatcherOperationValidity::checkFilePathsArray(objectJSON);
+    DispatcherOperations::checkFilePathsArray(objectJSON);
 
    //...
    //Получить ссылку на JSON-объект для проверки (objectJSON)
    //...
 
    //Проверить массив JSON-объекта запросов на пустоту
-   DispatcherOperationValidity::checkRequestsArray(objectJSON);
+   DispatcherOperations::checkRequestsArray(objectJSON);
 
    //...
    //Получить ссылку на путь контейнера путей файлов (filePaths)
    //...
 
   //Прочитать документы
-  std::vector<std::string> documents{DispatcherOperationValidity::readMultipleTextFiles(filePaths).first};
+  std::vector<std::string> documents{DispatcherOperations::readMultipleTextFiles(filePaths).first};
 
   //...
   //Получить ссылку на путь текстового файла (filePath)
   //...
 
   //Прочитать документ
-  std::string document{DispatcherOperationValidity::readTextFile(filePath).first};
+  std::string document{DispatcherOperations::readTextFile(filePath).first};
 
   //...
   //Получить ссылку на путь JSON-файла (filePath)
   //...
 
   //Прочитать JSON-файл
-  JSON configJSON{DispatcherOperationValidity::readJSONFile(filePath).first};
+  JSON configJSON{DispatcherOperations::readJSONFile(filePath).first};
 
   //...
   //Получить ссылку на путь JSON-файла (filePath), ссылку на JSON-объект для проверки (objectJSON), ссылку на JSON-объект шаблона (objectJSONTemplate)
   //...
 
   //Проверить JSON-структуру на соответствие шаблону
-  DispatcherOperationValidity::checkJSONStructureMatch(filePath, objectJSON, objectJSONTemplate);
+  DispatcherOperations::checkJSONStructureMatch(filePath, objectJSON, objectJSONTemplate);
 
   //...
   //Получить ссылку на путь JSON-файла (filePath), ссылку на JSON-объект для записи (objectJSON)
   //...
 
   //Записать JSON-файл
-  DispatcherOperationValidity::writeJSONFile(filePath, objectJSON);
+  DispatcherOperations::writeJSONFile(filePath, objectJSON);
 }
 ```

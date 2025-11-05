@@ -7,26 +7,26 @@
 #include "searchEngine.h"
 #include "timer.h"
 
-#include "DispatcherOperationValidity.h"
+#include "DispatcherOperations.h"
 
 
 
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
     //Прочитать документы
-    return DispatcherOperationValidity::readMultipleTextFiles(converterJSONObj.getFilePaths(), 14).first;
+    return DispatcherOperations::readMultipleTextFiles(converterJSONObj.getFilePaths(), desiredNumberOfThreads).documentsAndErrors.first;
 }
 
 void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &documents)
 {
     //Прочитать документы
-    DispatcherOperationValidity::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents, 10);
+    DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents, desiredNumberOfThreads);
 }
 
 void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
 {
     //Записать результаты поиска
-    DispatcherOperationValidity::writeJSONFile(filePath, objectJSON, formatByWidth);
+    DispatcherOperations::writeJSONFile(filePath, objectJSON, formatByWidth);
 }
 
 void SearchEngine::searchModifiedAll()
@@ -41,7 +41,7 @@ Timer t2;
     //documentsObj.updateDocuments(std::move(documents.first));
 std::cout << '\n' << t2.elapsed() << '\n';
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes(10);
+    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
 
     //Очистить список запросов
     requestsObj.clearRequests();
@@ -68,7 +68,7 @@ void SearchEngine::searchModifiedDocuments()
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
 
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes();
+    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
 
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();

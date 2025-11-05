@@ -23,7 +23,8 @@ namespace constants
     const int precision{6};
     //Ширина вывода
     const int formatByWidth{2};
-
+    //Желаемое количество потоков
+    const unsigned int desiredNumberOfThreads{14};
 }
 
 
@@ -32,7 +33,7 @@ namespace constants
 void runRelevanceCalculation()
 {
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth);
+    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth, constants::desiredNumberOfThreads);
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();

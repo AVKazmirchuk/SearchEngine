@@ -4,11 +4,11 @@
 
 
 
-#include "DispatcherOperationValidity.h"
+#include "DispatcherOperations.h"
 #include "timer.h"
 
 
-ErrorCode DispatcherOperationValidity::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
+ErrorCode DispatcherOperations::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
                                                      ErrorLevel errorLevel, const std::string& message, const boost::source_location &callingFunction)
 {
     //Записать JSON-файл
@@ -22,7 +22,7 @@ ErrorCode DispatcherOperationValidity::writeJSONFile(const std::string& filePath
     return errorCode;
 }
 
-std::pair<JSON, ErrorCode> DispatcherOperationValidity::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<JSON, ErrorCode> DispatcherOperations::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
                                                                      const std::string& message,
                                                                      const boost::source_location &callingFunction)
 {
@@ -38,7 +38,7 @@ std::pair<JSON, ErrorCode> DispatcherOperationValidity::readJSONFile(const std::
 
 }
 
-ErrorCode DispatcherOperationValidity::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
+ErrorCode DispatcherOperations::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
                                                                ErrorLevel errorLevel, const std::string& message,
                                                                const boost::source_location &callingFunction)
 {
@@ -53,7 +53,7 @@ ErrorCode DispatcherOperationValidity::checkJSONStructureMatch(const std::string
     return errorCode;
 }
 
-ErrorCode DispatcherOperationValidity::checkFilePathsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherOperations::checkFilePathsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                            const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту
@@ -74,7 +74,7 @@ ErrorCode DispatcherOperationValidity::checkFilePathsArray(const JSON& objectJSO
     return errorCode;
 }
 
-ErrorCode DispatcherOperationValidity::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
+ErrorCode DispatcherOperations::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
                                                           const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту
@@ -94,7 +94,7 @@ ErrorCode DispatcherOperationValidity::checkRequestsArray(const JSON& objectJSON
     return errorCode;
 }
 
-std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
                                                                             const std::string& message,
                                                                             const boost::source_location &callingFunction)
 {
@@ -109,14 +109,14 @@ std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFile(cons
     return tmp;
 }
 
-std::pair<std::string, ErrorCode> DispatcherOperationValidity::readTextFileFromMultipleFiles(const std::string& filePath, ErrorLevel errorLevel,
+std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultipleFiles(const std::string& filePath, ErrorLevel errorLevel,
                                                                             const std::string& message,
                                                                             const boost::source_location &callingFunction)
 {
-    return DispatcherOperationValidity::readTextFile(filePath, errorLevel, message, BOOST_CURRENT_LOCATION);
+    return DispatcherOperations::readTextFile(filePath, errorLevel, message, BOOST_CURRENT_LOCATION);
 }
 
-std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFilesImpl(
+std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations::readMultipleTextFilesImpl(
         const std::vector<std::string>& filePaths,
         const unsigned int desiredNumberOfThreads,
         ErrorLevel errorLevel,
@@ -179,8 +179,8 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                        //documents.push_back(DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction));
-                        auto tmp{DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
+                        //documents.push_back(DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction));
+                        auto tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
                         documents.first[currentDocID] = std::move(tmp.first);
                         documents.second[currentDocID] = tmp.second;
 
@@ -233,7 +233,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
 
-        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperationValidity::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, callingFunction)};
+        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, callingFunction)};
 
         //Добавить документ в контейнер прочитанных документов
         documents.first.push_back(std::move(tmp.first));
@@ -246,7 +246,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
     return documents;
 }
 
-std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationValidity::readMultipleTextFiles(
+ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         const std::vector<std::string> &filePaths,
         const unsigned int desiredNumberOfThreads,
         std::size_t maximumAllowableErrorsNumber,
@@ -277,31 +277,32 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperationV
         //Установить соответствующий код ошибки
         error = ErrorCode::error_all_files_not_read;
     }
+    //В противном случае, если есть какие-то ошибки
     else if (errorNumber > 0)
     {
         //Установить соответствующий код ошибки
         error = ErrorCode::error_any_files_not_read;
     }
 
+    //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
+    //функция, из которой вызывается чтение документов, помечена как фатальная
     if (errorNumber <= maximumAllowableErrorsNumber &&
     (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction.to_string()) == ErrorLevel::fatal))
     {
+        //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
         if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
+        //В противном случае - понизить уровень логирования
         else errorLevelMultipleFiles = ErrorLevel::error;
     }
-
-
-
-
 
     //Логировать событие по коду ошибки и уровню логирования
     determineValidity("", error, errorLevelMultipleFiles, message, callingFunction);
 
     //Вернуть пару контейнера текстов и кода ошибки
-    return documents;
+    return ResultOfReadMultipleTextFiles{documents, errorNumber, error};
 }
 
-void DispatcherOperationValidity::readTextFileRef(const std::string& filePath, std::pair<std::string, ErrorCode> &tmp, ErrorLevel errorLevel,
+void DispatcherOperations::readTextFileRef(const std::string& filePath, std::pair<std::string, ErrorCode> &tmp, ErrorLevel errorLevel,
                                                   const std::string& message,
                                                   const boost::source_location &callingFunction)
 {
@@ -317,7 +318,7 @@ void DispatcherOperationValidity::readTextFileRef(const std::string& filePath, s
     //return tmp;
 }
 
-void DispatcherOperationValidity::readMultipleTextFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &documents, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
+void DispatcherOperations::readMultipleTextFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &documents, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
                               const std::string &message,
                               const boost::source_location &callingFunction)
 {
@@ -339,7 +340,7 @@ void DispatcherOperationValidity::readMultipleTextFilesRef(const std::vector<std
     {
         //Запустить чтение из файла
         std::pair<std::string, ErrorCode> tmp;
-        DispatcherOperationValidity::readTextFileRef(filePaths[docID], tmp, ErrorLevel::error, "", BOOST_CURRENT_LOCATION);
+        DispatcherOperations::readTextFileRef(filePaths[docID], tmp, ErrorLevel::error, "", BOOST_CURRENT_LOCATION);
         //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
         documents.first.push_back(std::move(tmp.first));
         //Если при чтении произошла ошибка
