@@ -246,7 +246,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
     }
 }
 
-void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
+void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
 {
     //Timer test
     Timer t;

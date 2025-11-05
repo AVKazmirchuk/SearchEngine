@@ -58,14 +58,15 @@ public:
      * @param in_answersFilePath Ссылка на путь файла ответов
      * @param in_precision Количество знаков после запятой
      * @param in_formatByWidth Ширина вывода
+     * @param in_desiredNumberOfThreads Желаемое количество потоков
      */
-    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, int in_precision, int in_formatByWidth)
+    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads)
             : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
               documentsObj{},
               invertedIndexObj(documentsObj.getDocuments()),
               requestsObj{},
               relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
-              answersFilePath{std::move(in_answersFilePath)}, formatByWidth{in_formatByWidth}
+              answersFilePath{std::move(in_answersFilePath)}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}
 
     {
         //Логировать сообщение о программе

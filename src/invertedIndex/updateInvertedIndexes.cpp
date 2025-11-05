@@ -8,7 +8,7 @@
 
 
 
-void InvertedIndex::updateInvertedIndexes(const int desiredNumberOfThreads)
+void InvertedIndex::updateInvertedIndexes(const unsigned int desiredNumberOfThreads)
 {
     //Очистить базу инвертированных индексов
     clearInvertedIndexes();
