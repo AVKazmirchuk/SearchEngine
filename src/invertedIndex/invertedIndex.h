@@ -90,6 +90,13 @@ private:
     void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
+     * Слить базы инвертированного индекса подготовленные в разных потоках
+     * @param futures Контейнер результатов потоков
+     * @param initialBasesNumberInStream Начальное количество баз инвертированного индекса для каждого потока
+     */
+    void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures, int initialBasesNumberInStream);
+
+    /**
      * Добавить слово и структуру инвертированного индекса в базу инвертированных индексов
      * @param word Ссылка на слово
      * @param docID ID документа

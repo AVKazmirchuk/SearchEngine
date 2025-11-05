@@ -150,70 +150,100 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
 }
 
-void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures)
+void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures, int initialBasesNumberInStream)
 {
+    //Начальное количество баз инвертированного индекса для каждого потока должно быть в следующих очевидных пределах
+    //Если начальное количество баз инвертированного индекса для каждого потока меньше нижнего предела - установить по нижнему пределу
+    if (initialBasesNumberInStream < 2) initialBasesNumberInStream = 2;
+    //Если начальное количество баз инвертированного индекса для каждого потока больше верхнего предела - установить по верхнему пределу
+    else if (initialBasesNumberInStream > futures.size()) initialBasesNumberInStream = futures.size();
+
+    //Определить индекс для записи в контейнер результатов потоков
     int i{};
 
-    for (int idx{}; idx < futures.size() && futures.size() != 1; idx += 2, ++i)
+    //Пока элементы в контейнере результатов потоков не закончились, и в контейнере содержатся более одного элемента
+    for (int idx{}; idx < futures.size() && futures.size() != 1; idx += initialBasesNumberInStream, ++i)
     {
-
-        //std::cout << futures.size() << " " << idx << " " << i;
-        //std::cout << "qqq";
+        std::cout << futures.size() << " " << idx << " " << i;
+        std::cout << "qqq";
+        //Если следующий элемент существует
         if ((idx + 1) < futures.size())
         {
+            //Определить количество баз инвертированного индекса для каждого потока в зависимости от количества элементов контейнера и индекса текущего элемента
+            int basesNumberInStream = (futures.size() - idx) >= initialBasesNumberInStream ? initialBasesNumberInStream : futures.size() - idx;
+            //Определить контейнер баз инвертированного индекса для потока
+            std::vector<std::map<std::basic_string<char>, std::vector<Entry>>> invertedIndexesForThread(basesNumberInStream);
 
-            std::map<std::basic_string<char>, std::vector<Entry>> firstInvertedIndexes{std::move(futures[idx]).get()};
-            std::map<std::basic_string<char>, std::vector<Entry>> secondInvertedIndexes{std::move(futures[idx + 1]).get()};
+            //Пока элементы существуют в базе
+            for (int k{}; k < basesNumberInStream; ++k)
+            {
+                try
+                {
+                    //Переместить их из контейнера результатов потоков
+                    invertedIndexesForThread[k] = std::move(futures[idx + k]).get();
+                }
+                //Обработать все исключения, выброшенные в потоках
+                catch (const std::exception& e)
+                {
+                    throw;
+                }
+            }
 
-            futures[i] = std::async([&futures, idx = idx, firstInvertedIndexes = std::move(firstInvertedIndexes), secondInvertedIndexes = std::move(secondInvertedIndexes)]() mutable
+            //Записать результат в контейнер результатов потоков
+            futures[i] = std::async([invertedIndexesForThread = std::move(invertedIndexesForThread)]() mutable
                                     {
-
-
-                                        for (auto &elem: secondInvertedIndexes)
+                                        //Пока контпейнер баз не обошли
+                                        for (int l{1}; l < invertedIndexesForThread.size(); ++l)
                                         {
-                                            //Найти слово в базе инвертированных индексов
-                                            auto positionWord{firstInvertedIndexes.find(elem.first)};
+                                            //Для каждой базы инвертированного индекса
+                                            for (auto &elem: invertedIndexesForThread[l])
+                                            {
+                                                //Найти слово в базе инвертированных индексов
+                                                auto positionWord{invertedIndexesForThread[0].find(elem.first)};
 
-                                            //Слово в базе инвертированных индексов не существует
-                                            if (positionWord == firstInvertedIndexes.end())
-                                            {
-                                                //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
-                                                firstInvertedIndexes.insert(
-                                                        {elem.first, std::move(elem.second)});
-                                            } else
-                                                //Слово в базе инвертированных индексов существует
-                                            {
-                                                for (auto &entry: elem.second)
+                                                //Слово в базе инвертированных индексов не существует
+                                                if (positionWord == invertedIndexesForThread[0].end())
                                                 {
-                                                    //Добавить структуру инвертированного индекса для нового ID документа по слову
-                                                    firstInvertedIndexes[elem.first].push_back(entry);
+                                                    //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
+                                                    invertedIndexesForThread[0].insert(
+                                                            {elem.first, std::move(elem.second)});
+                                                } else
+                                                    //Слово в базе инвертированных индексов существует
+                                                {
+                                                    //Для каждого элемента контейнера индекса
+                                                    for (auto &entry: elem.second)
+                                                    {
+                                                        //Добавить структуру инвертированного индекса для нового ID документа по слову
+                                                        invertedIndexesForThread[0][elem.first].push_back(entry);
+                                                    }
                                                 }
                                             }
                                         }
 
-                                        return std::move(firstInvertedIndexes);
+                                        //Вернуть базу инвертированного индекса из потока
+                                        return std::move(invertedIndexesForThread[0]);
                                     }
-
             );
-            //std::cout << "eee";
+            std::cout << "eee";
         }
         else
         {
-            //std::cout << "www";
+            std::cout << "www";
+            //Следующий элемент не существует (один элемент)
             futures[i] = std::move(futures[idx]);
         }
-
     }
 
-    //std::cout << "rrr";
+    std::cout << "rrr";
+    //Урезать размер контейнера до количества потоков
     futures.resize(i);
 
+    //Если количество потоков более одного
     if (i > 1)
     {
-        mergeInvertedIndexBases(futures);
+        //Вызвать рекурсивно функцию
+        mergeInvertedIndexBases(futures, initialBasesNumberInStream);
     }
-
-    //return futures[0].get();
 }
 
 void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
@@ -310,13 +340,20 @@ void InvertedIndex::startInvertedIndexing(const int desiredNumberOfThreads)
                 }
             }
         }*/
-        mergeInvertedIndexBases(futures);
 
+        //Начальное количество баз инвертированного индекса для каждого потока
+        int initialBasesNumberInStream{2};
+
+        //Слить базы инвертированного индекса подготовленные в разных потоках
+        mergeInvertedIndexBases(futures, initialBasesNumberInStream);
+
+        //Получить результат в базу инвертированного индекса
         invertedIndexes = std::move(futures[0].get());
     }
     //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
     {
+        //Регенерировать исключение выше. Будет обработано в главной функции
         throw;
     }
 
