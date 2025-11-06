@@ -368,12 +368,15 @@ private:
      * @param filePaths Ссылка на путь контейнера путей файлов
      * @return Фактическое количество потоков
      */
-    static int countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
+    static std::pair<int, int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
     {
         //Количество дополнительных потоков
         //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
         //В противном случае - использовать желаемое количество потоков.
         int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
+
+        //Определить разницу количества документов между потоками
+        std::size_t difference{filePaths.size() / numberOfThreads};
 
         if (filePaths.size() % numberOfThreads)
         {
@@ -381,7 +384,7 @@ private:
             ++numberOfThreads;
         }
 
-        return numberOfThreads;
+        return {difference, numberOfThreads};
     }
 
     /**

@@ -245,12 +245,15 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
         mergeInvertedIndexBases(futures, initialBasesNumberInStream);
     }
 }
-int InvertedIndex::countNumberOfThreads(const unsigned int desiredNumberOfThreads)
+std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desiredNumberOfThreads)
 {
     //Количество дополнительных потоков
     //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
     //В противном случае - использовать желаемое количество потоков.
     int numberOfThreads = documents.size() <= desiredNumberOfThreads ? documents.size() : desiredNumberOfThreads;
+
+    //Определить количество документов обрабатываемое одним потокам
+    std::size_t difference{documents.size() / numberOfThreads};
 
     //Если количество документов делится с остатком
     if (documents.size() % numberOfThreads)
@@ -259,18 +262,19 @@ int InvertedIndex::countNumberOfThreads(const unsigned int desiredNumberOfThread
         ++numberOfThreads;
     }
 
-    return numberOfThreads;
+    return {difference, numberOfThreads};
 }
 void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
 {
     //Timer test
     Timer t;
 
-    //Определить количество дополнительных потоков
-    int numberOfThreads = countNumberOfThreads(desiredNumberOfThreads);
+    std::pair<int, int> tmp{countNumberOfThreads(desiredNumberOfThreads)};
 
-    //Определить количество документов обрабатываемое одним потокам
-    std::size_t difference{documents.size() / numberOfThreads};
+    int difference{tmp.first};
+
+    //Определить количество дополнительных потоков
+    int numberOfThreads = tmp.second;
 
     //Контейнер результатов потоков
     std::vector<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);

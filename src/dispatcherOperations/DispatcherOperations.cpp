@@ -131,9 +131,6 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
     //Контейнер прочитанных документов
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
-    //Определить разницу количества документов между потоками
-    std::size_t difference{filePaths.size() / numberOfThreads};
-
     //Контейнер результатов потоков
     //std::list<std::future<std::vector<std::pair<std::string, ErrorCode>>>> futures(numberOfThreads);
     std::list<std::future<void>> futures(numberOfThreads);
