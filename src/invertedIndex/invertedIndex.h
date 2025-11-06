@@ -79,6 +79,13 @@ private:
     std::mutex mutexFindAddEntry;
 
     /**
+     * Определить количество потоков
+     * @param desiredNumberOfThreads Желаемое количество потоков
+     * @return Фактическое количество потоков
+     */
+    int countNumberOfThreads(const unsigned int desiredNumberOfThreads);
+
+    /**
      * Запустить инвертированную индексацию документов в отдельных потоках
      * @param desiredNumberOfThreads Желаемое количество потоков
      */

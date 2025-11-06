@@ -24,7 +24,7 @@ namespace constants
     //Ширина вывода
     const int formatByWidth{2};
     //Желаемое количество потоков
-    const unsigned int desiredNumberOfThreads{14};
+    const unsigned int desiredNumberOfThreads{11};
 }
 
 
@@ -51,6 +51,11 @@ int main(int argc, char* argv[])
 
     try
     {
+        /*for (int i{}; i < argc; ++i)
+        {
+            std::cout << argv[i] << " ";
+        }*/
+
         //Создать объект логирования событий
         kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
 
@@ -79,7 +84,7 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& exception)
     {
-        std::cout << exception.what() << std::endl;
+        std::cout << "Exception: " << exception.what() << std::endl;
         //Вывести сообщение о завершении работы программы
         std::cout << "Stop SearchEngine by error" << std::endl;
 

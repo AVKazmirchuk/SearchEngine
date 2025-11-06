@@ -118,34 +118,21 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultiple
 
 std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations::readMultipleTextFilesImpl(
         const std::vector<std::string>& filePaths,
-        const unsigned int desiredNumberOfThreads,
+        const unsigned int numberOfThreads,
         ErrorLevel errorLevel,
         const std::string &message,
         const boost::source_location &callingFunction)
 {
 
-
     /*
      * Чтение документов в нескольких потоках
      */
 
-
     //Контейнер прочитанных документов
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
-    //Количество дополнительных потоков
-    //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
-    //В противном случае - использовать желаемое количество потоков.
-    int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
-
     //Определить разницу количества документов между потоками
     std::size_t difference{filePaths.size() / numberOfThreads};
-
-    if (filePaths.size() % numberOfThreads)
-    {
-        //Увеличить количество потоков
-        ++numberOfThreads;
-    }
 
     //Контейнер результатов потоков
     //std::list<std::future<std::vector<std::pair<std::string, ErrorCode>>>> futures(numberOfThreads);
@@ -257,12 +244,15 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     //Timer test
     Timer t;
 
+    //Количество дополнительных потоков
+    int numberOfThreads = countNumberOfThreads(filePaths, desiredNumberOfThreads);
+
     //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, errorLevelOneFile, message, callingFunction)};
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, numberOfThreads, errorLevelOneFile, message, callingFunction)};
 
     //Для тестирования производительности
-    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    std::cout << '\n' << sizeof(documents) << '\n';
+    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    //std::cout << '\n' << sizeof(documents) << '\n';
     std::cout << '\n' << t.elapsed() << '\n';
 
     //Подсчитать количество непрочитанных документов

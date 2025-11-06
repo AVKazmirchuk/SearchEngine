@@ -269,7 +269,7 @@ public:
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
-      * @param desiredNumberOfThreads Желаемое количество потоков
+      * @param numberOfThreads Количество потоков
       * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
@@ -277,7 +277,7 @@ public:
       */
     static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
             const std::vector<std::string>& filePaths,
-            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            const unsigned int numberOfThreads,
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
@@ -360,6 +360,28 @@ private:
 
         //Вернуть уровень логирования
         return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
+    }
+
+    /**
+     * Определить количество потоков
+     * @param desiredNumberOfThreads Желаемое количество потоков
+     * @param filePaths Ссылка на путь контейнера путей файлов
+     * @return Фактическое количество потоков
+     */
+    static int countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
+    {
+        //Количество дополнительных потоков
+        //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
+        //В противном случае - использовать желаемое количество потоков.
+        int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
+
+        if (filePaths.size() % numberOfThreads)
+        {
+            //Увеличить количество потоков
+            ++numberOfThreads;
+        }
+
+        return numberOfThreads;
     }
 
     /**
