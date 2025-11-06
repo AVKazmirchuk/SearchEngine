@@ -9,22 +9,22 @@ namespace constants
 {
 
     //Путь файла конфигурации
-    const std::string configFilePath{"config.json"};
+    std::string configFilePath{"config.json"};
     //Путь файла запросов
-    const std::string requestsFilePath{"requests.json"};
+    std::string requestsFilePath{"requests.json"};
     //Путь файла ответов
-    const std::string answersFilePath{"answers.json"};
+    std::string answersFilePath{"answers.json"};
     //Путь файла конфигурации логирования
-    const std::string configLoggerFilePath{"logger.json"};
+    std::string configLoggerFilePath{"logger.json"};
     //Путь файла конфигурации очереди сообщений
-    const std::string configWriterMessageFilePath{"messageQueue.json"};
+    std::string configWriterMessageFilePath{"messageQueue.json"};
 
     //Количество знаков после запятой
-    const int precision{6};
+    unsigned int precision{6};
     //Ширина вывода
-    const int formatByWidth{2};
+    unsigned int formatByWidth{2};
     //Желаемое количество потоков
-    const unsigned int desiredNumberOfThreads{11};
+    unsigned int desiredNumberOfThreads{11};
 }
 
 
@@ -51,10 +51,21 @@ int main(int argc, char* argv[])
 
     try
     {
-        /*for (int i{}; i < argc; ++i)
+        for (int i{1}; i < argc; i += 2)
         {
+            if (std::strcmp(argv[i], "/c") == 0) constants::configFilePath = argv[i + 1];
+            if (std::strcmp(argv[i], "/r") == 0) constants::requestsFilePath = argv[i + 1];
+            if (std::strcmp(argv[i], "/a") == 0) constants::answersFilePath = argv[i + 1];
+            if (std::strcmp(argv[i], "/l") == 0) constants::configLoggerFilePath = argv[i + 1];
+            if (std::strcmp(argv[i], "/m") == 0) constants::configWriterMessageFilePath = argv[i + 1];
+
+            unsigned int value;
+            if (std::strcmp(argv[i], "/p") == 0) { std::stringstream ss{argv[i + 1]}; ss >> value; constants::precision = value;}
+            if (std::strcmp(argv[i], "/f") == 0) { std::stringstream ss{argv[i + 1]}; ss >> value; constants::formatByWidth = value;}
+            if (std::strcmp(argv[i], "/t") == 0) { std::stringstream ss{argv[i + 1]}; ss >> value; constants::desiredNumberOfThreads = value;}
+
             std::cout << argv[i] << " ";
-        }*/
+        }
 
         //Создать объект логирования событий
         kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
