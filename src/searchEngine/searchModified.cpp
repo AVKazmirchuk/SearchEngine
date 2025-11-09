@@ -34,7 +34,10 @@ void SearchEngine::searchModifiedAll()
 {
     //Очистить список документов
     documentsObj.clearDocuments();
-Timer t2;
+
+    //Для замеров
+    //Timer t;
+
     //Обновить список документов из файлов
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
 
@@ -43,9 +46,17 @@ Timer t2;
     readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
     documentsObj.updateDocuments(std::move(documents.documentsAndErrors.first));*/
 
-std::cout << '\n' << t2.elapsed() << '\n';
+    //Для замеров
+    //std::cout << '\n' << t.elapsed() << '\n';
+
+    //Для замеров
+    Timer t;
+
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
+
+    //Для замеров
+    std::cout << '\n' << t.elapsed() << '\n';
 
     //Очистить список запросов
     requestsObj.clearRequests();

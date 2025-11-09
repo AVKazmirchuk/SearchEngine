@@ -24,7 +24,7 @@ namespace constants
     //Ширина вывода
     unsigned int formatByWidth{2};
     //Желаемое количество потоков
-    unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency()};
+    unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
 }
 
 void processProgramArguments(int argc, char* argv[])

@@ -266,8 +266,10 @@ std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desir
 }
 void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
 {
-    //Timer test
-    //Timer t;
+    /**
+     * Инвертированная индексация документов в отдельных потоках
+     */
+
 
     //Определить количество потоков
     std::pair<int, int> tmp{countNumberOfThreads(desiredNumberOfThreads)};
@@ -323,13 +325,17 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
 
     try
     {
+        /**
+         * Cлияние инвертированных баз в одном потоке
+         */
+
         /*
         //Ожидать завершения потоков
         for (auto &future: futures)
         {
             //InvertedIndex::invertedIndexesForThread = future.get();
 
-            for (auto &elem : future.get())
+            for (auto &elem: future.get())
             {
                 //Найти слово в базе инвертированных индексов
                 auto positionWord{invertedIndexes.find(elem.first)};
@@ -339,20 +345,26 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
                 {
                     //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
                     invertedIndexes.insert({std::move(elem.first), std::move(elem.second)});
-                }
-                else
+                } else
                     //Слово в базе инвертированных индексов существует
                 {
-                    for (auto &entry : elem.second)
+                    for (auto &entry: elem.second)
                     {
                         //Добавить структуру инвертированного индекса для нового ID документа по слову
                         invertedIndexes[elem.first].push_back(entry);
                     }
                 }
             }
-        }*/
+        }
+    }//Cлияние инвертированных баз в одном потоке*/
 
-        //Начальное количество баз инвертированного индекса для каждого потока
+
+        /**
+         * Cлияние инвертированных баз в разных потоках
+         */
+
+
+        //Начальное количество баз инвертированного индекса для каждого потока. Наименьшее время - при значении 2.
         int initialBasesNumberInStream{2};
 
         //Слить базы инвертированного индекса подготовленные в разных потоках
@@ -360,23 +372,25 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
 
         //Получить результат в базу инвертированного индекса
         invertedIndexes = std::move(futures[0].get());
-    }
+    }//Cлияние инвертированных баз в разных потоках*/
+
     //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
     {
         //Регенерировать исключение выше. Будет обработано в главной функции
         throw;
     }
+    //Инвертированная индексация документов в отдельных потоках*/
 
-    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    //std::cout << '\n' << t.elapsed() << '\n';//*/
+
+    /**
+     * Инвертированная индексация документов в одном потоке
+     */
 
     /*
     for (std::size_t docID{}; docID < documents.size(); ++docID)
     {
 
         defineWord(docID, documents[docID], invertedIndexes);
-    }
-
-    std::cout << '\n' << t.elapsed() << '\n';//*/
+    }//Инвертированная индексация документов в одном потоке*/
 }
