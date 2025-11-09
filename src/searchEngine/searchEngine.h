@@ -142,7 +142,7 @@ private:
      * @param filePath Ссылка на путь файла
      * @param formatByWidth Ширина вывода
      */
-    void writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth);
+    void writeAnswersToFile(const std::string& filePath, int formatByWidth);
 
     /**
      * Читать документы из файлов
@@ -151,7 +151,8 @@ private:
      */
     std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths);
 
-    void readDocsFromFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::basic_string<char>>, ErrorCode> &documents);
+    //Для тестирования передачи контейнера по ссылке
+    //void readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents);
 
 };
 

@@ -17,16 +17,17 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
     return DispatcherOperations::readMultipleTextFiles(converterJSONObj.getFilePaths(), desiredNumberOfThreads).documentsAndErrors.first;
 }
 
-void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &documents)
+//Для тестирования передачи контейнера по ссылке
+/*void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents)
 {
     //Прочитать документы
-    DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents, desiredNumberOfThreads);
-}
+    DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents);
+}*/
 
-void SearchEngine::writeAnswersToFile(const JSON& objectJSON, const std::string& filePath, int formatByWidth)
+void SearchEngine::writeAnswersToFile(const std::string& filePath, int formatByWidth)
 {
     //Записать результаты поиска
-    DispatcherOperations::writeJSONFile(filePath, objectJSON, formatByWidth);
+    DispatcherOperations::writeJSONFile(filePath, converterJSONObj.getAnswersJSON(), formatByWidth);
 }
 
 void SearchEngine::searchModifiedAll()
@@ -36,9 +37,12 @@ void SearchEngine::searchModifiedAll()
 Timer t2;
     //Обновить список документов из файлов
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
-    //std::pair<std::vector<std::string>, ErrorCode> documents;
-    //readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
-    //documentsObj.updateDocuments(std::move(documents.first));
+
+    //Для тестирования передачи контейнера по ссылке
+    /*ResultOfReadMultipleTextFiles documents;
+    readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
+    documentsObj.updateDocuments(std::move(documents.documentsAndErrors.first));*/
+
 std::cout << '\n' << t2.elapsed() << '\n';
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
@@ -56,7 +60,7 @@ std::cout << '\n' << t2.elapsed() << '\n';
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(converterJSONObj.getAnswersJSON(), answersFilePath, formatByWidth);
+    writeAnswersToFile(answersFilePath, formatByWidth);
 }
 
 void SearchEngine::searchModifiedDocuments()
@@ -77,7 +81,7 @@ void SearchEngine::searchModifiedDocuments()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(converterJSONObj.getAnswersJSON(), answersFilePath, formatByWidth);
+    writeAnswersToFile(answersFilePath, formatByWidth);
 }
 
 void SearchEngine::searchModifiedRequests()
@@ -95,5 +99,5 @@ void SearchEngine::searchModifiedRequests()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(converterJSONObj.getAnswersJSON(), answersFilePath, formatByWidth);
+    writeAnswersToFile(answersFilePath, formatByWidth);
 }

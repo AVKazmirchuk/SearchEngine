@@ -173,7 +173,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
                         //documents.push_back(DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction));
-                        auto tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
+                        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
                         documents.first[currentDocID] = std::move(tmp.first);
                         documents.second[currentDocID] = tmp.second;
 
@@ -194,18 +194,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         for (auto &future : futures)
         {
             //Получить результат работы потока
-            //std::vector<std::pair<std::string, ErrorCode>> tmp{future.get()};
             future.wait();
-
-            //Для каждого документа
-            //for (auto &document : tmp)
-            //{
-            //    //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-            //    documents.first.push_back(std::move(document.first));
-
-                //Добавить код ошибки
-            //    documents.second.push_back(document.second);
-            //}
         }
     }
     catch (const std::exception& e)
@@ -214,13 +203,15 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         throw;
     }//Чтение документов в нескольких потоках*/
 
+
+
     /*
      * Чтение документов в одном потоке
      */
 
     /*
     //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents;
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
@@ -229,14 +220,16 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, callingFunction)};
 
         //Добавить документ в контейнер прочитанных документов
-        documents.first.push_back(std::move(tmp.first));
+        documents.first[docID] = tmp.first;
 
         //Добавить код ошибки
-        documents.second.push_back(tmp.second);
+        documents.second[docID] = tmp.second;
     }//Чтение документов в одном потоке*/
 
+
+
     //Для тестирования производительности
-    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
 
     //Вернуть пару контейнера текстов и кода ошибки
     return documents;
@@ -251,13 +244,13 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         const boost::source_location &callingFunction)
 {
     //Timer test
-    Timer t;
+    //Timer t;
 
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, errorLevelOneFile, message, callingFunction)};
 
     //std::cout << '\n' << sizeof(documents) << '\n';
-    std::cout << '\n' << t.elapsed() << '\n';
+    //std::cout << '\n' << t.elapsed() << '\n';
 
     //Подсчитать количество непрочитанных документов
     std::size_t errorNumber{countErrorsNumber(documents.second)};
@@ -296,73 +289,92 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     return ResultOfReadMultipleTextFiles{documents, errorNumber, error};
 }
 
-void DispatcherOperations::readTextFileRef(const std::string& filePath, std::pair<std::string, ErrorCode> &tmp, ErrorLevel errorLevel,
+//Для тестирования передачи контейнера по ссылке
+/*void DispatcherOperations::readTextFileRef(const std::string& filePath, std::string &document, ErrorCode &errorCode, ErrorLevel errorLevel,
                                                   const std::string& message,
                                                   const boost::source_location &callingFunction)
 {
+    //Объявить временную переменную для конвертации типа
+    kav::ErrorCode tmpError;
     //Прочитать текстовый файл
-    std::pair<std::string, kav::ErrorCode> tmpOriginal;
-    kav::OperationFileAndJSON::readTextFileRef(filePath, tmpOriginal);
+    kav::OperationFileAndJSON::readTextFileRef(filePath, document, tmpError);
+
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
-    tmp = {std::move(tmpOriginal.first), convertErrorCodeFrom(tmpOriginal.second)};
+    errorCode = convertErrorCodeFrom(tmpError);
     //Логировать событие по коду ошибки и уровню логирования
-    determineValidity(filePath, tmp.second, errorLevel, message, callingFunction);
+    determineValidity(filePath, errorCode, errorLevel, message, callingFunction);
+}*/
 
-    //Вернуть пару текста и кода ошибки
-    //return tmp;
-}
-
-void DispatcherOperations::readMultipleTextFilesRef(const std::vector<std::string>& filePaths, std::pair<std::vector<std::string>, ErrorCode> &documents, const unsigned int desiredNumberOfThreads, ErrorLevel errorLevel,
-                              const std::string &message,
-                              const boost::source_location &callingFunction)
+//Для тестирования передачи контейнера по ссылке
+/*void DispatcherOperations::readMultipleTextFilesImplRef(
+        const std::vector<std::string>& filePaths,
+        std::pair<std::vector<std::string>, std::vector<ErrorCode>> &documents,
+        ErrorLevel errorLevel,
+        const std::string &message,
+        const boost::source_location &callingFunction)
 {
-    //Timer test
-    Timer t;
-
-    /*
-     * Чтение документов в одном потоке
-     */
-
-    //Контейнер прочитанных документов
-    //std::vector<std::string> documents;
-
-    //Количество непрочитанных документов
-    std::size_t errorNumber{};
+    //Установить размеры контейнеров документов и ошибок
+    documents.first.resize(filePaths.size());
+    documents.second.resize(filePaths.size());
 
     //Для каждого документа
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
-        //Запустить чтение из файла
-        std::pair<std::string, ErrorCode> tmp;
-        DispatcherOperations::readTextFileRef(filePaths[docID], tmp, ErrorLevel::error, "", BOOST_CURRENT_LOCATION);
-        //Добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-        documents.first.push_back(std::move(tmp.first));
-        //Если при чтении произошла ошибка
-        if (tmp.second != ErrorCode::no_error)
-        {
-            //Увеличить количество непрочитанных документов
-            ++errorNumber;
-        }
-    }//Чтение документов в одном потоке
+        //Прочитать текстовый файл
+        DispatcherOperations::readTextFileRef(filePaths[docID], documents.first[docID], documents.second[docID], errorLevel, message, callingFunction);
 
-    //Определить код ошибки
-    ErrorCode errorCode{ErrorCode::no_error};
+    }
+}*/
+
+//Для тестирования передачи контейнера по ссылке
+/*void DispatcherOperations::readMultipleTextFilesRef(
+        const std::vector<std::string>& filePaths,
+        ResultOfReadMultipleTextFiles &documents,
+        std::size_t maximumAllowableErrorsNumber,
+        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
+        const std::string& message,
+        const boost::source_location &callingFunction)
+{
+    //Timer test
+    //Timer t;
+
+    //Контейнер прочитанных документов с приведённым типом ошибок
+    readMultipleTextFilesImplRef(filePaths, documents.documentsAndErrors, errorLevelOneFile, message, callingFunction);
+
+    //Подсчитать количество непрочитанных документов
+    std::size_t errorNumber{countErrorsNumber(documents.documentsAndErrors.second)};
+
+    //Определить общий код ошибки (результат) при чтении всех документов
+    ErrorCode error = ErrorCode::no_error;
+
     //Если все документы не прочитаны
     if (errorNumber == filePaths.size())
     {
         //Установить соответствующий код ошибки
-        errorCode = ErrorCode::error_all_files_not_read;
+        error = ErrorCode::error_all_files_not_read;
+    }
+    //В противном случае, если есть какие-то ошибки
+    else if (errorNumber > 0)
+    {
+        //Установить соответствующий код ошибки
+        error = ErrorCode::error_any_files_not_read;
     }
 
-    //Для тестирования производительности
-    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    std::cout << '\n' << sizeof(documents) << '\n';
-    std::cout << '\n' << t.elapsed() << '\n';
+    //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
+    //функция, из которой вызывается чтение документов, помечена как фатальная
+    if (errorNumber <= maximumAllowableErrorsNumber &&
+        (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction.to_string()) == ErrorLevel::fatal))
+    {
+        //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
+        if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
+            //В противном случае - понизить уровень логирования
+        else errorLevelMultipleFiles = ErrorLevel::error;
+    }
 
     //Логировать событие по коду ошибки и уровню логирования
-    determineValidity("", errorCode, errorLevel, message, callingFunction);
+    determineValidity("", error, errorLevelMultipleFiles, message, callingFunction);
 
-    documents.second = errorCode;
-    //Вернуть пару контейнера текстов и кода ошибки
-    //return {documents, errorCode};
-}
+    //Установить количество ошибок и общий код ошибки
+    documents.errorNumber = errorNumber;
+    documents.errorCode = error;
+}*/

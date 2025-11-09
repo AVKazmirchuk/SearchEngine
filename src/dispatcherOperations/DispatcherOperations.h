@@ -242,11 +242,6 @@ public:
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static void
-    readTextFileRef(const std::string &filePath, std::pair<std::string, ErrorCode> &tmp, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
@@ -282,13 +277,30 @@ public:
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    static void readMultipleTextFilesRef(
-            const std::vector<std::string>& filePaths,
-            std::pair<std::vector<std::string>, ErrorCode> &tmp,
-            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+    //Для тестирования передачи контейнера по ссылке
+    /*static void readTextFileRef(
+            const std::string &filePath,
+            std::string &document, ErrorCode &errorCode,
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string &message = "",
-            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
+
+    //Для тестирования передачи контейнера по ссылке
+    /*static void readMultipleTextFilesImplRef(
+            const std::vector<std::string>& filePaths,
+            std::pair<std::vector<std::string>, std::vector<ErrorCode>> &documents,
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
+
+    //Для тестирования передачи контейнера по ссылке
+    /*static void readMultipleTextFilesRef(
+            const std::vector<std::string>& filePaths,
+            ResultOfReadMultipleTextFiles &documents,
+            std::size_t maximumAllowableErrorsNumber = 1,
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+            const std::string& message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
 
 private:
 

@@ -164,8 +164,8 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
     //Пока элементы в контейнере результатов потоков не закончились, и в контейнере содержатся более одного элемента
     for (int idx{}; idx < futures.size() && futures.size() != 1; idx += initialBasesNumberInStream, ++i)
     {
-        std::cout << futures.size() << " " << idx << " " << i;
-        std::cout << "qqq";
+        //std::cout << futures.size() << " " << idx << " " << i;
+        //std::cout << "qqq";
         //Если следующий элемент существует
         if ((idx + 1) < futures.size())
         {
@@ -224,17 +224,17 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
                                         return std::move(invertedIndexesForThread[0]);
                                     }
             );
-            std::cout << "eee";
+            //std::cout << "eee";
         }
         else
         {
-            std::cout << "www";
+            //std::cout << "www";
             //Следующий элемент не существует (один элемент)
             futures[i] = std::move(futures[idx]);
         }
     }
 
-    std::cout << "rrr";
+    //std::cout << "rrr";
     //Урезать размер контейнера до количества потоков
     futures.resize(i);
 
@@ -267,7 +267,7 @@ std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desir
 void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
 {
     //Timer test
-    Timer t;
+    //Timer t;
 
     //Определить количество потоков
     std::pair<int, int> tmp{countNumberOfThreads(desiredNumberOfThreads)};
@@ -369,7 +369,7 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
     }
 
     //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-    std::cout << '\n' << t.elapsed() << '\n';//*/
+    //std::cout << '\n' << t.elapsed() << '\n';//*/
 
     /*
     for (std::size_t docID{}; docID < documents.size(); ++docID)

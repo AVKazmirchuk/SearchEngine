@@ -115,8 +115,6 @@ namespace kav
          */
         static std::pair<std::vector<std::string>, std::vector<kav::ErrorCode>> readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency());
 
-        static void readTextFileRef(const std::string &filePath, std::pair<std::string, kav::ErrorCode> &tmp);
-
         /**
          * Записать текстовый файл
          * @param filePath Ссылка на путь текстового файла
@@ -124,6 +122,8 @@ namespace kav
          */
         static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out);
 
+        //Для тестирования передачи контейнера по ссылке
+        //static void readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode);
     };
 
 }
