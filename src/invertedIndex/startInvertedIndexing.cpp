@@ -269,8 +269,10 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
     //Timer test
     Timer t;
 
+    //Определить количество потоков
     std::pair<int, int> tmp{countNumberOfThreads(desiredNumberOfThreads)};
 
+    //Количество документов обрабатываемое одним потокам
     int difference{tmp.first};
 
     //Определить количество дополнительных потоков

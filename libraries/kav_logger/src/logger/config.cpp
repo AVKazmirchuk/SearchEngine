@@ -17,6 +17,7 @@ void kav::Logger::ConfigLogger::initialize()
     {
         //Выбросить соответствующее исключение
         throw LoggerException(tmp.second, configLoggerFilePath);
+        //TODO Добавить проверку на соответствие шаблону
     }
     else
     {
@@ -66,6 +67,7 @@ void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
     {
         //Выбросить соответствующее исключение
         throw LoggerException(tmp.second, configWriterMessageFilePath);
+        //TODO Добавить проверку на соответствие шаблону
     }
     else
     {

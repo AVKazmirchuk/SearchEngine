@@ -24,10 +24,68 @@ namespace constants
     //Ширина вывода
     unsigned int formatByWidth{2};
     //Желаемое количество потоков
-    unsigned int desiredNumberOfThreads{11};
+    unsigned int desiredNumberOfThreads{14};
 }
 
+void processProgramArguments(int argc, char* argv[])
+{
+    for (int i{1}; i < argc; i += 2)
+    {
+        if (std::strcmp(argv[i], "/c") == 0)
+        {
+            constants::configFilePath = argv[i + 1];
 
+            continue;
+        }
+        if (std::strcmp(argv[i], "/r") == 0)
+        {
+            constants::requestsFilePath = argv[i + 1];
+
+            continue;
+        }
+        if (std::strcmp(argv[i], "/a") == 0)
+        {
+            constants::answersFilePath = argv[i + 1];
+
+            continue;
+        }
+        if (std::strcmp(argv[i], "/l") == 0)
+        {
+            constants::configLoggerFilePath = argv[i + 1];
+
+            continue;
+        }
+        if (std::strcmp(argv[i], "/m") == 0)
+        {
+            constants::configWriterMessageFilePath = argv[i + 1];
+
+            continue;
+        }
+
+        unsigned int value;
+
+        if (std::strcmp(argv[i], "/p") == 0)
+        {
+            std::stringstream ss{argv[i + 1]}; ss >> value; constants::precision = value;
+
+            continue;
+        }
+        if (std::strcmp(argv[i], "/f") == 0)
+        {
+            std::stringstream ss{argv[i + 1]}; ss >> value; constants::formatByWidth = value;
+
+            continue;
+        }
+
+        if (std::strcmp(argv[i], "/t") == 0)
+        {
+            std::stringstream ss{argv[i + 1]}; ss >> value; constants::desiredNumberOfThreads = value;
+
+            continue;
+        }
+
+    }
+}
 
 //Запустить расчёт релевантности
 void runRelevanceCalculation()
@@ -51,21 +109,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        for (int i{1}; i < argc; i += 2)
-        {
-            if (std::strcmp(argv[i], "/c") == 0) constants::configFilePath = argv[i + 1];
-            if (std::strcmp(argv[i], "/r") == 0) constants::requestsFilePath = argv[i + 1];
-            if (std::strcmp(argv[i], "/a") == 0) constants::answersFilePath = argv[i + 1];
-            if (std::strcmp(argv[i], "/l") == 0) constants::configLoggerFilePath = argv[i + 1];
-            if (std::strcmp(argv[i], "/m") == 0) constants::configWriterMessageFilePath = argv[i + 1];
-
-            unsigned int value;
-            if (std::strcmp(argv[i], "/p") == 0) { std::stringstream ss{argv[i + 1]}; ss >> value; constants::precision = value;}
-            if (std::strcmp(argv[i], "/f") == 0) { std::stringstream ss{argv[i + 1]}; ss >> value; constants::formatByWidth = value;}
-            if (std::strcmp(argv[i], "/t") == 0) { std::stringstream ss{argv[i + 1]}; ss >> value; constants::desiredNumberOfThreads = value;}
-
-            std::cout << argv[i] << " ";
-        }
+        processProgramArguments(argc, argv);
 
         //Создать объект логирования событий
         kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
@@ -75,7 +119,7 @@ int main(int argc, char* argv[])
             //Вывести в лог запуск программы
             kav::Logger::info("Start SearchEngine");
 
-            //Запустить саму программу
+            //Запустить расчёт релевантности
             runRelevanceCalculation();
 
             //Вывести в лог завершение программы
@@ -83,15 +127,13 @@ int main(int argc, char* argv[])
         }
         catch (const std::exception& exception)
         {
-            std::cout << exception.what() << std::endl;
+            std::cout << "Exception: " << exception.what() << std::endl;
             //Вывести сообщение о завершении работы программы
             std::cout << "Stop SearchEngine by error" << std::endl;
 
             //Выйти из программы по ошибке
             return EXIT_FAILURE;
         }
-
-
     }
     catch (const std::exception& exception)
     {

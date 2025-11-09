@@ -269,7 +269,7 @@ public:
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
-      * @param numberOfThreads Количество потоков
+      * @param desiredNumberOfThreads Желаемое количество потоков
       * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
@@ -277,7 +277,7 @@ public:
       */
     static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
             const std::vector<std::string>& filePaths,
-            const unsigned int numberOfThreads,
+            const unsigned int desiredNumberOfThreads,
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);

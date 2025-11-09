@@ -118,7 +118,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultiple
 
 std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations::readMultipleTextFilesImpl(
         const std::vector<std::string>& filePaths,
-        const unsigned int numberOfThreads,
+        const unsigned int desiredNumberOfThreads,
         ErrorLevel errorLevel,
         const std::string &message,
         const boost::source_location &callingFunction)
@@ -130,6 +130,15 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
 
     //Контейнер прочитанных документов
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
+
+    //Определить количество потоков
+    std::pair<int, int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
+
+    //Количество документов обрабатываемое одним потокам
+    int difference{tmp.first};
+
+    //Определить количество дополнительных потоков
+    int numberOfThreads = tmp.second;
 
     //Контейнер результатов потоков
     //std::list<std::future<std::vector<std::pair<std::string, ErrorCode>>>> futures(numberOfThreads);
@@ -226,6 +235,9 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         documents.second.push_back(tmp.second);
     }//Чтение документов в одном потоке*/
 
+    //Для тестирования производительности
+    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
+
     //Вернуть пару контейнера текстов и кода ошибки
     return documents;
 }
@@ -241,14 +253,9 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     //Timer test
     Timer t;
 
-    //Количество дополнительных потоков
-    int numberOfThreads = countNumberOfThreads(filePaths, desiredNumberOfThreads);
-
     //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, numberOfThreads, errorLevelOneFile, message, callingFunction)};
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, errorLevelOneFile, message, callingFunction)};
 
-    //Для тестирования производительности
-    std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
     //std::cout << '\n' << sizeof(documents) << '\n';
     std::cout << '\n' << t.elapsed() << '\n';
 

@@ -109,6 +109,7 @@ void kav::LoggerMonitor::ConfigLoggerMonitor::initialize()
     {
         //Выбросить исключение. Будет обработано выше в главной функции
         throw LoggerMonitorException(tmp.second, configLoggerMonitorFilePath);
+        //TODO Добавить проверку на соответствие шаблону
     }
 
     //Создать JSON-объект конфигурации
