@@ -26,15 +26,15 @@ namespace constants
     //Желаемое количество потоков
     unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
     //Максимальное количество непрочитанных файлов
-    unsigned int maximumAllowableErrorsNumber{1};
+    int maximumAllowableErrorsNumber{1};
 }
 
-bool convertStringToNumber(char *str, unsigned int &value)
+bool convertStringToNumber(char *str, int &value)
 {
     std::stringstream ss{str};
 
-    if (ss >> value) return true;
-
+    if (ss >> value && value >= 0) {std::cout << value;return true;}
+    std::cout << value;
     return false;
 }
 
@@ -79,33 +79,33 @@ void processProgramArguments(int argc, char* argv[])
             continue;
         }
 
-        unsigned int value;
+        int value;
 
         //Количество знаков после запятой
         if (std::strcmp(argv[i], "/p") == 0)
         {
-            std::stringstream ss{argv[i + 1]}; ss >> value; constants::precision = value;
+            if (convertStringToNumber(argv[i + 1], value)) constants::precision = value;
 
             continue;
         }
         //Ширина вывода
         if (std::strcmp(argv[i], "/f") == 0)
         {
-            std::stringstream ss{argv[i + 1]}; ss >> value; constants::formatByWidth = value;
+            if (convertStringToNumber(argv[i + 1], value)) constants::formatByWidth = value;
 
             continue;
         }
         //Желаемое количество потоков
         if (std::strcmp(argv[i], "/t") == 0)
         {
-            std::stringstream ss{argv[i + 1]}; ss >> value; constants::desiredNumberOfThreads = value;
+            if (convertStringToNumber(argv[i + 1], value)) constants::desiredNumberOfThreads = value;
 
             continue;
         }
         //Максимальное количество непрочитанных файлов
         if (std::strcmp(argv[i], "/e") == 0)
         {
-            //if (convertStringToNumber(argv[i + 1], value)) constants::maximumAllowableErrorsNumber = value;
+            if (convertStringToNumber(argv[i + 1], value)) constants::maximumAllowableErrorsNumber = value;
 
             continue;
         }

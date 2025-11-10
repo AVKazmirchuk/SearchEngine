@@ -65,23 +65,30 @@ std::string kav::Logger::generateMessageForOutput(Level level, const std::string
 
 void kav::Logger::log(Level level, const std::string& message, const std::exception& exception)
 {
-    //Получить текущее время
-    std::chrono::system_clock::time_point timeEvent{std::chrono::system_clock::now()};
+    try
+    {
+        //Получить текущее время
+        std::chrono::system_clock::time_point timeEvent{std::chrono::system_clock::now()};
 
-    //Сформировать сообщение для вывода
-    std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
+        //Сформировать сообщение для вывода
+        std::string messageForOutput{generateMessageForOutput(level, message, exception, timeEvent)};
 
-    //Заблокировать доступ к контейнеру сообщений из отдельного потока
-    std::unique_lock<std::mutex> uniqueLock(mutReadWriteMessages);
+        //Заблокировать доступ к контейнеру сообщений из отдельного потока
+        std::unique_lock<std::mutex> uniqueLock(mutReadWriteMessages);
 
-    //Добавить сообщение в контейнер сообщений
-    messages.push_back(messageForOutput);
-    //Установить подтверждение добавления сообщения
-    pushMessage = true;
+        //Добавить сообщение в контейнер сообщений
+        messages.push_back(messageForOutput);
+        //Установить подтверждение добавления сообщения
+        pushMessage = true;
 
-    //Разблокировать доступ к контейнеру сообщений из отдельного потока логирования
-    uniqueLock.unlock();
+        //Разблокировать доступ к контейнеру сообщений из отдельного потока логирования
+        uniqueLock.unlock();
 
-    //Сигнализировать о добавлении сообщения в контейнер сообщений
-    cvPushMessage.notify_one();
+        //Сигнализировать о добавлении сообщения в контейнер сообщений
+        cvPushMessage.notify_one();
+    }
+    catch ()
+    {
+
+    }
 }

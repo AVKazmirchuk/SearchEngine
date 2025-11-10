@@ -155,7 +155,7 @@ namespace kav
          * @param in_configLoggerFilePath Путь файла конфигурации логирования
          * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
          */
-        Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath)
+        Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath) try
                 : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath)
         {
             //Объект класса не создан
@@ -176,6 +176,10 @@ namespace kav
                 throw OnlyOneObject();
             }
         }
+        catch ()
+        {
+
+        }
 
         //Уведомить отдельный поток логирования о завершении работы и ожидать его окончания
         ~Logger()
@@ -188,7 +192,14 @@ namespace kav
             cvPushMessage.notify_one();
 
             //Ждать окончания работы отдельного потока логирования
-            resultOfWriteToFileAndMonitor.wait();
+            try
+            {
+                resultOfWriteToFileAndMonitor.wait();
+            }
+            catch ()
+            {
+
+            }
         }
 
         //Общие функции логирования
