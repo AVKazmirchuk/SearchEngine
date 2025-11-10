@@ -67,7 +67,7 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
 };
 
 /**
- * Структура инвертированного индекса
+ * Структура результатов чтения текстовых файлов
  */
 struct ResultOfReadMultipleTextFiles
 {
@@ -251,12 +251,12 @@ public:
       * @param errorLevelMultipleFiles Уровень логирования для всех фойлов
       * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
-      * @return Пара контейнеров текстов и кодов ошибок
+      * @return Структура результатов чтения текстовых файлов
       */
     static ResultOfReadMultipleTextFiles readMultipleTextFiles(
             const std::vector<std::string>& filePaths,
             const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
-            std::size_t maximumAllowableErrorsNumber = 1,
+            const unsigned int maximumAllowableErrorsNumber = 1,
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
@@ -376,9 +376,9 @@ private:
 
     /**
      * Определить количество потоков
-     * @param desiredNumberOfThreads Желаемое количество потоков
      * @param filePaths Ссылка на путь контейнера путей файлов
-     * @return Фактическое количество потоков
+     * @param desiredNumberOfThreads Желаемое количество потоков
+     * @return Пара количества документов для одного потока и фактическое количество потоков
      */
     static std::pair<int, int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
     {
@@ -401,7 +401,7 @@ private:
 
     /**
      * Подсчитать количество непрочитанных документов
-     * @param errors Контейнер кодов ошибок
+     * @param errors Ссылка на контейнер кодов ошибок
      * @return Количество непрочитанных документов
      */
     static std::size_t countErrorsNumber(std::vector<ErrorCode> &errors)
@@ -422,30 +422,6 @@ private:
 
         //Вернуть количество непрочитанных документов
         return errorNumber;
-    }
-
-    /**
-     * Определить, что все документы не прочитаны
-     * @param error Общий код ошибки
-     */
-    static boost::source_location determineAllFilesNotRead(ErrorCode &error)
-    {
-        //Установить соответствующий код ошибки
-        error = ErrorCode::error_all_files_not_read;
-
-        return BOOST_CURRENT_LOCATION;
-    }
-
-    /**
-     * Определить, что часть документов не прочитаны
-     * @param error Общий код ошибки
-     */
-    static boost::source_location determineAnyFilesNotRead(ErrorCode &error)
-    {
-        //Установить соответствующий код ошибки
-        error = ErrorCode::error_any_files_not_read;
-
-        return BOOST_CURRENT_LOCATION;
     }
 
     /**

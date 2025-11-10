@@ -83,8 +83,7 @@ namespace kav
          * @param objectJSONTemplate Ссылка на JSON-объект шаблона
          * @return Код ошибки
          */
-        static ErrorCode
-        checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
+        static ErrorCode checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
        /**
          * Проверить массив JSON-объекта на пустоту
@@ -108,17 +107,11 @@ namespace kav
         static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
 
         /**
-         * Прочитать текстовые файлы
-         * @param filePaths Ссылка на контейнер путей текстовых файлов
-         * @param desiredNumberOfThreads Желаемое количество потоков
-         * @return Пара контейнеров текстов и кодов ошибок файлов
-         */
-        static std::pair<std::vector<std::string>, std::vector<kav::ErrorCode>> readMultipleTextFiles(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency());
-
-        /**
          * Записать текстовый файл
          * @param filePath Ссылка на путь текстового файла
-         * @return Пара текста и кода ошибки
+         * @param text Текст для записи
+         * @param openModeFile Режим открытия файла
+         * @return Код ошибки
          */
         static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out);
 

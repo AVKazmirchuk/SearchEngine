@@ -14,7 +14,7 @@
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
     //Прочитать документы
-    return DispatcherOperations::readMultipleTextFiles(converterJSONObj.getFilePaths(), desiredNumberOfThreads).documentsAndErrors.first;
+    return DispatcherOperations::readMultipleTextFiles(converterJSONObj.getFilePaths(), desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
 }
 
 //Для тестирования передачи контейнера по ссылке
@@ -50,13 +50,13 @@ void SearchEngine::searchModifiedAll()
     //std::cout << '\n' << t.elapsed() << '\n';
 
     //Для замеров
-    Timer t;
+    //Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
 
     //Для замеров
-    std::cout << '\n' << t.elapsed() << '\n';
+    //std::cout << '\n' << t.elapsed() << '\n';
 
     //Очистить список запросов
     requestsObj.clearRequests();

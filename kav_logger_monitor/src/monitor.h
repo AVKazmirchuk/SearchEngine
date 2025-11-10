@@ -18,6 +18,25 @@
 #include "monitorReceiver.h"
 
 
+
+namespace kav
+{
+    //Шаблон JSON-объекта файла MessageQueue.json
+    const JSON configLoggerMonitorJSONTemplate = JSON::parse(R"(
+    {
+    "messageQueue" : {
+        "nameOfQueue" : "search_engine",
+        "maxNumberOfMessages" : 100,
+        "maxMessageSize" : 256,
+        "fileNameOfMainProgram" : "search_engine.exe",
+        "fileNameOfMonitor" : "search_engine_monitor.exe",
+        "nameOfConsole" : "Logger Monitor",
+        "indicatesMonitorStarting" : "C:\\Windows\\Temp\\search_engine_monitor"
+    }
+    }
+    )");
+}
+
 namespace kav
 {
 

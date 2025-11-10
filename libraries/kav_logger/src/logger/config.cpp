@@ -11,17 +11,26 @@
 
 void kav::Logger::ConfigLogger::initialize()
 {
+    auto tmp = OperationFileAndJSON::readJSONFile(configLoggerFilePath);
 
     //Создать JSON-объект конфигурации
-    if (auto tmp = OperationFileAndJSON::readJSONFile(configLoggerFilePath);tmp.second != ErrorCode::no_error)
+    if ( tmp.second != ErrorCode::no_error)
     {
         //Выбросить соответствующее исключение
         throw LoggerException(tmp.second, configLoggerFilePath);
-        //TODO Добавить проверку на соответствие шаблону
     }
     else
     {
-        configLoggerJSON = tmp.first;
+        //Проверить JSON-структуру на соответствие шаблону
+        if (auto tmpError = OperationFileAndJSON::checkJSONStructureMatch(tmp.first, configLoggerTemplate); tmpError == ErrorCode::no_error)
+        {
+            configLoggerJSON = tmp.first;
+        }
+        else
+        {
+            //Выбросить соответствующее исключение
+            throw LoggerException(tmpError, configLoggerFilePath);
+        }
     }
 
     //Интервалы времени хранения файла
@@ -67,11 +76,18 @@ void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
     {
         //Выбросить соответствующее исключение
         throw LoggerException(tmp.second, configWriterMessageFilePath);
-        //TODO Добавить проверку на соответствие шаблону
     }
     else
     {
-        configWriterMessageJSON = tmp.first;
+        //Проверить JSON-структуру на соответствие шаблону
+        if (auto tmpError{OperationFileAndJSON::checkJSONStructureMatch(tmp.first, configWriterMessageTemplate)}; tmpError == ErrorCode::no_error)
+        {
+            configWriterMessageJSON = tmp.first;
+        }
+        else
+        {
+            throw LoggerException(tmpError, configWriterMessageFilePath);
+        }
     }
 
     //Имя очереди

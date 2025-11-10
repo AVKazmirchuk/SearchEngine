@@ -1,0 +1,26 @@
+"C:\Program Files\JetBrains\CLion 2021.3.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2021.3.4/bin/ninja/win/ninja.exe" -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G Ninja C:\Users\AKazmirchuk\Documents\GitHub\SearchEngine\kav_logger_monitor\src
+CMake Warning (dev) in CMakeLists.txt:
+  No project() command is present.  The top-level CMakeLists.txt file must
+  contain a literal, direct call to the project() command.  Add a line of
+  code such as
+
+    project(ProjectName)
+
+  near the top of the file, but after cmake_minimum_required().
+
+  CMake is pretending there is a "project(Project)" command on the first
+  line.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Include_Subdirectories=""
+CMake Error at CMakeLists.txt:39 (target_include_directories):
+  target_include_directories called with incorrect number of arguments
+
+
+CMake Error at CMakeLists.txt:40 (target_include_directories):
+  target_include_directories called with incorrect number of arguments
+
+
+-- Configuring incomplete, errors occurred!
+See also "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger_monitor/src/cmake-build-debug-coverage/CMakeFiles/CMakeOutput.log".
+See also "C:/Users/AKazmirchuk/Documents/GitHub/SearchEngine/kav_logger_monitor/src/cmake-build-debug-coverage/CMakeFiles/CMakeError.log".

@@ -238,7 +238,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
 ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         const std::vector<std::string> &filePaths,
         const unsigned int desiredNumberOfThreads,
-        std::size_t maximumAllowableErrorsNumber,
+        const unsigned int maximumAllowableErrorsNumber,
         ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const std::string& message,
         const boost::source_location &callingFunction)

@@ -25,36 +25,53 @@ namespace constants
     unsigned int formatByWidth{2};
     //Желаемое количество потоков
     unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
+    //Максимальное количество непрочитанных файлов
+    unsigned int maximumAllowableErrorsNumber{1};
+}
+
+bool convertStringToNumber(char *str, unsigned int &value)
+{
+    std::stringstream ss{str};
+
+    if (ss >> value) return true;
+
+    return false;
 }
 
 void processProgramArguments(int argc, char* argv[])
 {
+    //Для всех аргументов функции
     for (int i{1}; i < argc; i += 2)
     {
+        //Путь файла конфигурации
         if (std::strcmp(argv[i], "/c") == 0)
         {
             constants::configFilePath = argv[i + 1];
 
             continue;
         }
+        //Путь файла запросов
         if (std::strcmp(argv[i], "/r") == 0)
         {
             constants::requestsFilePath = argv[i + 1];
 
             continue;
         }
+        //Путь файла ответов
         if (std::strcmp(argv[i], "/a") == 0)
         {
             constants::answersFilePath = argv[i + 1];
 
             continue;
         }
+        //Путь файла конфигурации логирования
         if (std::strcmp(argv[i], "/l") == 0)
         {
             constants::configLoggerFilePath = argv[i + 1];
 
             continue;
         }
+        //Путь файла конфигурации очереди сообщений
         if (std::strcmp(argv[i], "/m") == 0)
         {
             constants::configWriterMessageFilePath = argv[i + 1];
@@ -64,26 +81,34 @@ void processProgramArguments(int argc, char* argv[])
 
         unsigned int value;
 
+        //Количество знаков после запятой
         if (std::strcmp(argv[i], "/p") == 0)
         {
             std::stringstream ss{argv[i + 1]}; ss >> value; constants::precision = value;
 
             continue;
         }
+        //Ширина вывода
         if (std::strcmp(argv[i], "/f") == 0)
         {
             std::stringstream ss{argv[i + 1]}; ss >> value; constants::formatByWidth = value;
 
             continue;
         }
-
+        //Желаемое количество потоков
         if (std::strcmp(argv[i], "/t") == 0)
         {
             std::stringstream ss{argv[i + 1]}; ss >> value; constants::desiredNumberOfThreads = value;
 
             continue;
         }
+        //Максимальное количество непрочитанных файлов
+        if (std::strcmp(argv[i], "/e") == 0)
+        {
+            //if (convertStringToNumber(argv[i + 1], value)) constants::maximumAllowableErrorsNumber = value;
 
+            continue;
+        }
     }
 }
 
@@ -91,7 +116,7 @@ void processProgramArguments(int argc, char* argv[])
 void runRelevanceCalculation()
 {
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth, constants::desiredNumberOfThreads);
+    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth, constants::desiredNumberOfThreads, constants::maximumAllowableErrorsNumber);
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
