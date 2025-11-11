@@ -20,24 +20,26 @@ namespace constants
     std::string configWriterMessageFilePath{"messageQueue.json"};
 
     //Количество знаков после запятой
-    unsigned int precision{6};
+    int precision{6};
     //Ширина вывода
-    unsigned int formatByWidth{2};
+    int formatByWidth{2};
     //Желаемое количество потоков
-    unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
+    int desiredNumberOfThreads{static_cast<int>(std::thread::hardware_concurrency() - 2)};
     //Максимальное количество непрочитанных файлов
     int maximumAllowableErrorsNumber{1};
 }
 
+//Конвертировать строку в число
 bool convertStringToNumber(char *str, int &value)
 {
     std::stringstream ss{str};
 
-    if (ss >> value && value >= 0) {std::cout << value;return true;}
-    std::cout << value;
+    if (ss >> value && value >= 0) {return true;}
+
     return false;
 }
 
+//Обработать аргументы программы
 void processProgramArguments(int argc, char* argv[])
 {
     //Для всех аргументов функции
@@ -79,6 +81,7 @@ void processProgramArguments(int argc, char* argv[])
             continue;
         }
 
+        //Подготовить переменную для конвертации
         int value;
 
         //Количество знаков после запятой
@@ -122,6 +125,23 @@ void runRelevanceCalculation()
     searchEngine.searchModifiedAll();
 }
 
+//Обработать исключения с логированием
+void handleExceptionsWithLogging(const std::exception& exception)
+{
+    kav::Logger::fatal("Early termination of the program!!!", exception);
+
+    //Вывести в лог завершение программы
+    kav::Logger::info("Stop SearchEngine");
+}
+
+//Обработать исключения без логирования
+void handleExceptionsWithoutLogging(const std::exception& exception)
+{
+    std::cout << "Exception: " << exception.what() << std::endl;
+    //Вывести сообщение о завершении работы программы
+    std::cout << "Stop SearchEngine by error" << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
     //Защита от изменения имени файла (так как при инициализации очереди сообщений проверяется этот запущенный процесс)
@@ -150,21 +170,30 @@ int main(int argc, char* argv[])
             //Вывести в лог завершение программы
             kav::Logger::info("Stop SearchEngine");
         }
+        //Обработать исключения выброшенные из класса Logger. Эти исключения уже нельзя логировать
+        catch (const kav::LoggerException& exception)
+        {
+            //Обработать исключения без логирования
+            handleExceptionsWithoutLogging(exception);
+
+            //Выйти из программы по ошибке
+            return EXIT_FAILURE;
+        }
+        //Обработать все исключения, кроме исключений выброшенных из класса Logger, которые можно логировать
         catch (const std::exception& exception)
         {
-            std::cout << "Exception: " << exception.what() << std::endl;
-            //Вывести сообщение о завершении работы программы
-            std::cout << "Stop SearchEngine by error" << std::endl;
+            //Обработать исключения с логированием
+            handleExceptionsWithLogging(exception);
 
             //Выйти из программы по ошибке
             return EXIT_FAILURE;
         }
     }
+    //Обработать исключения выброшенные из класса Logger и выше. Эти исключения уже нельзя логировать
     catch (const std::exception& exception)
     {
-        std::cout << "Exception: " << exception.what() << std::endl;
-        //Вывести сообщение о завершении работы программы
-        std::cout << "Stop SearchEngine by error" << std::endl;
+        //Обработать исключения без логирования
+        handleExceptionsWithoutLogging(exception);
 
         //Выйти из программы по ошибке
         return EXIT_FAILURE;

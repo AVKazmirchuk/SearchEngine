@@ -39,13 +39,11 @@ namespace kav
 
         /**
          * Создать объект исключения
-         * @param in_errorCode Код ошибки
          * @param in_information Ссылка на информацию по ошибке
          */
-        explicit LoggerException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode{
-                in_errorCode}
+        explicit LoggerException(const std::string &in_information = "")
         {
-            information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
+            information = in_information;
         }
 
         /**
@@ -57,20 +55,8 @@ namespace kav
             return information.c_str();
         }
 
-        /**
-         * Получить код исключения
-         * @return Код исключения
-         */
-        [[nodiscard]] ErrorCode getErrorCode() const
-        {
-            //Вернуть код ошибки
-            return errorCode;
-        }
-
     private:
 
-        //Код ошибки
-        ErrorCode errorCode;
         //Информация по ошибке
         std::string information;
 
@@ -176,13 +162,19 @@ namespace kav
                 throw OnlyOneObject();
             }
         }
-        catch ()
+        catch (OnlyOneObject& e)
         {
-
+            //TODO что-то надо добавить в описание
+            throw LoggerException(e.what());
+        }
+        catch (std::exception& e)
+        {
+            //TODO что-то надо добавить в описание
+            throw LoggerException(e.what());
         }
 
         //Уведомить отдельный поток логирования о завершении работы и ожидать его окончания
-        ~Logger()
+        ~Logger() noexcept (false)
         {
             //Уведомить отдельный поток логирования о завершении работы
             stopLogger.store(true);
@@ -196,9 +188,10 @@ namespace kav
             {
                 resultOfWriteToFileAndMonitor.wait();
             }
-            catch ()
+            catch (std::exception& e)
             {
-
+                //TODO что-то надо добавить в описание
+                throw LoggerException(e.what());
             }
         }
 

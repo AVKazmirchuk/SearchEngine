@@ -50,17 +50,34 @@ std::string kav::Logger::levelToString(Level level)
 
 std::string kav::Logger::generateMessageForOutput(Level level, const std::string& message, const std::exception& exception, std::chrono::system_clock::time_point& timeEvent)
 {
+    //Модифицированное сообщение
+    std::string modifiedMessage{message};
+
+    //Пока последний символ в сообщении пробел или таб
+    while (modifiedMessage.back() == ' ' || modifiedMessage.back() == '\t')
+    {
+        //Удалить его
+        modifiedMessage.pop_back();
+    }
+
+    //Если последний символ точка
+    if (modifiedMessage.back() == '.')
+    {
+        //Удалить его
+        modifiedMessage.pop_back();
+    }
+
     //Сообщение не содержит исключение
     if (!std::strcmp(exception.what(), "Exception-stub"))
     {
-        return timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + message;
+        return timePointToString(timeEvent) + "   " + levelToString(level) + ":   " + modifiedMessage + ".";
     }
 
     //Сообщение содержит исключение
     return timePointToString(timeEvent) + "   " + levelToString(level) + ":   " +
-                                    "Exception: " + '"' + exception.what() + '"' + "   " + "Information: " + '"' +
-                                    message +
-                                    '"';
+                                    "Exception: " + '"' + exception.what() + '"' + ". " + "   " + "Information: " + '"' +
+            modifiedMessage +
+                                    '"' + ".";
 }
 
 void kav::Logger::log(Level level, const std::string& message, const std::exception& exception)
@@ -87,8 +104,9 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
         //Сигнализировать о добавлении сообщения в контейнер сообщений
         cvPushMessage.notify_one();
     }
-    catch ()
+    catch (std::exception& e)
     {
-
+        //TODO что-то надо добавить в описание
+        throw LoggerException(e.what());
     }
 }

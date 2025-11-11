@@ -52,16 +52,16 @@ enum class ErrorCode
 static const std::map<ErrorCode, std::string> descriptionErrorCode{
 
         {ErrorCode::no_error,                       ""},
-        {ErrorCode::error_file_missing,             "This file is missing:"},
-        {ErrorCode::error_file_not_open_read,       "This file cannot be opened for reading:"},
-        {ErrorCode::error_file_not_read,            "This file has not been read:"},
-        {ErrorCode::error_file_not_open_write,      "This file cannot be opened for writing:"},
-        {ErrorCode::error_file_not_write,           "This file has not been write:"},
-        {ErrorCode::error_json_structure_corrupted, "The structure of this file is corrupted:"},
-        {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one:"},
+        {ErrorCode::error_file_missing,             "This file is missing"},
+        {ErrorCode::error_file_not_open_read,       "This file cannot be opened for reading"},
+        {ErrorCode::error_file_not_read,            "This file has not been read"},
+        {ErrorCode::error_file_not_open_write,      "This file cannot be opened for writing"},
+        {ErrorCode::error_file_not_write,           "This file has not been write"},
+        {ErrorCode::error_json_structure_corrupted, "The structure of this file is corrupted"},
+        {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one"},
         {ErrorCode::error_array_empty,              "The array is empty"},
-        {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty:"},
-        {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt:"},
+        {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty"},
+        {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt"},
         {ErrorCode::error_all_files_not_read,       "All files have not been read"},
         {ErrorCode::error_any_files_not_read,       "Any files have not been read"}
 };
@@ -261,22 +261,6 @@ public:
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-    /**
-      * Прочитать несколько текстовых файлов одновременно в разных потоках
-      * @param filePaths Ссылка на путь контейнера путей файлов
-      * @param desiredNumberOfThreads Желаемое количество потоков
-      * @param errorLevel Уровень логирования
-      * @param message Ссылка на сообщение
-      * @param callingFunction Ссылка на вызывающую функцию
-      * @return Пара контейнеров текстов и кодов ошибок
-      */
-    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
-            const std::vector<std::string>& filePaths,
-            const unsigned int desiredNumberOfThreads,
-            ErrorLevel errorLevel = ErrorLevel::no_level,
-            const std::string &message = "",
-            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
     //Для тестирования передачи контейнера по ссылке
     /*static void readTextFileRef(
             const std::string &filePath,
@@ -303,6 +287,22 @@ public:
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
 
 private:
+
+    /**
+      * Прочитать несколько текстовых файлов одновременно в разных потоках
+      * @param filePaths Ссылка на путь контейнера путей файлов
+      * @param desiredNumberOfThreads Желаемое количество потоков
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара контейнеров текстов и кодов ошибок
+      */
+    static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
+            const std::vector<std::string>& filePaths,
+            const unsigned int desiredNumberOfThreads,
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
      * Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -447,9 +447,21 @@ private:
             errorLevel = getErrorLevel(callingFunctionStr);
         }
 
-        //Подготовить окончательное сообщение для логирования
-        std::string completedMessage{descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
-                                     static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message};
+        //Окончательное сообщение для логирования
+        std::string completedMessage;
+
+        //Если путь файла указан
+        if (!filePath.empty())
+        {
+            //Подготовить окончательное сообщение для логирования
+            completedMessage = descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
+                                         static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
+        } else
+        {
+            //Подготовить окончательное сообщение для логирования
+            completedMessage = descriptionErrorCode.at(errorCode) + ". " +
+                                         static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
+        }
 
         //Если при операции с файлом или JSON-объектом произошла ошибка
         if (errorCode != ErrorCode::no_error)

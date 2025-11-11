@@ -37,7 +37,7 @@ public:
      * Обновить базу инвертированных индексов
      * @param desiredNumberOfThreads Желаемое количество потоков
      */
-    void updateInvertedIndexes(const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency());
+    void updateInvertedIndexes(const unsigned int desiredNumberOfThreads);
 
     /**
      * Получить ссылку на базу инвертированных индексов
