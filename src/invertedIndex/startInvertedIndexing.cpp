@@ -264,6 +264,7 @@ std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desir
 
     return {difference, numberOfThreads};
 }
+
 void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
 {
     /**

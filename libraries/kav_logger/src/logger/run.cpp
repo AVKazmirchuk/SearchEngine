@@ -20,29 +20,20 @@ void kav::Logger::WriterMessage::writeToMonitor(const std::string& message)
 void kav::Logger::WriterMessage::writeToFile(const std::string& message)
 {
     //Создать объект для записи в файл
-    //std::ofstream outFile(Logger::ptrToLogger->file, std::ios::app);
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(absolute(Logger::ptrToLogger->file).string(), message + '\n', std::ios::app)};
 
     //При попытке записи в лог-файл произошли ошибки
     if (errorCode != kav::ErrorCode::no_error)
     {
-        //Отправить сообщение монитору о невозможности открытия файла для записи
-        monitorSender.send("Logger: Errors occurred when trying to write to the log file " + absolute(Logger::ptrToLogger->file).string() + ": " + kav::descriptionErrorCode.at(errorCode));
+        //Если логировать события в монитор
+        if (launchConsole == "yes")
+        {
+            //Отправить сообщение монитору о невозможности открытия файла для записи
+            monitorSender.send("Logger: Errors occurred when trying to write to the log file " +
+                               absolute(Logger::ptrToLogger->file).string() + ": " +
+                               kav::descriptionErrorCode.at(errorCode));
+        }
     }
-
-    /*if (outFile.is_open())
-    {
-        //Записать сообщение в файл
-        outFile << message << std::endl;
-
-        //Закрыть файл
-        outFile.close();
-    }
-    else
-    {
-        //Отправить сообщение монитору о невозможности открытия файла для записи
-        monitorSender.send("Logger: This file cannot be opened for writing: " + Logger::ptrToLogger->file.string());
-    }*/
 }
 
 void kav::Logger::WriterMessage::processMessageContainer()
@@ -53,8 +44,12 @@ void kav::Logger::WriterMessage::processMessageContainer()
         //Записать в файл
         writeToFile(message);
 
-        //Отправить в монитор
-        writeToMonitor(message);
+        //Если логировать события в монитор
+        if (launchConsole == "yes")
+        {
+            //Отправить в монитор
+            writeToMonitor(message);
+        }
     }
 }
 
@@ -76,7 +71,7 @@ void kav::Logger::WriterMessage::startMonitor(LPCSTR lpApplicationName)
                         NULL,           // Process handle not inheritable
                         NULL,           // Thread handle not inheritable
                         FALSE,          // Set handle inheritance to FALSE
-                        0,              // No creation flags
+                        CREATE_NEW_CONSOLE,              // No creation flags
                         NULL,           // Use parent's environment block
                         NULL,           // Use parent's starting directory
                         &si,            // Pointer to STARTUPINFO structure
@@ -144,8 +139,12 @@ void kav::Logger::WriterMessage::waitForMonitorToStart()
 
 void kav::Logger::WriterMessage::run()
 {
-    //Ожидать запуска монитора (другого процесса)
-    waitForMonitorToStart();
+    //Если логировать события в монитор
+    if (launchConsole == "yes")
+    {
+        //Ожидать запуска монитора (другого процесса)
+        waitForMonitorToStart();
+    }
 
     //Пока не получено уведомление о завершении работы
     while (!Logger::ptrToLogger->stopLogger.load())

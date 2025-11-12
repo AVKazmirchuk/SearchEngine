@@ -141,8 +141,8 @@ namespace kav
          * @param in_configLoggerFilePath Путь файла конфигурации логирования
          * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
          */
-        Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath) try
-                : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath)
+        Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath, const std::string &in_launchConsole) try
+                : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath, in_launchConsole)
         {
             //Объект класса не создан
             if (ptrToLogger == nullptr)
@@ -441,12 +441,13 @@ namespace kav
              * Создать и настроить объекты: СonfigWriterMessage, MonitorSender
              * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
              */
-            explicit WriterMessage(const std::string &in_configWriterMessageFilePath)
+            explicit WriterMessage(const std::string &in_configWriterMessageFilePath, const std::string &in_launchConsole = "yes")
                     : configWriterMessage(in_configWriterMessageFilePath),
                       monitorSender(configWriterMessage.nameOfQueue(),
                                     configWriterMessage.maxNumberOfMessages(),
                                     configWriterMessage.maxMessageSize(),
-                                    configWriterMessage.fileNameOfMonitor())
+                                    configWriterMessage.fileNameOfMonitor()),
+                      launchConsole{in_launchConsole}
             {}
 
             /**
@@ -561,6 +562,9 @@ namespace kav
 
             //Контейнер текущих сообщений
             std::list<std::string> messages;
+
+            //Признак логирования событий в консоль
+            std::string launchConsole;
 
 
             /**

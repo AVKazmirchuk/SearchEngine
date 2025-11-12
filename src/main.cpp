@@ -18,6 +18,8 @@ namespace constants
     std::string configLoggerFilePath{"logger.json"};
     //Путь файла конфигурации очереди сообщений
     std::string configWriterMessageFilePath{"messageQueue.json"};
+    //Логировать события в консоль
+    std::string launchConsole{"yes"};
 
     //Количество знаков после запятой
     int precision{6};
@@ -32,18 +34,52 @@ namespace constants
 //Конвертировать строку в число
 bool convertStringToNumber(char *str, int &value)
 {
+    //Создать объект потока для конвертации строки в число
     std::stringstream ss{str};
 
-    if (ss >> value && value >= 0) {return true;}
+    //Если конвертация успешна и значение >= 0
+    if (ss >> value && value >= 0)
+    {
+        //Условие удовлетворяет
+        return true;
+    }
 
+    //Условие не удовлетворяет
     return false;
 }
 
-//Обработать аргументы программы
-void processProgramArguments(int argc, char* argv[])
+//Получить справку
+void getHelp()
 {
+    std::cout << '\n' << "List of parameters:" << '\n';
+    std::cout << '\t' << "/c    The path of the configuration file (config.json)" << '\n';
+    std::cout << '\t' << "/r    Request file path (requests.json)" << '\n';
+    std::cout << '\t' << "/a    The path of the response file (answers.json)" << '\n';
+    std::cout << '\t' << "/l    The path of the logging configuration file (logger.json)" << '\n';
+    std::cout << '\t' << "/m    The path of the message queue configuration file (messageQueue.json)" << '\n';
+    std::cout << '\t' << "/lc   Log events to the console (yes)" << '\n';
+    std::cout << '\t' << "/p    Number of decimal places (6)" << '\n';
+    std::cout << '\t' << "/f    Output width (2)" << '\n';
+    std::cout << '\t' << "/t    Desired number of threads (number of cores minus 2)" << '\n';
+    std::cout << '\t' << "/e    Maximum number of unread files (1)" << '\n';
+    std::cout << '\t' << "/?    Help" << '\n';
+}
+
+//Обработать аргументы программы
+bool processProgramArguments(int argc, char* argv[])
+{
+    //Если явные аргументы есть и вызывается справка
+    if (argc > 1 && std::strcmp(argv[1], "/?") == 0)
+    {
+        //Получить справку
+        getHelp();
+
+        //Справка обработана
+        return true;
+    }
+
     //Для всех аргументов функции
-    for (int i{1}; i < argc; i += 2)
+    for (int i{1}; i < argc - 1; i += 2)
     {
         //Путь файла конфигурации
         if (std::strcmp(argv[i], "/c") == 0)
@@ -80,6 +116,13 @@ void processProgramArguments(int argc, char* argv[])
 
             continue;
         }
+        //Логировать события в консоль
+        if (std::strcmp(argv[i], "/lc") == 0)
+        {
+            constants::launchConsole = argv[i + 1];
+
+            continue;
+        }
 
         //Подготовить переменную для конвертации
         int value;
@@ -113,6 +156,9 @@ void processProgramArguments(int argc, char* argv[])
             continue;
         }
     }
+
+    //Был вызван параметр отличный от справки
+    return false;
 }
 
 //Запустить расчёт релевантности
@@ -128,8 +174,8 @@ void runRelevanceCalculation()
 //Обработать исключения с логированием
 void handleExceptionsWithLogging(const std::exception& exception)
 {
+    //Вывести в лог дополнительное сообщение
     kav::Logger::fatal("Early termination of the program!!!", exception);
-
     //Вывести в лог завершение программы
     kav::Logger::info("Stop SearchEngine");
 }
@@ -137,8 +183,9 @@ void handleExceptionsWithLogging(const std::exception& exception)
 //Обработать исключения без логирования
 void handleExceptionsWithoutLogging(const std::exception& exception)
 {
+    //Вывести сообщение об исключении
     std::cout << "Exception: " << exception.what() << std::endl;
-    //Вывести сообщение о завершении работы программы
+    //Вывести сообщение о завершении работы программы по ошибке
     std::cout << "Stop SearchEngine by error" << std::endl;
 }
 
@@ -154,10 +201,15 @@ int main(int argc, char* argv[])
 
     try
     {
-        processProgramArguments(argc, argv);
+        //Если была вызвана справка
+        if (processProgramArguments(argc, argv))
+        {
+            //Выйти из программы по успеху
+            return EXIT_SUCCESS;
+        }
 
         //Создать объект логирования событий
-        kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath);
+        kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath, constants::launchConsole);
 
         try
         {

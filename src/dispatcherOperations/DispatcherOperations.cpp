@@ -156,15 +156,10 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         //Если ID последнего документа для потока превышает ID документа всех документов
         if (endDocID >= filePaths.size()) endDocID = filePaths.size() - 1;
 
-        //std::cout << "beginDocID: " << beginDocID << ", endDocID: " << endDocID << '\n';
-
         //Запустить чтение файлов в своём диапазоне
         future = std::async(
                 [beginDocID, endDocID, &documents, &filePaths, &errorLevel, &message, &callingFunction]()
             {
-                //Контейнер пар прочитанных документов и кодов ошибок
-                //std::vector<std::pair<std::string, ErrorCode>> documents;
-
                 //Количество непрочитанных документов
                 std::size_t errorNumber{};
 
@@ -172,15 +167,12 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                        //documents.push_back(DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction));
                         std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
+                        //Скопировать (переместить) результаты в контейнер прочитанных документов
                         documents.first[currentDocID] = std::move(tmp.first);
                         documents.second[currentDocID] = tmp.second;
 
                     }
-
-                //Вернуть контейнер пар прочитанных документов и кодов ошибок
-                //return documents;
             }
         );
 

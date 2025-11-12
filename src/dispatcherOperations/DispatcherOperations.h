@@ -112,10 +112,9 @@ private:
          * @param in_errorCode Код ошибки
          * @param in_information Ссылка на информацию по ошибке
          */
-        explicit OperationException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode(
-                in_errorCode)
+        explicit OperationException(const std::string &in_information)
         {
-            information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
+            information = in_information;
         }
 
         /**
@@ -127,20 +126,8 @@ private:
                         return information.c_str();
                 }
 
-        /**
-         * Получить код исключения
-         * @return Код исключения
-         */
-        [[nodiscard]] ErrorCode getErrorCode() const
-        {
-            //Вернуть код ошибки
-            return errorCode;
-        }
-
     private:
 
-        //Код ошибки
-        ErrorCode errorCode;
         //Информация по ошибке
         std::string information;
 
@@ -343,7 +330,7 @@ private:
                 {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
                 {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
-                {"DispatcherOperations::readTextFileFromMultipleFiles",  ErrorLevel::error},
+                {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
                 {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
                 {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
                 {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}
@@ -456,8 +443,10 @@ private:
             //Подготовить окончательное сообщение для логирования
             completedMessage = descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
                                          static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
-        } else
+        }
+        else
         {
+            std::cout << '\n' << "filePath: " << filePath << '\n';
             //Подготовить окончательное сообщение для логирования
             completedMessage = descriptionErrorCode.at(errorCode) + ". " +
                                          static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
@@ -470,9 +459,9 @@ private:
             switch (errorLevel)
             {
                 case ErrorLevel::fatal:
-                    kav::Logger::fatal(completedMessage, OperationException(errorCode, filePath));
+                    kav::Logger::fatal(completedMessage);
                     //Выбросить исключение
-                    throw OperationException(errorCode, filePath);
+                    throw OperationException(completedMessage);
                 case ErrorLevel::error:
                     kav::Logger::error(completedMessage);
                     return;
