@@ -90,8 +90,8 @@
 Создаёт объекты: СonfigLogger, WriterMessage. Настраивает класс Logger и запускает в отдельном потоке запись сообщений 
 в лог-файл и отправку сообщений в монитор.
 ```cpp
-Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath)
-                : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath)
+Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath, const std::string &in_launchConsole) try
+                : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath, in_launchConsole)
         {
             //Объект класса не создан
             if (ptrToLogger == nullptr)
@@ -111,8 +111,18 @@ Logger(const std::string &in_configLoggerFilePath, const std::string &in_configW
                 throw OnlyOneObject();
             }
         }
+        catch (OnlyOneObject& e)
+        {
+            //Выбросить исключение, так как более обного объекта создавать запрещено
+            throw LoggerException(e.what());
+        }
+        catch (std::exception& e)
+        {
+            //Выбросить другие исключения
+            throw LoggerException(e.what());
+        }
 ```
-Параметры: путь файла конфигурации логирования, путь файла конфигурации очереди сообщений.\
+Параметры: путь файла конфигурации логирования, путь файла конфигурации очереди сообщений, признак логирования сообщения в консоль и запуска монитора.\
 Хотя класс содержит все статические функции-члены, можно создать только один объект (иначе выбрасывается исключение).\
 В отдельном потоке запускается запись сообщений в лог-файл и отправка сообщений в монитор.\
 \
@@ -120,7 +130,7 @@ Logger(const std::string &in_configLoggerFilePath, const std::string &in_configW
 ### Деструктор:
 Уведомляет отдельный поток логирования о завершении работы и ожидает его окончания.
 ```cpp
-~Logger()
+~Logger() noexcept (false)
         {
             //Уведомить отдельный поток логирования о завершении работы
             stopLogger.store(true);
@@ -128,12 +138,21 @@ Logger(const std::string &in_configLoggerFilePath, const std::string &in_configW
             //Вывести отдельный поток логирования из ожидания
             pushMessage = true;
             cvPushMessage.notify_one();
-
-            //Ждать окончания работы отдельного потока логирования
-            resultOfWriteToFileAndMonitor.wait();
+            
+            try
+            {
+                //Ждать окончания работы отдельного потока логирования
+                resultOfWriteToFileAndMonitor.wait();
+            }
+            catch (std::exception& e)
+            {
+                //TODO что-то надо добавить в описание
+                //Выбросить исключения
+                throw LoggerException(e.what());
+            }
         }
 ```
-Необходим для корректного завершения работы, чтобы все сообщения были записаны в лог-файл и отправлены в очередь сообщений для вывода на консоль.
+Необходим для корректного завершения работы, чтобы все сообщения были записаны в лог-файл и отправлены в очередь сообщений для вывода на консоль.\
 \
 ### Наиболее важные (интересные) закрытые функции-члены логирования сообщений:
 Две функции ниже предоставляют обмен сообщениями между потоками. Один поток записывает сообщения в контейнер, другой - читает и далее отправляет через последовательность функций в лог-файл или монитор.\
