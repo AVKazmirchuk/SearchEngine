@@ -45,7 +45,7 @@ void searchModifiedRequests();
 int main()
 {
     //Получить ссылки на путь файла конфигурации (configFilePath), запросов (requestsFilePath), ответов (answersFilePath); получить количество знаков после запятой (precision), ширину вывода (formatByWidth),
-желаемое количество потоков (desiredNumberOfThreads), максимальное количество непрочитанных файлов (maximumAllowableErrorsNumber)
+    //желаемое количество потоков (desiredNumberOfThreads), максимальное количество непрочитанных файлов (maximumAllowableErrorsNumber)
 
 
     //Создать объект
