@@ -6,8 +6,8 @@
 ## Аргументы программы
 Используются следующие аргументы (в скобках указаны значения по умолчанию):
 
-/c &emsp;&emsp;&emsp;&emsp;Путь файла конфигурации (config.json)\
-/r &emsp;&emsp;&emsp;&emsp;Путь файла запросов (requests.json)\
+/c &emsp;&emsp; - &emsp;&emsp;Путь файла конфигурации (config.json)\
+/r &emsp;&emsp; - &emsp;&emsp;Путь файла запросов (requests.json)\
 /a &emsp;&emsp;&emsp;&emsp;Путь файла ответов (answers.json)\
 /l &emsp;&emsp;&emsp;&emsp;Путь файла конфигурации логирования (logger.json)\
 /m &emsp;&emsp;&emsp;&emsp;Путь файла конфигурации очереди сообщений (messageQueue.json)\
