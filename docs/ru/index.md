@@ -5,7 +5,7 @@
 1. [Введение](./introduction/introduction.md)
 2. [Общее описание классов](./general-description-classes/general-description-classes.md)
 3. [Класс ConverterJSON](./ConverterJSON/ConverterJSON.md)
-4. [Класс DispatcherOperations](./DispatcherOperations/DispatcherOperations.md)
+4. [Класс DispatcherOperations](./DispatcherOperation/DispatcherOperation.md)
 5. [Класс Documents](./Documents/Documents.md)
 6. [Класс InvertedIndex](./InvertedIndex/InvertedIndex.md)
 7. [Класс RelevantResponse](./RelevantResponse/RelevantResponse.md)
