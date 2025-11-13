@@ -140,6 +140,7 @@ namespace kav
          * в лог-файл и отправку сообщений в монитор
          * @param in_configLoggerFilePath Путь файла конфигурации логирования
          * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
+         * @param in_launchConsole Признак логирования сообщения в консоль и запуска монитора
          */
         Logger(const std::string &in_configLoggerFilePath, const std::string &in_configWriterMessageFilePath, const std::string &in_launchConsole) try
                 : configLogger(in_configLoggerFilePath), writerMessage(in_configWriterMessageFilePath, in_launchConsole)
@@ -165,11 +166,13 @@ namespace kav
         catch (OnlyOneObject& e)
         {
             //TODO что-то надо добавить в описание
+            //Выбросить исключение, так как более обного объекта создавать запрещено
             throw LoggerException(e.what());
         }
         catch (std::exception& e)
         {
             //TODO что-то надо добавить в описание
+            //Выбросить другие исключения
             throw LoggerException(e.what());
         }
 
@@ -183,14 +186,15 @@ namespace kav
             pushMessage = true;
             cvPushMessage.notify_one();
 
-            //Ждать окончания работы отдельного потока логирования
             try
             {
+                //Ждать окончания работы отдельного потока логирования
                 resultOfWriteToFileAndMonitor.wait();
             }
             catch (std::exception& e)
             {
                 //TODO что-то надо добавить в описание
+                //Выбросить исключения
                 throw LoggerException(e.what());
             }
         }

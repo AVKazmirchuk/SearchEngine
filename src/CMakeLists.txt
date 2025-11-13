@@ -26,6 +26,8 @@ add_executable(${Application_Name} main.cpp
         converterJSON/misc.cpp
 
         DispatcherOperations/DispatcherOperations.cpp
+        DispatcherOperations/determineValidity.cpp
+        DispatcherOperations/misc.cpp
 
         documents/documents.cpp
 

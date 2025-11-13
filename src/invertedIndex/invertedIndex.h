@@ -95,6 +95,7 @@ private:
      * Определить слово (выделить) в документе
      * @param docID ID документа
      * @param document Ссылка на документ
+     * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
      */
     void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
@@ -109,6 +110,7 @@ private:
      * Добавить слово и структуру инвертированного индекса в базу инвертированных индексов
      * @param word Ссылка на слово
      * @param docID ID документа
+     * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
      */
     void addWord(const std::string& word, std::size_t docID, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 

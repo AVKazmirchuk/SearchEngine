@@ -24,7 +24,7 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
     DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents);
 }*/
 
-void SearchEngine::writeAnswersToFile(const std::string& filePath, int formatByWidth)
+void SearchEngine::writeAnswersToFile(const std::string& filePath)
 {
     //Записать результаты поиска
     DispatcherOperations::writeJSONFile(filePath, converterJSONObj.getAnswersJSON(), formatByWidth);
@@ -71,7 +71,7 @@ void SearchEngine::searchModifiedAll()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(answersFilePath, formatByWidth);
+    writeAnswersToFile(answersFilePath);
 }
 
 void SearchEngine::searchModifiedDocuments()
@@ -92,7 +92,7 @@ void SearchEngine::searchModifiedDocuments()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(answersFilePath, formatByWidth);
+    writeAnswersToFile(answersFilePath);
 }
 
 void SearchEngine::searchModifiedRequests()
@@ -110,5 +110,5 @@ void SearchEngine::searchModifiedRequests()
     converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
 
     //Записать в JSON-файл результаты поиска
-    writeAnswersToFile(answersFilePath, formatByWidth);
+    writeAnswersToFile(answersFilePath);
 }

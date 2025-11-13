@@ -37,6 +37,7 @@ public:
      * @param in_precision Количество знаков после запятой
      * @param in_formatByWidth Ширина вывода
      * @param in_desiredNumberOfThreads Желаемое количество потоков
+     * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
      */
     SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
     : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
@@ -59,6 +60,7 @@ public:
      * @param in_precision Количество знаков после запятой
      * @param in_formatByWidth Ширина вывода
      * @param in_desiredNumberOfThreads Желаемое количество потоков
+     * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
      */
     SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
             : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
@@ -143,14 +145,12 @@ private:
 
     /**
      * Записать в JSON-файл результаты поиска
-     * @param objectJSON Ссылка на JSON-объект для записи
      * @param filePath Ссылка на путь файла
-     * @param formatByWidth Ширина вывода
      */
-    void writeAnswersToFile(const std::string& filePath, int formatByWidth);
+    void writeAnswersToFile(const std::string& filePath);
 
     /**
-     * Читать документы из файлов
+     * Читать документы из файлов. Используется косвенно для определения уровня логирования
      * @param filePaths Ссылка на контейнер путей файлов
      * @return Контейнер документов
      */

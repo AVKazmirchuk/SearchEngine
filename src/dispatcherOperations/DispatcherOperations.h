@@ -67,7 +67,7 @@ static const std::map<ErrorCode, std::string> descriptionErrorCode{
 };
 
 /**
- * Структура результатов чтения текстовых файлов
+ * Структура результатов чтения текстовых файлов (одновременное чтение в нескольких потоках)
  */
 struct ResultOfReadMultipleTextFiles
 {
@@ -217,25 +217,12 @@ public:
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
-      * Прочитать текстовый файл
-      * @param filePath Ссылка на путь текстового файла
-      * @param errorLevel Уровень логирования
-      * @param message Ссылка на сообщение
-      * @param callingFunction Ссылка на вызывающую функцию
-      * @return Пара текста и кода ошибки
-      */
-    static std::pair<std::string, ErrorCode>
-    readTextFileFromMultipleFiles(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
-
-    /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
       * @param desiredNumberOfThreads Желаемое количество потоков
       * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
       * @param errorLevelOneFile Уровень логирования для одного фойла
-      * @param errorLevelMultipleFiles Уровень логирования для всех фойлов
+      * @param errorLevelMultipleFiles Уровень логирования для всех файлов
       * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Структура результатов чтения текстовых файлов
@@ -292,74 +279,38 @@ private:
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
+      * Прочитать текстовый файл из множества файлов. Функция нужна для косвенного определения уровня логирования
+      * @param filePath Ссылка на путь текстового файла
+      * @param errorLevel Уровень логирования
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара текста и кода ошибки
+      */
+    static std::pair<std::string, ErrorCode>
+    readTextFileFromMultipleFiles(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
+                                  const std::string &message = "",
+                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    /**
      * Преобразовать код ошибки из внешней функции во внутренний код ошибки
      * @param errorCode Код ошибки из внешней функции
      * @return Код ошибки внутренний
      */
-    static const ErrorCode convertErrorCodeFrom(const kav::ErrorCode errorCode)
-    {
-        //Соответствие кодов ошибки внутреннего и внешнего
-        const std::map<kav::ErrorCode, ErrorCode> matchingErrorCodes{
-
-                {kav::ErrorCode::no_error,                       ErrorCode::no_error},
-                {kav::ErrorCode::error_file_missing,             ErrorCode::error_file_missing},
-                {kav::ErrorCode::error_file_not_open_read,       ErrorCode::error_file_not_open_read},
-                {kav::ErrorCode::error_file_not_read,            ErrorCode::error_file_not_read},
-                {kav::ErrorCode::error_file_not_open_write,      ErrorCode::error_file_not_open_write},
-                {kav::ErrorCode::error_file_not_write,           ErrorCode::error_file_not_write},
-                {kav::ErrorCode::error_json_structure_corrupted, ErrorCode::error_json_structure_corrupted},
-                {kav::ErrorCode::error_json_structure_not_match, ErrorCode::error_json_structure_not_match},
-                {kav::ErrorCode::error_array_empty,              ErrorCode::error_array_empty}
-
-        };
-
-        //Вернуть внутренний код ошибки
-        return matchingErrorCodes.at(errorCode);
-
-    }
+    static const ErrorCode convertErrorCodeFrom(const kav::ErrorCode errorCode);
 
     /**
      * Получить уровень логирования на основе вызывающей функции
      * @param functionName Ссылка на имя функции
      * @return Уровень логировани
      */
-    static const ErrorLevel getErrorLevelFrom(const std::string& functionName)
-    {
-        //Соответствие имени вызывающей функции и уровня логирования
-        const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
-                {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
-                {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
-                {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
-                {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
-                {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
-                {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
-                {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}
-        };
-
-        //Вернуть уровень логирования
-        return matchingFunctionNameAndErrorLevel.at(functionName);
-    }
+    static const ErrorLevel getErrorLevelFrom(const std::string& functionName);
 
     /**
      * Получить уровень логирования из объекта предоставленного BOOST_CURRENT_LOCATION
      * @param callingFunctionStr Ссылка на объект предоставленный BOOST_CURRENT_LOCATION
      * @return Уровень логирования
      */
-    static ErrorLevel getErrorLevel(const std::string& callingFunctionStr)
-    {
-        //Подготовить переменные для определения начала и конца имени функции
-        std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
-        std::string::size_type beginNameFunction{endNameFunction};
-        //Количество символов имени функции
-        std::string::size_type symbolsNumber{};
-
-        //Подсчитать количествоо символов имени функции
-        for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
-        {}
-
-        //Вернуть уровень логирования
-        return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
-    }
+    static ErrorLevel getErrorLevel(const std::string& callingFunctionStr);
 
     /**
      * Определить количество потоков
@@ -367,49 +318,14 @@ private:
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов для одного потока и фактическое количество потоков
      */
-    static std::pair<int, int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
-    {
-        //Количество дополнительных потоков
-        //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
-        //В противном случае - использовать желаемое количество потоков.
-        int numberOfThreads = filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads;
-
-        //Определить разницу количества документов между потоками
-        std::size_t difference{filePaths.size() / numberOfThreads};
-
-        if (filePaths.size() % numberOfThreads)
-        {
-            //Увеличить количество потоков
-            ++numberOfThreads;
-        }
-
-        return {difference, numberOfThreads};
-    }
+    static std::pair<int, int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads);
 
     /**
      * Подсчитать количество непрочитанных документов
      * @param errors Ссылка на контейнер кодов ошибок
      * @return Количество непрочитанных документов
      */
-    static std::size_t countErrorsNumber(std::vector<ErrorCode> &errors)
-    {
-        //Количество непрочитанных документов
-        std::size_t errorNumber{};
-
-        //Для каждого кода ошибки документов
-        for (auto error : errors)
-        {
-            //Если при чтении произошла ошибка
-            if (error != ErrorCode::no_error)
-            {
-                //Увеличить количество непрочитанных документов
-                ++errorNumber;
-            }
-        }
-
-        //Вернуть количество непрочитанных документов
-        return errorNumber;
-    }
+    static std::size_t countErrorsNumber(std::vector<ErrorCode> &errors);
 
     /**
      * Логировать событие по коду ошибки и уровню логирования
@@ -422,61 +338,8 @@ private:
     static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
                                   ErrorLevel errorLevel = ErrorLevel::no_level,
                                   const std::string &message = "",
-                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION)
-    {
-        //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
-        std::string callingFunctionStr{callingFunction.to_string()};
+                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
-        //Если уровень логирования не указан
-        if (errorLevel == ErrorLevel::no_level)
-        {
-            //Определить уровень логирования по имени функции
-            errorLevel = getErrorLevel(callingFunctionStr);
-        }
-
-        //Окончательное сообщение для логирования
-        std::string completedMessage;
-
-        //Если путь файла указан
-        if (!filePath.empty())
-        {
-            //Подготовить окончательное сообщение для логирования
-            completedMessage = descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
-                                         static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
-        }
-        else
-        {
-            std::cout << '\n' << "filePath: " << filePath << '\n';
-            //Подготовить окончательное сообщение для логирования
-            completedMessage = descriptionErrorCode.at(errorCode) + ". " +
-                                         static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
-        }
-
-        //Если при операции с файлом или JSON-объектом произошла ошибка
-        if (errorCode != ErrorCode::no_error)
-        {
-            //Записать в лог по уровню логирования
-            switch (errorLevel)
-            {
-                case ErrorLevel::fatal:
-                    kav::Logger::fatal(completedMessage);
-                    //Выбросить исключение
-                    throw OperationException(completedMessage);
-                case ErrorLevel::error:
-                    kav::Logger::error(completedMessage);
-                    return;
-                case ErrorLevel::warning:
-                    kav::Logger::warning(completedMessage);
-                    return;
-                case ErrorLevel::info:
-                    kav::Logger::info(completedMessage);
-                    return;
-                case ErrorLevel::debug:
-                    kav::Logger::debug(completedMessage);
-                    return;
-            }
-        }
-    }
 };
 
 
