@@ -285,11 +285,11 @@ static void fatal(const std::string& message, const std::exception& exception);
 int main()
 {
     //...
-    //Получить путь файлов настроек (сonfigLoggerFilePath, configWriterMessageFilePath)
+    //Получить путь файлов настроек (сonfigLoggerFilePath, configWriterMessageFilePath) и задать признак логирования событий в консоль (launchConsole)
     //...
 
     //Создать объект логирования событий
-    kav::Logger logger(сonfigLoggerFilePath, configWriterMessageFilePath);
+    kav::Logger logger(сonfigLoggerFilePath, configWriterMessageFilePath, launchConsole);
 
     //...
     //Получить сообщение уровня debug (message)
