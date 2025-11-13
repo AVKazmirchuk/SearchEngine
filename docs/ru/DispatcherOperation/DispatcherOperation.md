@@ -83,12 +83,16 @@ static std::pair<std::string, ErrorCode>
 Возвращаемое значение: пара текста и кода ошибки.
 #### Прочитать несколько текстовых файлов одновременно в разных потоках:
 ```cpp
-static std::pair<std::vector<std::string>, ErrorCode> readMultipleTextFiles(const std::vector<std::string>& filePaths,
-                 ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
+static ResultOfReadMultipleTextFiles readMultipleTextFiles(const std::vector<std::string>& filePaths,
+                 const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+                 const unsigned int maximumAllowableErrorsNumber = 1,
+                 ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+                 const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь контейнера путей файлов, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
-Возвращаемое значение: пара контейнер текстов и кода ошибки.\
+Параметры: ссылка на путь контейнера путей файлов, желаемое количество потоков, максимально возможное количество ошибок, 
+уровень логирования для одного фойла, уровень логирования для всех файлов, ссылка на сообщение, ссылка на вызывающую функцию.\
+Возвращаемое значение: структура результатов чтения текстовых файлов.\
 Реализация чтения документов в разных потоках проста и не требует пояснений (вполне достаточно комментариев).
 ### Примеры
 ```cpp
