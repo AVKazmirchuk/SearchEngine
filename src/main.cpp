@@ -2,7 +2,7 @@
 #include "searchEngine.h"
 #include "kav/logger.h"
 
-#include <fstream>
+
 
 //Константы переменных
 namespace constants
@@ -31,7 +31,12 @@ namespace constants
     int maximumAllowableErrorsNumber{1};
 }
 
-//Конвертировать строку в число
+/**
+ * Конвертировать строку в число
+ * @param str Строка для конвертирования
+ * @param value Получаемое значение после конвертации
+ * @return Признак успешности конвертации
+ */
 bool convertStringToNumber(char *str, int &value)
 {
     //Создать объект потока для конвертации строки в число
@@ -48,7 +53,9 @@ bool convertStringToNumber(char *str, int &value)
     return false;
 }
 
-//Получить справку
+/*
+ * Получить справку
+ */
 void getHelp()
 {
     std::cout << '\n' << "List of parameters:" << '\n';
@@ -65,7 +72,12 @@ void getHelp()
     std::cout << '\t' << "/?    Help" << '\n';
 }
 
-//Обработать аргументы программы
+/**
+ * Обработать аргументы программы
+ * @param argc Количество аргументов
+ * @param argv Массив аргументов
+ * @return Признак выбора справки
+ */
 bool processProgramArguments(int argc, char* argv[])
 {
     //Если явные аргументы есть и вызывается справка
@@ -161,7 +173,9 @@ bool processProgramArguments(int argc, char* argv[])
     return false;
 }
 
-//Запустить расчёт релевантности
+/**
+ * Запустить расчёт релевантности
+ */
 void runRelevanceCalculation()
 {
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
@@ -171,7 +185,10 @@ void runRelevanceCalculation()
     searchEngine.searchModifiedAll();
 }
 
-//Обработать исключения с логированием
+/**
+ * Обработать исключения с логированием
+ * @param exception Исключение
+ */
 void handleExceptionsWithLogging(const std::exception& exception)
 {
     //Вывести в лог дополнительное сообщение
@@ -180,7 +197,10 @@ void handleExceptionsWithLogging(const std::exception& exception)
     kav::Logger::info("Stop SearchEngine");
 }
 
-//Обработать исключения без логирования
+/**
+ * Обработать исключения без логирования
+ * @param exception Исключение
+ */
 void handleExceptionsWithoutLogging(const std::exception& exception)
 {
     //Вывести сообщение об исключении
