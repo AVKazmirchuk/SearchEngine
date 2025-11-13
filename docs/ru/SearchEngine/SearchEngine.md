@@ -22,7 +22,8 @@ SearchEngine(const std::string& in_configFilePath, const std::string& in_request
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
       answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}
 ```
-Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, ссылка на путь файла ответов, количество знаков после запятой, ширина вывода.\
+Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, ссылка на путь файла ответов, количество знаков после запятой, ширина вывода, желаемое количество потоков, 
+максимальное количество непрочитанных файлов (допустимых ошибок).\
 Объект не является копируемым и перемещаемым (содержит объект класса InvertedIndex (содержит мьютекс)).
 ### Общедоступные функции-члены:
 #### Рассчитать релевантность ответов:
@@ -43,11 +44,12 @@ void searchModifiedRequests();
 
 int main()
 {
-    //Получить ссылки на путь файла конфигурации (configFilePath), запросов (requestsFilePath), ответов (answersFilePath); получить количество знаков после запятой (precision), ширину вывода (formatByWidth)
+    //Получить ссылки на путь файла конфигурации (configFilePath), запросов (requestsFilePath), ответов (answersFilePath); получить количество знаков после запятой (precision), ширину вывода (formatByWidth),
+желаемое количество потоков (desiredNumberOfThreads), максимальное количество непрочитанных файлов (maximumAllowableErrorsNumber)
 
 
     //Создать объект
-    SearchEngine searchEngine(configFilePath, requestsFilePath, answersFilePath, precision, formatByWidth);
+    SearchEngine searchEngine(configFilePath, requestsFilePath, answersFilePath, precision, formatByWidth, desiredNumberOfThreads, maximumAllowableErrorsNumber);
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
 
