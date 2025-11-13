@@ -112,8 +112,9 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID)
 ### Общедоступные функции-члены:
 #### Обновить базу инвертированных индексов:
 ```cpp
-void updateInvertedIndexes();
+void updateInvertedIndexes(const unsigned int desiredNumberOfThreads);
 ```
+Параметры: желаемое количество потоков.
 #### Получить ссылку на базу инвертированных индексов:
 ```cpp
 const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
