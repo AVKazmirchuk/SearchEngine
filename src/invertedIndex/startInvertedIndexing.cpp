@@ -190,7 +190,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
             //Записать результат в контейнер результатов потоков
             futures[i] = std::async([invertedIndexesForThread = std::move(invertedIndexesForThread)]() mutable
                                     {
-                                        //Пока контпейнер баз не обошли
+                                        //Пока контейнер баз не обошли
                                         for (int l{1}; l < invertedIndexesForThread.size(); ++l)
                                         {
                                             //Для каждой базы инвертированного индекса
@@ -368,7 +368,7 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
         mergeInvertedIndexBases(futures, initialBasesNumberInStream);
 
         //Получить результат в базу инвертированного индекса
-        invertedIndexes = std::move(futures[0].get());
+        invertedIndexes = std::move(futures[0]).get();
     }//Cлияние инвертированных баз в разных потоках*/
 
     //Обработать все исключения, выброшенные в потоках

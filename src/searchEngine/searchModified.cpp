@@ -50,13 +50,14 @@ void SearchEngine::searchModifiedAll()
     //std::cout << '\n' << t.elapsed() << '\n';
 
     //Для замеров
-    //Timer t;
+    Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
 
     //Для замеров
-    //std::cout << '\n' << t.elapsed() << '\n';
+    std::cout << '\n' << t.elapsed() << '\n';
+    std::getchar();
 
     //Очистить список запросов
     requestsObj.clearRequests();
