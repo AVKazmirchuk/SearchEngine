@@ -28,6 +28,9 @@ void ConverterJSON::initialize()
     checkFilePath();
     //Проверить запросы (существование)
     checkRequests();
+
+    maxResponses = configJSON[FileFieldNames::configStr][FileFieldNames::max_responsesStr];
+
 }
 
 std::string ConverterJSON::about()

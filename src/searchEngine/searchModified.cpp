@@ -14,7 +14,7 @@
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
     //Прочитать документы
-    return DispatcherOperations::readMultipleTextFiles(converterJSONObj.getFilePaths(), desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
+    return DispatcherOperations::readMultipleTextFiles(filePaths, desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
 }
 
 //Для тестирования передачи контейнера по ссылке
@@ -69,7 +69,7 @@ void SearchEngine::searchModifiedAll()
     relevantResponseObj.updateRelevantResponses();
 
     //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
-    converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
+    converterJSONObj.setAnswersJSON(exportRelevantResponses());
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
@@ -90,7 +90,7 @@ void SearchEngine::searchModifiedDocuments()
     relevantResponseObj.updateRelevantResponses();
 
     //Записать в файл answers.json результаты поиска, с учётом максимального количества ответов
-    converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
+    converterJSONObj.setAnswersJSON(exportRelevantResponses());
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
@@ -108,7 +108,7 @@ void SearchEngine::searchModifiedRequests()
     relevantResponseObj.updateRelevantResponses();
 
     //Записать в файл answers.json результаты поиска, с учётом максимального количества ответов
-    converterJSONObj.setAnswersJSON(exportRelevantResponses(), converterJSONObj.getMaxResponses());
+    converterJSONObj.setAnswersJSON(exportRelevantResponses());
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);

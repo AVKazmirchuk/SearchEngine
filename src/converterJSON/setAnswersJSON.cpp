@@ -58,7 +58,7 @@ std::string ConverterJSON::convertIdtoStr(std::size_t requestId, std::string str
   }
 }*/
 
-void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers, int maxResponses)
+void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers)
 {
     //Максимальное количество ответов не должно быть меньше 1
     maxResponses = maxResponses < 1 ? 1 : maxResponses;

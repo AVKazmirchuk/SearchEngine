@@ -90,9 +90,8 @@ public:
     /**
      * Записать в JSON-объект результаты поиска
      * @param answers Релевантность ответов
-     * @param maxResponses Значение максимального количества ответов
      */
-    void setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers, int maxResponses);
+    void setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers);
 
     /**
      * Получить JSON-объект ответов
@@ -251,6 +250,11 @@ private:
      * JSON-объект ответов
      */
     JSON answersJSON;
+
+    /**
+     * Максимальное количество ответов
+     */
+    int maxResponses;
 
     //Инициализировать
     void initialize();
