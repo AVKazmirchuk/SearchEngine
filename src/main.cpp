@@ -179,7 +179,11 @@ bool processProgramArguments(int argc, char* argv[])
 void runRelevanceCalculation()
 {
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::precision, constants::formatByWidth, constants::desiredNumberOfThreads, constants::maximumAllowableErrorsNumber);
+    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath,
+                              constants::precision,
+                              constants::formatByWidth,
+                              constants::desiredNumberOfThreads,
+                              constants::maximumAllowableErrorsNumber);
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
