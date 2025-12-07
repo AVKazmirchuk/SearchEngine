@@ -94,7 +94,7 @@ public:
     void setAnswersJSON(const std::vector<std::vector<std::pair<std::uint64_t , float>>>& answers);
 
     /**
-     * Получить JSON-объект ответов
+     * Получить ссылку на JSON-объект ответов
      * @return Ссылка на JSON-объект ответов
      */
     JSON& getAnswersJSON();
