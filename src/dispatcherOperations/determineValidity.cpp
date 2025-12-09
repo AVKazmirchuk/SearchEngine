@@ -70,7 +70,6 @@ void DispatcherOperations::determineValidity(
     }
     else
     {
-        std::cout << '\n' << "filePath: " << filePath << '\n';
         //Подготовить окончательное сообщение для логирования
         completedMessage = descriptionErrorCode.at(errorCode) + ". " +
                            static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;

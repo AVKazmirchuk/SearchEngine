@@ -149,7 +149,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
         //Искать начало следующего слова
         begIdx = document.find_first_not_of(delims, endIdx);
-    }//Чтение документа
+    }//Чтение документа*/
 
 
 
@@ -163,7 +163,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
     while (inFile >> word)
     {
         addWord(word, docID, invertedIndexesForThread);
-    }//Чтение файла
+    }//Чтение файла*/
 
 }
 
