@@ -119,7 +119,11 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
 void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
 
-    //Разделители слов
+    /**
+     * Чтение документа
+     */
+
+    /*//Разделители слов
     const std::string  delims(" ");
     //Начальный и конечный (за последним символом) индексы слова
     std::string::size_type begIdx, endIdx;
@@ -145,8 +149,21 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
         //Искать начало следующего слова
         begIdx = document.find_first_not_of(delims, endIdx);
-    }
+    }//Чтение документа
 
+
+
+    /**
+     * Чтение файла
+     */
+
+    std::ifstream inFile(document);
+
+    std::string word;
+    while (inFile >> word)
+    {
+        addWord(word, docID, invertedIndexesForThread);
+    }//Чтение файла
 
 }
 

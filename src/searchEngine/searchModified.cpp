@@ -36,10 +36,13 @@ void SearchEngine::searchModifiedAll()
     documentsObj.clearDocuments();
 
     //Для замеров
-    //Timer t;
+    Timer t;
 
     //Обновить список документов из файлов
-    documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+    //documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+
+    //Для тестирования чтения файла (формирование индекса) напрямую (без формирования базы документов)
+    documentsObj.updateDocuments(converterJSONObj.getFilePaths());
 
     //Для тестирования передачи контейнера по ссылке
     /*ResultOfReadMultipleTextFiles documents;
@@ -50,7 +53,7 @@ void SearchEngine::searchModifiedAll()
     //std::cout << '\n' << t.elapsed() << '\n';
 
     //Для замеров
-    Timer t;
+    //Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);

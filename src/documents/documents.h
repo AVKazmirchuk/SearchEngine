@@ -45,7 +45,6 @@ public:
      */
     void clearDocuments();
 
-
 private:
 
     /**
