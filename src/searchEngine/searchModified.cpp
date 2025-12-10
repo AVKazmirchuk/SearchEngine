@@ -39,10 +39,10 @@ void SearchEngine::searchModifiedAll()
     Timer t;
 
     //Обновить список документов из файлов
-    //documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+    documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
 
     //Для тестирования чтения файла (формирование индекса) напрямую (без формирования базы документов)
-    documentsObj.updateDocuments(converterJSONObj.getFilePaths());
+    //documentsObj.updateDocuments(converterJSONObj.getFilePaths());
 
     //Для тестирования передачи контейнера по ссылке
     /*ResultOfReadMultipleTextFiles documents;

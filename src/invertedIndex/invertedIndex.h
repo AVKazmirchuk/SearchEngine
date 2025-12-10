@@ -81,7 +81,7 @@ private:
     /**
      * Определить количество потоков
      * @param desiredNumberOfThreads Желаемое количество потоков
-     * @return Фактическое количество потоков
+     * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
      */
     std::pair<int, int> countNumberOfThreads(const unsigned int desiredNumberOfThreads);
 

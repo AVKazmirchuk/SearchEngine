@@ -4,13 +4,16 @@
 
 
 
+#include "boost/interprocess/file_mapping.hpp"
+#include "boost/interprocess/mapped_region.hpp"
+
 #include "invertedIndex.h"
 #include "timer.h"
 
 #include "kav/logger.h"
 
 
-
+//TODO для варианта без сохранения базы документов сделать перемещение слова
 void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
     //Установить защиту на поиск и добавление слова в базе инвертированных индексов
@@ -123,8 +126,8 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
      * Чтение документа
      */
 
-    /*//Разделители слов
-    const std::string  delims(" ");
+    //Разделители слов
+    /*const std::string  delims(" ");
     //Начальный и конечный (за последним символом) индексы слова
     std::string::size_type begIdx, endIdx;
 
@@ -157,7 +160,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
      * Чтение файла
      */
 
-    std::ifstream inFile(document);
+    /*std::ifstream inFile(document);
 
     std::string word;
     while (inFile >> word)
@@ -165,6 +168,42 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
         addWord(word, docID, invertedIndexesForThread);
     }//Чтение файла*/
 
+    /**
+     * Отображение файла в память
+     */
+
+    boost::interprocess::file_mapping fileMapping(document.c_str(), boost::interprocess::read_only);
+    boost::interprocess::mapped_region mappedRegion(fileMapping, boost::interprocess::read_only);
+
+    const char * address{static_cast<const char *>(mappedRegion.get_address())};
+    std::size_t size{mappedRegion.get_size()};
+    const char * addressEnd{address + size};
+
+    std::string word;
+
+    while (address != addressEnd)
+    {
+        word += *address;
+        if (word.back() == ' ')
+        {
+            word.pop_back();
+
+            if (!word.empty())
+            {
+                addWord(word, docID, invertedIndexesForThread);
+
+                word.clear();
+            }
+        }
+
+        ++address;
+
+    }
+
+    if (!word.empty())
+    {
+        addWord(word, docID, invertedIndexesForThread);
+    }//Отображение файла в память*/
 }
 
 void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures, int initialBasesNumberInStream)
@@ -258,6 +297,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
         mergeInvertedIndexBases(futures, initialBasesNumberInStream);
     }
 }
+
 std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desiredNumberOfThreads)
 {
     //Количество дополнительных потоков
