@@ -13,7 +13,7 @@
 #include "kav/logger.h"
 
 
-//TODO для варианта без сохранения базы документов сделать перемещение слова
+
 void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
     //Установить защиту на поиск и добавление слова в базе инвертированных индексов
