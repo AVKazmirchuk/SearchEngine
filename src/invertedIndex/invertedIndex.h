@@ -31,7 +31,8 @@ public:
      * Инициализирует ссылку на базу документов
      * @param in_documents Ссылка на базу документов
      */
-    explicit InvertedIndex(const std::vector<std::string>& in_documents) : documents{in_documents} {}
+    explicit InvertedIndex(const std::vector<std::string>& in_documents, const std::vector<std::string>& in_documentsPaths)
+    : documents{in_documents}, documentsPaths{in_documentsPaths} {}
 
     /**
      * Обновить базу инвертированных индексов
@@ -53,6 +54,11 @@ private:
      * Ссылка на базу документов
      */
     const std::vector<std::string>& documents;
+
+    /**
+     * Ссылка на базу путей файлов документов
+     */
+    const std::vector<std::string>& documentsPaths;
 
     /**
      * База инвертированных индексов
@@ -89,7 +95,7 @@ private:
      * Запустить инвертированную индексацию документов в отдельных потоках
      * @param desiredNumberOfThreads Желаемое количество потоков
      */
-    void startInvertedIndexing(const unsigned int desiredNumberOfThreads);
+    void startInvertedIndexing(const std::vector<std::string>& documents, const unsigned int desiredNumberOfThreads);
 
     /**
      * Определить слово (выделить) в документе

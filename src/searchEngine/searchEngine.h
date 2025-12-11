@@ -13,6 +13,7 @@
 
 #include "converterJSON.h"
 #include "documents.h"
+#include "documentsPaths.h"
 #include "invertedIndex.h"
 #include "requests.h"
 #include "relevantResponse.h"
@@ -39,13 +40,13 @@ public:
      * @param in_desiredNumberOfThreads Желаемое количество потоков
      * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
      */
-    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
+    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, const std::string& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
     : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
-      documentsObj{},
-      invertedIndexObj(documentsObj.getDocuments()),
+      documentsObj{}, documentsPathsObj{},
+      invertedIndexObj(documentsObj.getDocuments(), documentsPathsObj.getDocumentsPaths()),
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
-      answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
+      answersFilePath{in_answersFilePath}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
 
     {
         //Логировать сообщение о программе
@@ -62,13 +63,13 @@ public:
      * @param in_desiredNumberOfThreads Желаемое количество потоков
      * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
      */
-    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
+    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, std::string&& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
             : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
-              documentsObj{},
-              invertedIndexObj(documentsObj.getDocuments()),
+              documentsObj{},  documentsPathsObj{},
+              invertedIndexObj(documentsObj.getDocuments(), documentsPathsObj.getDocumentsPaths()),
               requestsObj{},
               relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
-              answersFilePath{std::move(in_answersFilePath)}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
+              answersFilePath{std::move(in_answersFilePath)}, documentsBaseOrPathsBase{std::move(in_documentsBaseOrPathsBase)}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
 
     {
         //Логировать сообщение о программе
@@ -103,6 +104,11 @@ private:
     Documents documentsObj;
 
     /**
+     * Пути документов
+     */
+    DocumentsPaths documentsPathsObj;
+
+    /**
      * Инвертированный индекс
      */
     InvertedIndex invertedIndexObj;
@@ -120,7 +126,12 @@ private:
     /**
      * Путь файла ответов
      */
-    std::string answersFilePath;
+    const std::string answersFilePath;
+
+    /**
+     * Признак формирования базы документов или базы путей файлов документов
+     */
+    const std::string documentsBaseOrPathsBase;
 
     /**
      * Ширина вывода

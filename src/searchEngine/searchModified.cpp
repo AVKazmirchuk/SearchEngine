@@ -35,14 +35,22 @@ void SearchEngine::searchModifiedAll()
     //Очистить список документов
     documentsObj.clearDocuments();
 
+    //Очистить базу путей файлов документов
+    documentsPathsObj.clearDocumentsPaths();
+
     //Для замеров
     Timer t;
 
-    //Обновить список документов из файлов
-    //documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
-
-    //Для тестирования чтения файла (формирование индекса) напрямую (без формирования базы документов)
-    documentsObj.updateDocuments(converterJSONObj.getFilePaths());
+    if (documentsBaseOrPathsBase == "yes")
+    {
+        //Обновить список документов из файлов
+        documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+    }
+    else
+    {
+        //Обновить список путей файлов документов
+        documentsPathsObj.updateDocumentsPaths(converterJSONObj.getFilePaths());
+    }
 
     //Для тестирования передачи контейнера по ссылке
     /*ResultOfReadMultipleTextFiles documents;

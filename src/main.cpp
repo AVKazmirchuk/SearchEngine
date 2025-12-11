@@ -14,6 +14,8 @@ namespace constants
     std::string requestsFilePath{"requests.json"};
     //Путь файла ответов
     std::string answersFilePath{"answers.json"};
+    //Формировать базу документов или базу путей файлов документов
+    std::string documentsBaseOrPathsBase{"yes"};
     //Путь файла конфигурации логирования
     std::string configLoggerFilePath{"logger.json"};
     //Путь файла конфигурации очереди сообщений
@@ -62,6 +64,7 @@ void getHelp()
     std::cout << '\t' << "/c    The path of the configuration file (config.json)" << '\n';
     std::cout << '\t' << "/r    Request file path (requests.json)" << '\n';
     std::cout << '\t' << "/a    The path of the response file (answers.json)" << '\n';
+    std::cout << '\t' << "/dp   Create a database of documents or a database of document file paths (yes)" << '\n';
     std::cout << '\t' << "/l    The path of the logging configuration file (logger.json)" << '\n';
     std::cout << '\t' << "/m    The path of the message queue configuration file (messageQueue.json)" << '\n';
     std::cout << '\t' << "/lc   Log events to the console (yes)" << '\n';
@@ -111,6 +114,13 @@ bool processProgramArguments(int argc, char* argv[])
         if (std::strcmp(argv[i], "/a") == 0)
         {
             constants::answersFilePath = argv[i + 1];
+
+            continue;
+        }
+        //Aормировать базу документов или базу путей файлов документов
+        if (std::strcmp(argv[i], "/dp") == 0)
+        {
+            constants::documentsBaseOrPathsBase = argv[i + 1];
 
             continue;
         }
@@ -179,7 +189,7 @@ bool processProgramArguments(int argc, char* argv[])
 void runRelevanceCalculation()
 {
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath,
+    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::documentsBaseOrPathsBase,
                               constants::precision,
                               constants::formatByWidth,
                               constants::desiredNumberOfThreads,
