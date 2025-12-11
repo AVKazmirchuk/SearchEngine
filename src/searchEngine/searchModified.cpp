@@ -35,9 +35,6 @@ void SearchEngine::searchModifiedAll()
     //Очистить список документов
     documentsObj.clearDocuments();
 
-    //Очистить базу путей файлов документов
-    documentsPathsObj.clearDocumentsPaths();
-
     //Для замеров
     Timer t;
 
@@ -49,7 +46,7 @@ void SearchEngine::searchModifiedAll()
     else
     {
         //Обновить список путей файлов документов
-        documentsPathsObj.updateDocumentsPaths(converterJSONObj.getFilePaths());
+        documentsObj.updateDocuments(converterJSONObj.getFilePaths());
     }
 
     //Для тестирования передачи контейнера по ссылке

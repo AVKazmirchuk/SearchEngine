@@ -13,7 +13,6 @@
 
 #include "converterJSON.h"
 #include "documents.h"
-#include "documentsPaths.h"
 #include "invertedIndex.h"
 #include "requests.h"
 #include "relevantResponse.h"
@@ -35,6 +34,7 @@ public:
      * @param in_configFilePath Ссылка на путь файла конфигурации
      * @param in_requestsFilePath Ссылка на путь файла запросов
      * @param in_answersFilePath Ссылка на путь файла ответов
+     * @param in_documentsBaseOrPathsBase Признак формирования базы документов или путей файлов документов
      * @param in_precision Количество знаков после запятой
      * @param in_formatByWidth Ширина вывода
      * @param in_desiredNumberOfThreads Желаемое количество потоков
@@ -42,8 +42,8 @@ public:
      */
     SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, const std::string& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
     : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
-      documentsObj{}, documentsPathsObj{},
-      invertedIndexObj(documentsObj.getDocuments(), documentsPathsObj.getDocumentsPaths()),
+      documentsObj{},
+      invertedIndexObj(documentsObj.getDocuments(), in_documentsBaseOrPathsBase),
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
       answersFilePath{in_answersFilePath}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
@@ -65,8 +65,8 @@ public:
      */
     SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, std::string&& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
             : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
-              documentsObj{},  documentsPathsObj{},
-              invertedIndexObj(documentsObj.getDocuments(), documentsPathsObj.getDocumentsPaths()),
+              documentsObj{},
+              invertedIndexObj(documentsObj.getDocuments(), in_documentsBaseOrPathsBase),
               requestsObj{},
               relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
               answersFilePath{std::move(in_answersFilePath)}, documentsBaseOrPathsBase{std::move(in_documentsBaseOrPathsBase)}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
@@ -99,14 +99,9 @@ private:
     ConverterJSON converterJSONObj;
 
     /**
-     * Документы
+     * Документы или пути файлов документов
      */
     Documents documentsObj;
-
-    /**
-     * Пути документов
-     */
-    DocumentsPaths documentsPathsObj;
 
     /**
      * Инвертированный индекс
@@ -129,7 +124,7 @@ private:
     const std::string answersFilePath;
 
     /**
-     * Признак формирования базы документов или базы путей файлов документов
+     * Признак формирования базы документов или путей файлов документов
      */
     const std::string documentsBaseOrPathsBase;
 

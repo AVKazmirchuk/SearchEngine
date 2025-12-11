@@ -13,16 +13,8 @@ void InvertedIndex::updateInvertedIndexes(const unsigned int desiredNumberOfThre
     //Очистить базу инвертированных индексов
     clearInvertedIndexes();
 
-    if (!documents.empty())
-    {
-        //Запустить инвертированную индексацию документов в отдельных потоках
-        startInvertedIndexing(documents, desiredNumberOfThreads);
-    }
-    else
-    {
-        //Запустить инвертированную индексацию документов в отдельных потоках для используемой базы путей файлов документов
-        startInvertedIndexing(documentsPaths, desiredNumberOfThreads);
-    }
+    //Запустить инвертированную индексацию документов в отдельных потоках
+    startInvertedIndexing(desiredNumberOfThreads);
 
     //Сортировать базу инвертированного индекса по возрастанию ID документа
     //sortByAscendingDocumentID();

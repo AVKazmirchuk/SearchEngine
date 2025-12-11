@@ -11,20 +11,16 @@
 
 std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desiredNumberOfThreads)
 {
-
-    //Если база документов не пуста - определить размер базы по ней, в противном случае - по базе путей файлов документов
-    std::size_t baseSize{!documents.empty() ? documents.size() : documentsPaths.size()};
-
     //Количество дополнительных потоков
     //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
     //В противном случае - использовать желаемое количество потоков.
-    int numberOfThreads = baseSize <= desiredNumberOfThreads ? baseSize : desiredNumberOfThreads;
+    int numberOfThreads = documents.size() <= desiredNumberOfThreads ? documents.size() : desiredNumberOfThreads;
 
     //Определить количество документов обрабатываемое одним потокам
-    std::size_t difference{baseSize / numberOfThreads};
+    std::size_t difference{documents.size() / numberOfThreads};
 
     //Если количество документов делится с остатком
-    if (baseSize % numberOfThreads)
+    if (documents.size() % numberOfThreads)
     {
         //Увеличить количество потоков
         ++numberOfThreads;

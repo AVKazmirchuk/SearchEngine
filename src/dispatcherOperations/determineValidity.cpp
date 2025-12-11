@@ -16,6 +16,7 @@ const ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& func
             {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
             {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
             {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
+            {"InvertedIndex::readDocument",                                 ErrorLevel::error},
             {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
             {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
             {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}

@@ -28,11 +28,12 @@ class InvertedIndex
 public:
 
     /**
-     * Инициализирует ссылку на базу документов
-     * @param in_documents Ссылка на базу документов
+     * Инициализирует ссылку на базу документов или путей файлов документов
+     * @param in_documents Ссылка на базу документов или путей файлов документов
+     * @param in_documentsBaseOrPathsBase Признак формирования базы документов или путей файлов документов
      */
-    explicit InvertedIndex(const std::vector<std::string>& in_documents, const std::vector<std::string>& in_documentsPaths)
-    : documents{in_documents}, documentsPaths{in_documentsPaths} {}
+    explicit InvertedIndex(const std::vector<std::string>& in_documents, const std::string& in_documentsBaseOrPathsBase)
+    : documents{in_documents}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase} {}
 
     /**
      * Обновить базу инвертированных индексов
@@ -51,14 +52,19 @@ private:
     //ОСНОВНЫЕ ДАННЫЕ И ФУНКЦИИ
 
     /**
-     * Ссылка на базу документов
+     * Ссылка на базу документов или путей файлов документов
      */
     const std::vector<std::string>& documents;
 
     /**
-     * Ссылка на базу путей файлов документов
+     * Признак формирования базы документов или путей файлов документов
      */
-    const std::vector<std::string>& documentsPaths;
+    const std::string documentsBaseOrPathsBase;
+
+    /**
+     * Сразу определить слово (выделить) в документе
+     */
+    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&){&InvertedIndex::defineWord};
 
     /**
      * База инвертированных индексов
@@ -95,15 +101,23 @@ private:
      * Запустить инвертированную индексацию документов в отдельных потоках
      * @param desiredNumberOfThreads Желаемое количество потоков
      */
-    void startInvertedIndexing(const std::vector<std::string>& documents, const unsigned int desiredNumberOfThreads);
+    void startInvertedIndexing(const unsigned int desiredNumberOfThreads);
 
     /**
      * Определить слово (выделить) в документе
      * @param docID ID документа
-     * @param document Ссылка на документ
+     * @param document Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
      */
     void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
+
+    /**
+     * Прочитать документ по его пути
+     * @param docID ID документа
+     * @param document Ссылка на документ или путь файла документа
+     * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
+     */
+    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Слить базы инвертированного индекса подготовленные в разных потоках

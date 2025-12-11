@@ -31,8 +31,6 @@ add_executable(${Application_Name} main.cpp
 
         documents/documents.cpp
 
-        documentsPaths/documentsPaths.cpp
-
         invertedIndex/updateInvertedIndexes.cpp
         invertedIndex/startInvertedIndexing.cpp
         invertedIndex/misc.cpp

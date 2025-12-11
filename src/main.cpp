@@ -14,7 +14,7 @@ namespace constants
     std::string requestsFilePath{"requests.json"};
     //Путь файла ответов
     std::string answersFilePath{"answers.json"};
-    //Формировать базу документов или базу путей файлов документов
+    //Признак формирования базы документов или путей файлов документов
     std::string documentsBaseOrPathsBase{"yes"};
     //Путь файла конфигурации логирования
     std::string configLoggerFilePath{"logger.json"};
