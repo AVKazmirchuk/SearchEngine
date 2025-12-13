@@ -64,7 +64,7 @@ private:
     /**
      * Сразу определить слово (выделить) в документе
      */
-    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&){&InvertedIndex::defineWord};
+    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, const std::size_t, std::map<std::string, std::vector<Entry>>&){&InvertedIndex::defineWord};
 
     /**
      * База инвертированных индексов
@@ -109,7 +109,7 @@ private:
      * @param document Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
      */
-    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
+    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber = 0);
 
     /**
      * Прочитать документ по его пути
@@ -117,7 +117,7 @@ private:
      * @param document Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
      */
-    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
+    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber);
 
     /**
      * Слить базы инвертированного индекса подготовленные в разных потоках

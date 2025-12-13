@@ -6,6 +6,7 @@
 #define SEARCH_ENGINE_DISPATCHERDETERMINEVALIDITY_H
 
 
+#include <atomic>
 
 #include "kav/operationFileAndJSON.h"
 #include "kav/logger.h"
@@ -211,10 +212,11 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара текста и кода ошибки
       */
-    static std::pair<std::string, ErrorCode>
-    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static std::pair<std::string, ErrorCode> readTextFile(
+            const std::string &filePath,
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Прочитать несколько текстовых файлов одновременно в разных потоках
@@ -233,6 +235,27 @@ public:
             const unsigned int maximumAllowableErrorsNumber = 1,
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const std::string &message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    /**
+      * Прочитать несколько текстовых файлов последовательно
+      * @param filePath Ссылка на путь текстового файла
+      * @param filesNumber Количество файлов
+      * @param packageID ID пакета для разных потоков
+      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
+      * @param errorLevelOneFile Уровень логирования для одного фойла
+      * @param errorLevelMultipleFiles Уровень логирования для всех файлов
+      * @param message Ссылка на сообщение
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Пара текста и кода ошибки
+      */
+    static std::pair<std::string, ErrorCode> readMultipleTextFilesSequentially(
+            const std::string& filePath,
+            const std::size_t filesNumber,
+            const std::size_t packageID = 0,
+            const unsigned int maximumAllowableErrorsNumber = 1,
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+            const std::string& message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     //Для тестирования передачи контейнера по ссылке
@@ -339,6 +362,18 @@ private:
                                   ErrorLevel errorLevel = ErrorLevel::no_level,
                                   const std::string &message = "",
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    /**
+     * Контейнер соответствия имени вызывающей функции и, ID пакета и текущим количествам файлов и ошибок
+     */
+    inline static std::map<std::string,
+                           std::map<
+                                    std::size_t,
+                                    std::pair<
+                                              std::atomic<std::size_t>, std::atomic<std::size_t>
+                                             >
+                                   >
+                          > currentErrorsNumber{};
 
 };
 

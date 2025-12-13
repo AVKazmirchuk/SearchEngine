@@ -167,6 +167,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
+                        //TODO Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
                         std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
                         //Скопировать (переместить) результаты в контейнер прочитанных документов
                         documents.first[currentDocID] = std::move(tmp.first);
@@ -279,6 +280,19 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
 
     //Вернуть пару контейнера текстов и кода ошибки
     return ResultOfReadMultipleTextFiles{documents, errorNumber, error};
+}
+
+std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSequentially(
+        const std::string& filePath,
+        const std::size_t filesNumber,
+        const std::size_t packageID,
+        const unsigned int maximumAllowableErrorsNumber,
+        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
+        const std::string& message,
+        const boost::source_location &callingFunction
+        )
+{
+
 }
 
 //Для тестирования передачи контейнера по ссылке

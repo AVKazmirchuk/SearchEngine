@@ -209,7 +209,7 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
     }*/
 }
 
-void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
+void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber)
 {
 
         //Разделители слов
@@ -279,10 +279,10 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
 }
 
-void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
+void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber)
 {
      //Определить слово (выделить) в документе, предварительно прочитав файл
-     defineWord(docID, DispatcherOperations::readTextFile(documentPath).first, invertedIndexesForThread);
+     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, filesNumber).first, invertedIndexesForThread);
 }
 
 void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
@@ -338,7 +338,7 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
                                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                                 {
                                     //Определить слово (выделить) в документе
-                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread);
+                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread, documents.size());
                                 }
 
                                 //Вернуть базу инвертированных индексов для каждого потока
