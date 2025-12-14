@@ -38,8 +38,9 @@ public:
     /**
      * Обновить базу инвертированных индексов
      * @param desiredNumberOfThreads Желаемое количество потоков
+     * @param maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов
      */
-    void updateInvertedIndexes(const unsigned int desiredNumberOfThreads);
+    void updateInvertedIndexes(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber);
 
     /**
      * Получить ссылку на базу инвертированных индексов

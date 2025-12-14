@@ -61,7 +61,7 @@ void SearchEngine::searchModifiedAll()
     //Timer t;
 
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
+    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads, maximumAllowableErrorsNumber);
 
     //Для замеров
     std::cout << '\n' << t.elapsed() << '\n';

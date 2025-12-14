@@ -256,7 +256,7 @@ void InvertedIndex::readDocument(std::size_t docID, const std::string& documentP
      defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, filesNumber).first, invertedIndexesForThread, filesNumber);
 }
 
-void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)
+void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads, )
 {
     //Если используется база путей файлов документов
     if (documentsBaseOrPathsBase != "yes")
@@ -309,7 +309,7 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
                                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                                 {
                                     //Определить слово (выделить) в документе
-                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread, documents.size());
+                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread, documents.size(), );
                                 }
 
                                 //Вернуть базу инвертированных индексов для каждого потока
