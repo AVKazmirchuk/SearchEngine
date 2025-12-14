@@ -106,8 +106,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
 
 void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
-    //Установить защиту на поиск и добавление слова в базе инвертированных индексов
-    //std::unique_lock<std::mutex> lgAddWord(mutexFindAddWord);
+
 
     //Найти слово в базе инвертированных индексов
     auto positionWord{invertedIndexesForThread.find(word)};
@@ -119,34 +118,6 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
         invertedIndexesForThread.emplace(word, std::vector<Entry>{{docID, 1}});
     }
     else
-        //Закомментированный код ниже в блоке применим для использования мьютексов. Без их применения он избыточен
-        //Слово в базе инвертированных индексов существует
-    /*{
-        //Снять защиту на поиск и добавление слова в базе инвертированных индексов
-        //lgAddWord.unlock();
-        //Установить защиту на поиск и добавление структуры инвертированного индекса
-        //std::unique_lock<std::mutex> lgAddEntry(mutexFindAddEntry);
-
-        //Найти структуру инвертированного индекса с равным ID документа нового и существующего слов
-        auto positionDocId{std::find_if(positionWord->second.begin(), positionWord->second.end(),
-                                        [docID = docID](const Entry& entry)
-                                        {
-                                            return entry.docID == docID;
-                                        })};
-        //ID документа нового и существующего слов равно
-        if (positionDocId != positionWord->second.end())
-        {
-            //Увеличить количество вхождений слова в документе
-            ++positionDocId->count;
-        }
-        else
-            //ID документа нового и существующего слов не равно
-        {
-            //Добавить структуру инвертированного индекса для нового ID документа по слову
-            invertedIndexesForThread[word].push_back({docID, 1});
-        }
-    }*/
-
     //Слово в базе инвертированных индексов существует
     {
         //ID документа нового и существующего слов равно. Достаточно проверить последнюю структуру инвертированного индекса
@@ -166,8 +137,8 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
 
 
 
-
     /*
+    //Закомментированный код ниже в блоке применим для использования мьютексов. Без их применения он избыточен
     //Установить защиту на поиск и добавление слова в базе инвертированных индексов
     //std::unique_lock<std::mutex> lgAddWord(mutexFindAddWord);
 
@@ -209,7 +180,7 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
     }*/
 }
 
-void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber)
+void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t)
 {
 
         //Разделители слов
@@ -282,7 +253,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber)
 {
      //Определить слово (выделить) в документе, предварительно прочитав файл
-     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, filesNumber).first, invertedIndexesForThread);
+     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, filesNumber).first, invertedIndexesForThread, filesNumber);
 }
 
 void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads)

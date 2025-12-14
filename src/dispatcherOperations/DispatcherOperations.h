@@ -315,6 +315,22 @@ private:
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
+     * Определить код ошибки и уровень логирования для множества файлов
+     * @param filesNumber Количество файлов
+     * @param errorNumber Количество ошибок
+     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
+     * @param errorLevelOneFile Уровень логирования для одного фойла
+     * @param errorLevelMultipleFiles Уровень логирования для всех файлов
+     * @param callingFunction Ссылка на вызывающую функцию
+     * @return Пара кода ошибки и уровня логирования для всех файлов
+     */
+    static std::pair<ErrorCode, ErrorLevel> determineErrorCodeAndErrorLevelForMultipleFiles(
+            std::size_t filesNumber,
+            std::size_t errorNumber, const unsigned int maximumAllowableErrorsNumber,
+            ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
+            const boost::source_location &callingFunction);
+
+    /**
      * Преобразовать код ошибки из внешней функции во внутренний код ошибки
      * @param errorCode Код ошибки из внешней функции
      * @return Код ошибки внутренний
@@ -327,6 +343,13 @@ private:
      * @return Уровень логировани
      */
     static const ErrorLevel getErrorLevelFrom(const std::string& functionName);
+
+    /**
+     * Получить имя функции вида "имя_класса::имя_функции"
+     * @param callingFunction Ссылка на вызывающую функцию
+     * @return Имя функции
+     */
+    static std::string getFunctionName(const boost::source_location &callingFunction);
 
     /**
      * Получить уровень логирования из объекта предоставленного BOOST_CURRENT_LOCATION
@@ -364,7 +387,7 @@ private:
                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
-     * Контейнер соответствия имени вызывающей функции и, ID пакета и текущим количествам файлов и ошибок
+     * Контейнер соответствия имени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок
      */
     inline static std::map<std::string,
                            std::map<

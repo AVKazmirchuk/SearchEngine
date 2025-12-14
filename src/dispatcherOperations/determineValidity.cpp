@@ -16,7 +16,8 @@ const ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& func
             {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
             {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
             {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
-            {"InvertedIndex::readDocument",                                 ErrorLevel::error},
+            {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
+            {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
             {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
             {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
             {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}
@@ -24,6 +25,24 @@ const ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& func
 
     //Вернуть уровень логирования
     return matchingFunctionNameAndErrorLevel.at(functionName);
+}
+//TODO привести в порядок получение имени функции и ошибки
+std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
+{
+    //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
+    std::string callingFunctionStr{callingFunction.to_string()};
+
+    //Подготовить переменные для определения начала и конца имени функции
+    std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
+    std::string::size_type beginNameFunction{endNameFunction};
+    //Количество символов имени функции
+    std::string::size_type symbolsNumber{};
+
+    //Подсчитать количествоо символов имени функции
+    for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
+    {}
+
+    return callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber);
 }
 
 ErrorLevel DispatcherOperations::getErrorLevel(const std::string& callingFunctionStr)
