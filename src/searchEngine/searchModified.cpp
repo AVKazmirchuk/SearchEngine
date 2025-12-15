@@ -92,7 +92,7 @@ void SearchEngine::searchModifiedDocuments()
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
 
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads);
+    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads, maximumAllowableErrorsNumber);
 
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();

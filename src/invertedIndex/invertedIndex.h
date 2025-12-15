@@ -65,7 +65,7 @@ private:
     /**
      * Сразу определить слово (выделить) в документе
      */
-    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&, const std::size_t){&InvertedIndex::defineWord};
+    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&, const std::size_t, const unsigned int){&InvertedIndex::defineWord};
 
     /**
      * База инвертированных индексов
@@ -101,24 +101,28 @@ private:
     /**
      * Запустить инвертированную индексацию документов в отдельных потоках
      * @param desiredNumberOfThreads Желаемое количество потоков
+     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
-    void startInvertedIndexing(const unsigned int desiredNumberOfThreads);
+    void startInvertedIndexing(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber);
 
     /**
      * Определить слово (выделить) в документе
      * @param docID ID документа
      * @param document Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
+     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
-    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t);
+    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t, const unsigned int maximumAllowableErrorsNumber);
 
     /**
      * Прочитать документ по его пути
      * @param docID ID документа
      * @param document Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
+     * @param filesNumber Количество файлов
+     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
-    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber);
+    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber, const unsigned int maximumAllowableErrorsNumber);
 
     /**
      * Слить базы инвертированного индекса подготовленные в разных потоках
