@@ -8,13 +8,13 @@
 
 
 
-void InvertedIndex::updateInvertedIndexes(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber)
+void InvertedIndex::updateInvertedIndexes(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber, const std::string documentsBaseOrPathsBase)
 {
     //Очистить базу инвертированных индексов
     clearInvertedIndexes();
 
     //Запустить инвертированную индексацию документов в отдельных потоках
-    startInvertedIndexing(desiredNumberOfThreads, maximumAllowableErrorsNumber);
+    startInvertedIndexing(desiredNumberOfThreads, maximumAllowableErrorsNumber, documentsBaseOrPathsBase);
 
     //Сортировать базу инвертированного индекса по возрастанию ID документа
     //sortByAscendingDocumentID();
