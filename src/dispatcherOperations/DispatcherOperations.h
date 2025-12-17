@@ -296,7 +296,7 @@ private:
       */
     static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
             const std::vector<std::string>& filePaths,
-            const unsigned int desiredNumberOfThreads,
+            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);

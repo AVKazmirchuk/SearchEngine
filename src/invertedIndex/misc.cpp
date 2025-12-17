@@ -7,7 +7,7 @@
 #include <algorithm>
 #include "invertedIndex.h"
 
-
+#include <iostream>
 
 std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desiredNumberOfThreads)
 {
@@ -23,7 +23,7 @@ std::pair<int, int> InvertedIndex::countNumberOfThreads(const unsigned int desir
     if (documents.size() % numberOfThreads)
     {
         //Увеличить количество потоков
-        ++numberOfThreads;
+        ++difference;
     }
 
     return {difference, numberOfThreads};

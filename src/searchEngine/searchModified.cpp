@@ -61,7 +61,7 @@ void SearchEngine::searchModifiedAll()
     //Timer t;
 
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads, maximumAllowableErrorsNumber);
+    invertedIndexObj.updateInvertedIndexes();
 
     //Для замеров
     std::cout << '\n' << t.elapsed() << '\n';
@@ -92,7 +92,7 @@ void SearchEngine::searchModifiedDocuments()
     documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
 
     //Обновить базу инвертированного индекса
-    invertedIndexObj.updateInvertedIndexes(desiredNumberOfThreads, maximumAllowableErrorsNumber);
+    invertedIndexObj.updateInvertedIndexes();
 
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();

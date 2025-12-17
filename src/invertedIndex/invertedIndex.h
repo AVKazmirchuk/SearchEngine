@@ -30,18 +30,24 @@ public:
     /**
      * Инициализирует ссылку на базу документов или путей файлов документов
      * @param in_documents Ссылка на базу документов или путей файлов документов
+     * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов
+     * @param in_desiredNumberOfThreads Желаемое количество потоков
      * @param in_documentsBaseOrPathsBase Признак формирования базы документов или путей файлов документов
      */
-    explicit InvertedIndex(const std::vector<std::string>& in_documents, const std::string& in_documentsBaseOrPathsBase)
-    : documents{in_documents} {}
+    explicit InvertedIndex(const std::vector<std::string>& in_documents,
+                           const unsigned int in_maximumAllowableErrorsNumber = 0,
+                           const unsigned int in_desiredNumberOfThreads = std::thread::hardware_concurrency(),
+                           const std::string& in_documentsBaseOrPathsBase = "yes")
+    : documents{in_documents},
+      maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber},
+      desiredNumberOfThreads{in_desiredNumberOfThreads},
+      documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}
+    {}
 
     /**
      * Обновить базу инвертированных индексов
-     * @param desiredNumberOfThreads Желаемое количество потоков
-     * @param maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов
-     * @param documentsBaseOrPathsBase Признак формирования базы документов или путей файлов документов
      */
-    void updateInvertedIndexes(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber = 0, const std::string documentsBaseOrPathsBase = "yes");
+    void updateInvertedIndexes();
 
     /**
      * Получить ссылку на базу инвертированных индексов
@@ -57,11 +63,6 @@ private:
      * Ссылка на базу документов или путей файлов документов
      */
     const std::vector<std::string>& documents;
-
-    /**
-     * Сразу определить слово (выделить) в документе
-     */
-    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&, const std::size_t, const unsigned int){&InvertedIndex::defineWord};
 
     /**
      * База инвертированных индексов
@@ -88,6 +89,26 @@ private:
     std::mutex mutexFindAddEntry;
 
     /**
+     * Признак формирования базы документов или путей файлов документов
+     */
+    const std::string documentsBaseOrPathsBase;
+
+    /**
+     * Желаемое количество потоков
+     */
+    const unsigned int desiredNumberOfThreads;
+
+    /**
+     * Максимальное количество непрочитанных файлов
+     */
+    const unsigned int maximumAllowableErrorsNumber;
+
+    /**
+     * Сразу определить слово (выделить) в документе
+     */
+    void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&){&InvertedIndex::defineWord};
+
+    /**
      * Определить количество потоков
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
@@ -99,7 +120,7 @@ private:
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
-    void startInvertedIndexing(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber);
+    void startInvertedIndexing();
 
     /**
      * Определить слово (выделить) в документе
@@ -108,7 +129,7 @@ private:
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
-    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t, const unsigned int maximumAllowableErrorsNumber);
+    void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Прочитать документ по его пути
@@ -118,7 +139,7 @@ private:
      * @param filesNumber Количество файлов
      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
-    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber, const unsigned int maximumAllowableErrorsNumber);
+    void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Слить базы инвертированного индекса подготовленные в разных потоках

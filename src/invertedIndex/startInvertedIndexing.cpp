@@ -180,7 +180,7 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
     }*/
 }
 
-void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t, const unsigned int)
+void InvertedIndex::defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
 
         //Разделители слов
@@ -250,13 +250,13 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
 }
 
-void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread, const std::size_t filesNumber, const unsigned int maximumAllowableErrorsNumber)
+void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
      //Определить слово (выделить) в документе, предварительно прочитав файл
-     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, filesNumber, 0, maximumAllowableErrorsNumber).first, invertedIndexesForThread, filesNumber, maximumAllowableErrorsNumber);
+     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, documents.size(), 0, maximumAllowableErrorsNumber).first, invertedIndexesForThread);
 }
 
-void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThreads, const unsigned int maximumAllowableErrorsNumber)
+void InvertedIndex::startInvertedIndexing()
 {
     //Если используется база путей файлов документов
     if (documentsBaseOrPathsBase != "yes")
@@ -298,7 +298,7 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
         }
 
         //Запустить чтение файлов в отдельном потоке в своём диапазоне
-        future = std::async([this, beginDocID = beginDocID, endDocID = endDocID, maximumAllowableErrorsNumber = maximumAllowableErrorsNumber]()
+        future = std::async([this, beginDocID = beginDocID, endDocID = endDocID]()
                             {
                                 //База инвертированных индексов для каждого потока
                                 std::map<std::string, std::vector<Entry>> invertedIndexesForThread;
@@ -307,7 +307,7 @@ void InvertedIndex::startInvertedIndexing(const unsigned int desiredNumberOfThre
                                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                                 {
                                     //Определить слово (выделить) в документе
-                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread, documents.size(), maximumAllowableErrorsNumber);
+                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread);
                                 }
 
                                 //Вернуть базу инвертированных индексов для каждого потока

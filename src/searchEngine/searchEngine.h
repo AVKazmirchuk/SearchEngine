@@ -43,7 +43,7 @@ public:
     SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, const std::string& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
     : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
       documentsObj{},
-      invertedIndexObj(documentsObj.getDocuments(), in_documentsBaseOrPathsBase),
+      invertedIndexObj(documentsObj.getDocuments(), in_maximumAllowableErrorsNumber, in_desiredNumberOfThreads, in_documentsBaseOrPathsBase),
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
       answersFilePath{in_answersFilePath}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
@@ -66,10 +66,10 @@ public:
     SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, std::string&& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
             : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
               documentsObj{},
-              invertedIndexObj(documentsObj.getDocuments(), in_documentsBaseOrPathsBase),
+              invertedIndexObj(documentsObj.getDocuments(), in_maximumAllowableErrorsNumber, in_desiredNumberOfThreads, in_documentsBaseOrPathsBase),
               requestsObj{},
               relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
-              answersFilePath{std::move(in_answersFilePath)}, documentsBaseOrPathsBase{std::move(in_documentsBaseOrPathsBase)}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
+              answersFilePath{std::move(in_answersFilePath)}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}, formatByWidth{in_formatByWidth}, desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
 
     {
         //Логировать сообщение о программе

@@ -42,7 +42,7 @@ std::pair<int, int> DispatcherOperations::countNumberOfThreads(const std::vector
     if (filePaths.size() % numberOfThreads)
     {
         //Увеличить количество потоков
-        ++numberOfThreads;
+        ++difference;
     }
 
     return {difference, numberOfThreads};

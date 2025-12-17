@@ -39,7 +39,7 @@ namespace constants
  * @param value Получаемое значение после конвертации
  * @return Признак успешности конвертации
  */
-bool convertStringToNumber(char *str, int &value)
+bool convertStringToNumber(const char *str, int &value)
 {
     //Создать объект потока для конвертации строки в число
     std::stringstream ss{str};
