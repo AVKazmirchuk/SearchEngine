@@ -8,7 +8,7 @@
 
 
 
-const ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& functionName)
+ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& functionName)
 {
     //Соответствие имени вызывающей функции и уровня логирования
     const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{

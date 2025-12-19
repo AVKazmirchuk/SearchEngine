@@ -132,10 +132,10 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
     //Определить количество потоков
-    std::pair<int, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
+    std::pair<std::size_t, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
 
     //Количество документов обрабатываемое одним потокам
-    int difference{tmp.first};
+    std::size_t difference{tmp.first};
 
     //Определить количество дополнительных потоков
     const unsigned int numberOfThreads = tmp.second;
@@ -159,9 +159,6 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         future = std::async(
                 [beginDocID, endDocID, &documents, &filePaths, &errorLevel, &message, &callingFunction]()
             {
-                //Количество непрочитанных документов
-                std::size_t errorNumber{};
-
                 //Для каждого документа
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
@@ -228,8 +225,8 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
 }
 
 std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErrorLevelForMultipleFiles(
-        std::size_t filesNumber,
-        std::size_t errorNumber, const unsigned int maximumAllowableErrorsNumber,
+        const std::size_t filesNumber,
+        const std::size_t errorNumber, const std::size_t maximumAllowableErrorsNumber,
         ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const boost::source_location &callingFunction)
 {
@@ -266,7 +263,7 @@ std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErro
 ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         const std::vector<std::string> &filePaths,
         const unsigned int desiredNumberOfThreads,
-        const unsigned int maximumAllowableErrorsNumber,
+        const std::size_t maximumAllowableErrorsNumber,
         ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const std::string& message,
         const boost::source_location &callingFunction)
@@ -324,7 +321,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         const std::string& filePath,
         const std::size_t filesNumber,
         const std::size_t packageID,
-        const unsigned int maximumAllowableErrorsNumber,
+        const std::size_t maximumAllowableErrorsNumber,
         ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const std::string& message,
         const boost::source_location &callingFunction)

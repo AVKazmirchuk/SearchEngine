@@ -32,7 +32,7 @@ public:
      * @param in_precision Количество знаков после запятой
      */
     RelevantResponse(const std::map<std::string, std::vector<Entry>>& in_invertedIndexes,
-                     const std::vector<std::string>& in_requests, int in_precision)
+                     const std::vector<std::string>& in_requests, unsigned int in_precision)
 
     : invertedIndexes{in_invertedIndexes},
       requests{in_requests},
@@ -192,7 +192,7 @@ private:
     /**
      * Количество знаков после запятой
      */
-    int precision;
+    unsigned int precision;
 
     /**
      * Определить количество документов
@@ -222,7 +222,7 @@ private:
      * @param value Значение
      * @return Округлённое значение
      */
-    float roundUpToPrecision(float value);
+    float roundUpToPrecision(float value) const;
 
     /**
      * Сортировать документы по убыванию релевантности

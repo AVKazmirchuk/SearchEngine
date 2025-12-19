@@ -64,7 +64,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
     maxResponses = maxResponses < 1 ? 1 : maxResponses;
 
     //Определить максимальное количество ответов в зависимости от действительно возможных
-    std::size_t updatedMaxResponses{(answers[0].size() <= maxResponses ? answers[0].size() : maxResponses)};
+    unsigned int updatedMaxResponses{(answers[0].size() <= maxResponses ? answers[0].size() : maxResponses)};
 
     //Точность (количество знаков после запятой) вывода относительной релевантности
     float epsilon{1/static_cast<float>(std::pow(10, precision))};
@@ -147,7 +147,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
 
         //Запрос имеет более одного ответа
         //Для каждой структуры относительного индекса
-        for (std::size_t relativeIndex{0}; relativeIndex < updatedMaxResponses; ++relativeIndex)
+        for (unsigned int relativeIndex{0}; relativeIndex < updatedMaxResponses; ++relativeIndex)
         {
             //Ранг меньше точности (ранг считается нулевым)
             if (answers[requestId][relativeIndex].second < epsilon)

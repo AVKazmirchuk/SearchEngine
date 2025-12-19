@@ -39,7 +39,7 @@ public:
      * @param in_requestsFilePath Ссылка на путь файла запросов
      * @param in_precision Количество знаков после запятой
      */
-    ConverterJSON(const std::string& in_configFilePath, const std::string& in_requestsFilePath, int in_precision)
+    ConverterJSON(const std::string& in_configFilePath, const std::string& in_requestsFilePath, unsigned int in_precision)
 
     : configConverterJson(in_configFilePath, in_requestsFilePath),
     configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
@@ -54,7 +54,7 @@ public:
      * @param in_requestsFilePath Ссылка на путь файла запросов
      * @param in_precision Количество знаков после запятой
      */
-    ConverterJSON(std::string&& in_configFilePath, std::string&& in_requestsFilePath, int in_precision)
+    ConverterJSON(std::string&& in_configFilePath, std::string&& in_requestsFilePath, unsigned int in_precision)
 
             : configConverterJson(std::move(in_configFilePath), std::move(in_requestsFilePath)),
             configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
@@ -254,7 +254,7 @@ private:
     /**
      * Максимальное количество ответов
      */
-    int maxResponses;
+    unsigned int maxResponses;
 
     //Инициализировать
     void initialize();
@@ -266,7 +266,7 @@ private:
     /**
      * Количество знаков после запятой
      */
-    int precision;
+    unsigned int precision;
 
     /**
      * Проверить пути файлов документов (существование)

@@ -21,7 +21,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
             "americano cappuccino"
     };
     const std::vector<std::string> request = {"milk water", "sugar"};
-    const int precision{6};
+    const unsigned int precision{6};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
                     {2, 1},

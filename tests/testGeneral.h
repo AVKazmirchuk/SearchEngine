@@ -15,9 +15,9 @@
 
 namespace testConstants
 {
-    extern const int precision;
+    extern const unsigned int precision;
 
-    extern const int maxResponses;
+    extern const unsigned int maxResponses;
 }
 
 

@@ -11,7 +11,7 @@
 
 
 
-std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
+std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths) const
 {
     //Прочитать документы
     return DispatcherOperations::readMultipleTextFiles(filePaths, desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;

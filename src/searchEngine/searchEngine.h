@@ -40,7 +40,7 @@ public:
      * @param in_desiredNumberOfThreads Желаемое количество потоков
      * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
      */
-    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, const std::string& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
+    SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, const std::string& in_documentsBaseOrPathsBase, unsigned int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const std::size_t in_maximumAllowableErrorsNumber)
     : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
       documentsObj{},
       invertedIndexObj(documentsObj.getDocuments(), in_maximumAllowableErrorsNumber, in_desiredNumberOfThreads, in_documentsBaseOrPathsBase),
@@ -63,7 +63,7 @@ public:
      * @param in_desiredNumberOfThreads Желаемое количество потоков
      * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
      */
-    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, std::string&& in_documentsBaseOrPathsBase, int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const unsigned int in_maximumAllowableErrorsNumber)
+    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath, std::string&& in_documentsBaseOrPathsBase, unsigned int in_precision, int in_formatByWidth, const unsigned int in_desiredNumberOfThreads, const std::size_t in_maximumAllowableErrorsNumber)
             : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
               documentsObj{},
               invertedIndexObj(documentsObj.getDocuments(), in_maximumAllowableErrorsNumber, in_desiredNumberOfThreads, in_documentsBaseOrPathsBase),
@@ -141,7 +141,7 @@ private:
     /**
      * Максимальное количество непрочитанных файлов
      */
-    const unsigned int maximumAllowableErrorsNumber;
+    const std::size_t maximumAllowableErrorsNumber;
 
     /**
      * Преобразовать базу релевантности ответов в другой тип
@@ -160,7 +160,7 @@ private:
      * @param filePaths Ссылка на контейнер путей файлов
      * @return Контейнер документов
      */
-    std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths);
+    std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths) const;
 
     //Для тестирования передачи контейнера по ссылке
     //void readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents);

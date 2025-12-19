@@ -24,7 +24,7 @@ namespace constants
     std::string launchConsole{"yes"};
 
     //Количество знаков после запятой
-    int precision{6};
+    unsigned int precision{6};
     //Ширина вывода
     int formatByWidth{2};
     //Желаемое количество потоков

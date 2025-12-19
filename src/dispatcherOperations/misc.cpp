@@ -8,7 +8,7 @@
 
 
 
-const ErrorCode DispatcherOperations::convertErrorCodeFrom(const kav::ErrorCode errorCode)
+ErrorCode DispatcherOperations::convertErrorCodeFrom(const kav::ErrorCode errorCode)
 {
     //Соответствие кодов ошибки внутреннего и внешнего
     const std::map<kav::ErrorCode, ErrorCode> matchingErrorCodes{
@@ -29,7 +29,7 @@ const ErrorCode DispatcherOperations::convertErrorCodeFrom(const kav::ErrorCode 
     return matchingErrorCodes.at(errorCode);
 }
 
-std::pair<int, const unsigned int> DispatcherOperations::countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
+std::pair<std::size_t, const unsigned int> DispatcherOperations::countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
 {
     //Количество дополнительных потоков
     //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.

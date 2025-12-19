@@ -232,7 +232,7 @@ public:
     static ResultOfReadMultipleTextFiles readMultipleTextFiles(
             const std::vector<std::string>& filePaths,
             const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
-            const unsigned int maximumAllowableErrorsNumber = 1,
+            const std::size_t maximumAllowableErrorsNumber = 1,
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
@@ -253,7 +253,7 @@ public:
             const std::string& filePath,
             const std::size_t filesNumber,
             const std::size_t packageID = 0,
-            const unsigned int maximumAllowableErrorsNumber = 1,
+            const std::size_t maximumAllowableErrorsNumber = 1,
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const std::string& message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
@@ -325,8 +325,8 @@ private:
      * @return Пара кода ошибки и уровня логирования для всех файлов
      */
     static std::pair<ErrorCode, ErrorLevel> determineErrorCodeAndErrorLevelForMultipleFiles(
-            std::size_t filesNumber,
-            std::size_t errorNumber, const unsigned int maximumAllowableErrorsNumber,
+            const std::size_t filesNumber,
+            const std::size_t errorNumber, const std::size_t maximumAllowableErrorsNumber,
             ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
             const boost::source_location &callingFunction);
 
@@ -335,14 +335,14 @@ private:
      * @param errorCode Код ошибки из внешней функции
      * @return Код ошибки внутренний
      */
-    static const ErrorCode convertErrorCodeFrom(const kav::ErrorCode errorCode);
+    static ErrorCode convertErrorCodeFrom(const kav::ErrorCode errorCode);
 
     /**
      * Получить уровень логирования на основе вызывающей функции
      * @param functionName Ссылка на имя функции
      * @return Уровень логировани
      */
-    static const ErrorLevel getErrorLevelFrom(const std::string& functionName);
+    static ErrorLevel getErrorLevelFrom(const std::string& functionName);
 
     /**
      * Получить имя функции вида "имя_класса::имя_функции"
@@ -364,7 +364,7 @@ private:
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов для одного потока и фактическое количество потоков
      */
-    static std::pair<int, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads);
+    static std::pair<std::size_t, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads);
 
     /**
      * Подсчитать количество непрочитанных документов

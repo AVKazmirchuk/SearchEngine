@@ -67,13 +67,13 @@ void kav::Logger::WriterMessage::startMonitor(LPCSTR lpApplicationName)
 
     //Запустить независимый процесс
     if( !CreateProcess( lpApplicationName,   // No module name (use command line)
-                        NULL,        // Command line
-                        NULL,           // Process handle not inheritable
-                        NULL,           // Thread handle not inheritable
+                        nullptr,        // Command line
+                        nullptr,           // Process handle not inheritable
+                        nullptr,           // Thread handle not inheritable
                         FALSE,          // Set handle inheritance to FALSE
                         CREATE_NEW_CONSOLE,              // No creation flags
-                        NULL,           // Use parent's environment block
-                        NULL,           // Use parent's starting directory
+                        nullptr,           // Use parent's environment block
+                        nullptr,           // Use parent's starting directory
                         &si,            // Pointer to STARTUPINFO structure
                         &pi )           // Pointer to PROCESS_INFORMATION structure
             )
@@ -151,7 +151,7 @@ void kav::Logger::WriterMessage::run()
     {
         //Ожидать сигнал о добавлении сообщения в контейнер сообщений
         std::unique_lock<std::mutex> uniqueLock(Logger::ptrToLogger->mutReadWriteMessages);
-        Logger::ptrToLogger->cvPushMessage.wait(uniqueLock, [this]() { return Logger::ptrToLogger->pushMessage; });
+        Logger::ptrToLogger->cvPushMessage.wait(uniqueLock, []() { return Logger::ptrToLogger->pushMessage; });
 
         //Переместить сообщения из основного потока
         messages = std::move(Logger::ptrToLogger->messages);

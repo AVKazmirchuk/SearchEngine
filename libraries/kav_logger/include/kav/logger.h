@@ -581,13 +581,13 @@ namespace kav
              * @param processName Имя процесса
              * @return Процесс запущен (true)/не запущен (false)
              */
-            bool isProcessRun(const char *processName);
+            static bool isProcessRun(const char *processName);
 
             /**
              * Запустить независимый процесс получения и вывода сообщений
              * @param lpApplicationName Имя процесса
              */
-            void startMonitor(LPCSTR lpApplicationName);
+            static void startMonitor(LPCSTR lpApplicationName);
 
             /**
              * Обработать контейнер сообщений
@@ -738,7 +738,7 @@ namespace kav
          * @param level Уровень логирования
          * @return Строка
          */
-        std::string levelToString(Level level);
+        static std::string levelToString(Level level);
 
         /**
          * Перевести время создания файла в строку
@@ -779,7 +779,7 @@ namespace kav
              * Получить код исключения
              * @return Код исключения
              */
-            [[nodiscard]] ErrorCodeStub getErrorCode() const
+            static [[nodiscard]] ErrorCodeStub getErrorCode()
             {
                 return ERROR_STUB;
             }
