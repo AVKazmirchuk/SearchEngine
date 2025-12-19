@@ -296,7 +296,7 @@ private:
       */
     static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
             const std::vector<std::string>& filePaths,
-            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            const unsigned int desiredNumberOfThreads,
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
@@ -364,7 +364,7 @@ private:
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов для одного потока и фактическое количество потоков
      */
-    static std::pair<int, int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads);
+    static std::pair<int, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads);
 
     /**
      * Подсчитать количество непрочитанных документов

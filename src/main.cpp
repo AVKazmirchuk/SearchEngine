@@ -28,9 +28,9 @@ namespace constants
     //Ширина вывода
     int formatByWidth{2};
     //Желаемое количество потоков
-    int desiredNumberOfThreads{static_cast<int>(std::thread::hardware_concurrency() - 2)};
+    unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
     //Максимальное количество непрочитанных файлов
-    int maximumAllowableErrorsNumber{1};
+    std::size_t maximumAllowableErrorsNumber{1};
 }
 
 /**
@@ -39,7 +39,7 @@ namespace constants
  * @param value Получаемое значение после конвертации
  * @return Признак успешности конвертации
  */
-bool convertStringToNumber(const char *str, int &value)
+bool convertStringToNumber(const char *str, std::size_t &value)
 {
     //Создать объект потока для конвертации строки в число
     std::stringstream ss{str};
@@ -147,7 +147,7 @@ bool processProgramArguments(int argc, char* argv[])
         }
 
         //Подготовить переменную для конвертации
-        int value;
+        std::size_t value;
 
         //Количество знаков после запятой
         if (std::strcmp(argv[i], "/p") == 0)

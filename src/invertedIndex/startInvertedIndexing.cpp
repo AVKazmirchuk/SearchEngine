@@ -30,7 +30,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
         if ((idx + 1) < futures.size())
         {
             //Определить количество баз инвертированного индекса для каждого потока в зависимости от количества элементов контейнера и индекса текущего элемента
-            int basesNumberInStream = (futures.size() - idx) >= initialBasesNumberInStream ? initialBasesNumberInStream : futures.size() - idx;
+            const int basesNumberInStream = (futures.size() - idx) >= initialBasesNumberInStream ? initialBasesNumberInStream : futures.size() - idx;
             //Определить контейнер баз инвертированного индекса для потока
             std::vector<std::map<std::basic_string<char>, std::vector<Entry>>> invertedIndexesForThread(basesNumberInStream);
 
@@ -270,13 +270,13 @@ void InvertedIndex::startInvertedIndexing()
      */
 
     //Определить количество потоков
-    std::pair<int, int> tmp{countNumberOfThreads(desiredNumberOfThreads)};
+    std::pair<int, const unsigned int> tmp{countNumberOfThreads()};
 
     //Количество документов обрабатываемое одним потокам
     int difference{tmp.first};
 
     //Определить количество дополнительных потоков
-    int numberOfThreads = tmp.second;
+    const unsigned int numberOfThreads = tmp.second;
 
     //Контейнер результатов потоков
     std::vector<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
@@ -361,7 +361,7 @@ void InvertedIndex::startInvertedIndexing()
 
 
         //Начальное количество баз инвертированного индекса для каждого потока. Наименьшее время - при значении 2.
-        int initialBasesNumberInStream{2};
+        const std::size_t initialBasesNumberInStream{2};
 
         //Слить базы инвертированного индекса подготовленные в разных потоках
         mergeInvertedIndexBases(futures, initialBasesNumberInStream);

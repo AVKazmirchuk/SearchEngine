@@ -113,7 +113,7 @@ private:
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
      */
-    std::pair<int, int> countNumberOfThreads(const unsigned int desiredNumberOfThreads);
+    std::pair<int, const unsigned int> countNumberOfThreads();
 
     /**
      * Запустить инвертированную индексацию документов в отдельных потоках

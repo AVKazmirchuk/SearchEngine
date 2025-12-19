@@ -132,16 +132,15 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
     //Определить количество потоков
-    std::pair<int, int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
+    std::pair<int, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
 
     //Количество документов обрабатываемое одним потокам
     int difference{tmp.first};
 
     //Определить количество дополнительных потоков
-    int numberOfThreads = tmp.second;
+    const unsigned int numberOfThreads = tmp.second;
 
     //Контейнер результатов потоков
-    //std::list<std::future<std::vector<std::pair<std::string, ErrorCode>>>> futures(numberOfThreads);
     std::list<std::future<void>> futures(numberOfThreads);
 
     //ID первого документа для каждого потока
