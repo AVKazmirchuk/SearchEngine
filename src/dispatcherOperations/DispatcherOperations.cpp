@@ -8,8 +8,13 @@
 #include "timer.h"
 
 
-ErrorCode DispatcherOperations::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth,
-                                                     ErrorLevel errorLevel, const std::string& message, const boost::source_location &callingFunction)
+ErrorCode DispatcherOperations::writeJSONFile(
+        const std::string& filePath,
+        const JSON& objectJSON,
+        const unsigned int formatByWidth,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
     //Записать JSON-файл
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::writeJSONFile(filePath, objectJSON, formatByWidth)};
@@ -22,9 +27,11 @@ ErrorCode DispatcherOperations::writeJSONFile(const std::string& filePath, const
     return errorCode;
 }
 
-std::pair<JSON, ErrorCode> DispatcherOperations::readJSONFile(const std::string& filePath, ErrorLevel errorLevel,
-                                                                     const std::string& message,
-                                                                     const boost::source_location &callingFunction)
+std::pair<JSON, ErrorCode> DispatcherOperations::readJSONFile(
+        const std::string& filePath,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
     //Прочитать JSON-файл
     std::pair<JSON, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readJSONFile(filePath)};
@@ -38,9 +45,12 @@ std::pair<JSON, ErrorCode> DispatcherOperations::readJSONFile(const std::string&
 
 }
 
-ErrorCode DispatcherOperations::checkJSONStructureMatch(const std::string& filePath, const JSON& objectJSON, const JSON& objectJSONTemplate,
-                                                               ErrorLevel errorLevel, const std::string& message,
-                                                               const boost::source_location &callingFunction)
+ErrorCode DispatcherOperations::checkJSONStructureMatch(
+        const std::string& filePath,
+        const JSON& objectJSON, const JSON& objectJSONTemplate,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
     //Проверить JSON-структуру на соответствие шаблону
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkJSONStructureMatch(objectJSON, objectJSONTemplate)};
@@ -53,8 +63,11 @@ ErrorCode DispatcherOperations::checkJSONStructureMatch(const std::string& fileP
     return errorCode;
 }
 
-ErrorCode DispatcherOperations::checkFilePathsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
-                                                           const boost::source_location &callingFunction)
+ErrorCode DispatcherOperations::checkFilePathsArray(
+        const JSON& objectJSON,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON)};
@@ -74,8 +87,11 @@ ErrorCode DispatcherOperations::checkFilePathsArray(const JSON& objectJSON, Erro
     return errorCode;
 }
 
-ErrorCode DispatcherOperations::checkRequestsArray(const JSON& objectJSON, ErrorLevel errorLevel, const std::string& message,
-                                                          const boost::source_location &callingFunction)
+ErrorCode DispatcherOperations::checkRequestsArray(
+        const JSON& objectJSON,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
     //Проверить массив JSON-объекта на пустоту
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON)};
@@ -94,9 +110,11 @@ ErrorCode DispatcherOperations::checkRequestsArray(const JSON& objectJSON, Error
     return errorCode;
 }
 
-std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(const std::string& filePath, ErrorLevel errorLevel,
-                                                                            const std::string& message,
-                                                                            const boost::source_location &callingFunction)
+std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(
+        const std::string& filePath,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
     //Прочитать текстовый файл
     std::pair<std::string, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readTextFile(filePath)};
@@ -109,18 +127,20 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(const std::
     return tmp;
 }
 
-std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultipleFiles(const std::string& filePath, ErrorLevel errorLevel,
-                                                                            const std::string& message,
-                                                                            const boost::source_location &callingFunction)
+std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultipleFiles(
+        const std::string& filePath,
+        const std::string& message,
+        ErrorLevel errorLevel,
+        const boost::source_location &callingFunction)
 {
-    return DispatcherOperations::readTextFile(filePath, errorLevel, message, BOOST_CURRENT_LOCATION);
+    return DispatcherOperations::readTextFile(filePath, message, errorLevel, BOOST_CURRENT_LOCATION);
 }
 
 std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations::readMultipleTextFilesImpl(
         const std::vector<std::string>& filePaths,
         const unsigned int desiredNumberOfThreads,
+        const std::string& message,
         ErrorLevel errorLevel,
-        const std::string &message,
         const boost::source_location &callingFunction)
 {
 
@@ -164,7 +184,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
                         //TODO Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
-                        std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], errorLevel, message, callingFunction)};
+                        std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], message, errorLevel, callingFunction)};
                         //Скопировать (переместить) результаты в контейнер прочитанных документов
                         documents.first[currentDocID] = std::move(tmp.first);
                         documents.second[currentDocID] = tmp.second;
@@ -264,15 +284,15 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         const std::vector<std::string> &filePaths,
         const unsigned int desiredNumberOfThreads,
         const std::size_t maximumAllowableErrorsNumber,
-        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const std::string& message,
+        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const boost::source_location &callingFunction)
 {
     //Timer test
     //Timer t;
 
     //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, errorLevelOneFile, message, callingFunction)};
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, message, errorLevelOneFile, callingFunction)};
 
     //std::cout << '\n' << sizeof(documents) << '\n';
     //std::cout << '\n' << t.elapsed() << '\n';
@@ -320,15 +340,37 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
 std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSequentially(
         const std::string& filePath,
         const std::size_t filesNumber,
-        const std::size_t packageID,
         const std::size_t maximumAllowableErrorsNumber,
-        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
+        const std::size_t packageID,
         const std::string& message,
+        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const boost::source_location &callingFunction)
 {
+    /**
+     * Контейнер соответствия имени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок.
+     * Используется в функции readMultipleTextFilesSequentially
+     */
+     /* std::map<std::string, //Имя функции, вида "DispatcherOperations::readMultipleTextFilesSequentially"
+                           std::map<
+                                    std::size_t, //ID пакета (для отделения разных наборов файлов в потоках)
+                                    std::pair<
+                                              std::atomic<std::size_t>, std::atomic<std::size_t> //Текущее количество файлов и ошибок в пакете
+                                             >
+                                   >
+                          > currentErrorsNumber*/
 
     //Прочитать текстовый файл
-    std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFile(filePath, errorLevelOneFile, message, BOOST_CURRENT_LOCATION)};
+    std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFile(filePath, message, errorLevelOneFile, BOOST_CURRENT_LOCATION)};
+
+    //Найти имя функции в контейнере соответствия
+    auto positionOfFunctionName{currentErrorsNumber.find(getFunctionName(callingFunction))};
+
+    //Имя функции в контейнере соответствия не существует
+    if (positionOfFunctionName == currentErrorsNumber.end())
+    {
+        //Добавить слово со структурой инвертированного индекса в базу инвертированных индексов
+        currentErrorsNumber.emplace(getFunctionName(callingFunction), {0, {std::atomic<std::size_t>(0), std::atomic<std::size_t>(0)}});
+    }
 
     //Увеличить количество прочитанных документов
     ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].first;
@@ -363,15 +405,6 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     }
 
     return tmp;
-
-    /*inline static std::map<std::string,
-            std::map<
-                    std::size_t,
-                    std::pair<
-                            std::atomic<std::size_t>, std::atomic<std::size_t>
-                    >
-            >
-    > currentErrorsNumber{};*/
 }
 
 //Для тестирования передачи контейнера по ссылке

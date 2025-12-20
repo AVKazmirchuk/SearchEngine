@@ -93,7 +93,7 @@ namespace kav
              * @param processName Имя процесса
              * @return Процесс запущен (true)/не запущен (false)
              */
-            bool isProcessRun(const char *processName);
+            static bool isProcessRun(const char *processName);
         };
 
         //Объект удаления очереди сообщений. Используется только его конструктор

@@ -26,11 +26,11 @@ namespace constants
     //Количество знаков после запятой
     unsigned int precision{6};
     //Ширина вывода
-    int formatByWidth{2};
+    unsigned int formatByWidth{2};
     //Желаемое количество потоков
     unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
     //Максимальное количество непрочитанных файлов
-    std::size_t maximumAllowableErrorsNumber{1};
+    std::size_t maximumAllowableErrorsNumber{};
 }
 
 /**

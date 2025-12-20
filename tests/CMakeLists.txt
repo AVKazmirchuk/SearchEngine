@@ -46,7 +46,7 @@ FetchContent_MakeAvailable(googletest)
 #Пока сделал простым перечислением всех директорий
 #TODO Надо научиться добавлять исключения
 file(GLOB CPP_CONVERTER_JSON CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/converterJSON/*.cpp")
-file(GLOB CPP_DISPATCHER_OPERATION_VALIDITY CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/dispatcherOperationValidity/*.cpp")
+file(GLOB CPP_DISPATCHER_OPERATION_VALIDITY CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/dispatcherOperations/*.cpp")
 file(GLOB CPP_DOCUMENTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/documents/*.cpp")
 file(GLOB CPP_INVERTED_INDEX CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/invertedIndex/*.cpp")
 file(GLOB CPP_RELEVANT_RESPONSE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/relevantResponse/*.cpp")

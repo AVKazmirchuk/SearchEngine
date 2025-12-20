@@ -81,7 +81,7 @@ struct ResultOfReadMultipleTextFiles
     /**
      * Количество непрочитанных документов
      */
-    std::size_t errorNumber;
+    std::size_t errorNumber{};
 
     /**
      * Код общей ошибки
@@ -148,9 +148,13 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
-    static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
-                                   ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static ErrorCode writeJSONFile(
+            const std::string &filePath,
+            const JSON &objectJSON,
+            const unsigned int formatByWidth = 2,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Проверить JSON-структуру на соответствие шаблону
@@ -162,10 +166,12 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
-    static ErrorCode
-    checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                            ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static ErrorCode checkJSONStructureMatch(
+            const std::string &filePath,
+            const JSON &objectJSON, const JSON &objectJSONTemplate,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Проверить массив JSON-объекта путей файлов на пустоту
@@ -175,9 +181,11 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
-    static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                         const std::string &message = "",
-                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static ErrorCode checkFilePathsArray(
+            const JSON &objectJSON,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Проверить массив JSON-объекта запросов на пустоту
@@ -187,9 +195,11 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
-    static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                        const std::string &message = "",
-                                        const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static ErrorCode checkRequestsArray(
+            const JSON &objectJSON,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Прочитать JSON-файл
@@ -199,10 +209,11 @@ public:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара JSON-объекта и кода ошибки
       */
-    static std::pair<JSON, ErrorCode>
-    readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static std::pair<JSON, ErrorCode> readJSONFile(
+            const std::string &filePath,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
       * Прочитать текстовый файл
@@ -214,8 +225,8 @@ public:
       */
     static std::pair<std::string, ErrorCode> readTextFile(
             const std::string &filePath,
+            const std::string& message = "",
             ErrorLevel errorLevel = ErrorLevel::no_level,
-            const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
@@ -232,9 +243,9 @@ public:
     static ResultOfReadMultipleTextFiles readMultipleTextFiles(
             const std::vector<std::string>& filePaths,
             const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
-            const std::size_t maximumAllowableErrorsNumber = 1,
+            const std::size_t maximumAllowableErrorsNumber = 0,
+            const std::string& message = "",
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
-            const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
@@ -252,26 +263,26 @@ public:
     static std::pair<std::string, ErrorCode> readMultipleTextFilesSequentially(
             const std::string& filePath,
             const std::size_t filesNumber,
+            const std::size_t maximumAllowableErrorsNumber = 0,
             const std::size_t packageID = 0,
-            const std::size_t maximumAllowableErrorsNumber = 1,
-            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const std::string& message = "",
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     //Для тестирования передачи контейнера по ссылке
     /*static void readTextFileRef(
             const std::string &filePath,
-            std::string &document, ErrorCode &errorCode,
-            ErrorLevel errorLevel = ErrorLevel::no_level,
+            std::string &document,
             const std::string &message = "",
+            ErrorCode &errorCode, ErrorLevel errorLevel = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
 
     //Для тестирования передачи контейнера по ссылке
     /*static void readMultipleTextFilesImplRef(
             const std::vector<std::string>& filePaths,
             std::pair<std::vector<std::string>, std::vector<ErrorCode>> &documents,
-            ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string &message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
 
     //Для тестирования передачи контейнера по ссылке
@@ -279,8 +290,8 @@ public:
             const std::vector<std::string>& filePaths,
             ResultOfReadMultipleTextFiles &documents,
             std::size_t maximumAllowableErrorsNumber = 1,
-            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const std::string& message = "",
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
 
 private:
@@ -297,8 +308,8 @@ private:
     static std::pair<std::vector<std::string>, std::vector<ErrorCode>> readMultipleTextFilesImpl(
             const std::vector<std::string>& filePaths,
             const unsigned int desiredNumberOfThreads,
+            const std::string& message = "",
             ErrorLevel errorLevel = ErrorLevel::no_level,
-            const std::string &message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
@@ -309,10 +320,11 @@ private:
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара текста и кода ошибки
       */
-    static std::pair<std::string, ErrorCode>
-    readTextFileFromMultipleFiles(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                  const std::string &message = "",
-                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static std::pair<std::string, ErrorCode> readTextFileFromMultipleFiles(
+            const std::string &filePath,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
      * Определить код ошибки и уровень логирования для множества файлов
@@ -381,19 +393,22 @@ private:
      * @param message Ссылка на сообщение
      * @param callingFunction Ссылка на вызывающую функцию
      */
-    static void determineValidity(const std::string &filePath, ErrorCode errorCode = ErrorCode::no_error,
-                                  ErrorLevel errorLevel = ErrorLevel::no_level,
-                                  const std::string &message = "",
-                                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+    static void determineValidity(
+            const std::string &filePath,
+            ErrorCode errorCode = ErrorCode::no_error,
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const std::string& message = "",
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
-     * Контейнер соответствия имени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок
+     * Контейнер соответствия имени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок.
+     * Используется в функции readMultipleTextFilesSequentially
      */
-    inline static std::map<std::string,
+    inline static std::map<std::string, //Имя функции, вида "DispatcherOperations::readMultipleTextFilesSequentially"
                            std::map<
-                                    std::size_t,
+                                    std::size_t, //ID пакета (для отделения разных наборов файлов в потоках)
                                     std::pair<
-                                              std::atomic<std::size_t>, std::atomic<std::size_t>
+                                              std::atomic<std::size_t>, std::atomic<std::size_t> //Текущее количество файлов и ошибок в пакете
                                              >
                                    >
                           > currentErrorsNumber{};

@@ -64,7 +64,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
     maxResponses = maxResponses < 1 ? 1 : maxResponses;
 
     //Определить максимальное количество ответов в зависимости от действительно возможных
-    unsigned int updatedMaxResponses{(answers[0].size() <= maxResponses ? answers[0].size() : maxResponses)};
+    unsigned int updatedMaxResponses{(answers[0].size() <= maxResponses ? static_cast<unsigned int>(answers[0].size()) : maxResponses)};
 
     //Точность (количество знаков после запятой) вывода относительной релевантности
     float epsilon{1/static_cast<float>(std::pow(10, precision))};

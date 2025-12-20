@@ -65,7 +65,7 @@ void DispatcherOperations::determineValidity(
         const std::string &filePath,
         ErrorCode errorCode,
         ErrorLevel errorLevel,
-        const std::string &message,
+        const std::string& message,
         const boost::source_location &callingFunction)
 {
     //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку

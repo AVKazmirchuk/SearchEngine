@@ -30,14 +30,8 @@ void SearchEngine::writeAnswersToFile(const std::string& filePath)
     DispatcherOperations::writeJSONFile(filePath, converterJSONObj.getAnswersJSON(), formatByWidth);
 }
 
-void SearchEngine::searchModifiedAll()
+void SearchEngine::determineDocumentsBaseOrPathsBase()
 {
-    //Очистить список документов
-    documentsObj.clearDocuments();
-
-    //Для замеров
-    Timer t;
-
     if (documentsBaseOrPathsBase == "yes")
     {
         //Обновить список документов из файлов
@@ -48,6 +42,18 @@ void SearchEngine::searchModifiedAll()
         //Обновить список путей файлов документов
         documentsObj.updateDocuments(converterJSONObj.getFilePaths());
     }
+}
+
+void SearchEngine::searchModifiedAll()
+{
+    //Очистить список документов
+    documentsObj.clearDocuments();
+
+    //Для замеров
+    Timer t;
+
+    //Определить: формировать базу документов или путей файлов документов
+    determineDocumentsBaseOrPathsBase();
 
     //Для тестирования передачи контейнера по ссылке
     /*ResultOfReadMultipleTextFiles documents;
@@ -88,8 +94,8 @@ void SearchEngine::searchModifiedDocuments()
     //Очистить список документов
     documentsObj.clearDocuments();
 
-    //Обновить список документов из файлов
-    documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+    //Определить: формировать базу документов или путей файлов документов
+    determineDocumentsBaseOrPathsBase();
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();

@@ -12,12 +12,12 @@
 
 
 
-void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures, unsigned int initialBasesNumberInStream)
+void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures)
 {
     //Начальное количество баз инвертированного индекса для каждого потока должно быть в следующих очевидных пределах
     //Если начальное количество баз инвертированного индекса для каждого потока меньше нижнего предела - установить по нижнему пределу
     if (initialBasesNumberInStream < 2) initialBasesNumberInStream = 2;
-        //Если начальное количество баз инвертированного индекса для каждого потока больше верхнего предела - установить по верхнему пределу
+    //Если начальное количество баз инвертированного индекса для каждого потока больше верхнего предела - установить по верхнему пределу
     else if (initialBasesNumberInStream > futures.size()) initialBasesNumberInStream = futures.size();
 
     //Определить индекс для записи в контейнер результатов потоков
@@ -42,7 +42,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
                     //Переместить их из контейнера результатов потоков
                     invertedIndexesForThread[k] = std::move(futures[idx + k]).get();
                 }
-                    //Обработать все исключения, выброшенные в потоках
+                //Обработать выше все исключения, выброшенные в потоках
                 catch (const std::exception& e)
                 {
                     throw;
@@ -52,7 +52,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
             //Записать результат в контейнер результатов потоков
             futures[i] = std::async([invertedIndexesForThread = std::move(invertedIndexesForThread)]() mutable
                                     {
-                                        //Пока контейнер баз не обошли
+                                        //Пока контейнер баз не пройден
                                         for (unsigned int l{1}; l < invertedIndexesForThread.size(); ++l)
                                         {
                                             //Для каждой базы инвертированного индекса
@@ -100,7 +100,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
     if (i > 1)
     {
         //Вызвать рекурсивно функцию
-        mergeInvertedIndexBases(futures, initialBasesNumberInStream);
+        mergeInvertedIndexBases(futures);
     }
 }
 
@@ -253,7 +253,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
      //Определить слово (выделить) в документе, предварительно прочитав файл
-     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, documents.size(), 0, maximumAllowableErrorsNumber).first, invertedIndexesForThread);
+     defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, documents.size(), maximumAllowableErrorsNumber).first, invertedIndexesForThread);
 }
 
 void InvertedIndex::startInvertedIndexing()
@@ -359,12 +359,8 @@ void InvertedIndex::startInvertedIndexing()
          * Cлияние инвертированных баз в разных потоках
          */
 
-
-        //Начальное количество баз инвертированного индекса для каждого потока. Наименьшее время - при значении 2.
-        const unsigned int initialBasesNumberInStream{2};
-
         //Слить базы инвертированного индекса подготовленные в разных потоках
-        mergeInvertedIndexBases(futures, initialBasesNumberInStream);
+        mergeInvertedIndexBases(futures);
 
         //Получить результат в базу инвертированного индекса
         invertedIndexes = std::move(futures[0]).get();

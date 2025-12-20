@@ -108,6 +108,9 @@ private:
      */
     void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&){&InvertedIndex::defineWord};
 
+    //Начальное количество баз инвертированного индекса для каждого потока. Наименьшее время - при значении 2.
+    unsigned int initialBasesNumberInStream{2};
+
     /**
      * Определить количество потоков
      * @param desiredNumberOfThreads Желаемое количество потоков
@@ -146,7 +149,7 @@ private:
      * @param futures Контейнер результатов потоков
      * @param initialBasesNumberInStream Начальное количество баз инвертированного индекса для каждого потока
      */
-    void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures, unsigned int initialBasesNumberInStream);
+    void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures);
 
     /**
      * Добавить слово и структуру инвертированного индекса в базу инвертированных индексов

@@ -779,7 +779,7 @@ namespace kav
              * Получить код исключения
              * @return Код исключения
              */
-            static [[nodiscard]] ErrorCodeStub getErrorCode()
+            [[nodiscard]] static ErrorCodeStub getErrorCode()
             {
                 return ERROR_STUB;
             }

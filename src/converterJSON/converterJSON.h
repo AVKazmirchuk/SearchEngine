@@ -85,7 +85,7 @@ public:
      * Получить значение максимального количества ответов
      * @return Значение максимального количества ответов
      */
-    int getMaxResponses();
+    unsigned int getMaxResponses();
 
     /**
      * Записать в JSON-объект результаты поиска
@@ -266,7 +266,7 @@ private:
     /**
      * Количество знаков после запятой
      */
-    unsigned int precision;
+    const unsigned int precision;
 
     /**
      * Проверить пути файлов документов (существование)
