@@ -369,7 +369,13 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     if (positionOfFunctionName == currentErrorsNumber.end())
     {
         //Добавить слово со структурой инвертированного индекса в базу инвертированных индексов
-        currentErrorsNumber.emplace(getFunctionName(callingFunction), {0, {std::atomic<std::size_t>(0), std::atomic<std::size_t>(0)}});
+        currentErrorsNumber[getFunctionName(callingFunction)].emplace(packageID, std::make_pair(std::atomic<std::size_t>(0), std::atomic<std::size_t>(0)));
+
+        
+
+
+
+
     }
 
     //Увеличить количество прочитанных документов
