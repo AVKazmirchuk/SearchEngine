@@ -368,7 +368,7 @@ private:
      * @param callingFunctionStr Ссылка на объект предоставленный BOOST_CURRENT_LOCATION
      * @return Уровень логирования
      */
-    static ErrorLevel getErrorLevel(const std::string& callingFunctionStr);
+    static ErrorLevel getErrorLevel(const boost::source_location &callingFunction);
 
     /**
      * Определить количество потоков
@@ -412,6 +412,11 @@ private:
                                              >
                                    >
                           > currentErrorsNumber{};
+
+    /**
+     * Мьютекс на поиск и добавление ID пакета в контейнер соответствия
+     */
+    inline static std::mutex mutexFindAddPackageID;
 
 };
 

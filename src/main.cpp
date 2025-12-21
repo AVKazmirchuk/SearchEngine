@@ -248,6 +248,7 @@ int main(int argc, char* argv[])
         try
         {
             //Вывести в лог запуск программы
+            kav::Logger::info("-------------------------------------------------------");
             kav::Logger::info("Start SearchEngine");
 
             //Запустить расчёт релевантности

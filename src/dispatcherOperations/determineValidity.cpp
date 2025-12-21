@@ -7,7 +7,7 @@
 #include "DispatcherOperations.h"
 
 
-
+//TODO Привести в порядок и перенести в общедоступные
 ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& functionName)
 {
     //Соответствие имени вызывающей функции и уровня логирования
@@ -26,7 +26,7 @@ ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& functionNa
     //Вернуть уровень логирования
     return matchingFunctionNameAndErrorLevel.at(functionName);
 }
-//TODO привести в порядок получение имени функции и ошибки
+
 std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
 {
     //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
@@ -38,27 +38,17 @@ std::string DispatcherOperations::getFunctionName(const boost::source_location &
     //Количество символов имени функции
     std::string::size_type symbolsNumber{};
 
-    //Подсчитать количествоо символов имени функции
+    //Подсчитать количество символов имени функции
     for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
     {}
 
     return callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber);
 }
 
-ErrorLevel DispatcherOperations::getErrorLevel(const std::string& callingFunctionStr)
+ErrorLevel DispatcherOperations::getErrorLevel(const boost::source_location &callingFunction)
 {
-    //Подготовить переменные для определения начала и конца имени функции
-    std::string::size_type endNameFunction{callingFunctionStr.find('(') - 1};
-    std::string::size_type beginNameFunction{endNameFunction};
-    //Количество символов имени функции
-    std::string::size_type symbolsNumber{};
-
-    //Подсчитать количествоо символов имени функции
-    for (; callingFunctionStr[beginNameFunction] != ' '; --beginNameFunction, ++symbolsNumber)
-    {}
-
     //Вернуть уровень логирования
-    return getErrorLevelFrom(callingFunctionStr.substr(beginNameFunction + 1, symbolsNumber));
+    return getErrorLevelFrom(getFunctionName(callingFunction));
 }
 
 void DispatcherOperations::determineValidity(
@@ -75,7 +65,7 @@ void DispatcherOperations::determineValidity(
     if (errorLevel == ErrorLevel::no_level)
     {
         //Определить уровень логирования по имени функции
-        errorLevel = getErrorLevel(callingFunctionStr);
+        errorLevel = getErrorLevel(callingFunction);
     }
 
     //Окончательное сообщение для логирования

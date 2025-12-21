@@ -36,11 +36,15 @@ void SearchEngine::determineDocumentsBaseOrPathsBase()
     {
         //Обновить список документов из файлов
         documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+        //Документы загружены в базу
+        kav::Logger::info("Documents uploaded to the database");
     }
     else
     {
         //Обновить список путей файлов документов
         documentsObj.updateDocuments(converterJSONObj.getFilePaths());
+        //Пути файлов документов загружены в базу
+        kav::Logger::info("Document file paths uploaded to the database");
     }
 }
 
@@ -62,12 +66,16 @@ void SearchEngine::searchModifiedAll()
 
     //Для замеров
     //std::cout << '\n' << t.elapsed() << '\n';
+    //std::getchar();
 
     //Для замеров
     //Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
+
+    //База инвертированного индекса обновлена
+    kav::Logger::info("The base of the inverted index has been updated");
 
     //Для замеров
     std::cout << '\n' << t.elapsed() << '\n';
@@ -79,14 +87,26 @@ void SearchEngine::searchModifiedAll()
     //Обновить список запросов из файла
     requestsObj.updateRequests(converterJSONObj.getRequests());
 
+    //База запросов обновлена
+    kav::Logger::info("The query database has been updated");
+
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
+
+    //База релевантности ответов обновлена
+    kav::Logger::info("The database of relevance of responses has been updated");
 
     //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses());
 
+    //JSON-объект файла ответа сформирован
+    kav::Logger::info("The JSON object of the response file is formed");
+
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
+
+    //Файл ответа выгружен
+    kav::Logger::info("The response file has been uploaded");
 }
 
 void SearchEngine::searchModifiedDocuments()
@@ -100,14 +120,26 @@ void SearchEngine::searchModifiedDocuments()
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
+    //База инвертированного индекса обновлена
+    kav::Logger::info("The base of the inverted index has been updated");
+
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    //Записать в файл answers.json результаты поиска, с учётом максимального количества ответов
+    //База релевантности ответов обновлена
+    kav::Logger::info("The database of relevance of responses has been updated");
+
+    //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses());
+
+    //JSON-объект файла ответа сформирован
+    kav::Logger::info("The JSON object of the response file is formed");
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
+
+    //Файл ответа выгружен
+    kav::Logger::info("The response file has been uploaded");
 }
 
 void SearchEngine::searchModifiedRequests()
@@ -118,12 +150,24 @@ void SearchEngine::searchModifiedRequests()
     //Обновить список запросов из файла
     requestsObj.updateRequests(converterJSONObj.getRequests());
 
+    //База запросов обновлена
+    kav::Logger::info("The query database has been updated");
+
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    //Записать в файл answers.json результаты поиска, с учётом максимального количества ответов
+    //База релевантности ответов обновлена
+    kav::Logger::info("The database of relevance of responses has been updated");
+
+    //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses());
+
+    //JSON-объект файла ответа сформирован
+    kav::Logger::info("The JSON object of the response file is formed");
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
+
+    //Файл ответа выгружен
+    kav::Logger::info("The response file has been uploaded");
 }

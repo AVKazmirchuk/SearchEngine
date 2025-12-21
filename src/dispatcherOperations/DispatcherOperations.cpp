@@ -269,7 +269,7 @@ std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErro
     //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
     //функция, из которой вызывается чтение документов, помечена как фатальная
     if (errorNumber <= maximumAllowableErrorsNumber &&
-        (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction.to_string()) == ErrorLevel::fatal))
+        (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction) == ErrorLevel::fatal))
     {
         //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
         if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
@@ -319,7 +319,7 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
     //функция, из которой вызывается чтение документов, помечена как фатальная
     if (errorNumber <= maximumAllowableErrorsNumber &&
-    (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction.to_string()) == ErrorLevel::fatal))
+    (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction) == ErrorLevel::fatal))
     {
         //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
         if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
@@ -362,24 +362,55 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     //Прочитать текстовый файл
     std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFile(filePath, message, errorLevelOneFile, BOOST_CURRENT_LOCATION)};
 
-    //Найти имя функции в контейнере соответствия
-    auto positionOfFunctionName{currentErrorsNumber.find(getFunctionName(callingFunction))};
-
-    //Имя функции в контейнере соответствия не существует
-    if (positionOfFunctionName == currentErrorsNumber.end())
     {
-        //Добавить слово со структурой инвертированного индекса в базу инвертированных индексов
-        currentErrorsNumber[getFunctionName(callingFunction)].emplace(packageID, std::make_pair(std::atomic<std::size_t>(0), std::atomic<std::size_t>(0)));
+        //Установить защиту на поиск и добавление ID пакета в контейнер соответствия
+        std::lock_guard<std::mutex> lgFindAddPackageID(DispatcherOperations::mutexFindAddPackageID);
 
-        
+        //Найти ID пакета в контейнере соответствия
+        auto positionOfPackageID{currentErrorsNumber[getFunctionName(callingFunction)].find(packageID)};
+        //Для тестов
+        /*for (auto& elem : currentErrorsNumber)
+        {
+            std::cout << "1: " << elem.first << " ";
+            for (auto& elem2 : elem.second)
+            {
+                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+            }
+            std::cout << " find" << '\n';
+        }//Для тестов*/
 
+        //ID пакета в контейнере соответствия не существует
+        if (positionOfPackageID == currentErrorsNumber[getFunctionName(callingFunction)].end())
+        {
+            //Для тестов
+            /*for (auto& elem : currentErrorsNumber)
+            {
+                std::cout << "1: " << elem.first << " ";
+                for (auto& elem2 : elem.second)
+                {
+                    std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                }
+                std::cout << " before init" << '\n';
+            }//Для тестов*/
 
+            //Инициализировать блокировку объекта std::atomic<std::size_t> текущего количества файлов в пакете
+            std::atomic_init(&currentErrorsNumber[getFunctionName(callingFunction)][packageID].first, 0);
+            //Инициализировать блокировку объекта std::atomic<std::size_t> текущего количества ошибок в пакете
+            std::atomic_init(&currentErrorsNumber[getFunctionName(callingFunction)][packageID].second, 0);
+            //Для тестов
+            /*for (auto& elem : currentErrorsNumber)
+            {
+                std::cout << "1: " << elem.first << " ";
+                for (auto& elem2 : elem.second)
+                {
+                    std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                }
+                std::cout << " after init" << '\n';
+            }//Для тестов*/
+        }
 
-
+        //Снять защиту на поиск и добавление ID пакета в контейнер соответствия
     }
-
-    //Увеличить количество прочитанных документов
-    ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].first;
 
     //Если была ошибка
     if (tmp.second != ErrorCode::no_error)
@@ -388,6 +419,9 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].second;
     }
 
+    //Увеличить количество прочитанных документов
+    ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].first;
+
     //Если все документы прочитаны
     if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber)
     {
@@ -395,13 +429,32 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
 
         //Удалить записи этого пакета для этой функции
         currentErrorsNumber[getFunctionName(callingFunction)].erase(packageID);
-
+        //Для тестов
+        /*for (auto& elem : currentErrorsNumber)
+        {
+            std::cout << "1: " << elem.first << " ";
+            for (auto& elem2 : elem.second)
+            {
+                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+            }
+            std::cout << " after delete ID of package" << '\n';
+        }//Для тестов*/
         //Если записей пакетов для этой функции нет
         if (currentErrorsNumber[getFunctionName(callingFunction)].empty())
         {
             //Удалить запись этой функции
             currentErrorsNumber.erase(getFunctionName(callingFunction));
         }
+        //Для тестов
+        /*for (auto& elem : currentErrorsNumber)
+        {
+            std::cout << "1: " << elem.first << " ";
+            for (auto& elem2 : elem.second)
+            {
+                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+            }
+            std::cout << " after delete name of function" << '\n';
+        }//Для тестов*/
 
         //Определить код ошибки и уровень логирования для всех файлов
         std::pair<ErrorCode, ErrorLevel> ErrorCodeAndLevel{determineErrorCodeAndErrorLevelForMultipleFiles(filesNumber, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
@@ -487,7 +540,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
     //функция, из которой вызывается чтение документов, помечена как фатальная
     if (errorNumber <= maximumAllowableErrorsNumber &&
-        (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction.to_string()) == ErrorLevel::fatal))
+        (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction) == ErrorLevel::fatal))
     {
         //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
         if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
