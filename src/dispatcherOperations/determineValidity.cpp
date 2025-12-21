@@ -50,7 +50,7 @@ ErrorLevel DispatcherOperations::getErrorLevel(const boost::source_location &cal
     //Вернуть уровень логирования
     return getErrorLevelFrom(getFunctionName(callingFunction));
 }
-
+//TODO Проверить при ошибке вызова простой функции какая  функция указана
 void DispatcherOperations::determineValidity(
         const std::string &filePath,
         ErrorCode errorCode,
