@@ -33,6 +33,45 @@ namespace constants
     std::size_t maximumAllowableErrorsNumber{};
 }
 
+class ProgramArguments
+{
+
+public:
+
+    static std::string get_configFilePath()
+    {
+        std::string default_configFilePath{"config.json"};
+
+        if (!assigned_configFilePath) configFilePath = default_configFilePath;
+        return configFilePath;
+    }
+
+    static void set_configFilePath(std::string &in_configFilePath)
+    {
+        configFilePath = in_configFilePath;
+        assigned_configFilePath = true;
+    }
+
+private:
+
+    static std::string configFilePath;
+    inline static bool assigned_configFilePath{};
+
+};
+
+class ProgramArguments2
+{
+
+public:
+
+    static std::string& configFilePath()
+    {
+        static std::string configFilePath{"config.json"};
+        return configFilePath;
+    }
+
+};
+
 /**
  * Конвертировать строку в число
  * @param str Строка для конвертирования
