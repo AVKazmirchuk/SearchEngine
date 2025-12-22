@@ -8,7 +8,7 @@
 
 
 
-bool kav::CheckJSON::isJSONStructureMatchImpl(const JSON &objectJSON, const kav::JSON &objectJSONTemplate)
+bool kav::CheckJSON::isJSONStructureMatchImpl(const kav::JSON &objectJSON, const kav::JSON &objectJSONTemplate)
 {
     //Для каждого поля JSON-объекта шаблона
     for (const auto &elemTemplate: objectJSONTemplate.items())

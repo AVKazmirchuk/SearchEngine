@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-std::pair<int, const unsigned int> InvertedIndex::countNumberOfThreads()
+std::pair<std::size_t, const unsigned int> InvertedIndex::countNumberOfThreads()
 {
     //Количество дополнительных потоков
     //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.

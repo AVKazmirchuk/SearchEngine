@@ -49,10 +49,10 @@ TEST(TestWriteTextFile, fileNotOpen)
     HANDLE hFile=CreateFile(testConstants::textFileForWrite.c_str(), // file to open
                             GENERIC_READ, // open for
                             0x00000000, // share for
-                            NULL, // default security
+                            nullptr, // default security
                             OPEN_ALWAYS, // OPEN_EXISTING - existing file only
                             FILE_ATTRIBUTE_NORMAL, // normal file
-                            NULL // no attr. template
+                            nullptr // no attr. template
     );
 
     //Записать JSON-файл
@@ -137,10 +137,10 @@ TEST(TestWriteJSONFile, fileNotOpen)
     HANDLE hFile=CreateFile(testConstants::configFilePath.c_str(), // file to open
                             GENERIC_READ, // open for
                             0x00000000, // share for
-                            NULL, // default security
+                            nullptr, // default security
                             OPEN_ALWAYS, // OPEN_EXISTING - existing file only
                             FILE_ATTRIBUTE_NORMAL, // normal file
-                            NULL // no attr. template
+                            nullptr // no attr. template
     );
 
     //Записать JSON-файл
@@ -251,10 +251,10 @@ TEST(TestReadJSONFile, fileNotOpen)
     HANDLE hFile=CreateFile(testConstants::configFilePath.c_str(), // file to open
                      GENERIC_WRITE, // open for writing
                      FILE_SHARE_WRITE, // share for writing
-                     NULL, // default security
+                     nullptr, // default security
                      OPEN_ALWAYS, // OPEN_EXISTING // existing file only
                      FILE_ATTRIBUTE_NORMAL, // normal file
-                     NULL // no attr. template
+                     nullptr // no attr. template
                      );
 
     //Прочитать JSON-файл
@@ -385,10 +385,10 @@ TEST(TestReadTextFile, fileNotOpen)
     HANDLE hFile=CreateFile(testConstants::textFile.c_str(), // file to open
                             GENERIC_WRITE, // open for writing
                             FILE_SHARE_WRITE, // share for writing
-                            NULL, // default security
+                            nullptr, // default security
                             OPEN_ALWAYS, // OPEN_EXISTING // existing file only
                             FILE_ATTRIBUTE_NORMAL, // normal file
-                            NULL // no attr. template
+                            nullptr // no attr. template
     );
 
     //Прочитать файл

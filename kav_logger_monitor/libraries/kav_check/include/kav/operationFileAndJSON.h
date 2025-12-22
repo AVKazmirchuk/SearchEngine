@@ -9,6 +9,7 @@
 
 #include <fstream>
 #include <string>
+#include <thread>
 
 #include "boost/assert/source_location.hpp"
 #include "nlohmann/json.hpp"
@@ -74,7 +75,7 @@ namespace kav
          * @param formatByWidth Ширина отступа
          * @return Код ошибки
          */
-        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2);
+        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const unsigned int formatByWidth = 2);
 
         /**
          * Проверить JSON-структуру на соответствие шаблону
@@ -82,8 +83,7 @@ namespace kav
          * @param objectJSONTemplate Ссылка на JSON-объект шаблона
          * @return Код ошибки
          */
-        static ErrorCode
-        checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
+        static ErrorCode checkJSONStructureMatch(const JSON &objectJSON, const JSON &objectJSONTemplate);
 
        /**
          * Проверить массив JSON-объекта на пустоту
@@ -109,10 +109,14 @@ namespace kav
         /**
          * Записать текстовый файл
          * @param filePath Ссылка на путь текстового файла
-         * @return Пара текста и кода ошибки
+         * @param text Текст для записи
+         * @param openModeFile Режим открытия файла
+         * @return Код ошибки
          */
         static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out);
 
+        //Для тестирования передачи контейнера по ссылке
+        //static void readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode);
     };
 
 }

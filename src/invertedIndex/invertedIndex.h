@@ -35,7 +35,7 @@ public:
      * @param in_documentsBaseOrPathsBase Признак формирования базы документов или путей файлов документов
      */
     explicit InvertedIndex(const std::vector<std::string>& in_documents,
-                           const unsigned int in_maximumAllowableErrorsNumber = 0,
+                           const std::size_t in_maximumAllowableErrorsNumber = 0,
                            const unsigned int in_desiredNumberOfThreads = std::thread::hardware_concurrency(),
                            const std::string& in_documentsBaseOrPathsBase = "yes")
     : documents{in_documents},
@@ -101,19 +101,22 @@ private:
     /**
      * Максимальное количество непрочитанных файлов
      */
-    const unsigned int maximumAllowableErrorsNumber;
+    const std::size_t maximumAllowableErrorsNumber;
 
     /**
      * Сразу определить слово (выделить) в документе
      */
     void(InvertedIndex::*defineWordOrReadDocumentAtBeginning)(std::size_t, const std::string&, std::map<std::string, std::vector<Entry>>&){&InvertedIndex::defineWord};
 
+    //Начальное количество баз инвертированного индекса для каждого потока. Наименьшее время - при значении 2.
+    unsigned int initialBasesNumberInStream{2};
+
     /**
      * Определить количество потоков
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
      */
-    std::pair<int, const unsigned int> countNumberOfThreads();
+    std::pair<std::size_t, const unsigned int> countNumberOfThreads();
 
     /**
      * Запустить инвертированную индексацию документов в отдельных потоках
@@ -146,7 +149,7 @@ private:
      * @param futures Контейнер результатов потоков
      * @param initialBasesNumberInStream Начальное количество баз инвертированного индекса для каждого потока
      */
-    void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures, int initialBasesNumberInStream);
+    void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures);
 
     /**
      * Добавить слово и структуру инвертированного индекса в базу инвертированных индексов

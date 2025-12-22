@@ -105,7 +105,7 @@ static std::pair<std::string, ErrorCode>
 ```cpp
 static ResultOfReadMultipleTextFiles readMultipleTextFiles(const std::vector<std::string>& filePaths,
                  const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
-                 const unsigned int maximumAllowableErrorsNumber = 1,
+                 const std::size_t maximumAllowableErrorsNumber = 1,
                  ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
                  const std::string &message = "",
                  const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);

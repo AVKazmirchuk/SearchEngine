@@ -11,7 +11,7 @@
 
 
 
-std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
+std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths) const
 {
     //Прочитать документы
     return DispatcherOperations::readMultipleTextFiles(filePaths, desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
@@ -30,6 +30,24 @@ void SearchEngine::writeAnswersToFile(const std::string& filePath)
     DispatcherOperations::writeJSONFile(filePath, converterJSONObj.getAnswersJSON(), formatByWidth);
 }
 
+void SearchEngine::determineDocumentsBaseOrPathsBase()
+{
+    if (documentsBaseOrPathsBase == "yes")
+    {
+        //Обновить список документов из файлов
+        documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+        //Документы загружены в базу
+        kav::Logger::info("Documents uploaded to the database");
+    }
+    else
+    {
+        //Обновить список путей файлов документов
+        documentsObj.updateDocuments(converterJSONObj.getFilePaths());
+        //Пути файлов документов загружены в базу
+        kav::Logger::info("Document file paths uploaded to the database");
+    }
+}
+
 void SearchEngine::searchModifiedAll()
 {
     //Очистить список документов
@@ -38,16 +56,8 @@ void SearchEngine::searchModifiedAll()
     //Для замеров
     Timer t;
 
-    if (documentsBaseOrPathsBase == "yes")
-    {
-        //Обновить список документов из файлов
-        documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
-    }
-    else
-    {
-        //Обновить список путей файлов документов
-        documentsObj.updateDocuments(converterJSONObj.getFilePaths());
-    }
+    //Определить: формировать базу документов или путей файлов документов
+    determineDocumentsBaseOrPathsBase();
 
     //Для тестирования передачи контейнера по ссылке
     /*ResultOfReadMultipleTextFiles documents;
@@ -56,12 +66,16 @@ void SearchEngine::searchModifiedAll()
 
     //Для замеров
     //std::cout << '\n' << t.elapsed() << '\n';
+    //std::getchar();
 
     //Для замеров
     //Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
+
+    //База инвертированного индекса обновлена
+    kav::Logger::info("The base of the inverted index has been updated");
 
     //Для замеров
     std::cout << '\n' << t.elapsed() << '\n';
@@ -73,14 +87,26 @@ void SearchEngine::searchModifiedAll()
     //Обновить список запросов из файла
     requestsObj.updateRequests(converterJSONObj.getRequests());
 
+    //База запросов обновлена
+    kav::Logger::info("The query database has been updated");
+
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
+
+    //База релевантности ответов обновлена
+    kav::Logger::info("The database of relevance of responses has been updated");
 
     //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses());
 
+    //JSON-объект файла ответа сформирован
+    kav::Logger::info("The JSON object of the response file is formed");
+
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
+
+    //Файл ответа выгружен
+    kav::Logger::info("The response file has been uploaded");
 }
 
 void SearchEngine::searchModifiedDocuments()
@@ -88,20 +114,32 @@ void SearchEngine::searchModifiedDocuments()
     //Очистить список документов
     documentsObj.clearDocuments();
 
-    //Обновить список документов из файлов
-    documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+    //Определить: формировать базу документов или путей файлов документов
+    determineDocumentsBaseOrPathsBase();
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
+    //База инвертированного индекса обновлена
+    kav::Logger::info("The base of the inverted index has been updated");
+
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    //Записать в файл answers.json результаты поиска, с учётом максимального количества ответов
+    //База релевантности ответов обновлена
+    kav::Logger::info("The database of relevance of responses has been updated");
+
+    //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses());
+
+    //JSON-объект файла ответа сформирован
+    kav::Logger::info("The JSON object of the response file is formed");
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
+
+    //Файл ответа выгружен
+    kav::Logger::info("The response file has been uploaded");
 }
 
 void SearchEngine::searchModifiedRequests()
@@ -112,12 +150,24 @@ void SearchEngine::searchModifiedRequests()
     //Обновить список запросов из файла
     requestsObj.updateRequests(converterJSONObj.getRequests());
 
+    //База запросов обновлена
+    kav::Logger::info("The query database has been updated");
+
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    //Записать в файл answers.json результаты поиска, с учётом максимального количества ответов
+    //База релевантности ответов обновлена
+    kav::Logger::info("The database of relevance of responses has been updated");
+
+    //Записать в JSON-объект результаты поиска, с учётом максимального количества ответов
     converterJSONObj.setAnswersJSON(exportRelevantResponses());
+
+    //JSON-объект файла ответа сформирован
+    kav::Logger::info("The JSON object of the response file is formed");
 
     //Записать в JSON-файл результаты поиска
     writeAnswersToFile(answersFilePath);
+
+    //Файл ответа выгружен
+    kav::Logger::info("The response file has been uploaded");
 }

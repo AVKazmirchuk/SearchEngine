@@ -10,8 +10,8 @@
 
 namespace testConstants
 {
-    const int precision{6};
+    const unsigned int precision{6};
 
-    const int maxResponses{5};
+    const unsigned int maxResponses{5};
 }
 

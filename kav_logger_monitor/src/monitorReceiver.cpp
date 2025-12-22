@@ -15,7 +15,7 @@ std::string kav::MonitorReceiver::receive(const boost::interprocess::message_que
     //Подготовить данные для получения сообщения
 
     //Приоритет сообщения
-    unsigned int priority{0};
+    const unsigned int priority{0};
     //Ожидаемое сообщение
     std::string message;
     //Задать размер оджидаемого сообщения

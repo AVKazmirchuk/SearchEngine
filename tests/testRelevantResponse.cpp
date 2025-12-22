@@ -21,7 +21,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
             "americano cappuccino"
     };
     const std::vector<std::string> request = {"milk water", "sugar"};
-    const int precision{6};
+    const unsigned int precision{6};
     const std::vector<std::vector<RelativeIndex>> expected = {
             {
                     {2, 1},
@@ -38,9 +38,29 @@ TEST(TestCaseRelevantResponse, TestSimple) {
     };
     InvertedIndex idx(docs);
     idx.updateInvertedIndexes();
+
+    /*for (auto& elem : idx.getInvertedIndexes())
+    {
+        for (auto& elem2 : elem.second)
+        {
+            std::cout << elem.first << " " << elem2.docID << " " << elem2.count << '\n';
+        }
+    }*/
+
     RelevantResponse srv(idx.getInvertedIndexes(), request, precision);
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
+
+    /*for (auto& elem : srv.getRelevantResponses())
+    {
+        for (auto& elem2 : elem)
+        {
+            std::cout << elem2.docID << " " << elem2.rank << '\n';
+        }
+
+        std::cout << '\n';
+    }*/
+
     ASSERT_EQ(result, expected);
 }
 

@@ -4,15 +4,15 @@
 
 
 
-#include <algorithm>
 #include <iostream>
 #include <filesystem>
+#include <list>
 
 #include "kav/operationFileAndJSON.h"
 
 
 
-kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth)
+kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const unsigned int formatByWidth)
 {
     //Создать объект для записи
     std::ofstream outFile(filePath);
@@ -49,18 +49,18 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
     std::ifstream inFile(filePath);
 
     //Подготовить JSON-объект для записи
-    JSON objectJSON;
+    std::pair<kav::JSON, kav::ErrorCode> objectJSON;
 
     //Обнулить код ошибки
-    ErrorCode errorCode{ErrorCode::no_error};
+    objectJSON.second = ErrorCode::no_error;
 
     //Если файл не существует - установить соответствующий код ошибки
-    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    if (!std::filesystem::exists(filePath)) objectJSON.second = ErrorCode::error_file_missing;
     //В противном случае, если файл не открыт - установить соответствующий код ошибки
-    else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+    else if (!inFile.is_open()) objectJSON.second = ErrorCode::error_file_not_open_read;
 
     //Если ошибки нет
-    if (errorCode == ErrorCode::no_error)
+    if (objectJSON.second == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
         //system("disconnectDisk.bat");
@@ -68,20 +68,20 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
         try
         {
             //Читать файл
-            objectJSON = JSON::parse(inFile, nullptr, false);
+            objectJSON.first = JSON::parse(inFile, nullptr, false);
         }
         catch (const std::exception& e)
         {
             //Если при чтении произошла ошибка - установить соответствующий код ошибки
-            errorCode = ErrorCode::error_file_not_read;
+            objectJSON.second = ErrorCode::error_file_not_read;
         }
 
         //Если структура JSON-объекта повреждена - установить соответствующий код ошибки
-        if (objectJSON.is_discarded()) errorCode = ErrorCode::error_json_structure_corrupted;
+        if (objectJSON.first.is_discarded()) objectJSON.second = ErrorCode::error_json_structure_corrupted;
     }
 
     //Вернуть пару JSON-объекта и кода ошибки
-    return {objectJSON, errorCode};
+    return objectJSON;
 }
 
 std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::string& filePath)
@@ -90,18 +90,18 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     std::ifstream inFile(filePath);
 
     //Подготовить документ для записи
-    std::string tmp{};
+    std::pair<std::string, kav::ErrorCode> tmp;
 
     //Обнулить код ошибки
-    ErrorCode errorCode{ErrorCode::no_error};
+    tmp.second = ErrorCode::no_error;
 
     //Если файл не существует - установить соответствующий код ошибки
-    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+    if (!std::filesystem::exists(filePath)) tmp.second = ErrorCode::error_file_missing;
     //В противном случае, если файл не открыт - установить соответствующий код ошибки
-    else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+    else if (!inFile.is_open()) tmp.second = ErrorCode::error_file_not_open_read;
 
     //Если ошибки нет
-    if (errorCode == ErrorCode::no_error)
+    if (tmp.second == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
         //system("disconnectDisk.bat");
@@ -109,17 +109,17 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
         try
         {
             //Читать файл
-            tmp = {(std::istreambuf_iterator<char>(inFile)), {}};
+            tmp.first = {(std::istreambuf_iterator<char>(inFile)), {}};
         }
         catch (const std::exception& e)
         {
             //Если при чтении произошла ошибка - установить соответствующий код ошибки
-            errorCode = ErrorCode::error_file_not_read;
+            tmp.second = ErrorCode::error_file_not_read;
         }
     }
 
-    //Пара текста и кода ошибки
-    return {tmp, errorCode};
+    //Вернуть пару текста и кода ошибки
+    return tmp;
 }
 
 kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openMode)
@@ -179,3 +179,39 @@ kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON)
 
 
 
+//Для тестирования передачи контейнера по ссылке
+/*void kav::OperationFileAndJSON::readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode)
+{
+    //Создать объект для чтения файла документа
+    std::ifstream inFile(filePath);
+
+    //Подготовить документ для записи
+    //std::string tmp{};
+
+    //Обнулить код ошибки
+    errorCode = ErrorCode::no_error;
+
+    //Если файл не существует - установить соответствующий код ошибки
+    if (!std::filesystem::exists(filePath)) errorCode = ErrorCode::error_file_missing;
+        //В противном случае, если файл не открыт - установить соответствующий код ошибки
+    else if (!inFile.is_open()) errorCode = ErrorCode::error_file_not_open_read;
+
+    //Если ошибки нет
+    if (errorCode == ErrorCode::no_error)
+    {
+        //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
+        //system("disconnectDisk.bat");
+
+        try
+        {
+            //Читать файл
+            document = {(std::istreambuf_iterator<char>(inFile)), {}};
+
+        }
+        catch (const std::exception& e)
+        {
+            //Если при чтении произошла ошибка - установить соответствующий код ошибки
+            errorCode = ErrorCode::error_file_not_read;
+        }
+    }
+}*/

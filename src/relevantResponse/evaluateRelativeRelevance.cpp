@@ -11,12 +11,12 @@
 
 
 
-float RelevantResponse::roundUpToPrecision(float value)
+float RelevantResponse::roundUpToPrecision(float value) const
 {
     //Вычислить порядок числа в соответствии с точностью
-    int numberOrder{static_cast<int>(std::pow(10, precision))};
+    const unsigned int numberOrder{static_cast<unsigned int>(std::pow(10, precision))};
     //Округлить значение в соответствии с точностью
-    return std::round(value*numberOrder)/numberOrder;
+    return std::round(value*static_cast<float>(numberOrder))/static_cast<float>(numberOrder);
 }
 
 void RelevantResponse::evaluateRelativeRelevance()
