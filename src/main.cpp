@@ -33,44 +33,65 @@ namespace constants
     std::size_t maximumAllowableErrorsNumber{};
 }
 
+//Класс хранения переменных аргументов программы
 class ProgramArguments
 {
 
 public:
 
+    /**
+     * Прочитать путь файла конфигурации
+     * @return Переменная
+     */
     static std::string get_configFilePath()
     {
+        //Значение по умолчанию
         std::string default_configFilePath{"config.json"};
-
+        //Если переменная имеет значение по умолчанию - определить его
         if (!assigned_configFilePath) configFilePath = default_configFilePath;
+        //Вернуть переменную
         return configFilePath;
     }
 
-    static void set_configFilePath(std::string &in_configFilePath)
+    /**
+     * Записать путь файла конфигурации
+     * @param in_configFilePath Переменная
+     */
+    static void set_configFilePath(const std::string &in_configFilePath)
     {
+        //Записать переменную
         configFilePath = in_configFilePath;
+        //Поставить признак изменения переменной
         assigned_configFilePath = true;
     }
 
 private:
 
-    static std::string configFilePath;
+    //Переменная
+    inline static std::string configFilePath;
+    //Признак изменения переменной
     inline static bool assigned_configFilePath{};
 
-};
+};//Класс хранения переменных аргументов программы*/
 
+//Класс хранения переменных аргументов программы
 class ProgramArguments2
 {
 
 public:
 
+    /**
+     * Прочитать/записать путь файла конфигурации
+     * @return Ссылка на переменную
+     */
     static std::string& configFilePath()
     {
+        //Значение по умолчанию
         static std::string configFilePath{"config.json"};
         return configFilePath;
     }
 
-};
+};//Класс хранения переменных аргументов программы*/
 
 /**
  * Конвертировать строку в число
