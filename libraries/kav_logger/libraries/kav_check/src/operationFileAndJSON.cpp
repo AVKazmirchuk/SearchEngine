@@ -12,7 +12,7 @@
 
 
 
-kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const unsigned int formatByWidth)
+kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& filePath, const JSON& objectJSON, const int formatByWidth)
 {
     //Создать объект для записи
     std::ofstream outFile(filePath);

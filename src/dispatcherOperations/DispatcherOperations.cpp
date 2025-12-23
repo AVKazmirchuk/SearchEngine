@@ -11,7 +11,7 @@
 ErrorCode DispatcherOperations::writeJSONFile(
         const std::string& filePath,
         const JSON& objectJSON,
-        const unsigned int formatByWidth,
+        const int formatByWidth,
         const std::string& message,
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)

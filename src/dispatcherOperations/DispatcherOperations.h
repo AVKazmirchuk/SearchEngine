@@ -151,7 +151,7 @@ public:
     static ErrorCode writeJSONFile(
             const std::string &filePath,
             const JSON &objectJSON,
-            const unsigned int formatByWidth = 2,
+            const int formatByWidth = 2,
             const std::string& message = "",
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);

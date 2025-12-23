@@ -75,7 +75,7 @@ namespace kav
          * @param formatByWidth Ширина отступа
          * @return Код ошибки
          */
-        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const unsigned int formatByWidth = 2);
+        static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2);
 
         /**
          * Проверить JSON-структуру на соответствие шаблону
