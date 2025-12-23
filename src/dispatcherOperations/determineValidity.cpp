@@ -107,6 +107,8 @@ void DispatcherOperations::determineValidity(
             case ErrorLevel::debug:
                 kav::Logger::debug(completedMessage);
                 return;
+            case ErrorLevel::no_level:
+                break;//TODO проверить этот случай
         }
     }
 }

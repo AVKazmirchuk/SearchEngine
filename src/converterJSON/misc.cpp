@@ -53,10 +53,10 @@ std::vector<std::string> ConverterJSON::getFilePaths()
     return filePaths;
 }
 
-unsigned int ConverterJSON::getMaxResponses()
+/*unsigned int ConverterJSON::getMaxResponses()//TODO проверить
 {
     return configJSON[FileFieldNames::configStr()][FileFieldNames::max_responsesStr()];
-}
+}*/
 
 std::vector<std::string> ConverterJSON::getRequests()
 {

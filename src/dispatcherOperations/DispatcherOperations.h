@@ -48,7 +48,7 @@ enum class ErrorCode
 };
 
 /**
- * Описание кодов ошибок
+ * Описание кодов ошибок//TODO поправить
  */
 static const std::map<ErrorCode, std::string> descriptionErrorCode{
 
@@ -143,8 +143,8 @@ public:
       * @param filePath Ссылка на путь JSON-файла
       * @param objectJSON Ссылка на JSON-объект для записи
       * @param formatByWidth Ширина отступа
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
@@ -161,8 +161,8 @@ public:
       * @param filePath Ссылка на путь JSON-файла
       * @param objectJSON Ссылка на JSON-объект для проверки
       * @param objectJSONTemplate Ссылка на JSON-объект шаблона
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
@@ -176,8 +176,8 @@ public:
     /**
       * Проверить массив JSON-объекта путей файлов на пустоту
       * @param objectJSON Ссылка на JSON-объект для проверки
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
@@ -190,8 +190,8 @@ public:
     /**
       * Проверить массив JSON-объекта запросов на пустоту
       * @param objectJSON Ссылка на JSON-объект для проверки
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Код ошибки
       */
@@ -204,8 +204,8 @@ public:
     /**
       * Прочитать JSON-файл
       * @param filePath Ссылка на путь JSON-файла
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара JSON-объекта и кода ошибки
       */
@@ -218,8 +218,8 @@ public:
     /**
       * Прочитать текстовый файл
       * @param filePath Ссылка на путь текстового файла
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара текста и кода ошибки
       */
@@ -234,9 +234,9 @@ public:
       * @param filePaths Ссылка на путь контейнера путей файлов
       * @param desiredNumberOfThreads Желаемое количество потоков
       * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
+      * @param message Ссылка на сообщение
       * @param errorLevelOneFile Уровень логирования для одного фойла
       * @param errorLevelMultipleFiles Уровень логирования для всех файлов
-      * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Структура результатов чтения текстовых файлов
       */
@@ -252,11 +252,11 @@ public:
       * Прочитать несколько текстовых файлов последовательно
       * @param filePath Ссылка на путь текстового файла
       * @param filesNumber Количество файлов
-      * @param packageID ID пакета для разных потоков
       * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
+      * @param packageID ID пакета для разных потоков
+      * @param message Ссылка на сообщение
       * @param errorLevelOneFile Уровень логирования для одного фойла
       * @param errorLevelMultipleFiles Уровень логирования для всех файлов
-      * @param message Ссылка на сообщение
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара текста и кода ошибки
       */
@@ -300,8 +300,8 @@ private:
       * Прочитать несколько текстовых файлов одновременно в разных потоках
       * @param filePaths Ссылка на путь контейнера путей файлов
       * @param desiredNumberOfThreads Желаемое количество потоков
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара контейнеров текстов и кодов ошибок
       */
@@ -315,8 +315,8 @@ private:
     /**
       * Прочитать текстовый файл из множества файлов. Функция нужна для косвенного определения уровня логирования
       * @param filePath Ссылка на путь текстового файла
-      * @param errorLevel Уровень логирования
       * @param message Ссылка на сообщение
+      * @param errorLevel Уровень логирования
       * @param callingFunction Ссылка на вызывающую функцию
       * @return Пара текста и кода ошибки
       */
@@ -365,7 +365,7 @@ private:
 
     /**
      * Получить уровень логирования из объекта предоставленного BOOST_CURRENT_LOCATION
-     * @param callingFunctionStr Ссылка на объект предоставленный BOOST_CURRENT_LOCATION
+     * @param callingFunction Ссылка на вызывающую функцию
      * @return Уровень логирования
      */
     static ErrorLevel getErrorLevel(const boost::source_location &callingFunction);
@@ -374,9 +374,10 @@ private:
      * Определить количество потоков
      * @param filePaths Ссылка на путь контейнера путей файлов
      * @param desiredNumberOfThreads Желаемое количество потоков
-     * @return Пара количества документов для одного потока и фактическое количество потоков
+     * @return Пара количества документов для одного потока и фактическое количество потоков//TODO проверить, возвращает лишнее значение
      */
-    static std::pair<std::size_t, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads);
+    static std::pair<std::size_t, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths,
+                                                                           const unsigned int desiredNumberOfThreads);
 
     /**
      * Подсчитать количество непрочитанных документов

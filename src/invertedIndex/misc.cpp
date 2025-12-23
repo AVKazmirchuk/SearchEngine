@@ -35,7 +35,7 @@ const std::map<std::string, std::vector<Entry>>& InvertedIndex::getInvertedIndex
     return invertedIndexes;
 }
 
-void InvertedIndex::sortByAscendingDocumentID()
+/*void InvertedIndex::sortByAscendingDocumentID()
 {
     //Для каждого элемента базы инвертированного индекса
     for (auto& element : invertedIndexes)
@@ -48,7 +48,7 @@ void InvertedIndex::sortByAscendingDocumentID()
                       return a.docID < b.docID;
                   });
     }
-}
+}*/
 
 void InvertedIndex::clearInvertedIndexes()
 {

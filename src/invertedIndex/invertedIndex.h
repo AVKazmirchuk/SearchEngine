@@ -81,12 +81,12 @@ private:
     /**
      * Мьютекс на поиск и добавление слова в базе инвертированных индексов
      */
-    std::mutex mutexFindAddWord;
+    //std::mutex mutexFindAddWord;
 
     /**
      * Мьютекс на поиск и добавление структуры инвертированного индекса в базе инвертированных индексов
      */
-    std::mutex mutexFindAddEntry;
+    //std::mutex mutexFindAddEntry;
 
     /**
      * Признак формирования базы документов или путей файлов документов
@@ -113,15 +113,12 @@ private:
 
     /**
      * Определить количество потоков
-     * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
      */
     std::pair<std::size_t, const unsigned int> countNumberOfThreads();
 
     /**
      * Запустить инвертированную индексацию документов в отдельных потоках
-     * @param desiredNumberOfThreads Желаемое количество потоков
-     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
     void startInvertedIndexing();
 
@@ -130,24 +127,20 @@ private:
      * @param docID ID документа
      * @param document Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
-     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
     void defineWord(std::size_t docID, const std::string& document, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Прочитать документ по его пути
      * @param docID ID документа
-     * @param document Ссылка на документ или путь файла документа
+     * @param documentPath Ссылка на документ или путь файла документа
      * @param invertedIndexesForThread Ссылка на инвретированные индексы каждого потока
-     * @param filesNumber Количество файлов
-     * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      */
     void readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread);
 
     /**
      * Слить базы инвертированного индекса подготовленные в разных потоках
      * @param futures Контейнер результатов потоков
-     * @param initialBasesNumberInStream Начальное количество баз инвертированного индекса для каждого потока
      */
     void mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures);
 
@@ -162,7 +155,7 @@ private:
     /**
      * Сортировать базу инвертированного индекса по возрастанию ID документа
      */
-    void sortByAscendingDocumentID();
+    //void sortByAscendingDocumentID();
 
 };
 

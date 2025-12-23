@@ -7,15 +7,11 @@
 
 
 
-#include <fstream>
-#include <future>
 #include <string>
 #include <vector>
 #include <utility>
 #include <list>
 
-#include <thread>
-#include <mutex>
 
 
 #include "nlohmann/json.hpp"
@@ -80,12 +76,6 @@ public:
      * @return Запросы
      */
     std::vector<std::string> getRequests();
-
-    /**
-     * Получить значение максимального количества ответов
-     * @return Значение максимального количества ответов
-     */
-    unsigned int getMaxResponses();
 
     /**
      * Записать в JSON-объект результаты поиска
@@ -379,7 +369,7 @@ private:
     /**
      * Максимальное количество ответов
      */
-    unsigned int maxResponses;
+    unsigned int maxResponses{};
 
     //Инициализировать
     void initialize();
@@ -417,7 +407,7 @@ private:
      * @param str Начальная строка
      * @return Преобразованная строка
      */
-    std::string convertIdtoStr(std::size_t requestId, std::string str);
+    std::string convertIdToStr(std::size_t requestId, std::string str);
 
 };
 

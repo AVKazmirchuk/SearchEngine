@@ -19,7 +19,7 @@ float ConverterJSON::accumulateRank(const std::vector<std::vector<std::pair<std:
                            });
 }
 
-std::string ConverterJSON::convertIdtoStr(std::size_t requestId, std::string str)
+std::string ConverterJSON::convertIdToStr(std::size_t requestId, std::string str)
 {
     //В зависимости от разрядности ID запроса добавить нули
     if ((requestId + 1) / 10 < 1) str.append("00" + std::to_string(++requestId));
@@ -73,7 +73,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
     for (std::size_t requestId{}; requestId < answers.size(); ++requestId)
     {
         //Преобразовать ID запроса в строку
-        std::string currentRequest{convertIdtoStr(requestId, FileFieldNames::requestStr())};
+        std::string currentRequest{convertIdToStr(requestId, FileFieldNames::requestStr())};
 
         //Суммарный ранг ответов меньше точности
         if (accumulateRank(answers, requestId) < epsilon)
