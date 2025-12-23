@@ -29,15 +29,15 @@ void ConverterJSON::initialize()
     //Проверить запросы (существование)
     checkRequests();
 
-    maxResponses = configJSON[FileFieldNames::configStr][FileFieldNames::max_responsesStr];
+    maxResponses = configJSON[FileFieldNames::configStr()][FileFieldNames::max_responsesStr()];
 
 }
 
 std::string ConverterJSON::about()
 {
     //Вернуть строку о программе (название, версия)
-    return to_string(configJSON[FileFieldNames::configStr][FileFieldNames::nameStr]) + ", v." +
-           to_string(configJSON[FileFieldNames::configStr][FileFieldNames::versionStr]);
+    return to_string(configJSON[FileFieldNames::configStr()][FileFieldNames::nameStr()]) + ", v." +
+           to_string(configJSON[FileFieldNames::configStr()][FileFieldNames::versionStr()]);
 }
 
 JSON& ConverterJSON::getAnswersJSON()
@@ -48,14 +48,14 @@ JSON& ConverterJSON::getAnswersJSON()
 std::vector<std::string> ConverterJSON::getFilePaths()
 {
     //Определить список путей файлов документов
-    std::vector<std::string> filePaths(configJSON[FileFieldNames::filesStr]);
+    std::vector<std::string> filePaths(configJSON[FileFieldNames::filesStr()]);
 
     return filePaths;
 }
 
 unsigned int ConverterJSON::getMaxResponses()
 {
-    return configJSON[FileFieldNames::configStr][FileFieldNames::max_responsesStr];
+    return configJSON[FileFieldNames::configStr()][FileFieldNames::max_responsesStr()];
 }
 
 std::vector<std::string> ConverterJSON::getRequests()
@@ -63,7 +63,7 @@ std::vector<std::string> ConverterJSON::getRequests()
     std::vector<std::string> requests;
 
     //Каждый запрос в JSON-объекте
-    for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[FileFieldNames::requestsStr]))
+    for (auto& elem : static_cast<std::vector<std::string>>(requestsJSON[FileFieldNames::requestsStr()]))
     {
         //Добавить в контейнер
         requests.push_back(elem);

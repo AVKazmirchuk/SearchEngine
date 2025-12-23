@@ -21,8 +21,22 @@
 
 namespace kav
 {
-    //Шаблон JSON-объекта файла MessageQueue.json
-    const JSON configLoggerMonitorJSONTemplate = JSON::parse(R"(
+    //Класс хранения переменных шаблонов JSON-объектов файлов
+    class TemplatesJSONObjects
+    {
+
+    public:
+
+        TemplatesJSONObjects() = delete;
+
+        /**
+         * Прочитать шаблон JSON-объекта файла MessageQueue.json
+         * @return Ссылка на переменную
+         */
+        static const JSON &configLoggerMonitorJSONTemplate()
+        {
+            //Значение по умолчанию
+            static const JSON variable = JSON::parse(R"(
     {
     "messageQueue" : {
         "nameOfQueue" : "search_engine",
@@ -35,6 +49,11 @@ namespace kav
     }
     }
     )");
+
+            return variable;
+        }
+
+    };//TemplatesJSONObjects
 }
 
 namespace kav

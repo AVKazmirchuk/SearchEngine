@@ -113,7 +113,7 @@ void kav::LoggerMonitor::ConfigLoggerMonitor::initialize()
     else
     {
         //Проверить JSON-структуру на соответствие шаблону
-        if (auto tmpError{OperationFileAndJSON::checkJSONStructureMatch(tmp.first, configLoggerMonitorJSONTemplate)}; tmpError != ErrorCode::no_error)
+        if (auto tmpError{OperationFileAndJSON::checkJSONStructureMatch(tmp.first, TemplatesJSONObjects::configLoggerMonitorJSONTemplate())}; tmpError != ErrorCode::no_error)
         {
             throw LoggerMonitorException(tmpError, configLoggerMonitorFilePath);
         }

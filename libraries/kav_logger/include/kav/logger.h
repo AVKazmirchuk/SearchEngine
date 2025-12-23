@@ -66,8 +66,22 @@ namespace kav
 
 namespace kav
 {
-    //Шаблон JSON-объекта файла logger.json
-    const JSON configLoggerTemplate = JSON::parse(R"(
+    //Класс хранения переменных шаблонов JSON-объектов файлов
+    class TemplatesJSONObjects
+    {
+
+    public:
+
+        TemplatesJSONObjects() = delete;
+
+        /**
+         * Прочитать шаблон JSON-объекта файла logger.json
+         * @return Ссылка на переменную
+         */
+        static const JSON &configLoggerTemplate()
+        {
+            //Значение по умолчанию
+            static const JSON variable = JSON::parse(R"(
     {
     "usageTimeLimit" : {
         "seconds" : 0,
@@ -89,12 +103,18 @@ namespace kav
     "filesDirectory" : ".\\Logs\\"
 }
     )");
-}
 
-namespace kav
-{
-    //Шаблон JSON-объекта файла MessageQueue.json
-    const JSON configWriterMessageTemplate = JSON::parse(R"(
+            return variable;
+        }
+
+        /**
+         * Прочитать шаблон JSON-объекта файла MessageQueue.json
+         * @return Ссылка на переменную
+         */
+        static const JSON &configWriterMessageTemplate()
+        {
+            //Значение по умолчанию
+            static const JSON variable = JSON::parse(R"(
     {
     "messageQueue" : {
         "nameOfQueue" : "search_engine",
@@ -107,6 +127,11 @@ namespace kav
     }
     }
     )");
+
+            return variable;
+        }
+
+    };//TemplatesJSONObjects
 }
 
 namespace kav

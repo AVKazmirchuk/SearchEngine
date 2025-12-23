@@ -4,81 +4,13 @@
 
 
 
-//Константы переменных
-namespace constants
-{
-
-    //Путь файла конфигурации
-    std::string configFilePath{"config.json"};
-    //Путь файла запросов
-    std::string requestsFilePath{"requests.json"};
-    //Путь файла ответов
-    std::string answersFilePath{"answers.json"};
-    //Признак формирования базы документов или путей файлов документов
-    std::string documentsBaseOrPathsBase{"yes"};
-    //Путь файла конфигурации логирования
-    std::string configLoggerFilePath{"logger.json"};
-    //Путь файла конфигурации очереди сообщений
-    std::string configWriterMessageFilePath{"messageQueue.json"};
-    //Логировать события в консоль
-    std::string launchConsole{"yes"};
-
-    //Количество знаков после запятой
-    unsigned int precision{6};
-    //Ширина вывода
-    unsigned int formatByWidth{2};
-    //Желаемое количество потоков
-    unsigned int desiredNumberOfThreads{std::thread::hardware_concurrency() - 2};
-    //Максимальное количество непрочитанных файлов
-    std::size_t maximumAllowableErrorsNumber{};
-}
-
 //Класс хранения переменных аргументов программы
 class ProgramArguments
 {
 
 public:
 
-    /**
-     * Прочитать путь файла конфигурации
-     * @return Переменная
-     */
-    static std::string get_configFilePath()
-    {
-        //Значение по умолчанию
-        std::string default_configFilePath{"config.json"};
-        //Если переменная имеет значение по умолчанию - определить его
-        if (!assigned_configFilePath) configFilePath = default_configFilePath;
-        //Вернуть переменную
-        return configFilePath;
-    }
-
-    /**
-     * Записать путь файла конфигурации
-     * @param in_configFilePath Переменная
-     */
-    static void set_configFilePath(const std::string &in_configFilePath)
-    {
-        //Записать переменную
-        configFilePath = in_configFilePath;
-        //Поставить признак изменения переменной
-        assigned_configFilePath = true;
-    }
-
-private:
-
-    //Переменная
-    inline static std::string configFilePath;
-    //Признак изменения переменной
-    inline static bool assigned_configFilePath{};
-
-};//Класс хранения переменных аргументов программы*/
-
-//Класс хранения переменных аргументов программы
-class ProgramArguments2
-{
-
-public:
+    ProgramArguments() = delete;
 
     /**
      * Прочитать/записать путь файла конфигурации
@@ -87,8 +19,118 @@ public:
     static std::string& configFilePath()
     {
         //Значение по умолчанию
-        static std::string configFilePath{"config.json"};
-        return configFilePath;
+        static std::string variable{"config.json"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать путь файла запросов
+     * @return Ссылка на переменную
+     */
+    static std::string& requestsFilePath()
+    {
+        //Значение по умолчанию
+        static std::string variable{"requests.json"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать путь файла ответов
+     * @return Ссылка на переменную
+     */
+    static std::string& answersFilePath()
+    {
+        //Значение по умолчанию
+        static std::string variable{"answers.json"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать признак формирования базы документов или путей файлов документов
+     * @return Ссылка на переменную
+     */
+    static std::string& documentsBaseOrPathsBase()
+    {
+        //Значение по умолчанию
+        static std::string variable{"yes"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать путь файла конфигурации логирования
+     * @return Ссылка на переменную
+     */
+    static std::string& configLoggerFilePath()
+    {
+        //Значение по умолчанию
+        static std::string variable{"logger.json"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать путь файла конфигурации очереди сообщений
+     * @return Ссылка на переменную
+     */
+    static std::string& configWriterMessageFilePath()
+    {
+        //Значение по умолчанию
+        static std::string variable{"messageQueue.json"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать признак логирования событий в консоль
+     * @return Ссылка на переменную
+     */
+    static std::string& launchConsole()
+    {
+        //Значение по умолчанию
+        static std::string variable{"yes"};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать количество знаков после запятой
+     * @return Ссылка на переменную
+     */
+    static unsigned int& precision()
+    {
+        //Значение по умолчанию
+        static unsigned int variable{6};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать ширину вывода
+     * @return Ссылка на переменную
+     */
+    static unsigned int& formatByWidth()
+    {
+        //Значение по умолчанию
+        static unsigned int variable{2};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать желаемое количество потоков
+     * @return Ссылка на переменную
+     */
+    static unsigned int& desiredNumberOfThreads()
+    {
+        //Значение по умолчанию
+        static unsigned int variable{std::thread::hardware_concurrency() - 2};
+        return variable;
+    }
+
+    /**
+     * Прочитать/записать максимальное количество непрочитанных файлов
+     * @return Ссылка на переменную
+     */
+    static std::size_t& maximumAllowableErrorsNumber()
+    {
+        //Значение по умолчанию
+        static std::size_t variable{0};
+        return variable;
     }
 
 };//Класс хранения переменных аргументов программы*/
@@ -159,49 +201,49 @@ bool processProgramArguments(int argc, char* argv[])
         //Путь файла конфигурации
         if (std::strcmp(argv[i], "/c") == 0)
         {
-            constants::configFilePath = argv[i + 1];
+            ProgramArguments::configFilePath() = argv[i + 1];
 
             continue;
         }
         //Путь файла запросов
         if (std::strcmp(argv[i], "/r") == 0)
         {
-            constants::requestsFilePath = argv[i + 1];
+            ProgramArguments::requestsFilePath() = argv[i + 1];
 
             continue;
         }
         //Путь файла ответов
         if (std::strcmp(argv[i], "/a") == 0)
         {
-            constants::answersFilePath = argv[i + 1];
+            ProgramArguments::answersFilePath() = argv[i + 1];
 
             continue;
         }
         //Aормировать базу документов или базу путей файлов документов
         if (std::strcmp(argv[i], "/dp") == 0)
         {
-            constants::documentsBaseOrPathsBase = argv[i + 1];
+            ProgramArguments::documentsBaseOrPathsBase() = argv[i + 1];
 
             continue;
         }
         //Путь файла конфигурации логирования
         if (std::strcmp(argv[i], "/l") == 0)
         {
-            constants::configLoggerFilePath = argv[i + 1];
+            ProgramArguments::configLoggerFilePath() = argv[i + 1];
 
             continue;
         }
         //Путь файла конфигурации очереди сообщений
         if (std::strcmp(argv[i], "/m") == 0)
         {
-            constants::configWriterMessageFilePath = argv[i + 1];
+            ProgramArguments::configWriterMessageFilePath() = argv[i + 1];
 
             continue;
         }
         //Логировать события в консоль
         if (std::strcmp(argv[i], "/lc") == 0)
         {
-            constants::launchConsole = argv[i + 1];
+            ProgramArguments::launchConsole() = argv[i + 1];
 
             continue;
         }
@@ -212,28 +254,28 @@ bool processProgramArguments(int argc, char* argv[])
         //Количество знаков после запятой
         if (std::strcmp(argv[i], "/p") == 0)
         {
-            if (convertStringToNumber(argv[i + 1], value)) constants::precision = value;
+            if (convertStringToNumber(argv[i + 1], value)) ProgramArguments::precision() = value;
 
             continue;
         }
         //Ширина вывода
         if (std::strcmp(argv[i], "/f") == 0)
         {
-            if (convertStringToNumber(argv[i + 1], value)) constants::formatByWidth = value;
+            if (convertStringToNumber(argv[i + 1], value)) ProgramArguments::formatByWidth() = value;
 
             continue;
         }
         //Желаемое количество потоков
         if (std::strcmp(argv[i], "/t") == 0)
         {
-            if (convertStringToNumber(argv[i + 1], value)) constants::desiredNumberOfThreads = value;
+            if (convertStringToNumber(argv[i + 1], value)) ProgramArguments::desiredNumberOfThreads() = value;
 
             continue;
         }
         //Максимальное количество непрочитанных файлов
         if (std::strcmp(argv[i], "/e") == 0)
         {
-            if (convertStringToNumber(argv[i + 1], value)) constants::maximumAllowableErrorsNumber = value;
+            if (convertStringToNumber(argv[i + 1], value)) ProgramArguments::maximumAllowableErrorsNumber() = value;
 
             continue;
         }
@@ -249,11 +291,12 @@ bool processProgramArguments(int argc, char* argv[])
 void runRelevanceCalculation()
 {
     //Создать объект основного класса программы (подготовить входящие данные для выполнения и поиска)
-    SearchEngine searchEngine(constants::configFilePath, constants::requestsFilePath, constants::answersFilePath, constants::documentsBaseOrPathsBase,
-                              constants::precision,
-                              constants::formatByWidth,
-                              constants::desiredNumberOfThreads,
-                              constants::maximumAllowableErrorsNumber);
+    SearchEngine searchEngine(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::answersFilePath(),
+                              ProgramArguments::documentsBaseOrPathsBase(),
+                              ProgramArguments::precision(),
+                              ProgramArguments::formatByWidth(),
+                              ProgramArguments::desiredNumberOfThreads(),
+                              ProgramArguments::maximumAllowableErrorsNumber());
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
@@ -303,7 +346,7 @@ int main(int argc, char* argv[])
         }
 
         //Создать объект логирования событий
-        kav::Logger logger(constants::configLoggerFilePath, constants::configWriterMessageFilePath, constants::launchConsole);
+        kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole());
 
         try
         {
@@ -352,5 +395,48 @@ int main(int argc, char* argv[])
 
 
 
+#ifdef PROGRAM_ARGUMENTS
+//Класс хранения переменных аргументов программы
+class ProgramArguments
+{
 
+public:
+
+    ProgramArguments() = delete;
+
+    /**
+     * Прочитать путь файла конфигурации
+     * @return Переменная
+     */
+    static std::string get_configFilePath()
+    {
+        //Значение по умолчанию
+        std::string default_configFilePath{"config.json"};
+        //Если переменная имеет значение по умолчанию - определить его
+        if (!assigned_configFilePath) configFilePath = default_configFilePath;
+        //Вернуть переменную
+        return configFilePath;
+    }
+
+    /**
+     * Записать путь файла конфигурации
+     * @param in_configFilePath Переменная
+     */
+    static void set_configFilePath(const std::string &in_configFilePath)
+    {
+        //Записать переменную
+        configFilePath = in_configFilePath;
+        //Поставить признак изменения переменной
+        assigned_configFilePath = true;
+    }
+
+private:
+
+    //Переменная
+    inline static std::string configFilePath;
+    //Признак изменения переменной
+    inline static bool assigned_configFilePath{};
+
+};//Класс хранения переменных аргументов программы*/
+#endif //PROGRAM_ARGUMENTS
 

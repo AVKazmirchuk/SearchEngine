@@ -23,7 +23,7 @@ void kav::Logger::ConfigLogger::initialize()
     else
     {
         //Проверить JSON-структуру на соответствие шаблону
-        if (auto tmpError = OperationFileAndJSON::checkJSONStructureMatch(tmp.first, configLoggerTemplate); tmpError == ErrorCode::no_error)
+        if (auto tmpError = OperationFileAndJSON::checkJSONStructureMatch(tmp.first, TemplatesJSONObjects::configLoggerTemplate()); tmpError == ErrorCode::no_error)
         {
             configLoggerJSON = tmp.first;
         }
@@ -81,7 +81,7 @@ void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
     else
     {
         //Проверить JSON-структуру на соответствие шаблону
-        if (auto tmpError{OperationFileAndJSON::checkJSONStructureMatch(tmp.first, configWriterMessageTemplate)}; tmpError == ErrorCode::no_error)
+        if (auto tmpError{OperationFileAndJSON::checkJSONStructureMatch(tmp.first, TemplatesJSONObjects::configWriterMessageTemplate())}; tmpError == ErrorCode::no_error)
         {
             configWriterMessageJSON = tmp.first;
         }

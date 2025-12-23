@@ -188,7 +188,7 @@ private:
 
     };
 
-    //Класс содержит переменные названий полей файлов конфигурации, запросов, ответов
+    //Класс хранит переменные названий полей файлов конфигурации, запросов, ответов
     class FileFieldNames
     {
 
@@ -196,38 +196,163 @@ private:
 
         FileFieldNames() = delete;
 
-        //Имя поля "config" файла конфигурации
-        inline static const std::string configStr{"config"};
-        //Имя поля "name" файла конфигурации
-        inline static const std::string nameStr{"name"};
-        //Имя поля "version" файла конфигурации
-        inline static const std::string versionStr{"version"};
-        //Имя поля "max_responses" файла конфигурации
-        inline static const std::string max_responsesStr{"max_responses"};
-        //Имя поля "files" файла конфигурации
-        inline static const std::string filesStr{"files"};
+        /**
+         * Прочитать имя поля "config" файла конфигурации
+         * @return Ссылка на переменную
+         */
+        static const std::string& configStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"config"};
+            return variable;
+        }
 
-        //Имя поля "requests" файла запросов
-        inline static const std::string requestsStr{"requests"};
+        /**
+         * Прочитать имя поля "name" файла конфигурации
+         * @return Ссылка на переменную
+         */
+        static const std::string& nameStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"name"};
+            return variable;
+        }
 
-        //Имя поля "answers" файла ответов
-        inline static const std::string answersStr{"answers"};
-        //Имя поля "request" файла ответов
-        inline static const std::string requestStr{"request"};
-        //Имя поля "result" файла ответов
-        inline static const std::string resultStr{"result"};
-        //Значение "true" поля "result" файла ответов
-        inline static const std::string trueStr{"true"};
-        //Значение "false" поля "result" файла ответов
-        inline static const std::string falseStr{"false"};
-        //Имя поля "relevance" файла ответов
-        inline static const std::string relevanceStr{"relevance"};
-        //Имя поля "docid" файла ответов
-        inline static const std::string docIdStr{"docid"};
-        //Имя поля "rank" файла ответов
-        inline static const std::string rankStr{"rank"};
+        /**
+         * Прочитать имя поля "version" файла конфигурации
+         * @return Ссылка на переменную
+         */
+        static const std::string& versionStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"version"};
+            return variable;
+        }
 
-    };
+        /**
+         * Прочитать имя поля "max_responses" файла конфигурации
+         * @return Ссылка на переменную
+         */
+        static const std::string& max_responsesStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"max_responses"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "files" файла конфигурации
+         * @return Ссылка на переменную
+         */
+        static const std::string& filesStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"files"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "requests" файла запросов
+         * @return Ссылка на переменную
+         */
+        static const std::string& requestsStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"requests"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "answers" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& answersStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"answers"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "request" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& requestStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"request"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "result" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& resultStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"result"};
+            return variable;
+        }
+
+        /**
+         * Прочитать значение "true" поля "result" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& trueStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"true"};
+            return variable;
+        }
+
+        /**
+         * Прочитать значение "false" поля "result" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& falseStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"false"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "relevance" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& relevanceStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"relevance"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "docid" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& docIdStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"docid"};
+            return variable;
+        }
+
+        /**
+         * Прочитать имя поля "rank" файла ответов
+         * @return Ссылка на переменную
+         */
+        static const std::string& rankStr()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"rank"};
+            return variable;
+        }
+
+    };//Класс хранит переменные названий полей файлов конфигурации, запросов, ответов*/
+
+
 
     //ОСНОВНЫЕ ДАННЫЕ И ФУНКЦИИ
 

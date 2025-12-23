@@ -73,7 +73,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
     for (std::size_t requestId{}; requestId < answers.size(); ++requestId)
     {
         //Преобразовать ID запроса в строку
-        std::string currentRequest{convertIdtoStr(requestId, FileFieldNames::requestStr)};
+        std::string currentRequest{convertIdtoStr(requestId, FileFieldNames::requestStr())};
 
         //Суммарный ранг ответов меньше точности
         if (accumulateRank(answers, requestId) < epsilon)
@@ -91,7 +91,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
              * }
              *
              */
-            answersJSON[FileFieldNames::answersStr][currentRequest] = {{FileFieldNames::resultStr, FileFieldNames::falseStr}};
+            answersJSON[FileFieldNames::answersStr()][currentRequest] = {{FileFieldNames::resultStr(), FileFieldNames::falseStr()}};
             //Перейти к следующему запросу
             continue;
         }
@@ -110,7 +110,7 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
          * }
          *
          */
-        answersJSON[FileFieldNames::answersStr][currentRequest] = {{FileFieldNames::resultStr, FileFieldNames::trueStr}};
+        answersJSON[FileFieldNames::answersStr()][currentRequest] = {{FileFieldNames::resultStr(), FileFieldNames::trueStr()}};
 
         //Рассчитать количество ответов с ненулевым рангом
         const std::size_t countOfNonZeroRank{static_cast<size_t>(std::count_if(answers[requestId].cbegin(), answers[requestId].cend(),
@@ -139,8 +139,8 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
              * }
              *
              */
-            answersJSON[FileFieldNames::answersStr][currentRequest].push_back({FileFieldNames::docIdStr, answers[requestId][0].first});
-            answersJSON[FileFieldNames::answersStr][currentRequest].push_back({FileFieldNames::rankStr, answers[requestId][0].second});
+            answersJSON[FileFieldNames::answersStr()][currentRequest].push_back({FileFieldNames::docIdStr(), answers[requestId][0].first});
+            answersJSON[FileFieldNames::answersStr()][currentRequest].push_back({FileFieldNames::rankStr(), answers[requestId][0].second});
             //Перейти к следующему запросу
             continue;
         }
@@ -176,9 +176,9 @@ void ConverterJSON::setAnswersJSON(const std::vector<std::vector<std::pair<std::
              * }
              *
              */
-            answersJSON[FileFieldNames::answersStr][currentRequest][FileFieldNames::relevanceStr].push_back(
-                    {{FileFieldNames::docIdStr, answers[requestId][relativeIndex].first},
-                     {FileFieldNames::rankStr, answers[requestId][relativeIndex].second}});
+            answersJSON[FileFieldNames::answersStr()][currentRequest][FileFieldNames::relevanceStr()].push_back(
+                    {{FileFieldNames::docIdStr(), answers[requestId][relativeIndex].first},
+                     {FileFieldNames::rankStr(), answers[requestId][relativeIndex].second}});
         }
     }
 }
