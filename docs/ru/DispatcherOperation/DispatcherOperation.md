@@ -5,7 +5,7 @@
 
 ## Класс DispatcherOperations
 Класс реализует диспетчер операций c файлами и JSON-объектами.\
-Логирование операций при наличии ошибок происходит именно в этом классе. В вызывающей функции логировать не надо.\
+Логирование операций при наличии ошибок происходит именно в этом классе. В вызывающей функции логировать не надо, хотя возможность такая есть, так как возвращаются коды ошибок.\
 Если требуется логирование в любом случае (без ошибки) - тогда надо логировать при вызове операции (пока сделано так, но надо предусмотреть и эту возможность).
 ### Выполняет следующие функции:
 1. Читает текстовый файл.
@@ -21,7 +21,7 @@
 Класс использует для своей работы следующие компоненты (объявлены в глобальной области видимости для возможного использования вне класса):
 1. Перечисление уровней логирования (enum class ErrorLevel).
 2. Перечисление кодов ошибок работы с файлами (enum class ErrorCode).
-3. Описание кодов ошибок (static const std::map<ErrorCode, std::string> descriptionErrorCode).
+3. Описание кодов ошибок (class DescriptionErrorCode).
 4. Структура результатов чтения текстовых файлов (одновременное чтение в нескольких потоках) (struct ResultOfReadMultipleTextFiles).
 
 Также класс использует класс исключения OperationException (закрытый класс) для выброса исключений при ошибке уровня логирования ErrorLevel::fatal.\
@@ -34,7 +34,7 @@ DispatcherOperations() = delete;
 Отсутствуют. Класс имеет только статические функции-члены. 
 
 ### Наиболее важные (интересные) закрытые функции-члены индексации документов:
-#### Алгоритм чтения файлов:
+#### Алгоритм чтения файлов (параллельно):
 - вызов функции "readMultipleTextFilesImpl". Разбивает файлы для чтения на группы. В каждой группе количество файлов равно количеству всех файлов делённое на количество потоков (рассчитанное заранее). 
   И запускает в отдельных потоках функцию "readTextFile" и сохраняет документ в общем контейнере под своим ID.
   - вызов функции "readTextFile". Читает каждый файл.
@@ -42,6 +42,8 @@ DispatcherOperations() = delete;
 Таким образом, после завершения работы всех потоков получается контейнер, содержащий документы в соответствии с ID. Причём, для записи документов в общий контейнер мьютексы не нужны, так как, каждый документ сохраняется 
 со своим ииндексом.
 На выходе функции "readMultipleTextFilesImpl" формируется база документов.
+#### Алгоритм чтения файлов (последовательно):
+- вызов функции "readMultipleTextFilesSequentially". Читает последовательно каждый файл. Затем, сохраняет в контейнере соответствия мени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок. В процессе обработки количество прочитанных файлов и ошибок увеличивается, путём увеличения переменных типа std::atomic<std::size_t>, что предотвращает использованиеи мьютексов. Мьютекс используется только при добавлении имени функции, чтобы исключить конкурентный доступ разных потоков. ID пакета используется для разграничения наборов потоков, объеденённых в вызывающей функции. После завершения прочтения всех файлов из контейнера соответствия удаляются записи соответствующей вызывающей функции.
 ##### Производительность:
 Замеры времени чтения файлов (обрабатывалось 843 документа, по 100'000 слов в каждом; 16-ти ядерный процессор):
 | Количество потоков | Время, сек |
@@ -54,66 +56,99 @@ DispatcherOperations() = delete;
 ### Общедоступные функции-члены:
 #### Записать JSON-файл:
 ```cpp
-static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
-                                   ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode writeJSONFile(
+            const std::string &filePath,
+            const JSON &objectJSON,
+            const int formatByWidth = 2,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для записи, ширина отступа, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для записи, ширина отступа, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Проверить JSON-структуру на соответствие шаблону:
 ```cpp
-static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                            ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+ static ErrorCode checkJSONStructureMatch(
+            const std::string &filePath,
+            const JSON &objectJSON, const JSON &objectJSONTemplate,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для проверки, ссылка на JSON-объект шаблона, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для проверки, ссылка на JSON-объект шаблона, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Проверить массив JSON-объекта путей файлов на пустоту:
 ```cpp
-static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                         const std::string &message = "",
-                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode checkFilePathsArray(
+            const JSON &objectJSON,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на JSON-объект для проверки, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Проверить массив JSON-объекта запросов на пустоту:
 ```cpp
-static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                        const std::string &message = "",
-                                        const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode checkRequestsArray(
+            const JSON &objectJSON,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на JSON-объект для проверки, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Прочитать JSON-файл:
 ```cpp
-static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static std::pair<JSON, ErrorCode> readJSONFile(
+            const std::string &filePath,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь JSON-файла, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь JSON-файла, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: пара JSON-объекта и кода ошибки.
 #### Прочитать текстовый файл:
 ```cpp
-static std::pair<std::string, ErrorCode>
-    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static std::pair<std::string, ErrorCode> readTextFile(
+            const std::string &filePath,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь текстового файла, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь текстового файла, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: пара текста и кода ошибки.
 #### Прочитать несколько текстовых файлов одновременно в разных потоках:
 ```cpp
-static ResultOfReadMultipleTextFiles readMultipleTextFiles(const std::vector<std::string>& filePaths,
-                 const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
-                 const std::size_t maximumAllowableErrorsNumber = 1,
-                 ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ResultOfReadMultipleTextFiles readMultipleTextFiles(
+            const std::vector<std::string>& filePaths,
+            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            const std::size_t maximumAllowableErrorsNumber = 0,
+            const std::string& message = "",
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь контейнера путей файлов, желаемое количество потоков, максимально возможное количество ошибок, 
-уровень логирования для одного фойла, уровень логирования для всех файлов, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь контейнера путей файлов, желаемое количество потоков, максимально возможное количество ошибок, ссылка на сообщение, 
+уровень логирования для одного фойла, уровень логирования для всех файлов, ссылка на вызывающую функцию.\
 Возвращаемое значение: структура результатов чтения текстовых файлов.\
 Реализация чтения документов в разных потоках проста и не требует пояснений (вполне достаточно комментариев).
+#### Прочитать несколько текстовых файлов последовательно для разных наборов потоков:
+```cpp
+static std::pair<std::string, ErrorCode> readMultipleTextFilesSequentially(
+            const std::string& filePath,
+            const std::size_t filesNumber,
+            const std::size_t maximumAllowableErrorsNumber = 0,
+            const std::size_t packageID = 0,
+            const std::string& message = "",
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+```
+Параметры: ссылка на путь контейнера путей файлов, количество файлов, максимально возможное количество ошибок, ID пакета для разных потоков, ссылка на сообщение, уровень логирования для одного фойла, уровень логирования для всех файлов, ссылка на вызывающую функцию.
+Возвращаемое значение: пара текста и кода ошибки.
+#### Задать соответствие имени вызывающей функции уровню логирования
+```cpp
+static void setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel);
+```
+Параметры: контейнер соответствий имени вызывающей функции уровню логирования.
 ### Примеры
 ```cpp
 #include "readTextFile.h"
@@ -149,6 +184,13 @@ int main()
   std::string document{DispatcherOperations::readTextFile(filePath).first};
 
   //...
+  //Получить ссылку на путь текстового файла (filePath), количество файлов (filesNumber)
+  //...
+
+  //Прочитать документы последовательно
+  std::string document{DispatcherOperations::readMultipleTextFilesSequentially(filePath, filesNumber).first};
+
+  //...
   //Получить ссылку на путь JSON-файла (filePath)
   //...
 
@@ -168,5 +210,12 @@ int main()
 
   //Записать JSON-файл
   DispatcherOperations::writeJSONFile(filePath, objectJSON);
+
+  //...
+  //Получить ссылку на контейнер соответствий имени вызывающей функции уровню логирования (matchingFunctionNameAndErrorLevel)
+  //...
+
+  //Задать соответствие имени вызывающей функции уровню логирования
+  DispatcherOperations::setErrorLevelFrom(matchingFunctionNameAndErrorLevel);
 }
 ```
