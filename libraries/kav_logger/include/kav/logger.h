@@ -190,14 +190,12 @@ namespace kav
         }
         catch (OnlyOneObject& e)
         {
-            //TODO что-то надо добавить в описание
             //Выбросить исключение, так как более обного объекта создавать запрещено
             throw LoggerException(e.what());
         }
         catch (std::exception& e)
         {
-            //TODO что-то надо добавить в описание
-            //Выбросить другие исключения
+            //Будет обработано в функциях выше
             throw LoggerException(e.what());
         }
 
@@ -218,8 +216,7 @@ namespace kav
             }
             catch (std::exception& e)
             {
-                //TODO что-то надо добавить в описание
-                //Выбросить исключения
+                //Будет обработано в функциях выше
                 throw LoggerException(e.what());
             }
         }

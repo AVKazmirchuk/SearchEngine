@@ -31,7 +31,7 @@ void kav::Logger::WriterMessage::writeToFile(const std::string& message)
             //Отправить сообщение монитору о невозможности открытия файла для записи
             monitorSender.send("Logger: Errors occurred when trying to write to the log file " +
                                absolute(Logger::ptrToLogger->file).string() + ": " +
-                               kav::descriptionErrorCode.at(errorCode));
+                               kav::DescriptionErrorCode::descriptionErrorCode(errorCode));
         }
     }
 }

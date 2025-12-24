@@ -18,7 +18,7 @@ void kav::Logger::ConfigLogger::initialize()
     if ( tmp.second != ErrorCode::no_error)
     {
         //Выбросить соответствующее исключение
-        throw LoggerException(descriptionErrorCode.at(tmp.second) + ": " + configLoggerFilePath);
+        throw LoggerException(DescriptionErrorCode::descriptionErrorCode(tmp.second) + ": " + configLoggerFilePath);
     }
     else
     {
@@ -30,7 +30,7 @@ void kav::Logger::ConfigLogger::initialize()
         else
         {
             //Выбросить соответствующее исключение
-            throw LoggerException(descriptionErrorCode.at(tmpError) + ": " + configLoggerFilePath);
+            throw LoggerException(DescriptionErrorCode::descriptionErrorCode(tmpError) + ": " + configLoggerFilePath);
         }
     }
 
@@ -76,7 +76,7 @@ void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
     if (auto tmp = kav::OperationFileAndJSON::readJSONFile(configWriterMessageFilePath);tmp.second != kav::ErrorCode::no_error)
     {
         //Выбросить соответствующее исключение
-        throw LoggerException(descriptionErrorCode.at(tmp.second) + ": " + configWriterMessageFilePath);
+        throw LoggerException(DescriptionErrorCode::descriptionErrorCode(tmp.second) + ": " + configWriterMessageFilePath);
     }
     else
     {
@@ -87,7 +87,7 @@ void kav::Logger::WriterMessage::ConfigWriterMessage::initialize()
         }
         else
         {
-            throw LoggerException(descriptionErrorCode.at(tmpError) + ": " + configWriterMessageFilePath);
+            throw LoggerException(DescriptionErrorCode::descriptionErrorCode(tmpError) + ": " + configWriterMessageFilePath);
         }
     }
 

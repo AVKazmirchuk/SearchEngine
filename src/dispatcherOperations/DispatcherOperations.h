@@ -48,23 +48,41 @@ enum class ErrorCode
 };
 
 /**
- * Описание кодов ошибок//TODO поправить
+ * Класс описания кодов ошибок
  */
-static const std::map<ErrorCode, std::string> descriptionErrorCode{
+class DescriptionErrorCode
+{
 
-        {ErrorCode::no_error,                       ""},
-        {ErrorCode::error_file_missing,             "This file is missing"},
-        {ErrorCode::error_file_not_open_read,       "This file cannot be opened for reading"},
-        {ErrorCode::error_file_not_read,            "This file has not been read"},
-        {ErrorCode::error_file_not_open_write,      "This file cannot be opened for writing"},
-        {ErrorCode::error_file_not_write,           "This file has not been write"},
-        {ErrorCode::error_json_structure_corrupted, "The structure of this file is corrupted"},
-        {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one"},
-        {ErrorCode::error_array_empty,              "The array is empty"},
-        {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty"},
-        {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt"},
-        {ErrorCode::error_all_files_not_read,       "All files have not been read"},
-        {ErrorCode::error_any_files_not_read,       "Any files have not been read"}
+public:
+
+    DescriptionErrorCode() = delete;
+
+    /**
+     * Прочитать описание кодов ошибок
+     * @return Ссылка на описание
+     */
+    static const std::string &descriptionErrorCode(const ErrorCode errorCode)
+    {
+        static const std::map<ErrorCode, std::string> varDescriptionErrorCode{
+
+                {ErrorCode::no_error,                       ""},
+                {ErrorCode::error_file_missing,             "This file is missing"},
+                {ErrorCode::error_file_not_open_read,       "This file cannot be opened for reading"},
+                {ErrorCode::error_file_not_read,            "This file has not been read"},
+                {ErrorCode::error_file_not_open_write,      "This file cannot be opened for writing"},
+                {ErrorCode::error_file_not_write,           "This file has not been write"},
+                {ErrorCode::error_json_structure_corrupted, "The structure of this file is corrupted"},
+                {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one"},
+                {ErrorCode::error_array_empty,              "The array is empty"},
+                {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty"},
+                {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt"},
+                {ErrorCode::error_all_files_not_read,       "All files have not been read"},
+                {ErrorCode::error_any_files_not_read,       "Any files have not been read"}
+        };
+
+        return varDescriptionErrorCode.at(errorCode);
+    }
+
 };
 
 /**
@@ -269,6 +287,12 @@ public:
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
+    /**
+     * Задать соответствие имени вызывающей функции уровню логирования
+     * @param in_matchingFunctionNameAndErrorLevel Контейнер соответствий имени вызывающей функции уровню логирования
+     */
+    static void setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel);
+
     //Для тестирования передачи контейнера по ссылке
     /*static void readTextFileRef(
             const std::string &filePath,
@@ -374,7 +398,7 @@ private:
      * Определить количество потоков
      * @param filePaths Ссылка на путь контейнера путей файлов
      * @param desiredNumberOfThreads Желаемое количество потоков
-     * @return Пара количества документов для одного потока и фактическое количество потоков//TODO проверить, возвращает лишнее значение
+     * @return Пара количества документов для одного потока и фактическое количество потоков
      */
     static std::pair<std::size_t, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths,
                                                                            const unsigned int desiredNumberOfThreads);
@@ -400,6 +424,11 @@ private:
             ErrorLevel errorLevel = ErrorLevel::no_level,
             const std::string& message = "",
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+
+
+    //Контейнер соответствия имени вызывающей функции и уровня логирования
+    inline static std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel;
 
     /**
      * Контейнер соответствия имени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок.

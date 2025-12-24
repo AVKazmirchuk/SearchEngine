@@ -17,7 +17,7 @@
 | src/invertedIndex    | 100% files, 94% lines covered | 65% branches covered  | 
 | src/relevantResponse | 100% files, 99% lines covered | 73% branches covered  |  
 
-Также имеются тесты тестирования библиотеки kav_check.\
+Также имеются тесты тестирования библиотеки kav_fileOperations.\
 В таблице указано покрытие кода для заголовков и исходных файлов
 		
 | Element              | Line Coverage,%               | Branch Coverage,%     | 

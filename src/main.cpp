@@ -48,7 +48,38 @@ void handleExceptionsWithoutLogging(const std::exception& exception)
     std::cout << "Stop SearchEngine by error" << std::endl;
 }
 
+/**
+ * Класс хранения контейнера соответствия имени вызывающей функции и уровня логирования.
+ * Означает, что при вызове функций этого класса, уровни логирования прямо указываться не будут
+ */
+class MatchingFunctionNameAndErrorLevel
+{
 
+public:
+
+    MatchingFunctionNameAndErrorLevel() = delete;
+
+    /**
+     * Прочитать/записать путь файла конфигурации
+     * @return Ссылка на переменную
+     */
+    static const std::map<std::string, ErrorLevel> &matchingFunctionNameAndErrorLevel()
+    {
+        static const std::map<std::string, ErrorLevel> varMatchingFunctionNameAndErrorLevel{
+                {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
+                {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
+                {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
+                {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
+                {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
+                {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
+                {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
+                {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}
+        };
+
+        return varMatchingFunctionNameAndErrorLevel;
+    }
+
+};//MatchingFunctionNameAndErrorLevel
 
 int main(int argc, char* argv[])
 {
@@ -59,6 +90,10 @@ int main(int argc, char* argv[])
         //Выйти из программы по ошибке
         return EXIT_FAILURE;
     }
+
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     try
     {

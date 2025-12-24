@@ -47,7 +47,7 @@ namespace kav
         explicit LoggerMonitorException(ErrorCode in_errorCode, const std::string &in_information = "") : errorCode{
                 in_errorCode}
         {
-            information = descriptionErrorCode.at(errorCode) + ": " + in_information + '.';
+            information = DescriptionErrorCode::descriptionErrorCode(errorCode) + ": " + in_information + '.';
         }
 
         /**

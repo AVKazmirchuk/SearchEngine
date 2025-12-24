@@ -7,24 +7,25 @@
 #include "DispatcherOperations.h"
 
 
-//TODO Привести в порядок и перенести в общедоступные
+
 ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& functionName)
 {
-    //Соответствие имени вызывающей функции и уровня логирования
-    const std::map<std::string, ErrorLevel> matchingFunctionNameAndErrorLevel{
-            {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
-            {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
-            {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
-            {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
-            {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
-            {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
-            {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
-            {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},
-            {"SearchEngine::writeAnswersToFile",                            ErrorLevel::fatal}
-    };
-
     //Вернуть уровень логирования
     return matchingFunctionNameAndErrorLevel.at(functionName);
+}
+
+void DispatcherOperations::setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel)
+{
+    //Добавить соответствия для внутреннего использования//TODO На тест, рассмотреть возможность изменения уровня логирования для закрытых функций в зависимости от уровня логирования вызываемых открытых
+    matchingFunctionNameAndErrorLevel["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
+
+    //Для каждого соответствия
+    for (auto& elem : in_matchingFunctionNameAndErrorLevel)
+    {
+        //Добавить пару записей
+        matchingFunctionNameAndErrorLevel.insert(elem);
+    }
+
 }
 
 std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
@@ -50,7 +51,7 @@ ErrorLevel DispatcherOperations::getErrorLevel(const boost::source_location &cal
     //Вернуть уровень логирования
     return getErrorLevelFrom(getFunctionName(callingFunction));
 }
-//TODO Проверить при ошибке вызова простой функции какая  функция указана
+//TODO На тест, проверить при ошибке вызова простой функции какая  функция указана
 void DispatcherOperations::determineValidity(
         const std::string &filePath,
         ErrorCode errorCode,
@@ -75,13 +76,13 @@ void DispatcherOperations::determineValidity(
     if (!filePath.empty())
     {
         //Подготовить окончательное сообщение для логирования
-        completedMessage = descriptionErrorCode.at(errorCode) + ": " + filePath + ". " +
+        completedMessage = DescriptionErrorCode::descriptionErrorCode(errorCode) + ": " + filePath + ". " +
                            static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
     }
     else
     {
         //Подготовить окончательное сообщение для логирования
-        completedMessage = descriptionErrorCode.at(errorCode) + ". " +
+        completedMessage = DescriptionErrorCode::descriptionErrorCode(errorCode) + ". " +
                            static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
     }
 
@@ -108,7 +109,7 @@ void DispatcherOperations::determineValidity(
                 kav::Logger::debug(completedMessage);
                 return;
             case ErrorLevel::no_level:
-                break;//TODO проверить этот случай
+                break;//TODO На тест, проверить этот случай
         }
     }
 }

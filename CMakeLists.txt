@@ -52,9 +52,9 @@ set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
 find_package(Boost REQUIRED)
 
 # В зависимости от добавления библиотеки в проект, закомментировать-раскомментировать if-endif и find_package
-#find_package(kav_check REQUIRED)
-if (NOT TARGET kav_check)
-    add_subdirectory(./libraries/kav_check)
+#find_package(kav_fileOperations REQUIRED)
+if (NOT TARGET kav_fileOperations)
+    add_subdirectory(./libraries/kav_fileOperations)
 endif()
 set(check_Install ON CACHE INTERNAL "")
 
@@ -71,7 +71,7 @@ add_subdirectory(tests)
 
 # Указать библиотеки, которые нужно использовать при компоновке заданной цели и/или её зависимостей
 target_link_libraries(${Application_Name} PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(${Application_Name} PRIVATE kav_check::kav_check)
+target_link_libraries(${Application_Name} PRIVATE kav_fileOperations::kav_fileOperations)
 target_link_libraries(${Application_Name} PRIVATE kav_logger::kav_logger)
 
 

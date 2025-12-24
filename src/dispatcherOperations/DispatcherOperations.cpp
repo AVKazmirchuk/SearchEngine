@@ -183,7 +183,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
                 for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
                     {
                         //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                        //TODO Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
+                        //TODO На горит. Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
                         std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], message, errorLevel, callingFunction)};
                         //Скопировать (переместить) результаты в контейнер прочитанных документов
                         documents.first[currentDocID] = std::move(tmp.first);

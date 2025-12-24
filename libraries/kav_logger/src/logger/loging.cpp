@@ -106,7 +106,7 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
     }
     catch (std::exception& e)
     {
-        //TODO что-то надо добавить в описание
+        //Будет обработано в функциях выше
         throw LoggerException(e.what());
     }
 }
