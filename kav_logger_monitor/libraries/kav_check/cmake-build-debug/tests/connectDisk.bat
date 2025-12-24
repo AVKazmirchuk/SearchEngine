@@ -1,0 +1,1 @@
+net use w: \\a-kazmirchuk2\test
