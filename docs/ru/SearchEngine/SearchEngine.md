@@ -14,16 +14,21 @@
 ### Конструкторы:
 Инициализирует объекты всех классов.
 ```cpp
-SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath, int in_precision, int in_formatByWidth)
+SearchEngine(const std::string& in_configFilePath, const std::string& in_requestsFilePath, const std::string& in_answersFilePath,
+                 const std::string& in_documentsBaseOrPathsBase,
+                 unsigned int in_precision,
+                 const int in_formatByWidth,
+                 const unsigned int in_desiredNumberOfThreads,
+                 const std::size_t in_maximumAllowableErrorsNumber)
     : converterJSONObj(in_configFilePath, in_requestsFilePath, in_precision),
       documentsObj{},
-      invertedIndexObj(documentsObj.getDocuments()),
+      invertedIndexObj(documentsObj.getDocuments(), in_maximumAllowableErrorsNumber, in_desiredNumberOfThreads, in_documentsBaseOrPathsBase),
       requestsObj{},
       relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
-      answersFilePath{in_answersFilePath}, formatByWidth{in_formatByWidth}
+      answersFilePath{in_answersFilePath}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}, formatByWidth{in_formatByWidth},
+      desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
 ```
-Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, ссылка на путь файла ответов, количество знаков после запятой, ширина вывода, желаемое количество потоков, 
-максимальное количество непрочитанных файлов (допустимых ошибок).\
+Параметры: ссылка на путь файла конфигурации, ссылка на путь файла запросов, ссылка на путь файла ответов, признак формирования базы документов или путей файлов документов, количество знаков после запятой, ширина вывода, желаемое количество потоков, максимальное количество непрочитанных файлов (допустимых ошибок).\
 Объект не является копируемым и перемещаемым (содержит объект класса InvertedIndex (содержит мьютекс)).
 ### Общедоступные функции-члены:
 #### Рассчитать релевантность ответов:
@@ -44,12 +49,12 @@ void searchModifiedRequests();
 
 int main()
 {
-    //Получить ссылки на путь файла конфигурации (configFilePath), запросов (requestsFilePath), ответов (answersFilePath); получить количество знаков после запятой (precision), ширину вывода (formatByWidth),
+    //Получить ссылки на путь файла конфигурации (configFilePath), запросов (requestsFilePath), ответов (answersFilePath); признак формирования базы документов или путей файлов документов (documentsBaseOrPathsBase); получить количество знаков после запятой (precision), ширину вывода (formatByWidth),
     //желаемое количество потоков (desiredNumberOfThreads), максимальное количество непрочитанных файлов (maximumAllowableErrorsNumber)
 
 
     //Создать объект
-    SearchEngine searchEngine(configFilePath, requestsFilePath, answersFilePath, precision, formatByWidth, desiredNumberOfThreads, maximumAllowableErrorsNumber);
+    SearchEngine searchEngine(configFilePath, requestsFilePath, answersFilePath, documentsBaseOrPathsBase, precision, formatByWidth, desiredNumberOfThreads, maximumAllowableErrorsNumber);
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
 
