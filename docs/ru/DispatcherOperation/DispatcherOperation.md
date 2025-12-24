@@ -56,64 +56,79 @@ DispatcherOperations() = delete;
 ### Общедоступные функции-члены:
 #### Записать JSON-файл:
 ```cpp
-static ErrorCode writeJSONFile(const std::string &filePath, const JSON &objectJSON, const int formatByWidth = 2,
-                                   ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                                   const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode writeJSONFile(
+            const std::string &filePath,
+            const JSON &objectJSON,
+            const int formatByWidth = 2,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для записи, ширина отступа, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для записи, ширина отступа, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Проверить JSON-структуру на соответствие шаблону:
 ```cpp
-static ErrorCode checkJSONStructureMatch(const std::string &filePath, const JSON &objectJSON, const JSON &objectJSONTemplate,
-                            ErrorLevel errorLevel = ErrorLevel::no_level, const std::string &message = "",
-                            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+ static ErrorCode checkJSONStructureMatch(
+            const std::string &filePath,
+            const JSON &objectJSON, const JSON &objectJSONTemplate,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для проверки, ссылка на JSON-объект шаблона, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь JSON-файла, ссылка на JSON-объект для проверки, ссылка на JSON-объект шаблона, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Проверить массив JSON-объекта путей файлов на пустоту:
 ```cpp
-static ErrorCode checkFilePathsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                         const std::string &message = "",
-                                         const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode checkFilePathsArray(
+            const JSON &objectJSON,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на JSON-объект для проверки, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Проверить массив JSON-объекта запросов на пустоту:
 ```cpp
-static ErrorCode checkRequestsArray(const JSON &objectJSON, ErrorLevel errorLevel = ErrorLevel::no_level,
-                                        const std::string &message = "",
-                                        const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ErrorCode checkRequestsArray(
+            const JSON &objectJSON,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на JSON-объект для проверки, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на JSON-объект для проверки, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: код ошибки.
 #### Прочитать JSON-файл:
 ```cpp
-static std::pair<JSON, ErrorCode> readJSONFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static std::pair<JSON, ErrorCode> readJSONFile(
+            const std::string &filePath,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь JSON-файла, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь JSON-файла, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: пара JSON-объекта и кода ошибки.
 #### Прочитать текстовый файл:
 ```cpp
-static std::pair<std::string, ErrorCode>
-    readTextFile(const std::string &filePath, ErrorLevel errorLevel = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static std::pair<std::string, ErrorCode> readTextFile(
+            const std::string &filePath,
+            const std::string& message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь текстового файла, уровень логирования, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь текстового файла, ссылка на сообщение, уровень логирования, ссылка на вызывающую функцию.\
 Возвращаемое значение: пара текста и кода ошибки.
 #### Прочитать несколько текстовых файлов одновременно в разных потоках:
 ```cpp
-static ResultOfReadMultipleTextFiles readMultipleTextFiles(const std::vector<std::string>& filePaths,
-                 const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
-                 const std::size_t maximumAllowableErrorsNumber = 1,
-                 ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
-                 const std::string &message = "",
-                 const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+static ResultOfReadMultipleTextFiles readMultipleTextFiles(
+            const std::vector<std::string>& filePaths,
+            const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
+            const std::size_t maximumAllowableErrorsNumber = 0,
+            const std::string& message = "",
+            ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 ```
-Параметры: ссылка на путь контейнера путей файлов, желаемое количество потоков, максимально возможное количество ошибок, 
-уровень логирования для одного фойла, уровень логирования для всех файлов, ссылка на сообщение, ссылка на вызывающую функцию.\
+Параметры: ссылка на путь контейнера путей файлов, желаемое количество потоков, максимально возможное количество ошибок, ссылка на сообщение, 
+уровень логирования для одного фойла, уровень логирования для всех файлов, ссылка на вызывающую функцию.\
 Возвращаемое значение: структура результатов чтения текстовых файлов.\
 Реализация чтения документов в разных потоках проста и не требует пояснений (вполне достаточно комментариев).
 #### Прочитать несколько текстовых файлов последовательно для разных наборов потоков:
