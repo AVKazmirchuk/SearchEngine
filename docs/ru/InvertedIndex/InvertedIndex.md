@@ -24,11 +24,19 @@
 ### Конструкторы:
 Инициализирует ссылку на базу документов.
 ```cpp
-explicit InvertedIndex(const std::vector<std::string>& in_documents) : documents{in_documents} {}
+InvertedIndex(const std::vector<std::string>& in_documents,
+                           const std::size_t in_maximumAllowableErrorsNumber = 0,
+                           const unsigned int in_desiredNumberOfThreads = std::thread::hardware_concurrency(),
+                           const std::string& in_documentsBaseOrPathsBase = "yes")
+    : documents{in_documents},
+      maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber},
+      desiredNumberOfThreads{in_desiredNumberOfThreads},
+      documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}
+    {}
 ```
-Параметры: ссылка на базу документов.
+Параметры: ссылка на базу документов или путей файлов документов, максимальное количество непрочитанных файлов, желаемое количество потоков, признак формирования базы документов или путей файлов документов.
 \
-Не является копируемым и перемещаемым (содержит мьютекс).
+Не является копируемым (содержит фьючерс).
 ### Наиболее важные (интересные) закрытые функции-члены индексации документов:
 #### Алгоритм подсчёта инвертированного индекса и наполнения базы:
 - вызов функции "startInvertedIndexing". Разбивает прочитанные документы на группы. В каждой группе количество документов равно количеству всех документов делённое на количество потоков (рассчитанное заранее). 
@@ -55,9 +63,8 @@ explicit InvertedIndex(const std::vector<std::string>& in_documents) : documents
 ### Общедоступные функции-члены:
 #### Обновить базу инвертированных индексов:
 ```cpp
-void updateInvertedIndexes(const unsigned int desiredNumberOfThreads);
+void updateInvertedIndexes();
 ```
-Параметры: желаемое количество потоков.
 #### Получить ссылку на базу инвертированных индексов:
 ```cpp
 const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
@@ -70,11 +77,11 @@ const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
 int main()
 {
     //...
-    //Получить ссылку на базу документов (in_documents)
+    //Получить ссылку на базу документов или путей файлов документов (in_documents), максимальное количество непрочитанных файлов (maximumAllowableErrorsNumber), желаемое количество потоков (desiredNumberOfThreads), признак формирования базы документов или путей файлов документов (documentsBaseOrPathsBase).
     //
 
     //Создать объект класса InvertedIndex
-    InvertedIndex invertedIndexObj(in_documents);
+    InvertedIndex invertedIndexObj(in_documents, maximumAllowableErrorsNumber, desiredNumberOfThreads, documentsBaseOrPathsBase);
     //Обновить базу инвертированных индексов
     invertedIndexObj.updateInvertedIndexes();
     //Получить ссылку на базу инвертированных индексов
