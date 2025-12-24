@@ -267,7 +267,7 @@ public:
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     /**
-      * Прочитать несколько текстовых файлов последовательно
+      * Прочитать несколько текстовых файлов последовательно для разных наборов потоков
       * @param filePath Ссылка на путь текстового файла
       * @param filesNumber Количество файлов
       * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
