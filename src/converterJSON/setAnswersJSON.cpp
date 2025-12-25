@@ -25,6 +25,10 @@ std::string ConverterJSON::convertIdToStr(std::size_t requestId, std::string str
     if ((requestId + 1) / 10 < 1) str.append("00" + std::to_string(++requestId));
     else if ((requestId + 1) / 100 < 1) str.append("0" + std::to_string(++requestId));
     else if ((requestId + 1) / 1000 < 1) str.append(std::to_string(++requestId));
+    else if ((requestId + 1) / 10'000 < 1) str.append(std::to_string(++requestId));
+    else if ((requestId + 1) / 100'000 < 1) str.append(std::to_string(++requestId));
+    else if ((requestId + 1) / 1'000'000 < 1) str.append(std::to_string(++requestId));
+    else if ((requestId + 1) / 10'000'000 < 1) str.append(std::to_string(++requestId));
 
     return str;
 }

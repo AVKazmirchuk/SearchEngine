@@ -26,7 +26,7 @@ void kav::Logger::WriterMessage::writeToFile(const std::string& message)
     if (errorCode != kav::ErrorCode::no_error)
     {
         //Если логировать события в монитор
-        if (launchConsole == "yes")
+        if (launchConsole == Constants::default_launchConsole())
         {
             //Отправить сообщение монитору о невозможности открытия файла для записи
             monitorSender.send("Logger: Errors occurred when trying to write to the log file " +
@@ -45,7 +45,7 @@ void kav::Logger::WriterMessage::processMessageContainer()
         writeToFile(message);
 
         //Если логировать события в монитор
-        if (launchConsole == "yes")
+        if (launchConsole == Constants::default_launchConsole())
         {
             //Отправить в монитор
             writeToMonitor(message);
@@ -140,7 +140,7 @@ void kav::Logger::WriterMessage::waitForMonitorToStart()
 void kav::Logger::WriterMessage::run()
 {
     //Если логировать события в монитор
-    if (launchConsole == "yes")
+    if (launchConsole == Constants::default_launchConsole())
     {
         //Ожидать запуска монитора (другого процесса)
         waitForMonitorToStart();

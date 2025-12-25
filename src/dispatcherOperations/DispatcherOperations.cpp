@@ -149,7 +149,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
      */
 
     //Контейнер прочитанных документов
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
+    /*std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
     //Определить количество потоков
     std::pair<std::size_t, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
@@ -218,7 +218,6 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
      * Чтение документов в одном потоке
      */
 
-    /*
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
@@ -226,7 +225,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
 
-        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[docID], errorLevel, message, callingFunction)};
+        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[docID], message, errorLevel, callingFunction)};
 
         //Добавить документ в контейнер прочитанных документов
         documents.first[docID] = tmp.first;

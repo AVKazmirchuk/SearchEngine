@@ -27,7 +27,7 @@
 InvertedIndex(const std::vector<std::string>& in_documents,
                            const std::size_t in_maximumAllowableErrorsNumber = 0,
                            const unsigned int in_desiredNumberOfThreads = std::thread::hardware_concurrency(),
-                           const std::string& in_documentsBaseOrPathsBase = "yes")
+                           const std::string& in_documentsBaseOrPathsBase = Constants::default_documentsBaseOrPathsBase())
     : documents{in_documents},
       maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber},
       desiredNumberOfThreads{in_desiredNumberOfThreads},

@@ -259,7 +259,7 @@ void InvertedIndex::readDocument(std::size_t docID, const std::string& documentP
 void InvertedIndex::startInvertedIndexing()
 {
     //Если используется база путей файлов документов
-    if (documentsBaseOrPathsBase != "yes")
+    if (documentsBaseOrPathsBase != Constants::default_documentsBaseOrPathsBase())
     {
         //В начале прочитать документ по его пути
         defineWordOrReadDocumentAtBeginning = &InvertedIndex::readDocument;

@@ -32,7 +32,7 @@ void SearchEngine::writeAnswersToFile(const std::string& filePath)
 
 void SearchEngine::determineDocumentsBaseOrPathsBase()
 {
-    if (documentsBaseOrPathsBase == "yes")
+    if (documentsBaseOrPathsBase == Constants::default_documentsBaseOrPathsBase())
     {
         //Обновить список документов из файлов
         documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
@@ -59,6 +59,10 @@ void SearchEngine::searchModifiedAll()
     //Определить: формировать базу документов или путей файлов документов
     determineDocumentsBaseOrPathsBase();
 
+    //Для замеров
+    std::cout << '\n' << t.elapsed() << '\n';
+    std::getchar();
+
     //Для тестирования передачи контейнера по ссылке
     /*ResultOfReadMultipleTextFiles documents;
     readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
@@ -78,8 +82,8 @@ void SearchEngine::searchModifiedAll()
     kav::Logger::info("The base of the inverted index has been updated");
 
     //Для замеров
-    std::cout << '\n' << t.elapsed() << '\n';
-    std::getchar();
+    //std::cout << '\n' << t.elapsed() << '\n';
+    //std::getchar();
 
     //Очистить список запросов
     requestsObj.clearRequests();

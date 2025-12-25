@@ -175,6 +175,7 @@ if(logger_Install)
     # Прописать заголовки
     set(public_headers
             include/kav/logger.h
+            include/kav/detail/constants.h
             include/kav/detail/monitorSender.h
             include/kav/detail/types.h
     )

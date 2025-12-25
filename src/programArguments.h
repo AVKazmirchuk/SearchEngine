@@ -13,6 +13,8 @@
 #include <sstream>
 #include <thread>
 
+#include "constants.h"
+
 
 
 /**
@@ -65,7 +67,7 @@ public:
     static std::string& documentsBaseOrPathsBase()
     {
         //Значение по умолчанию
-        static std::string variable{"yes"};
+        static std::string variable{Constants::default_documentsBaseOrPathsBase()};
         return variable;
     }
 
@@ -98,7 +100,7 @@ public:
     static std::string& launchConsole()
     {
         //Значение по умолчанию
-        static std::string variable{"yes"};
+        static std::string variable{Constants::default_launchConsole()};
         return variable;
     }
 

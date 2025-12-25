@@ -24,6 +24,8 @@
 #include "kav/detail/monitorSender.h"
 #include "kav/operationFileAndJSON.h"
 
+#include "constants.h"
+
 
 
 namespace kav
@@ -467,7 +469,7 @@ namespace kav
              * Создать и настроить объекты: СonfigWriterMessage, MonitorSender
              * @param in_configWriterMessageFilePath Путь файла конфигурации очереди сообщений
              */
-            explicit WriterMessage(const std::string &in_configWriterMessageFilePath, const std::string &in_launchConsole = "yes")
+            explicit WriterMessage(const std::string &in_configWriterMessageFilePath, const std::string &in_launchConsole = Constants::default_launchConsole())
                     : configWriterMessage(in_configWriterMessageFilePath),
                       monitorSender(configWriterMessage.nameOfQueue(),
                                     configWriterMessage.maxNumberOfMessages(),
