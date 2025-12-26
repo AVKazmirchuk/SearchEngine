@@ -180,8 +180,16 @@ private:
      */
     [[nodiscard]] std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths) const;
 
-    //Для тестирования передачи контейнера по ссылке
-    //void readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents);
+
+
+    //-----------------------------
+
+    /**
+     * Для тестирования передачи контейнера по ссылке
+     * @param filePaths Ссылка на контейнер путей файлов
+     * @param documents Ссылка на структуру результатов чтения текстовых файлов
+     */
+    void readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents);//Для тестирования передачи контейнера по ссылке*/
 
 };
 

@@ -179,14 +179,16 @@ kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON)
 
 
 
-//Для тестирования передачи контейнера по ссылке
-/*void kav::OperationFileAndJSON::readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode)
+//------------------------------
+
+/**
+ * Для тестирования передачи контейнера по ссылке
+ */
+
+void kav::OperationFileAndJSON::readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode)
 {
     //Создать объект для чтения файла документа
     std::ifstream inFile(filePath);
-
-    //Подготовить документ для записи
-    //std::string tmp{};
 
     //Обнулить код ошибки
     errorCode = ErrorCode::no_error;
@@ -214,4 +216,4 @@ kav::ErrorCode kav::OperationFileAndJSON::checkArray(const JSON& objectJSON)
             errorCode = ErrorCode::error_file_not_read;
         }
     }
-}*/
+}//Для тестирования передачи контейнера по ссылке*/

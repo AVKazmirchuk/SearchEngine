@@ -28,6 +28,8 @@ add_executable(${Application_Name} main.cpp programArguments.cpp
         DispatcherOperations/DispatcherOperations.cpp
         DispatcherOperations/determineValidity.cpp
         DispatcherOperations/misc.cpp
+        DispatcherOperations/readMultipleTextFiles.cpp
+        DispatcherOperations/readMultipleTextFilesSequentially.cpp
 
         documents/documents.cpp
 

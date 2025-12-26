@@ -17,12 +17,19 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
     return DispatcherOperations::readMultipleTextFiles(filePaths, desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
 }
 
-//Для тестирования передачи контейнера по ссылке
-/*void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents)
+
+
+//-----------------------------
+
+/**
+ * Для тестирования передачи контейнера по ссылке
+ */
+
+void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents)
 {
     //Прочитать документы
     DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents);
-}*/
+}//Для тестирования передачи контейнера по ссылке*/
 
 void SearchEngine::writeAnswersToFile(const std::string& filePath)
 {
@@ -57,20 +64,24 @@ void SearchEngine::searchModifiedAll()
     Timer t;
 
     //Определить: формировать базу документов или путей файлов документов
-    determineDocumentsBaseOrPathsBase();
+    /*determineDocumentsBaseOrPathsBase();
+
+
+
+    //-----------------------------
+
+    /**
+     * Для тестирования передачи контейнера по ссылке
+     */
+
+    //Для тестирования передачи контейнера по ссылке
+    ResultOfReadMultipleTextFiles documents;
+    readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
+    documentsObj.updateDocuments(std::move(documents.documentsAndErrors.first));//Для тестирования передачи контейнера по ссылке*/
 
     //Для замеров
     std::cout << '\n' << t.elapsed() << '\n';
     std::getchar();
-
-    //Для тестирования передачи контейнера по ссылке
-    /*ResultOfReadMultipleTextFiles documents;
-    readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
-    documentsObj.updateDocuments(std::move(documents.documentsAndErrors.first));*/
-
-    //Для замеров
-    //std::cout << '\n' << t.elapsed() << '\n';
-    //std::getchar();
 
     //Для замеров
     //Timer t;
@@ -78,12 +89,12 @@ void SearchEngine::searchModifiedAll()
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
-    //База инвертированного индекса обновлена
-    kav::Logger::info("The base of the inverted index has been updated");
-
     //Для замеров
     //std::cout << '\n' << t.elapsed() << '\n';
     //std::getchar();
+
+    //База инвертированного индекса обновлена
+    kav::Logger::info("The base of the inverted index has been updated");
 
     //Очистить список запросов
     requestsObj.clearRequests();

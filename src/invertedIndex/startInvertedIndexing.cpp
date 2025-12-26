@@ -14,6 +14,10 @@
 
 void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std::basic_string<char>, std::vector<Entry>>>> &futures)
 {
+    /**
+     * Cлияние инвертированных баз в разных потоках
+     */
+
     //Начальное количество баз инвертированного индекса для каждого потока должно быть в следующих очевидных пределах
     //Если начальное количество баз инвертированного индекса для каждого потока меньше нижнего предела - установить по нижнему пределу
     if (initialBasesNumberInStream < 2) initialBasesNumberInStream = 2;
@@ -45,6 +49,7 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
                 //Обработать выше все исключения, выброшенные в потоках
                 catch (const std::exception& e)
                 {
+                    //Регенерировать исключение выше. Будет обработано в главной функции
                     throw;
                 }
             }
@@ -101,13 +106,55 @@ void InvertedIndex::mergeInvertedIndexBases(std::vector<std::future<std::map<std
     {
         //Вызвать рекурсивно функцию
         mergeInvertedIndexBases(futures);
+    }//Cлияние инвертированных баз в разных потоках*/
+
+
+
+    //------------------------------
+
+    /**
+     * Cлияние инвертированных баз в одном потоке
+     */
+
+/*    try
+    {
+        //Ожидать завершения потоков
+        for (auto &future: futures)
+        {
+            //Для каждого результата потока
+            for (auto &elem: future.get())
+            {
+                //Найти слово в базе инвертированных индексов
+                auto positionWord{invertedIndexes.find(elem.first)};
+
+                //Слово в базе инвертированных индексов не существует
+                if (positionWord == invertedIndexes.end())
+                {
+                    //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
+                    invertedIndexes.insert({elem.first, std::move(elem.second)});
+                }
+                else
+                //Слово в базе инвертированных индексов существует
+                {
+                    for (auto &entry: elem.second)
+                    {
+                        //Добавить структуру инвертированного индекса для нового ID документа по слову
+                        invertedIndexes[elem.first].push_back(entry);
+                    }
+                }
+            }
+        }
     }
+    //Обработать все исключения, выброшенные в потоках
+    catch (const std::exception& e)
+    {
+        //Регенерировать исключение выше. Будет обработано в главной функции
+        throw;
+    }//Cлияние инвертированных баз в одном потоке*/
 }
 
 void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
-
-
     //Найти слово в базе инвертированных индексов
     auto positionWord{invertedIndexesForThread.find(word)};
 
@@ -137,10 +184,10 @@ void InvertedIndex::addWord(const std::string& word, std::size_t docID, std::map
 
 
 
-    /*
-    //Закомментированный код ниже в блоке применим для использования мьютексов. Без их применения он избыточен
+
+    //Закомментированный код ниже в блоке применим для использования мьютексов.
     //Установить защиту на поиск и добавление слова в базе инвертированных индексов
-    //std::unique_lock<std::mutex> lgAddWord(mutexFindAddWord);
+    /*std::unique_lock<std::mutex> lgAddWord(mutexFindAddWord);
 
     //Найти слово в базе инвертированных индексов
     auto positionWord{invertedIndexes.find(word)};
@@ -213,7 +260,7 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
 
         /**
-         * Отображение файла в память
+         * Отображение файла в память (значимого прироста производительности нет)
          */
 
         /*boost::interprocess::file_mapping fileMapping(document.c_str(), boost::interprocess::read_only);
@@ -319,70 +366,55 @@ void InvertedIndex::startInvertedIndexing()
         beginDocID = endDocID + 1;
     }
 
+    /**
+     * Cлияние инвертированных баз в разных потоках
+     */
+
     try
     {
-        /**
-         * Cлияние инвертированных баз в одном потоке
-         */
-
-        /*
-        //Ожидать завершения потоков
-        for (auto &future: futures)
-        {
-            //InvertedIndex::invertedIndexesForThread = future.get();
-
-            for (auto &elem: future.get())
-            {
-                //Найти слово в базе инвертированных индексов
-                auto positionWord{invertedIndexes.find(elem.first)};
-
-                //Слово в базе инвертированных индексов не существует
-                if (positionWord == invertedIndexes.end())
-                {
-                    //Добавить слово c контейнером структур инвертированного индекса в базу инвертированных индексов
-                    invertedIndexes.insert({std::move(elem.first), std::move(elem.second)});
-                } else
-                    //Слово в базе инвертированных индексов существует
-                {
-                    for (auto &entry: elem.second)
-                    {
-                        //Добавить структуру инвертированного индекса для нового ID документа по слову
-                        invertedIndexes[elem.first].push_back(entry);
-                    }
-                }
-            }
-        }
-    }//Cлияние инвертированных баз в одном потоке*/
-
-
-        /**
-         * Cлияние инвертированных баз в разных потоках
-         */
-
         //Слить базы инвертированного индекса подготовленные в разных потоках
         mergeInvertedIndexBases(futures);
 
         //Получить результат в базу инвертированного индекса
         invertedIndexes = std::move(futures[0]).get();
-    }//Cлияние инвертированных баз в разных потоках*/
-
+    }
     //Обработать все исключения, выброшенные в потоках
     catch (const std::exception& e)
     {
         //Регенерировать исключение выше. Будет обработано в главной функции
         throw;
-    }
+    }//Cлияние инвертированных баз в разных потоках*/
+
+
+
+    //------------------------------
+
+    /**
+     * Cлияние инвертированных баз в одном потоке
+     */
+
+    //Слить базы инвертированного индекса подготовленные в разных потоках
+    mergeInvertedIndexBases(futures);
+
+    //Cлияние инвертированных баз в одном потоке*/
+
+
+
+    //------------------------------
     //Инвертированная индексация документов в отдельных потоках*/
 
+
+
+    //------------------------------
 
     /**
      * Инвертированная индексация документов в одном потоке
      */
 
-    /*
-    for (std::size_t docID{}; docID < documents.size(); ++docID)
+    //Для каждого документа
+/*    for (std::size_t docID{}; docID < documents.size(); ++docID)
     {
-
-        defineWordOrReadDocumentAtBeginning(docID, documents[docID], invertedIndexes);
+        //Определить слово (выделить) в документе
+        (this->*defineWordOrReadDocumentAtBeginning)(docID, documents[docID], invertedIndexes);
     }//Инвертированная индексация документов в одном потоке*/
 }

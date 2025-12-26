@@ -127,348 +127,20 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(
     return tmp;
 }
 
-std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultipleFiles(
-        const std::string& filePath,
+
+
+//------------------------------
+
+/**
+ * Для тестирования передачи контейнера по ссылке
+ */
+
+void DispatcherOperations::readTextFileRef(
+        const std::string& filePath, std::string &document,
+        ErrorCode &errorCode,
         const std::string& message,
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
-{
-    return DispatcherOperations::readTextFile(filePath, message, errorLevel, BOOST_CURRENT_LOCATION);
-}
-
-std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations::readMultipleTextFilesImpl(
-        const std::vector<std::string>& filePaths,
-        const unsigned int desiredNumberOfThreads,
-        const std::string& message,
-        ErrorLevel errorLevel,
-        const boost::source_location &callingFunction)
-{
-
-    /*
-     * Чтение документов в нескольких потоках
-     */
-
-    //Контейнер прочитанных документов
-    /*std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
-
-    //Определить количество потоков
-    std::pair<std::size_t, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
-
-    //Количество документов обрабатываемое одним потокам
-    std::size_t difference{tmp.first};
-
-    //Определить количество дополнительных потоков
-    const unsigned int numberOfThreads = tmp.second;
-
-    //Контейнер результатов потоков
-    std::list<std::future<void>> futures(numberOfThreads);
-
-    //ID первого документа для каждого потока
-    std::size_t beginDocID{};
-
-    //Для каждого будущего потока
-    for (auto &future : futures)
-    {
-        //ID последнего документа для каждого потока
-        std::size_t endDocID{beginDocID + difference - 1};
-
-        //Если ID последнего документа для потока превышает ID документа всех документов
-        if (endDocID >= filePaths.size()) endDocID = filePaths.size() - 1;
-
-        //Запустить чтение файлов в своём диапазоне
-        future = std::async(
-                [beginDocID, endDocID, &documents, &filePaths, &errorLevel, &message, &callingFunction]()
-            {
-                //Для каждого документа
-                for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
-                    {
-                        //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                        //TODO На горит. Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
-                        std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], message, errorLevel, callingFunction)};
-                        //Скопировать (переместить) результаты в контейнер прочитанных документов
-                        documents.first[currentDocID] = std::move(tmp.first);
-                        documents.second[currentDocID] = tmp.second;
-
-                    }
-            }
-        );
-
-        //Определить ID первого документа для следующего потока
-        beginDocID = endDocID + 1;
-    }
-
-    try
-    {
-        //Ожидать завершение потоков
-        for (auto &future : futures)
-        {
-            //Получить результат работы потока
-            future.wait();
-        }
-    }
-    catch (const std::exception& e)
-    {
-        //Регенерировать исключение выше. Будет обработано в главной функции
-        throw;
-    }//Чтение документов в нескольких потоках*/
-
-
-
-    /*
-     * Чтение документов в одном потоке
-     */
-
-    //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
-
-    //Для каждого документа
-    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
-    {
-
-        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[docID], message, errorLevel, callingFunction)};
-
-        //Добавить документ в контейнер прочитанных документов
-        documents.first[docID] = tmp.first;
-
-        //Добавить код ошибки
-        documents.second[docID] = tmp.second;
-    }//Чтение документов в одном потоке*/
-
-
-
-    //Для тестирования производительности
-    //std::cout << '\n' << "numberOfThreads: " << numberOfThreads << '\n';
-
-    //Вернуть пару контейнера текстов и кода ошибки
-    return documents;
-}
-
-std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErrorLevelForMultipleFiles(
-        const std::size_t filesNumber,
-        const std::size_t errorNumber, const std::size_t maximumAllowableErrorsNumber,
-        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
-        const boost::source_location &callingFunction)
-{
-    //Определить общий код ошибки (результат) при чтении всех документов
-    ErrorCode error = ErrorCode::no_error;
-
-    //Если все документы не прочитаны
-    if (errorNumber == filesNumber)
-    {
-        //Установить соответствующий код ошибки
-        error = ErrorCode::error_all_files_not_read;
-    }
-        //В противном случае, если есть какие-то ошибки
-    else if (errorNumber > 0)
-    {
-        //Установить соответствующий код ошибки
-        error = ErrorCode::error_any_files_not_read;
-    }
-
-    //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
-    //функция, из которой вызывается чтение документов, помечена как фатальная
-    if (errorNumber <= maximumAllowableErrorsNumber &&
-        (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction) == ErrorLevel::fatal))
-    {
-        //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
-        if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
-            //В противном случае - понизить уровень логирования
-        else errorLevelMultipleFiles = ErrorLevel::error;
-    }
-
-    return {error, errorLevelMultipleFiles};
-}
-
-ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
-        const std::vector<std::string> &filePaths,
-        const unsigned int desiredNumberOfThreads,
-        const std::size_t maximumAllowableErrorsNumber,
-        const std::string& message,
-        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
-        const boost::source_location &callingFunction)
-{
-    //Timer test
-    //Timer t;
-
-    //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, message, errorLevelOneFile, callingFunction)};
-
-    //std::cout << '\n' << sizeof(documents) << '\n';
-    //std::cout << '\n' << t.elapsed() << '\n';
-
-    //Подсчитать количество непрочитанных документов
-    std::size_t errorNumber{countErrorsNumber(documents.second)};
-
-    /*//Определить общий код ошибки (результат) при чтении всех документов
-    ErrorCode error = ErrorCode::no_error;
-
-    //Если все документы не прочитаны
-    if (errorNumber == filePaths.size())
-    {
-        //Установить соответствующий код ошибки
-        error = ErrorCode::error_all_files_not_read;
-    }
-    //В противном случае, если есть какие-то ошибки
-    else if (errorNumber > 0)
-    {
-        //Установить соответствующий код ошибки
-        error = ErrorCode::error_any_files_not_read;
-    }
-
-    //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
-    //функция, из которой вызывается чтение документов, помечена как фатальная
-    if (errorNumber <= maximumAllowableErrorsNumber &&
-    (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction) == ErrorLevel::fatal))
-    {
-        //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
-        if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
-        //В противном случае - понизить уровень логирования
-        else errorLevelMultipleFiles = ErrorLevel::error;
-    }*/
-
-    //Определить код ошибки и уровень логирования для всех файлов
-    std::pair<ErrorCode, ErrorLevel> tmp{determineErrorCodeAndErrorLevelForMultipleFiles(filePaths.size(), errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
-
-    //Логировать событие по коду ошибки и уровню логирования
-    determineValidity("", tmp.first, tmp.second, message, callingFunction);
-
-    //Вернуть структуру результатов чтения текстовых файлов
-    return ResultOfReadMultipleTextFiles{documents, errorNumber, tmp.first};
-}
-
-std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSequentially(
-        const std::string& filePath,
-        const std::size_t filesNumber,
-        const std::size_t maximumAllowableErrorsNumber,
-        const std::size_t packageID,
-        const std::string& message,
-        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
-        const boost::source_location &callingFunction)
-{
-    /**
-     * Контейнер соответствия имени вызывающей функции и, ID пакета (для отделения разных наборов файлов в потоках) и текущим количествам файлов и ошибок.
-     * Используется в функции readMultipleTextFilesSequentially
-     */
-     /* std::map<std::string, //Имя функции, вида "DispatcherOperations::readMultipleTextFilesSequentially"
-                           std::map<
-                                    std::size_t, //ID пакета (для отделения разных наборов файлов в потоках)
-                                    std::pair<
-                                              std::atomic<std::size_t>, std::atomic<std::size_t> //Текущее количество файлов и ошибок в пакете
-                                             >
-                                   >
-                          > currentErrorsNumber*/
-
-    //Прочитать текстовый файл
-    std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFile(filePath, message, errorLevelOneFile, BOOST_CURRENT_LOCATION)};
-
-    {
-        //Установить защиту на поиск и добавление ID пакета в контейнер соответствия
-        std::lock_guard<std::mutex> lgFindAddPackageID(DispatcherOperations::mutexFindAddPackageID);
-
-        //Найти ID пакета в контейнере соответствия
-        auto positionOfPackageID{currentErrorsNumber[getFunctionName(callingFunction)].find(packageID)};
-        //Для тестов
-        /*for (auto& elem : currentErrorsNumber)
-        {
-            std::cout << "1: " << elem.first << " ";
-            for (auto& elem2 : elem.second)
-            {
-                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
-            }
-            std::cout << " find" << '\n';
-        }//Для тестов*/
-
-        //ID пакета в контейнере соответствия не существует
-        if (positionOfPackageID == currentErrorsNumber[getFunctionName(callingFunction)].end())
-        {
-            //Для тестов
-            /*for (auto& elem : currentErrorsNumber)
-            {
-                std::cout << "1: " << elem.first << " ";
-                for (auto& elem2 : elem.second)
-                {
-                    std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
-                }
-                std::cout << " before init" << '\n';
-            }//Для тестов*/
-
-            //Инициализировать блокировку объекта std::atomic<std::size_t> текущего количества файлов в пакете
-            std::atomic_init(&currentErrorsNumber[getFunctionName(callingFunction)][packageID].first, 0);
-            //Инициализировать блокировку объекта std::atomic<std::size_t> текущего количества ошибок в пакете
-            std::atomic_init(&currentErrorsNumber[getFunctionName(callingFunction)][packageID].second, 0);
-            //Для тестов
-            /*for (auto& elem : currentErrorsNumber)
-            {
-                std::cout << "1: " << elem.first << " ";
-                for (auto& elem2 : elem.second)
-                {
-                    std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
-                }
-                std::cout << " after init" << '\n';
-            }//Для тестов*/
-        }
-
-        //Снять защиту на поиск и добавление ID пакета в контейнер соответствия
-    }
-
-    //Если была ошибка
-    if (tmp.second != ErrorCode::no_error)
-    {
-        //Увеличить количество ошибок
-        ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].second;
-    }
-
-    //Увеличить количество прочитанных документов
-    ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].first;
-
-    //Если все документы прочитаны
-    if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber)
-    {
-        std::size_t errorNumber{currentErrorsNumber[getFunctionName(callingFunction)][packageID].second};
-
-        //Удалить записи этого пакета для этой функции
-        currentErrorsNumber[getFunctionName(callingFunction)].erase(packageID);
-        //Для тестов
-        /*for (auto& elem : currentErrorsNumber)
-        {
-            std::cout << "1: " << elem.first << " ";
-            for (auto& elem2 : elem.second)
-            {
-                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
-            }
-            std::cout << " after delete ID of package" << '\n';
-        }//Для тестов*/
-        //Если записей пакетов для этой функции нет
-        if (currentErrorsNumber[getFunctionName(callingFunction)].empty())
-        {
-            //Удалить запись этой функции
-            currentErrorsNumber.erase(getFunctionName(callingFunction));
-        }
-        //Для тестов
-        /*for (auto& elem : currentErrorsNumber)
-        {
-            std::cout << "1: " << elem.first << " ";
-            for (auto& elem2 : elem.second)
-            {
-                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
-            }
-            std::cout << " after delete name of function" << '\n';
-        }//Для тестов*/
-
-        //Определить код ошибки и уровень логирования для всех файлов
-        std::pair<ErrorCode, ErrorLevel> ErrorCodeAndLevel{determineErrorCodeAndErrorLevelForMultipleFiles(filesNumber, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
-
-        //Логировать событие по коду ошибки и уровню логирования
-        determineValidity("", ErrorCodeAndLevel.first, ErrorCodeAndLevel.second, message, callingFunction);
-    }
-
-    return tmp;
-}
-
-//Для тестирования передачи контейнера по ссылке
-/*void DispatcherOperations::readTextFileRef(const std::string& filePath, std::string &document, ErrorCode &errorCode, ErrorLevel errorLevel,
-                                                  const std::string& message,
-                                                  const boost::source_location &callingFunction)
 {
     //Объявить временную переменную для конвертации типа
     kav::ErrorCode tmpError;
@@ -479,14 +151,13 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     errorCode = convertErrorCodeFrom(tmpError);
     //Логировать событие по коду ошибки и уровню логирования
     determineValidity(filePath, errorCode, errorLevel, message, callingFunction);
-}*/
+}
 
-//Для тестирования передачи контейнера по ссылке
-/*void DispatcherOperations::readMultipleTextFilesImplRef(
+void DispatcherOperations::readMultipleTextFilesImplRef(
         const std::vector<std::string>& filePaths,
         std::pair<std::vector<std::string>, std::vector<ErrorCode>> &documents,
-        ErrorLevel errorLevel,
         const std::string &message,
+        ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
     //Установить размеры контейнеров документов и ошибок
@@ -497,25 +168,21 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Прочитать текстовый файл
-        DispatcherOperations::readTextFileRef(filePaths[docID], documents.first[docID], documents.second[docID], errorLevel, message, callingFunction);
+        DispatcherOperations::readTextFileRef(filePaths[docID], documents.first[docID], errorLevel, documents.second[docID], message, callingFunction);
 
     }
-}*/
+}
 
-//Для тестирования передачи контейнера по ссылке
-/*void DispatcherOperations::readMultipleTextFilesRef(
+void DispatcherOperations::readMultipleTextFilesRef(
         const std::vector<std::string>& filePaths,
         ResultOfReadMultipleTextFiles &documents,
         std::size_t maximumAllowableErrorsNumber,
-        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const std::string& message,
+        ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const boost::source_location &callingFunction)
 {
-    //Timer test
-    //Timer t;
-
     //Контейнер прочитанных документов с приведённым типом ошибок
-    readMultipleTextFilesImplRef(filePaths, documents.documentsAndErrors, errorLevelOneFile, message, callingFunction);
+    readMultipleTextFilesImplRef(filePaths, documents.documentsAndErrors, message, errorLevelOneFile, callingFunction);
 
     //Подсчитать количество непрочитанных документов
     std::size_t errorNumber{countErrorsNumber(documents.documentsAndErrors.second)};
@@ -553,4 +220,4 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     //Установить количество ошибок и общий код ошибки
     documents.errorNumber = errorNumber;
     documents.errorCode = error;
-}*/
+}//Для тестирования передачи контейнера по ссылке*/

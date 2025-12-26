@@ -115,8 +115,23 @@ namespace kav
          */
         static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out);
 
-        //Для тестирования передачи контейнера по ссылке
-        //static void readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode);
+
+
+        //------------------------------
+
+        /**
+         * Для тестирования передачи контейнера по ссылке
+         */
+
+        /**
+         * Прочитать текстовый файл
+         * @param filePath Ссылка на путь текстового файла
+         * @param document Ссылка на документ
+         * @param errorCode Код ошибки
+         * @return Пара текста и кода ошибки
+         */
+        static void readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode);//Для тестирования передачи контейнера по ссылке*/
+
     };
 
 }

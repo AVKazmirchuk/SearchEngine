@@ -293,30 +293,39 @@ public:
      */
     static void setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel);
 
-    //Для тестирования передачи контейнера по ссылке
-    /*static void readTextFileRef(
-            const std::string &filePath,
-            std::string &document,
-            const std::string &message = "",
-            ErrorCode &errorCode, ErrorLevel errorLevel = ErrorLevel::no_level,
-            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
+
+
+    //------------------------------
+
+    /**
+     * Для тестирования передачи контейнера по ссылке
+     */
 
     //Для тестирования передачи контейнера по ссылке
-    /*static void readMultipleTextFilesImplRef(
+    static void readTextFileRef(
+            const std::string &filePath,
+            std::string &document,
+            ErrorCode &errorCode,
+            const std::string &message = "",
+            ErrorLevel errorLevel = ErrorLevel::no_level,
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
+
+    //Для тестирования передачи контейнера по ссылке
+    static void readMultipleTextFilesImplRef(
             const std::vector<std::string>& filePaths,
             std::pair<std::vector<std::string>, std::vector<ErrorCode>> &documents,
             const std::string &message = "",
             ErrorLevel errorLevel = ErrorLevel::no_level,
-            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     //Для тестирования передачи контейнера по ссылке
-    /*static void readMultipleTextFilesRef(
+    static void readMultipleTextFilesRef(
             const std::vector<std::string>& filePaths,
             ResultOfReadMultipleTextFiles &documents,
             std::size_t maximumAllowableErrorsNumber = 1,
             const std::string& message = "",
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
-            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);*/
+            const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);//Для тестирования передачи контейнера по ссылке*/
 
 private:
 
