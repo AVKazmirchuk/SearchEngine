@@ -136,7 +136,8 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(
  */
 
 void DispatcherOperations::readTextFileRef(
-        const std::string& filePath, std::string &document,
+        const std::string& filePath,
+        std::string &document,
         ErrorCode &errorCode,
         const std::string& message,
         ErrorLevel errorLevel,
@@ -168,7 +169,7 @@ void DispatcherOperations::readMultipleTextFilesImplRef(
     for (std::size_t docID{}; docID < filePaths.size(); ++docID)
     {
         //Прочитать текстовый файл
-        DispatcherOperations::readTextFileRef(filePaths[docID], documents.first[docID], errorLevel, documents.second[docID], message, callingFunction);
+        DispatcherOperations::readTextFileRef(filePaths[docID], documents.first[docID], documents.second[docID], message, errorLevel, callingFunction);
 
     }
 }

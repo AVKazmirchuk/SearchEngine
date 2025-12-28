@@ -29,6 +29,7 @@ void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePath
 {
     //Прочитать документы
     DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents);
+
 }//Для тестирования передачи контейнера по ссылке*/
 
 void SearchEngine::writeAnswersToFile(const std::string& filePath)
@@ -60,11 +61,11 @@ void SearchEngine::searchModifiedAll()
     //Очистить список документов
     documentsObj.clearDocuments();
 
-    //Для замеров
-    Timer t;
+    //Для замеров чтения файлов
+    //Timer t;
 
-    //Определить: формировать базу документов или путей файлов документов
-    /*determineDocumentsBaseOrPathsBase();
+    //Формировать базу документов или путей файлов документов
+    determineDocumentsBaseOrPathsBase();
 
 
 
@@ -74,24 +75,24 @@ void SearchEngine::searchModifiedAll()
      * Для тестирования передачи контейнера по ссылке
      */
 
-    //Для тестирования передачи контейнера по ссылке
-    ResultOfReadMultipleTextFiles documents;
+
+/*    ResultOfReadMultipleTextFiles documents;
     readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
     documentsObj.updateDocuments(std::move(documents.documentsAndErrors.first));//Для тестирования передачи контейнера по ссылке*/
 
-    //Для замеров
-    std::cout << '\n' << t.elapsed() << '\n';
-    std::getchar();
+    //Для замеров чтения файлов
+    //std::cout << '\n' << t.elapsed() << '\n';
+    //std::getchar();
 
-    //Для замеров
-    //Timer t;
+    //Для замеров формирования индексов
+    Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
-    //Для замеров
-    //std::cout << '\n' << t.elapsed() << '\n';
-    //std::getchar();
+    //Для замеров формирования индексов
+    std::cout << '\n' << t.elapsed() << '\n';
+    std::getchar();
 
     //База инвертированного индекса обновлена
     kav::Logger::info("The base of the inverted index has been updated");

@@ -30,7 +30,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
                                   >
                          > currentErrorsNumber*/
 
-    //Прочитать текстовый файл
+    //Прочитать текстовый файл TODO возможно, надо читать не файл целеком, а слово в файле. Надо сделать замер
     std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFile(filePath, message, errorLevelOneFile, BOOST_CURRENT_LOCATION)};
 
     {

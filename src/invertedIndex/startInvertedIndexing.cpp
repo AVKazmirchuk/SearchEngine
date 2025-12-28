@@ -394,11 +394,9 @@ void InvertedIndex::startInvertedIndexing()
      */
 
     //Слить базы инвертированного индекса подготовленные в разных потоках
-    mergeInvertedIndexBases(futures);
+    //mergeInvertedIndexBases(futures);
 
     //Cлияние инвертированных баз в одном потоке*/
-
-
 
     //------------------------------
     //Инвертированная индексация документов в отдельных потоках*/
