@@ -28,7 +28,7 @@ int main()
         ofs.put(tmp);
     }*/
 
-    std::fstream ifs{"book2.txt"};
+    /*std::fstream ifs{"book2.txt"};
 
     std::string word;
     int numberOfFile{};
@@ -51,7 +51,26 @@ int main()
         if (ifs.eof()) break;
 
         ++numberOfFile;
+    }*/
+
+
+    std::ofstream ofs{"book6.txt"};
+
+    int i{};
+    std::string word;
+
+    while (i < 3)
+    {
+        std::fstream ifs{"book4.txt"};
+
+        while (getline(ifs, word))
+        {
+            ofs << word;
+        }
+
+        ++i;
     }
+
 
     return 0;
 }
