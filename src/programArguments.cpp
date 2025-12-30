@@ -140,7 +140,7 @@ bool ProcessProgramArguments::processProgramArguments(int argc, char* argv[])
         {
             if (convertStringToNumber(argv[i + 1], value))
             {
-                if (value >= 1 && value <= std::thread::hardware_concurrency())
+                if (value >= 0 && value <= std::thread::hardware_concurrency())
                 {
                     ProgramArguments::desiredNumberOfThreads() = value;
                 }

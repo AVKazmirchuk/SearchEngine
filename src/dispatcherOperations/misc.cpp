@@ -34,18 +34,30 @@ std::pair<std::size_t, const unsigned int> DispatcherOperations::countNumberOfTh
     //Количество дополнительных потоков
     //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
     //В противном случае - использовать желаемое количество потоков.
-    unsigned int numberOfThreads = (filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads);std::cout << desiredNumberOfThreads << " " << numberOfThreads << '\n'; std::getchar();
 
-    if (numberOfThreads == 0) numberOfThreads = 2;
+    unsigned int numberOfThreads{};
+    //Количество документов в потоке
+    std::size_t difference{};
 
-    //Определить разницу количества документов между потоками
-    std::size_t difference{filePaths.size() / numberOfThreads};
-
-    if (filePaths.size() % numberOfThreads)
+    if (desiredNumberOfThreads > 0)
     {
-        //Увеличить количество потоков
-        ++difference;
+        numberOfThreads = (filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads);
+
+
+
+
+        //Определить разницу количества документов между потоками
+        difference = filePaths.size() / numberOfThreads;
+
+        if (filePaths.size() % numberOfThreads)
+        {
+            //Увеличить количество потоков
+            ++difference;
+        }
     }
+
+    std::cout << desiredNumberOfThreads << " " << numberOfThreads << '\n';
+    std::getchar();
 
     return {difference, numberOfThreads};
 }

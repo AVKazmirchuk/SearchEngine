@@ -312,6 +312,16 @@ void InvertedIndex::startInvertedIndexing()
         defineWordOrReadDocumentAtBeginning = &InvertedIndex::readDocument;
     }
 
+    auto indexingDocuments = [this](std::size_t beginDocID, std::size_t endDocID, std::map<std::string, std::vector<Entry>> &invertedIndexesForThread)
+    {
+        //Для каждого документа
+        for (std::size_t currentDocID{beginDocID}; currentDocID < endDocID; ++currentDocID)
+        {
+            //Определить слово (выделить) в документе
+            (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread);
+        }
+    };
+
     /**
      * Инвертированная индексация документов в отдельных потоках
      */
@@ -325,86 +335,100 @@ void InvertedIndex::startInvertedIndexing()
     //Определить количество дополнительных потоков
     const unsigned int numberOfThreads = tmp.second;
 
-    //Контейнер результатов потоков
-    std::vector<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
-
-    //ID первого документа для каждого потока
-    std::size_t beginDocID{};
-
-    //Для каждого будущего потока
-    for (auto &future : futures)
+    if (numberOfThreads == 0)
     {
-        //ID последнего документа для каждого потока
-        std::size_t endDocID{beginDocID + difference - 1};
+        indexingDocuments(0, documents.size(), invertedIndexes);
+    }
+    else
+    {
 
-        //Если ID последнего документа для потока превышает ID документа всех документов
-        if (endDocID >= documents.size())
+        //Контейнер результатов потоков
+        std::vector<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
+
+        //ID первого документа для каждого потока
+        std::size_t beginDocID{};
+
+        //Для каждого будущего потока
+        for (auto &future: futures)
         {
-            //Установить ID последнего документа для потока равным ID последнего документа всех документов
-            endDocID = documents.size() - 1;
+            //ID последнего документа для каждого потока
+            std::size_t endDocID{beginDocID + difference - 1};
+
+            //Если ID последнего документа для потока превышает ID документа всех документов
+            if (endDocID >= documents.size())
+            {
+                //Установить ID последнего документа для потока равным ID последнего документа всех документов
+                endDocID = documents.size() - 1;
+            }
+
+            //Запустить чтение файлов в отдельном потоке в своём диапазоне
+            future = std::async([this, &indexingDocuments, beginDocID = beginDocID, endDocID = endDocID]() mutable
+                                {
+                                    //База инвертированных индексов для каждого потока
+                                    std::map<std::string, std::vector<Entry>> invertedIndexesForThread;
+
+                                    indexingDocuments(beginDocID, ++endDocID, invertedIndexesForThread);
+
+                                    //Для каждого документа
+                                    /*for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
+                                    {
+                                        //Определить слово (выделить) в документе
+                                        (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread);
+                                    }*/
+
+                                    //Вернуть базу инвертированных индексов для каждого потока
+                                    return invertedIndexesForThread;
+                                }
+            );
+
+
+
+            //Определить ID первого документа для следующего потока
+            beginDocID = endDocID + 1;
         }
 
-        //Запустить чтение файлов в отдельном потоке в своём диапазоне
-        future = std::async([this, beginDocID = beginDocID, endDocID = endDocID]()
-                            {
-                                //База инвертированных индексов для каждого потока
-                                std::map<std::string, std::vector<Entry>> invertedIndexesForThread;
+        /**
+         * Cлияние инвертированных баз в разных потоках
+         */
 
-                                //Для каждого документа
-                                for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
-                                {
-                                    //Определить слово (выделить) в документе
-                                    (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread);
-                                }
+        try
+        {
+            if (futures.size() > 1)
+            {
+                //Слить базы инвертированного индекса подготовленные в разных потоках
+                mergeInvertedIndexBases(futures);
+            }
 
-                                //Вернуть базу инвертированных индексов для каждого потока
-                                return invertedIndexesForThread;
-                            }
-        );
+            //Получить результат в базу инвертированного индекса
+            invertedIndexes = std::move(futures[0]).get();
+        }
+            //Обработать все исключения, выброшенные в потоках
+        catch (const std::exception &e)
+        {
+            //Регенерировать исключение выше. Будет обработано в главной функции
+            throw;
+        }//Cлияние инвертированных баз в разных потоках*/
 
-        //Определить ID первого документа для следующего потока
-        beginDocID = endDocID + 1;
-    }
 
-    /**
-     * Cлияние инвертированных баз в разных потоках
-     */
 
-    try
-    {
+        //------------------------------
+
+        /**
+         * Cлияние инвертированных баз в одном потоке
+         */
+
         //Слить базы инвертированного индекса подготовленные в разных потоках
-        mergeInvertedIndexBases(futures);
+        //mergeInvertedIndexBases(futures);
 
-        //Получить результат в базу инвертированного индекса
-        invertedIndexes = std::move(futures[0]).get();
+        //Cлияние инвертированных баз в одном потоке*/
+
+        //------------------------------
+        //Инвертированная индексация документов в отдельных потоках*/
+
+
+
+        //------------------------------
     }
-    //Обработать все исключения, выброшенные в потоках
-    catch (const std::exception& e)
-    {
-        //Регенерировать исключение выше. Будет обработано в главной функции
-        throw;
-    }//Cлияние инвертированных баз в разных потоках*/
-
-
-
-    //------------------------------
-
-    /**
-     * Cлияние инвертированных баз в одном потоке
-     */
-
-    //Слить базы инвертированного индекса подготовленные в разных потоках
-    //mergeInvertedIndexBases(futures);
-
-    //Cлияние инвертированных баз в одном потоке*/
-
-    //------------------------------
-    //Инвертированная индексация документов в отдельных потоках*/
-
-
-
-    //------------------------------
-
     /**
      * Инвертированная индексация документов в одном потоке
      */
