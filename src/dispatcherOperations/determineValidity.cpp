@@ -28,6 +28,12 @@ void DispatcherOperations::setErrorLevelFrom(const std::map<std::string, ErrorLe
 
 }
 
+unsigned int DispatcherOperations::getNumberOfThreads()
+{
+    return numberOfThreads;
+}
+
+
 std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
 {
     //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку

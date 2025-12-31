@@ -80,13 +80,7 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
     };
 
     //Определить количество потоков
-    std::pair<std::size_t, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
-
-    //Количество документов обрабатываемое одним потокам
-    std::size_t difference{tmp.first};
-
-    //Определить количество дополнительных потоков
-    const unsigned int numberOfThreads = tmp.second;
+    std::size_t difference{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
 
     //Если дополнительных потоков нет
     if (numberOfThreads == 0)

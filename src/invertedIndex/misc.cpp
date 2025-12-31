@@ -9,10 +9,8 @@
 
 #include <iostream>
 
-std::pair<std::size_t, const unsigned int> InvertedIndex::countNumberOfThreads()
+std::size_t InvertedIndex::countNumberOfThreads()
 {
-    //Фактическое количество потоков
-    unsigned int numberOfThreads{};
     //Количество документов в потоке
     std::size_t difference{};
 
@@ -36,13 +34,18 @@ std::pair<std::size_t, const unsigned int> InvertedIndex::countNumberOfThreads()
     }
 
     //Вернуть количество документов в потоке и количество потоков
-    return {difference, numberOfThreads};
+    return difference;
 }
 
 const std::map<std::string, std::vector<Entry>>& InvertedIndex::getInvertedIndexes()
 {
     //Вернуть ссылку на базу инвертированных индексов
     return invertedIndexes;
+}
+
+unsigned int InvertedIndex::getNumberOfThreads()
+{
+    return numberOfThreads;
 }
 
 /*void InvertedIndex::sortByAscendingDocumentID()

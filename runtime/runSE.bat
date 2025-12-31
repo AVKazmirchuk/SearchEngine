@@ -1,1 +1,1 @@
-search_engine.exe /t 5
+search_engine.exe /t 0

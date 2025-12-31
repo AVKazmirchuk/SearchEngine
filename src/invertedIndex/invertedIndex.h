@@ -56,6 +56,12 @@ public:
      */
     const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
 
+    /**
+     * Получить фактическое количество потоков
+     * @return Фактическое количество потоков
+     */
+    unsigned int getNumberOfThreads();
+
 private:
 
     //ОСНОВНЫЕ ДАННЫЕ И ФУНКЦИИ
@@ -113,10 +119,15 @@ private:
     unsigned int initialBasesNumberInStream{2};
 
     /**
+     * Фактическое количество потоков
+     */
+    unsigned int numberOfThreads{};
+
+    /**
      * Определить количество документов в потоке и количество потоков
      * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
      */
-    std::pair<std::size_t, const unsigned int> countNumberOfThreads();
+    std::size_t countNumberOfThreads();
 
     /**
      * Запустить инвертированную индексацию документов в отдельных потоках

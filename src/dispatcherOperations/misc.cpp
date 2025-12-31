@@ -29,10 +29,8 @@ ErrorCode DispatcherOperations::convertErrorCodeFrom(const kav::ErrorCode errorC
     return matchingErrorCodes.at(errorCode);
 }
 
-std::pair<std::size_t, const unsigned int> DispatcherOperations::countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
+std::size_t DispatcherOperations::countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
 {
-    //Фактическое количество потоков
-    unsigned int numberOfThreads{};
     //Количество документов в потоке
     std::size_t difference{};
 
@@ -55,8 +53,8 @@ std::pair<std::size_t, const unsigned int> DispatcherOperations::countNumberOfTh
         }
     }
 
-    //Вернуть количество документов в потоке и количество потоков
-    return {difference, numberOfThreads};
+    //Вернуть количество документов в потоке
+    return difference;
 }
 
 std::size_t DispatcherOperations::countErrorsNumber(std::vector<ErrorCode> &errors)
