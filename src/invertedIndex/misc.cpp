@@ -11,23 +11,23 @@
 
 std::pair<std::size_t, const unsigned int> InvertedIndex::countNumberOfThreads()
 {
-    //Количество дополнительных потоков
-    //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
-    //В противном случае - использовать желаемое количество потоков.
+    //Фактическое количество потоков
     unsigned int numberOfThreads{};
     //Количество документов в потоке
     std::size_t difference{};
 
+    //Если желаемое (дополнительное) количество потоков определено
     if (desiredNumberOfThreads > 0)
     {
-        numberOfThreads = (documents.size() <= desiredNumberOfThreads ? documents.size() : desiredNumberOfThreads);
+        //Определить фактическое количество потоков.
+        //Можно вывести формулу определения в зависимости от количества файлов, объёма файлов и желаемого количества потоков.
+        //Но нужны для этого элементарные статистические данные.
+        numberOfThreads = desiredNumberOfThreads;
 
-
-
-
-        //Определить разницу количества документов между потоками
+        //Определить количество документов в потоке
         difference = documents.size() / numberOfThreads;
 
+        //Если все потоки не охватывают все файлы
         if (documents.size() % numberOfThreads)
         {
             //Увеличить количество потоков
@@ -35,9 +35,7 @@ std::pair<std::size_t, const unsigned int> InvertedIndex::countNumberOfThreads()
         }
     }
 
-    std::cout << desiredNumberOfThreads << " " << numberOfThreads << '\n';
-    std::getchar();
-
+    //Вернуть количество документов в потоке и количество потоков
     return {difference, numberOfThreads};
 }
 

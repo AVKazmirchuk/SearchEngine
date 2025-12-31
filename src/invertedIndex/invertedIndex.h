@@ -113,7 +113,7 @@ private:
     unsigned int initialBasesNumberInStream{2};
 
     /**
-     * Определить количество потоков
+     * Определить количество документов в потоке и количество потоков
      * @return Пара количества документов обрабатываемое одним потокам и количества дополнительных потоков
      */
     std::pair<std::size_t, const unsigned int> countNumberOfThreads();

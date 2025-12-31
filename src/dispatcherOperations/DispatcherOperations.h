@@ -404,7 +404,7 @@ private:
     static ErrorLevel getErrorLevel(const boost::source_location &callingFunction);
 
     /**
-     * Определить количество потоков
+     * Определить количество документов в потоке и количество потоков
      * @param filePaths Ссылка на путь контейнера путей файлов
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов для одного потока и фактическое количество потоков
