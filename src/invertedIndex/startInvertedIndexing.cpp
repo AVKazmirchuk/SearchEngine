@@ -312,6 +312,7 @@ void InvertedIndex::startInvertedIndexing()
         defineWordOrReadDocumentAtBeginning = &InvertedIndex::readDocument;
     }
 
+    //Обработать документы независимо от количества потоков
     auto indexingDocuments = [this](std::size_t beginDocID, std::size_t endDocID, std::map<std::string, std::vector<Entry>> &invertedIndexesForThread)
     {
         //Для каждого документа
@@ -322,26 +323,18 @@ void InvertedIndex::startInvertedIndexing()
         }
     };
 
-    /**
-     * Инвертированная индексация документов в отдельных потоках
-     */
-
     //Определить количество потоков
-    std::pair<std::size_t, const unsigned int> tmp{countNumberOfThreads()};
+    std::size_t difference{countNumberOfThreads()};
 
-    //Количество документов обрабатываемое одним потокам
-    std::size_t difference{tmp.first};
-
-    //Определить количество дополнительных потоков
-    const unsigned int numberOfThreads = tmp.second;
-
+    //Если дополнительных потоков нет
     if (numberOfThreads == 0)
     {
+        //Обработать документы в текущем потоке
         indexingDocuments(0, documents.size(), invertedIndexes);
     }
     else
+        //Есть дополнительные потоки
     {
-
         //Контейнер результатов потоков
         std::vector<std::future<std::map<std::string, std::vector<Entry>>>> futures(numberOfThreads);
 
@@ -367,21 +360,13 @@ void InvertedIndex::startInvertedIndexing()
                                     //База инвертированных индексов для каждого потока
                                     std::map<std::string, std::vector<Entry>> invertedIndexesForThread;
 
+                                    //Обработать документы в дополнительном потоке
                                     indexingDocuments(beginDocID, ++endDocID, invertedIndexesForThread);
-
-                                    //Для каждого документа
-                                    /*for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
-                                    {
-                                        //Определить слово (выделить) в документе
-                                        (this->*defineWordOrReadDocumentAtBeginning)(currentDocID, documents[currentDocID], invertedIndexesForThread);
-                                    }*/
 
                                     //Вернуть базу инвертированных индексов для каждого потока
                                     return invertedIndexesForThread;
                                 }
             );
-
-
 
             //Определить ID первого документа для следующего потока
             beginDocID = endDocID + 1;
@@ -393,6 +378,7 @@ void InvertedIndex::startInvertedIndexing()
 
         try
         {
+            //Если потоков более одного
             if (futures.size() > 1)
             {
                 //Слить базы инвертированного индекса подготовленные в разных потоках
@@ -422,21 +408,5 @@ void InvertedIndex::startInvertedIndexing()
 
         //Cлияние инвертированных баз в одном потоке*/
 
-        //------------------------------
-        //Инвертированная индексация документов в отдельных потоках*/
-
-
-
-        //------------------------------
     }
-    /**
-     * Инвертированная индексация документов в одном потоке
-     */
-
-    //Для каждого документа
-/*    for (std::size_t docID{}; docID < documents.size(); ++docID)
-    {
-        //Определить слово (выделить) в документе
-        (this->*defineWordOrReadDocumentAtBeginning)(docID, documents[docID], invertedIndexes);
-    }//Инвертированная индексация документов в одном потоке*/
 }

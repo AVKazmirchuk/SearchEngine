@@ -45,7 +45,7 @@ void SearchEngine::determineDocumentsBaseOrPathsBase()
         //Обновить список документов из файлов
         documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
         //Документы загружены в базу
-        kav::Logger::info("Documents uploaded to the database");
+        kav::Logger::info("Documents uploaded to the database (additional threads: " + std::to_string(DispatcherOperations::getNumberOfThreads()) + ")");
     }
     else
     {
@@ -75,7 +75,6 @@ void SearchEngine::searchModifiedAll()
      * Для тестирования передачи контейнера по ссылке
      */
 
-
 /*    ResultOfReadMultipleTextFiles documents;
     readDocsFromFilesRef(converterJSONObj.getFilePaths(), documents);
     documentsObj.updateDocuments(std::move(documents.documentsAndErrors.first));//Для тестирования передачи контейнера по ссылке*/
@@ -85,17 +84,17 @@ void SearchEngine::searchModifiedAll()
     //std::getchar();
 
     //Для замеров формирования индексов
-    Timer t;
+    //Timer t;
 
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
     //Для замеров формирования индексов
-    std::cout << '\n' << t.elapsed() << '\n';
-    std::getchar();
+    //std::cout << '\n' << t.elapsed() << '\n';
+    //std::getchar();
 
     //База инвертированного индекса обновлена
-    kav::Logger::info("The base of the inverted index has been updated");
+    kav::Logger::info("The base of the inverted index has been updated (additional threads: " + std::to_string(invertedIndexObj.getNumberOfThreads()) + ")");
 
     //Очистить список запросов
     requestsObj.clearRequests();

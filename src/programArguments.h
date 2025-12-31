@@ -133,7 +133,7 @@ public:
     static unsigned int& desiredNumberOfThreads()
     {
         //Значение по умолчанию
-        static unsigned int variable{std::thread::hardware_concurrency() - 2};
+        static unsigned int variable{std::thread::hardware_concurrency() - 1};
         return variable;
     }
 

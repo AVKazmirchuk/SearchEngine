@@ -1,1 +1,1 @@
-search_engine.exe /dp no
+search_engine.exe /t 0

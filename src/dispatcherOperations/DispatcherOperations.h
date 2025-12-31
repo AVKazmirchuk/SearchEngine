@@ -293,6 +293,12 @@ public:
      */
     static void setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel);
 
+    /**
+     * Получить фактическое количество потоков
+     * @return Фактическое количество потоков
+     */
+    static unsigned int getNumberOfThreads();
+
 
 
     //------------------------------
@@ -404,12 +410,12 @@ private:
     static ErrorLevel getErrorLevel(const boost::source_location &callingFunction);
 
     /**
-     * Определить количество потоков
+     * Определить количество документов в потоке
      * @param filePaths Ссылка на путь контейнера путей файлов
      * @param desiredNumberOfThreads Желаемое количество потоков
      * @return Пара количества документов для одного потока и фактическое количество потоков
      */
-    static std::pair<std::size_t, const unsigned int> countNumberOfThreads(const std::vector<std::string> &filePaths,
+    static std::size_t countNumberOfThreads(const std::vector<std::string> &filePaths,
                                                                            const unsigned int desiredNumberOfThreads);
 
     /**
@@ -457,6 +463,10 @@ private:
      */
     inline static std::mutex mutexFindAddPackageID;
 
+    /**
+     * Фактическое количество потоков
+     */
+    inline static unsigned int numberOfThreads{};
 };
 
 

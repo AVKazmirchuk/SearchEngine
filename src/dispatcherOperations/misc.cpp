@@ -29,26 +29,23 @@ ErrorCode DispatcherOperations::convertErrorCodeFrom(const kav::ErrorCode errorC
     return matchingErrorCodes.at(errorCode);
 }
 
-std::pair<std::size_t, const unsigned int> DispatcherOperations::countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
+std::size_t DispatcherOperations::countNumberOfThreads(const std::vector<std::string> &filePaths, const unsigned int desiredNumberOfThreads)
 {
-    //Количество дополнительных потоков
-    //Если количество документов меньше либо равно желаемого количества потоков - использовать количество потоков равным количеству документов.
-    //В противном случае - использовать желаемое количество потоков.
-
-    unsigned int numberOfThreads{};
     //Количество документов в потоке
     std::size_t difference{};
 
+    //Если желаемое (дополнительное) количество потоков определено
     if (desiredNumberOfThreads > 0)
     {
-        numberOfThreads = (filePaths.size() <= desiredNumberOfThreads ? filePaths.size() : desiredNumberOfThreads);
+        //Определить фактическое количество потоков.
+        //Можно вывести формулу определения в зависимости от количества файлов, объёма файлов и желаемого количества потоков.
+        //Но нужны для этого элементарные статистические данные.
+        numberOfThreads = desiredNumberOfThreads;
 
-
-
-
-        //Определить разницу количества документов между потоками
+        //Определить количество документов в потоке
         difference = filePaths.size() / numberOfThreads;
 
+        //Если все потоки не охватывают все файлы
         if (filePaths.size() % numberOfThreads)
         {
             //Увеличить количество потоков
@@ -56,10 +53,8 @@ std::pair<std::size_t, const unsigned int> DispatcherOperations::countNumberOfTh
         }
     }
 
-    std::cout << desiredNumberOfThreads << " " << numberOfThreads << '\n';
-    std::getchar();
-
-    return {difference, numberOfThreads};
+    //Вернуть количество документов в потоке
+    return difference;
 }
 
 std::size_t DispatcherOperations::countErrorsNumber(std::vector<ErrorCode> &errors)

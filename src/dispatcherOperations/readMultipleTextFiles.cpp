@@ -60,13 +60,10 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
-    /*
-     * Чтение документов в нескольких потоках
-     */
-
     //Контейнер прочитанных документов
     std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
+    //Прочитать документы независимо от количества потоков
     auto readTextFile = [&documents, &filePaths, &message, &errorLevel, &callingFunction](std::size_t beginDocID, std::size_t endDocID)
     {
         //Для каждого документа
@@ -83,23 +80,18 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
     };
 
     //Определить количество потоков
-    std::pair<std::size_t, const unsigned int> tmp{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
+    std::size_t difference{countNumberOfThreads(filePaths, desiredNumberOfThreads)};
 
-    //Количество документов обрабатываемое одним потокам
-    std::size_t difference{tmp.first};
-
-    //Определить количество дополнительных потоков
-    const unsigned int numberOfThreads = tmp.second;
-
+    //Если дополнительных потоков нет
     if (numberOfThreads == 0)
     {
+        //Прочитать документы в текущем потоке
         readTextFile(0, filePaths.size());
     }
     else
+    //Есть дополнительные потоки
     {
-
-
-        //Контейнер результатов потоков
+         //Контейнер результатов потоков
         std::list<std::future<void>> futures(numberOfThreads);
 
         //ID первого документа для каждого потока
@@ -118,26 +110,10 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
             future = std::async(
                     [&readTextFile, beginDocID, endDocID]() mutable
                     {
-
+                        //Прочитать документы в дополнительном потоке
                         readTextFile(beginDocID, ++endDocID);
-
-
-
-                        //Для каждого документа
-                        /*for (std::size_t currentDocID{beginDocID}; currentDocID <= endDocID; ++currentDocID)
-                            {
-                                //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-                                //TODO Не горит. Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
-                                std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], message, errorLevel, callingFunction)};
-                                //Скопировать (переместить) результаты в контейнер прочитанных документов
-                                documents.first[currentDocID] = std::move(tmp.first);
-                                documents.second[currentDocID] = tmp.second;
-
-                            }*/
                     }
             );
-
-
 
             //Определить ID первого документа для следующего потока
             beginDocID = endDocID + 1;
@@ -156,33 +132,9 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         {
             //Регенерировать исключение выше. Будет обработано в главной функции
             throw;
-        }//Чтение документов в нескольких потоках*/
+        }
 
-
-
-        //------------------------------
-
-        /*
-         * Чтение документов в одном потоке
-         */
-
-        //Контейнер прочитанных документов с приведённым типом ошибок
-/*    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
-
-    //Для каждого документа
-    for (std::size_t docID{}; docID < filePaths.size(); ++docID)
-    {
-
-        std::pair<std::basic_string<char>, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[docID], message, errorLevel, callingFunction)};
-
-        //Добавить документ в контейнер прочитанных документов
-        documents.first[docID] = std::move(tmp.first);
-
-        //Добавить код ошибки
-        documents.second[docID] = tmp.second;
-    }//Чтение документов в одном потоке*/
     }
-
 
     //Вернуть пару контейнера текстов и кода ошибки
     return documents;
