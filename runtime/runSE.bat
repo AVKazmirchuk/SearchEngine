@@ -1,1 +1,1 @@
-search_engine.exe /t 0
+search_engine.exe /t 14

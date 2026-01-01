@@ -62,7 +62,7 @@ void SearchEngine::searchModifiedAll()
     documentsObj.clearDocuments();
 
     //Для замеров чтения файлов
-    //Timer t;
+    Timer t;
 
     //Формировать базу документов или путей файлов документов
     determineDocumentsBaseOrPathsBase();
@@ -90,8 +90,8 @@ void SearchEngine::searchModifiedAll()
     invertedIndexObj.updateInvertedIndexes();
 
     //Для замеров формирования индексов
-    //std::cout << '\n' << t.elapsed() << '\n';
-    //std::getchar();
+    std::cout << '\n' << t.elapsed() << '\n';
+    std::getchar();
 
     //База инвертированного индекса обновлена
     kav::Logger::info("The base of the inverted index has been updated (additional threads: " + std::to_string(invertedIndexObj.getNumberOfThreads()) + ")");
