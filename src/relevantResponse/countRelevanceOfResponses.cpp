@@ -49,39 +49,51 @@ std::size_t RelevantResponse::discoverNumberOfDocuments()
     return ++documentID;
 }
 
-void RelevantResponse::countRelevanceOfResponses() {
+void RelevantResponse::countRelevanceOfResponses()
+{
     //Изменить внешний размер базы релевантности ответов по количеству запросов
     relevantResponses.resize(preparedRequests.size());
 
-    //Количество документов
-    std::size_t numberOfDocuments{discoverNumberOfDocuments()};
-
     //По каждому запросу
-    for (std::size_t idRequest{}; idRequest < preparedRequests.size(); ++idRequest) {
-        //Временная таблица связи ID документа и частоты вхождения слов запроса в документах
-        std::vector<std::vector<float>> IDDocumentRequest(numberOfDocuments,
-                                                          std::vector<float>(preparedRequests[idRequest].size()));
+    for (std::size_t idRequest{}; idRequest < preparedRequests.size(); ++idRequest)
+    {
+        //Временная таблица связи ID документа и суммарной частоты вхождения слов запроса в документах
+        std::map<std::size_t, float> IDDocumentRequest;
 
         //Для каждого слова запроса
-        for (std::size_t idWord{}; idWord < preparedRequests[idRequest].size(); ++idWord) {
+        for (std::size_t idWord{}; idWord < preparedRequests[idRequest].size(); ++idWord)
+        {
             //Для каждой  структуры инвертированного индекса
-            for (const auto &entry: getInvertedIndexStructures(preparedRequests[idRequest][idWord])) {
-                //Записать в ячейку значение частоты вхождения слова
-                IDDocumentRequest[entry.docID][idWord] = static_cast<float>(entry.count);
+            for (const auto &entry: getInvertedIndexStructures(preparedRequests[idRequest][idWord]))
+            {
+                //Записать в контейнер значение суммарной частоты вхождения слова
+                IDDocumentRequest[entry.docID] += static_cast<float>(entry.count);
             }
         }
-        //Для каждого документа
-        for (std::size_t docID{}; docID < IDDocumentRequest.size(); ++docID) {
-            //Абсолютная релевантность
-            float absoluteRelevance{};
-            //Рассчитать абсолютную релевантность
-            absoluteRelevance = std::accumulate(IDDocumentRequest[docID].begin(), IDDocumentRequest[docID].end(),
-                                                absoluteRelevance);
 
-            //Записать в ячейку структуру относительного индекса
-            relevantResponses[idRequest].push_back({docID, absoluteRelevance});
-            //Определить максимальную абсолютную релевантность
-            maxAbsoluteRelevance = std::max(maxAbsoluteRelevance, absoluteRelevance);
+        //Количество документов
+        std::size_t numberOfDocuments{discoverNumberOfDocuments()};
+
+        //Для каждого документа
+        for (std::size_t docID{}; docID < numberOfDocuments; ++docID)
+        {
+            //Найти во временной таблице ID документа
+            auto pos{IDDocumentRequest.find(docID)};
+            //Если ID документа присутствует
+            if (pos != IDDocumentRequest.end())
+            {
+                //Записать в контейнер структуру относительного индекса
+                relevantResponses[idRequest].push_back({pos->first, pos->second});
+
+                //Определить максимальную абсолютную релевантность
+                maxAbsoluteRelevance = std::max(maxAbsoluteRelevance, pos->second);
+            }
+            else
+            //ID документа отсутствует
+            {
+                //Записать в контейнер структуру относительного индекса
+                relevantResponses[idRequest].push_back({docID, 0});
+            }
         }
     }
 }

@@ -51,7 +51,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
     srv.updateRelevantResponses();
     std::vector<std::vector<RelativeIndex>> result = srv.getRelevantResponses();
 
-    /*for (auto& elem : srv.getRelevantResponses())
+    for (auto& elem : srv.getRelevantResponses())
     {
         for (auto& elem2 : elem)
         {
@@ -59,7 +59,7 @@ TEST(TestCaseRelevantResponse, TestSimple) {
         }
 
         std::cout << '\n';
-    }*/
+    }
 
     ASSERT_EQ(result, expected);
 }
