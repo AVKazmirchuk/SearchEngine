@@ -30,7 +30,7 @@ std::vector<Entry> RelevantResponse::getInvertedIndexStructures(const std::strin
 std::size_t RelevantResponse::discoverNumberOfDocuments()
 {
     //ID документа
-    std::size_t documentID{0};
+    std::size_t documentID{};
 
     //По каждому элементу базы инвертированных индексов
     for (const auto& pairOfWordAndInvertedIndexStructures : invertedIndexes)
@@ -66,30 +66,51 @@ void RelevantResponse::countRelevanceOfResponses()
             //Для каждой  структуры инвертированного индекса
             for (const auto &entry: getInvertedIndexStructures(preparedRequests[idRequest][idWord]))
             {
-                //Записать в контейнер значение суммарной частоты вхождения слова
-                IDDocumentRequest[entry.docID] += static_cast<float>(entry.count);
+                //Определить, есть ли ID текущего документа в контейнере
+                auto pos{std::find_if(relevantResponses[idRequest].begin(), relevantResponses[idRequest].end(),
+                                      [&entry](const auto& relativeIndex)
+                                      {
+                                          return relativeIndex.docID == entry.docID;
+                                      })};
+
+                //Если ID текущего документа в контейнере присутствует
+                if (pos != relevantResponses[idRequest].end())
+                {
+                    //Записать в контейнер значение суммарной частоты вхождения слова
+                    pos->rank += static_cast<float>(entry.count);
+                    //Определить максимальную абсолютную релевантность
+                    maxAbsoluteRelevance = std::max(maxAbsoluteRelevance, pos->rank);
+                }
+                else
+                //ID текущего документа в контейнере отсутствует
+                {
+                    //Записать в контейнер структуру относительного индекса
+                    relevantResponses[idRequest].push_back({entry.docID, static_cast<float>(entry.count)});
+                    //Определить максимальную абсолютную релевантность
+                    maxAbsoluteRelevance = std::max(maxAbsoluteRelevance, static_cast<float>(entry.count));
+                }
             }
         }
 
         //Количество документов
         std::size_t numberOfDocuments{discoverNumberOfDocuments()};
 
+        //Сортировать документы по убыванию релевантности
+        sortByDescendingRelevance();
+
+        //Добавить (заполнить) в контейнер записи документов с нулевым рангом
         //Для каждого документа
         for (std::size_t docID{}; docID < numberOfDocuments; ++docID)
         {
-            //Найти во временной таблице ID документа
-            auto pos{IDDocumentRequest.find(docID)};
-            //Если ID документа присутствует
-            if (pos != IDDocumentRequest.end())
-            {
-                //Записать в контейнер структуру относительного индекса
-                relevantResponses[idRequest].push_back({pos->first, pos->second});
+            //Определить, есть ли ID текущего документа в контейнере
+            auto pos{std::find_if(relevantResponses[idRequest].begin(), relevantResponses[idRequest].end(),
+                                  [docID = docID](const auto& relativeIndex)
+                                  {
+                                      return relativeIndex.docID == docID;
+                                  })};
 
-                //Определить максимальную абсолютную релевантность
-                maxAbsoluteRelevance = std::max(maxAbsoluteRelevance, pos->second);
-            }
-            else
-            //ID документа отсутствует
+            //Если ID текущего документа отсутствует
+            if (pos == relevantResponses[idRequest].end())
             {
                 //Записать в контейнер структуру относительного индекса
                 relevantResponses[idRequest].push_back({docID, 0});

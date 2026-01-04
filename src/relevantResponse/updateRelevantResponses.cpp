@@ -23,6 +23,6 @@ void RelevantResponse::updateRelevantResponses()
     evaluateRelativeRelevance();
 
     //Сортировать документы по убыванию релевантности
-    sortByDescendingRelevance();
+    //sortByDescendingRelevance();
 }
 
