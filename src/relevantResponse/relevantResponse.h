@@ -226,9 +226,13 @@ private:
 
     /**
      * Сортировать документы по убыванию релевантности
-     * @param ID запроса
      */
-    void sortByDescendingRelevance(std::size_t idRequest);
+    void sortByDescendingRelevance();
+
+    /**
+     * Добавить документы в базу с нулевым рангом
+     */
+    void addDocumentsWithZeroRank();
 
 };
 

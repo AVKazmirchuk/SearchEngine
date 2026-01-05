@@ -23,6 +23,9 @@ void RelevantResponse::updateRelevantResponses()
     evaluateRelativeRelevance();
 
     //Сортировать документы по убыванию релевантности
-    //sortByDescendingRelevance();
+    sortByDescendingRelevance();
+
+    //Добавить документы в базу с нулевым рангом
+    addDocumentsWithZeroRank();
 }
 

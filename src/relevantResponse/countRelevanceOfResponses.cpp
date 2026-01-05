@@ -91,30 +91,5 @@ void RelevantResponse::countRelevanceOfResponses()
                 }
             }
         }
-
-        //Количество документов
-        std::size_t numberOfDocuments{discoverNumberOfDocuments()};
-
-        //Сортировать документы по убыванию релевантности
-        sortByDescendingRelevance(idRequest);
-
-        //Добавить (заполнить) в контейнер записи документов с нулевым рангом
-        //Для каждого документа
-        for (std::size_t docID{}; docID < numberOfDocuments; ++docID)
-        {
-            //Определить, есть ли ID текущего документа в контейнере
-            auto pos{std::find_if(relevantResponses[idRequest].begin(), relevantResponses[idRequest].end(),
-                                  [docID = docID](const auto& relativeIndex)
-                                  {
-                                      return relativeIndex.docID == docID;
-                                  })};
-
-            //Если ID текущего документа отсутствует
-            if (pos == relevantResponses[idRequest].end())
-            {
-                //Записать в контейнер структуру относительного индекса
-                relevantResponses[idRequest].push_back({docID, 0});
-            }
-        }
     }
 }
