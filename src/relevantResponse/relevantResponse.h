@@ -226,8 +226,9 @@ private:
 
     /**
      * Сортировать документы по убыванию релевантности
+     * @param ID запроса
      */
-    void sortByDescendingRelevance();
+    void sortByDescendingRelevance(std::size_t idRequest);
 
 };
 

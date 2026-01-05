@@ -58,7 +58,7 @@ void RelevantResponse::countRelevanceOfResponses()
     for (std::size_t idRequest{}; idRequest < preparedRequests.size(); ++idRequest)
     {
         //Временная таблица связи ID документа и суммарной частоты вхождения слов запроса в документах
-        std::map<std::size_t, float> IDDocumentRequest;
+        //std::map<std::size_t, float> IDDocumentRequest;
 
         //Для каждого слова запроса
         for (std::size_t idWord{}; idWord < preparedRequests[idRequest].size(); ++idWord)
@@ -96,7 +96,7 @@ void RelevantResponse::countRelevanceOfResponses()
         std::size_t numberOfDocuments{discoverNumberOfDocuments()};
 
         //Сортировать документы по убыванию релевантности
-        sortByDescendingRelevance();
+        sortByDescendingRelevance(idRequest);
 
         //Добавить (заполнить) в контейнер записи документов с нулевым рангом
         //Для каждого документа
