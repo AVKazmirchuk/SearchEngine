@@ -60,12 +60,13 @@ public:
     MatchingFunctionNameAndErrorLevel() = delete;
 
     /**
-     * Прочитать/записать путь файла конфигурации
-     * @return Ссылка на переменную
+     * Получить ссылку на контейнер соответствия имени вызывающей функции и уровня логирования
+     * @return Ссылка на контейнер
      */
     static const std::map<std::string, ErrorLevel> &matchingFunctionNameAndErrorLevel()
     {
-        static const std::map<std::string, ErrorLevel> varMatchingFunctionNameAndErrorLevel{
+        static const std::map<std::string, ErrorLevel> varMatchingFunctionNameAndErrorLevel
+        {
                 {"ConverterJSON::ConfigConverterJSON::initialize",              ErrorLevel::fatal},
                 {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
