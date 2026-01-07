@@ -9,6 +9,9 @@
 
 #include "nlohmann/json.hpp"
 
+#include "dispatcherOperations.h"
+#include "entry.h"
+#include "relativeIndex.h"
 #include "types.h"
 
 

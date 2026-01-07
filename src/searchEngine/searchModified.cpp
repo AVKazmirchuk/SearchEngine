@@ -7,7 +7,7 @@
 #include "searchEngine.h"
 #include "timer.h"
 
-#include "DispatcherOperations.h"
+#include "dispatcherOperations.h"
 
 
 
@@ -62,7 +62,7 @@ void SearchEngine::searchModifiedAll()
     documentsObj.clearDocuments();
 
     //Для замеров чтения файлов
-    Timer t;
+    //Timer t;
 
     //Формировать базу документов или путей файлов документов
     determineDocumentsBaseOrPathsBase();
@@ -89,9 +89,30 @@ void SearchEngine::searchModifiedAll()
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
+    auto invertedIndexes{invertedIndexObj.getInvertedIndexes()};
+
+    for (auto& elem : invertedIndexes)
+    {
+        std::cout << "{\"" << elem.first << "\", {";
+        for (auto it{elem.second.begin()}; it < elem.second.end(); ++it)
+        {
+            std::cout << "{" << it->docID << ',' << it->count << '}';
+            if (++it != elem.second.end())
+            {
+                std::cout << ", ";
+            }
+            else
+            {
+                std::cout << "}},";
+            }
+            --it;
+        }
+        std::cout << '\n';
+    }
+
     //Для замеров формирования индексов
-    std::cout << '\n' << t.elapsed() << '\n';
-    std::getchar();
+    //std::cout << '\n' << t.elapsed() << '\n';
+    //std::getchar();
 
     //База инвертированного индекса обновлена
     kav::Logger::info("The base of the inverted index has been updated (additional threads: " + std::to_string(invertedIndexObj.getNumberOfThreads()) + ")");
@@ -107,6 +128,27 @@ void SearchEngine::searchModifiedAll()
 
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
+
+    auto relevantResponses{relevantResponseObj.getRelevantResponses()};
+
+    for (auto& elem : relevantResponses)
+    {
+        std::cout << '{';
+        for (auto it{elem.begin()}; it < elem.end(); ++it)
+        {
+            std::cout << "{" << it->docID << ',' << it->rank << '}';
+            if (++it != elem.end())
+            {
+                std::cout << ", ";
+            }
+            else
+            {
+                std::cout << "},";
+            }
+            --it;
+        }
+        std::cout << '\n';
+    }
 
     //База релевантности ответов обновлена
     kav::Logger::info("The database of relevance of responses has been updated");

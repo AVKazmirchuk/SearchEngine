@@ -16,7 +16,7 @@
 
 #include "nlohmann/json.hpp"
 
-#include "DispatcherOperations.h"
+#include "dispatcherOperations.h"
 #include "types.h"
 
 

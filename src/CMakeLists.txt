@@ -25,11 +25,11 @@ add_executable(${Application_Name} main.cpp programArguments.cpp
         converterJSON/check.cpp
         converterJSON/misc.cpp
 
-        DispatcherOperations/DispatcherOperations.cpp
-        DispatcherOperations/determineValidity.cpp
-        DispatcherOperations/misc.cpp
-        DispatcherOperations/readMultipleTextFiles.cpp
-        DispatcherOperations/readMultipleTextFilesSequentially.cpp
+        dispatcherOperations/dispatcherOperations.cpp
+        dispatcherOperations/determineValidity.cpp
+        dispatcherOperations/misc.cpp
+        dispatcherOperations/readMultipleTextFiles.cpp
+        dispatcherOperations/readMultipleTextFilesSequentially.cpp
 
         documents/documents.cpp
 

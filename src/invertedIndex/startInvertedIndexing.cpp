@@ -4,7 +4,7 @@
 
 
 
-#include "DispatcherOperations.h"
+#include "dispatcherOperations.h"
 #include "invertedIndex.h"
 #include "timer.h"
 

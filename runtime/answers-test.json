@@ -1,6 +1,14 @@
 {
   "answers": {
     "request001": {
+      "result": "false"
+    },
+    "request002": {
+      "result": "true",
+      "docid": 0,
+      "rank": 0.017544
+    },
+    "request003": {
       "result": "true",
       "relevance": [
         {
@@ -16,14 +24,6 @@
           "rank": 0.77193
         }
       ]
-    },
-    "request002": {
-      "result": "true",
-      "docid": 0,
-      "rank": 0.017544
-    },
-    "request003": {
-      "result": "false"
     }
   }
 }
