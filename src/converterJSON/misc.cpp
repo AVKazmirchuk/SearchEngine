@@ -66,3 +66,13 @@ std::vector<std::string> ConverterJSON::getRequests()
 
     return requests;
 }
+
+unsigned int ConverterJSON::getMaxResponses()
+{
+    return maxResponses;
+}
+
+unsigned int ConverterJSON::getPrecision()
+{
+    return precision;
+}

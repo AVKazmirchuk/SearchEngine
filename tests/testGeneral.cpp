@@ -15,154 +15,108 @@ namespace testConstants
     const unsigned int maxResponses{5};
 }
 
-/**
- * Класс хранения переменных аргументов программы
- */
-class ProgramArguments
+
+const std::string& ProgramArguments::configFilePath()
+    {
+        //Значение по умолчанию
+        static const std::string variable{"../../tests/resources/config-test.json"};
+        return variable;
+    }
+
+const std::string& ProgramArguments::configFilePath_2()
 {
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-2.json"};
+    return variable;
+}
 
-public:
-
-    ProgramArguments() = delete;
-
-    /**
-     * Прочитать/записать путь файла конфигурации
-     * @return Ссылка на переменную
-     */
-    static std::string& configFilePath()
+const std::string& ProgramArguments::requestsFilePath()
     {
         //Значение по умолчанию
-        static std::string variable{"config.json"};
+        static const std::string variable{"../../tests/resources/requests-test.json"};
         return variable;
     }
 
-    /**
-     * Прочитать/записать путь файла запросов
-     * @return Ссылка на переменную
-     */
-    static std::string& requestsFilePath()
-    {
-        //Значение по умолчанию
-        static std::string variable{"requests.json"};
-        return variable;
-    }
-
-    /**
-     * Прочитать/записать путь файла ответов
-     * @return Ссылка на переменную
-     */
-    static std::string& answersFilePath()
+std::string& ProgramArguments::answersFilePath()
     {
         //Значение по умолчанию
         static std::string variable{"answers.json"};
         return variable;
     }
 
-    /**
-     * Прочитать/записать признак формирования базы документов или путей файлов документов
-     * @return Ссылка на переменную
-     */
-    static std::string& documentsBaseOrPathsBase()
+std::string& ProgramArguments::documentsBaseOrPathsBase()
     {
         //Значение по умолчанию
         static std::string variable{Constants::default_documentsBaseOrPathsBase()};
         return variable;
     }
 
-    /**
-     * Прочитать/записать путь файла конфигурации логирования
-     * @return Ссылка на переменную
-     */
-    static std::string& configLoggerFilePath()
+ std::string& ProgramArguments::configLoggerFilePath()
     {
         //Значение по умолчанию
         static std::string variable{"logger.json"};
         return variable;
     }
 
-    /**
-     * Прочитать/записать путь файла конфигурации очереди сообщений
-     * @return Ссылка на переменную
-     */
-    static std::string& configWriterMessageFilePath()
+std::string& ProgramArguments::configWriterMessageFilePath()
     {
         //Значение по умолчанию
         static std::string variable{"messageQueue.json"};
         return variable;
     }
 
-    /**
-     * Прочитать/записать признак логирования событий в консоль
-     * @return Ссылка на переменную
-     */
-    static std::string& launchConsole()
+std::string& ProgramArguments::launchConsole()
     {
         //Значение по умолчанию
         static std::string variable{Constants::default_launchConsole()};
         return variable;
     }
 
-    /**
-     * Прочитать/записать количество знаков после запятой
-     * @return Ссылка на переменную
-     */
-    static unsigned int& precision()
+const unsigned int& ProgramArguments::precision()
     {
         //Значение по умолчанию
-        static unsigned int variable{6};
+        static const unsigned int variable{6};
         return variable;
     }
 
-    /**
-     * Прочитать/записать ширину вывода
-     * @return Ссылка на переменную
-     */
-    static int& formatByWidth()
+const unsigned int& ProgramArguments::precision_3()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{3};
+    return variable;
+}
+
+int& ProgramArguments::formatByWidth()
     {
         //Значение по умолчанию
         static int variable{2};
         return variable;
     }
 
-    /**
-     * Прочитать/записать желаемое количество потоков
-     * @return Ссылка на переменную
-     */
-    static unsigned int& desiredNumberOfThreads()
+unsigned int& ProgramArguments::desiredNumberOfThreads()
     {
         //Значение по умолчанию
         static unsigned int variable{std::thread::hardware_concurrency() - 1};
         return variable;
     }
 
-    /**
-     * Прочитать/записать максимальное количество непрочитанных файлов
-     * @return Ссылка на переменную
-     */
-    static std::size_t& maximumAllowableErrorsNumber()
+std::size_t& ProgramArguments::maximumAllowableErrorsNumber()
     {
         //Значение по умолчанию
         static std::size_t variable{0};
         return variable;
     }
 
-};//Класс хранения переменных аргументов программы
-
-/**
- * Класс хранения баз документов, инвертированного индекса, запросов, релевантности ответов
- */
-class Bases
+unsigned int ProgramArguments::maxResponses()
 {
+    //Значение по умолчанию
+    static const unsigned int variable{5};
+    return variable;
+}
 
-public:
 
-    Bases() = delete;
 
-    /**
-     * Получить ссылку на базу документов
-     * @return Ссылка на базу документов
-     */
-    static const std::vector<std::string> &documents()
+const std::vector<std::string> &Bases::documents()
     {
         static const std::vector<std::string> varDocuments
                 {
@@ -174,11 +128,7 @@ public:
         return varDocuments;
     }
 
-    /**
-     * Получить ссылку на базу инвертированного индекса
-     * @return Ссылка на базу инвертированного индекса
-     */
-    static const std::map<std::string, std::vector<Entry>> &invertedIndex()
+const std::map<std::string, std::vector<Entry>> &Bases::invertedIndex()
     {
         static const std::map<std::string, std::vector<Entry>> &varInvertedIndex
                 {
@@ -792,27 +742,41 @@ public:
         return varInvertedIndex;
     }
 
-    /**
-     * Получить ссылку на базу запросов
-     * @return Ссылка на базу запросов
-     */
-    static const std::vector<std::string> &requests()
+const std::vector<std::string> &Bases::filePaths()
+{
+    static const std::vector<std::string> varFilePaths
+            {
+                    "../../tests/resources/resources/file001-test.txt",
+                    "../../tests/resources/resources/file002-test.txt",
+                    "../../tests/resources/resources/file003-test.txt"
+            };
+
+    return varFilePaths;
+}
+
+const std::vector<std::string> &Bases::requests()
     {
         static const std::vector<std::string> varRequests
                 {
                      "susic",
-                     "of the and water is year",
-                     "water anothers gaad saa"
+                     "water anothers gaad saa",
+                     "of the and water is year"
                 };
 
         return varRequests;
     }
 
-    /**
-     * Получить ссылку на базу релевантности ответов
-     * @return Ссылка на базу релевантности ответов
-     */
-    static const std::vector<std::vector<RelativeIndex>> &relativeIndex()
+const std::string &Bases::about()
+{
+    static const std::string varAbout
+            {
+                    R"("SkillboxSearchEngine", v."1.0.0")"
+            };
+
+    return varAbout;
+}
+
+const std::vector<std::vector<RelativeIndex>> &Bases::relativeIndex()
     {
         static const std::vector<std::vector<RelativeIndex>> varRelativeIndex
         {
@@ -824,11 +788,19 @@ public:
         return varRelativeIndex;
     }
 
-    /**
-     * Получить ссылку на JSON-объект конфигурации
-     * @return Ссылка на JSON-объект конфигурации
-     */
-    static const JSON &configJSON()
+const std::vector<std::vector<std::pair<std::uint64_t, float>>> &Bases::exportRelativeIndex()
+{
+    static const std::vector<std::vector<std::pair<std::uint64_t, float>>> varExportRelativeIndex
+            {
+                    {{0,0}, {1,0}, {2,0}},
+                    {{0,0.017544}, {1,0}, {2,0}},
+                    {{0,1}, {2,0.947368}, {1,0.77193}}
+            };
+
+    return varExportRelativeIndex;
+}
+
+const JSON &Bases::configJSON()
     {
         static const JSON varConfig= JSON::parse(R"(
     {
@@ -836,13 +808,13 @@ public:
          {
               "name": "SkillboxSearchEngine",
               "version": "1.0.0",
-              "max_responses": 1000000
+              "max_responses": 5
          },
         "files":
         [
-             "resources/file001-test.txt",
-             "resources/file002-test.txt",
-             "resources/file003-test.txt"
+             "../../tests/resources/resources/file001-test.txt",
+             "../../tests/resources/resources/file002-test.txt",
+             "../../tests/resources/resources/file003-test.txt"
         ]
     }
     )");
@@ -850,70 +822,126 @@ public:
         return varConfig;
     }
 
-    /**
-     * Получить ссылку на JSON-объект запросов
-     * @return Ссылка на JSON-объект запросов
-     */
-    static const JSON &requestsJSON()
+const JSON &Bases::requestsJSON()
     {
         static const JSON varRequests= JSON::parse(R"(
     {
          "requests":
-         [
-              "susic",
-              "water anothers gaad saa",
-              "of the and water is year"
-         ]
+    [
+    "susic",
+    "water anothers gaad saa",
+    "of the and water is year"
+
+  ]
     }
     )");
 
         return varRequests;
     }
 
-    /**
-     * Получить ссылку на JSON-объект ответов
-     * @return Ссылка на JSON-объект ответов
-     */
-    static const JSON &answersJSON()
+const JSON &Bases::answersJSON()
     {
         static const JSON varAnswers= JSON::parse(R"(
     {
-         "answers":
-         {
-              "request001":
-              {
-                   "result": "false"
-              },
-              "request002":
-              {
-                   "result": "true",
-                   "docid": 0,
-                   "rank": 0.017544
-              },
-              "request003":
-              {
-                   "result": "true",
-                   "relevance":
-                   [
-                        {
-                             "docid": 0,
-                             "rank": 1.0
-                        },
-                        {
-                             "docid": 2,
-                             "rank": 0.947368
-                        },
-                        {
-                             "docid": 1,
-                             "rank": 0.77193
-                        }
-                   ]
-              }
-         }
+  "answers": {
+    "request001": {
+      "result": "false"
+    },
+    "request002": {
+      "result": "true",
+      "docid": 0,
+      "rank": 0.017544
+    },
+    "request003": {
+      "result": "true",
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": 1.0
+        },
+        {
+          "docid": 2,
+          "rank": 0.947368
+        },
+        {
+          "docid": 1,
+          "rank": 0.77193
+        }
+      ]
+    }
+  }
     }
     )");
 
         return varAnswers;
     }
 
-};//MatchingFunctionNameAndErrorLevel
+const JSON &Bases::answersJSON_2()
+{
+    static const JSON varAnswers= JSON::parse(R"(
+    {
+  "answers": {
+    "request001": {
+      "result": "false"
+    },
+    "request002": {
+      "result": "true",
+      "docid": 0,
+      "rank": 0.017544
+    },
+    "request003": {
+      "result": "true",
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": 1.0
+        },
+        {
+          "docid": 2,
+          "rank": 0.947368
+        }
+      ]
+    }
+  }
+    }
+    )");
+
+    return varAnswers;
+}
+
+const JSON &Bases::answersJSON_3()
+{
+    static const JSON varAnswers= JSON::parse(R"(
+    {
+  "answers": {
+    "request001": {
+      "result": "false"
+    },
+    "request002": {
+      "result": "true",
+      "docid": 0,
+      "rank": 0.018
+    },
+    "request003": {
+      "result": "true",
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": 1.0
+        },
+        {
+          "docid": 2,
+          "rank": 0.947
+        },
+        {
+          "docid": 1,
+          "rank": 0.772
+        }
+      ]
+    }
+  }
+    }
+    )");
+
+    return varAnswers;
+}

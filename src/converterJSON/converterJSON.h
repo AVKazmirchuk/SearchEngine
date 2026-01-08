@@ -89,6 +89,18 @@ public:
      */
     JSON& getAnswersJSON();
 
+    /**
+     * Получить максимальное количество ответов
+     * @return Максимальное количество ответов
+     */
+    unsigned int getMaxResponses();
+
+    /**
+     * Получить количество знаков после запятой
+     * @return Количество знаков после запятой
+     */
+    unsigned int getPrecision();
+
 private:
 
     /**

@@ -162,16 +162,16 @@ private:
     void determineDocumentsBaseOrPathsBase();
 
     /**
-     * Преобразовать базу релевантности ответов в другой тип
-     * @return Преобразованная база релевантности ответов
-     */
-    std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
-
-    /**
      * Записать в JSON-файл результаты поиска
      * @param filePath Ссылка на путь файла
      */
     void writeAnswersToFile(const std::string& filePath);
+
+    /**
+     * Преобразовать базу релевантности ответов в другой тип
+     * @return Преобразованная база релевантности ответов
+     */
+    std::vector<std::vector<std::pair<std::uint64_t, float>>> exportRelevantResponses();
 
     /**
      * Читать документы из файлов. Используется косвенно для определения уровня логирования

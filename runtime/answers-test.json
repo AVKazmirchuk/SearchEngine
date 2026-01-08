@@ -6,7 +6,7 @@
     "request002": {
       "result": "true",
       "docid": 0,
-      "rank": 0.017544
+      "rank": 0.018
     },
     "request003": {
       "result": "true",
@@ -17,11 +17,11 @@
         },
         {
           "docid": 2,
-          "rank": 0.947368
+          "rank": 0.947
         },
         {
           "docid": 1,
-          "rank": 0.77193
+          "rank": 0.772
         }
       ]
     }

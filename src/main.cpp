@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //Установить соответствия имени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
     DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 

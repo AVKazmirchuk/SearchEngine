@@ -3,7 +3,7 @@
   {
     "name": "SkillboxSearchEngine",
     "version": "1.0.0",
-    "max_responses": 5
+    "max_responses": 2
   },
   "files":
   [

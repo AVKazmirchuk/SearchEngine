@@ -47,8 +47,7 @@ add_executable(${Application_Name} main.cpp programArguments.cpp
         relevantResponse/preparedRequest/separateRequestsByWords.cpp
         relevantResponse/preparedRequest/sortWordsByFrequencyOfOccurrence.cpp
 
-        requests/updateRequests.cpp
-        requests/misc.cpp
+        requests/requests.cpp
 
         searchEngine/searchModified.cpp
         searchEngine/exportRelevantResponses.cpp
