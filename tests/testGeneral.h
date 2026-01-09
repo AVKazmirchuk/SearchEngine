@@ -55,19 +55,19 @@ public:
      * Прочитать/записать путь файла ответов
      * @return Ссылка на переменную
      */
-    static std::string& answersFilePath();
+    static const std::string& answersFilePath();
 
     /**
      * Прочитать/записать признак формирования базы документов или путей файлов документов
      * @return Ссылка на переменную
      */
-    static std::string& documentsBaseOrPathsBase();
+    static const std::string& documentsBaseOrPathsBase();
 
     /**
      * Прочитать/записать путь файла конфигурации логирования
      * @return Ссылка на переменную
      */
-    static std::string& configLoggerFilePath();
+    static const std::string& configLoggerFilePath();
 
     /**
      * Прочитать/записать путь файла конфигурации очереди сообщений
@@ -79,7 +79,7 @@ public:
      * Прочитать/записать признак логирования событий в консоль
      * @return Ссылка на переменную
      */
-    static std::string& launchConsole();
+    static const std::string& launchConsole();
 
     /**
      * Прочитать количество знаков после запятой
@@ -97,19 +97,19 @@ public:
      * Прочитать/записать ширину вывода
      * @return Ссылка на переменную
      */
-    static int& formatByWidth();
+    static const int& formatByWidth();
 
     /**
      * Прочитать/записать желаемое количество потоков
      * @return Ссылка на переменную
      */
-    static unsigned int& desiredNumberOfThreads();
+    static const unsigned int& desiredNumberOfThreads();
 
     /**
      * Прочитать/записать максимальное количество непрочитанных файлов
      * @return Ссылка на переменную
      */
-    static std::size_t& maximumAllowableErrorsNumber();
+    static const std::size_t& maximumAllowableErrorsNumber();
 
     /**
      * Прочитать максимальное количество ответов
@@ -164,6 +164,12 @@ public:
      * @return Ссылка на базу релевантности ответов
      */
     static const std::vector<std::vector<RelativeIndex>> &relativeIndex();
+
+    /**
+     * Получить ссылку на базу релевантности ответов
+     * @return Ссылка на базу релевантности ответов
+     */
+    static const std::vector<std::vector<RelativeIndex>> &relativeIndex_3();
 
     /**
      * Получить ссылку на базу релевантности ответов другого типа

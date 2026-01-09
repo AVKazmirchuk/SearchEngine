@@ -37,20 +37,14 @@ std::size_t DispatcherOperations::countNumberOfThreads(const std::vector<std::st
     //Если желаемое (дополнительное) количество потоков определено
     if (desiredNumberOfThreads > 0)
     {
-        //Определить фактическое количество потоков.
-        //Можно вывести формулу определения в зависимости от количества файлов, объёма файлов и желаемого количества потоков.
-        //Но нужны для этого элементарные статистические данные.
-        numberOfThreads = desiredNumberOfThreads;
-
         //Определить количество документов в потоке
-        difference = filePaths.size() / numberOfThreads;
-
-        //Если все потоки не охватывают все файлы
-        if (filePaths.size() % numberOfThreads)
-        {
-            //Увеличить количество потоков
-            ++difference;
-        }
+        difference = filePaths.size() / desiredNumberOfThreads;
+        //Если все потоки не охватывают все файлы - увеличить количество документов в потоке
+        if (filePaths.size() % desiredNumberOfThreads) ++difference;
+        //Определить количество потоков
+        numberOfThreads = filePaths.size() / difference;
+        //Если все потоки не охватывают все файлы - увеличить количество потоков
+        if (filePaths.size() % difference) ++numberOfThreads;
     }
 
     //Вернуть количество документов в потоке

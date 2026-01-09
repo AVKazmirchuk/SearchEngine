@@ -89,7 +89,7 @@ void SearchEngine::searchModifiedAll()
     //Обновить базу инвертированного индекса
     invertedIndexObj.updateInvertedIndexes();
 
-    auto invertedIndexes{invertedIndexObj.getInvertedIndexes()};
+    /*auto invertedIndexes{invertedIndexObj.getInvertedIndexes()};
 
     for (auto& elem : invertedIndexes)
     {
@@ -108,7 +108,7 @@ void SearchEngine::searchModifiedAll()
             --it;
         }
         std::cout << '\n';
-    }
+    }*/
 
     //Для замеров формирования индексов
     //std::cout << '\n' << t.elapsed() << '\n';
@@ -129,7 +129,7 @@ void SearchEngine::searchModifiedAll()
     //Рассчитать релевантность ответов
     relevantResponseObj.updateRelevantResponses();
 
-    auto relevantResponses{relevantResponseObj.getRelevantResponses()};
+    /*auto relevantResponses{relevantResponseObj.getRelevantResponses()};
 
     for (auto& elem : relevantResponses)
     {
@@ -148,7 +148,7 @@ void SearchEngine::searchModifiedAll()
             --it;
         }
         std::cout << '\n';
-    }
+    }*/
 
     //База релевантности ответов обновлена
     kav::Logger::info("The database of relevance of responses has been updated");

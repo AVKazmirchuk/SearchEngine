@@ -12,6 +12,52 @@
 
 
 
+//Запустить проверку на создание объекта по const l-ref, обновление базы релевантности ответов,
+// получение ссылки на базу релевантности ответов
+TEST(TestUpdateRelevantResponses, byConstLRef)
+{
+    //Создать объект документов
+    RelevantResponse relevantResponse(Bases::invertedIndex(),Bases::requests(), ProgramArguments::precision());
+
+    //Обновить базу документов или путей файлов документов
+    relevantResponse.updateRelevantResponses();
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Установить результат операции
+    result = (relevantResponse.getRelevantResponses() == Bases::relativeIndex());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта по const l-ref, обновление базы релевантности ответов,
+// получение ссылки на базу релевантности ответов, количество знаков после запятой
+TEST(TestPrecision, byConstLRef)
+{
+    //Создать объект документов
+    RelevantResponse relevantResponse(Bases::invertedIndex(),Bases::requests(), ProgramArguments::precision_3());
+
+    //Обновить базу документов или путей файлов документов
+    relevantResponse.updateRelevantResponses();
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Установить результат операции
+    result = (relevantResponse.getRelevantResponses() == Bases::relativeIndex_3());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+
+
+/**
+ * Тесты из руководства по проекту
+ */
+
 //Проверить рассчёт релевантности ответов. Тест №1. Просто тест
 TEST(TestCaseRelevantResponse, TestSimple) {
     const std::vector<std::string> docs = {

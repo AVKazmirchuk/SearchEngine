@@ -8,7 +8,34 @@
 
 #include "invertedIndex.h"
 
+#include "testGeneral.h"
 
+
+
+//Запустить проверку на создание объекта по const l-ref, обновление базы инвертированных индексов,
+// получение ссылки на базу инвертированных индексов
+TEST(TestUpdateInvertedIndexes, byConstLRef)
+{
+    //Создать объект документов
+    InvertedIndex invertedIndex(Bases::documents(), 0, 0);
+
+    //Обновить базу документов или путей файлов документов
+    invertedIndex.updateInvertedIndexes();
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Установить результат операции
+    result = (invertedIndex.getInvertedIndexes() == Bases::invertedIndex());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+
+/**
+ * Тесты из руководства по проекту
+ */
 
 //Получить список структур инвертированного индекса соответствующего слова
 std::vector<Entry> getInvertedIndexStructures(const std::map<std::string, std::vector<Entry>>& invertedIndexes, const std::string& request)

@@ -37,38 +37,38 @@ const std::string& ProgramArguments::requestsFilePath()
         return variable;
     }
 
-std::string& ProgramArguments::answersFilePath()
+const std::string& ProgramArguments::answersFilePath()
     {
         //Значение по умолчанию
-        static std::string variable{"answers.json"};
+        static const std::string variable{"../../tests/resources/answers-test.json"};
         return variable;
     }
 
-std::string& ProgramArguments::documentsBaseOrPathsBase()
+const std::string& ProgramArguments::documentsBaseOrPathsBase()
     {
         //Значение по умолчанию
-        static std::string variable{Constants::default_documentsBaseOrPathsBase()};
+        static const std::string variable{Constants::default_documentsBaseOrPathsBase()};
         return variable;
     }
 
- std::string& ProgramArguments::configLoggerFilePath()
+const std::string& ProgramArguments::configLoggerFilePath()
     {
         //Значение по умолчанию
-        static std::string variable{"logger.json"};
+        static const std::string variable{"../../tests/resources/logger-test.json"};
         return variable;
     }
 
 std::string& ProgramArguments::configWriterMessageFilePath()
     {
         //Значение по умолчанию
-        static std::string variable{"messageQueue.json"};
+        static std::string variable{"../../tests/resources/messageQueue.json"};
         return variable;
     }
 
-std::string& ProgramArguments::launchConsole()
+const std::string& ProgramArguments::launchConsole()
     {
         //Значение по умолчанию
-        static std::string variable{Constants::default_launchConsole()};
+        static const std::string variable{Constants::default_launchConsole()};
         return variable;
     }
 
@@ -86,24 +86,24 @@ const unsigned int& ProgramArguments::precision_3()
     return variable;
 }
 
-int& ProgramArguments::formatByWidth()
+const int& ProgramArguments::formatByWidth()
     {
         //Значение по умолчанию
-        static int variable{2};
+        static const int variable{2};
         return variable;
     }
 
-unsigned int& ProgramArguments::desiredNumberOfThreads()
+const unsigned int& ProgramArguments::desiredNumberOfThreads()
     {
         //Значение по умолчанию
-        static unsigned int variable{std::thread::hardware_concurrency() - 1};
+        static const unsigned int variable{std::thread::hardware_concurrency() - 1};
         return variable;
     }
 
-std::size_t& ProgramArguments::maximumAllowableErrorsNumber()
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber()
     {
         //Значение по умолчанию
-        static std::size_t variable{0};
+        static const std::size_t variable{0};
         return variable;
     }
 
@@ -787,6 +787,18 @@ const std::vector<std::vector<RelativeIndex>> &Bases::relativeIndex()
 
         return varRelativeIndex;
     }
+
+const std::vector<std::vector<RelativeIndex>> &Bases::relativeIndex_3()
+{
+    static const std::vector<std::vector<RelativeIndex>> varRelativeIndex
+            {
+                    {{0,0}, {1,0}, {2,0}},
+                    {{0,0.018}, {1,0}, {2,0}},
+                    {{0,1}, {2,0.947}, {1,0.772}}
+            };
+
+    return varRelativeIndex;
+}
 
 const std::vector<std::vector<std::pair<std::uint64_t, float>>> &Bases::exportRelativeIndex()
 {
