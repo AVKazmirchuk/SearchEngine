@@ -54,23 +54,30 @@ const std::string& ProgramArguments::documentsBaseOrPathsBase()
 const std::string& ProgramArguments::configLoggerFilePath()
     {
         //Значение по умолчанию
-        static const std::string variable{"../../tests/resources/logger-test.json"};
+        static const std::string variable{"../../tests/resources/logger.json"};
         return variable;
     }
 
-std::string& ProgramArguments::configWriterMessageFilePath()
+const std::string& ProgramArguments::configWriterMessageFilePath()
     {
         //Значение по умолчанию
-        static std::string variable{"../../tests/resources/messageQueue.json"};
+        static const std::string variable{"../../tests/resources/messageQueue.json"};
         return variable;
     }
 
 const std::string& ProgramArguments::launchConsole()
     {
         //Значение по умолчанию
-        static const std::string variable{Constants::default_launchConsole()};
+        static const std::string variable{"yes"};
         return variable;
     }
+
+const std::string& ProgramArguments::launchConsole_2()
+{
+    //Значение по умолчанию
+    static const std::string variable{"no"};
+    return variable;
+}
 
 const unsigned int& ProgramArguments::precision()
     {

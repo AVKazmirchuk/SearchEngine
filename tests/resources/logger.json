@@ -16,5 +16,5 @@
     "dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
     "fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
     "fileSizeLimit" : 2000,
-    "filesDirectory" : "../../tests/resources/Logs/"
+    "filesDirectory" : ".\\Logs\\"
 }

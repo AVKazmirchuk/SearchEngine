@@ -73,13 +73,19 @@ public:
      * Прочитать/записать путь файла конфигурации очереди сообщений
      * @return Ссылка на переменную
      */
-    static std::string& configWriterMessageFilePath();
+    static const std::string& configWriterMessageFilePath();
 
     /**
      * Прочитать/записать признак логирования событий в консоль
      * @return Ссылка на переменную
      */
     static const std::string& launchConsole();
+
+    /**
+     * Прочитать/записать признак логирования событий в консоль
+     * @return Ссылка на переменную
+     */
+    static const std::string& launchConsole_2();
 
     /**
      * Прочитать количество знаков после запятой

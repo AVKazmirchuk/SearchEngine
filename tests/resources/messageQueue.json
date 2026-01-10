@@ -3,8 +3,8 @@
         "nameOfQueue" : "search_engine",
         "maxNumberOfMessages" : 100,
         "maxMessageSize" : 1024,
-        "fileNameOfMainProgram" : "search_engine.exe",
-        "fileNameOfMonitor" : "../../tests/resources/logger_monitor.exe",
+        "fileNameOfMainProgram" : "search_engine_test.exe",
+        "fileNameOfMonitor" : "logger_monitor.exe",
         "nameOfConsole" : "Logger Monitor",
         "indicatesMonitorStarting" : "C:\\Windows\\Temp\\logger_monitor"
     }

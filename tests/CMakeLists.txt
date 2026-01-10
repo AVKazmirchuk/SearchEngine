@@ -13,6 +13,12 @@ endfunction()
 # Предоставляет удобные команды, предназначенные для отладки, для вывода значений свойств и переменных
 include(CMakePrintHelpers)
 
+# Поместить все целевые файлы RUNTIME при сборке
+#set(Runtime_Output_Directory "../../tests/resources")
+
+# Поместить все целевые файлы RUNTIME при сборке
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${Runtime_Output_Directory})
+
 # Задать имя приложения
 set(Application_Name_Test "search_engine_test")
 # Задать переменную списка директорий с заголовками

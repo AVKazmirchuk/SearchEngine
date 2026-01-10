@@ -29,6 +29,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Поместить все целевые файлы RUNTIME при сборке
 set(Runtime_Output_Directory "../../runtime")
+
 # Установить языковые флаги при сборке для всех конфигураций. Эти флаги будут передаваться при всех вызовах компилятора
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -static -LC:\\MinGW-W64\\x86_64-13.2.0-release-posix-seh-ucrt-rt_v11-rev1\\x86_64-w64-mingw32\\lib -lwinpthread")
 
