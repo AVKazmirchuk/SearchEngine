@@ -12,12 +12,88 @@
 
 
 
-//Запустить проверку на создание объекта по const l-ref, обновление базы инвертированных индексов,
+//Запустить проверку на создание объекта, обновление базы инвертированных индексов,
 // получение ссылки на базу инвертированных индексов
-TEST(TestUpdateInvertedIndexes, byConstLRef)
+TEST(TestUpdateInvertedIndexes, updateInvertedIndexes)
 {
     //Создать объект документов
-    InvertedIndex invertedIndex(Bases::documents(), 0, 0);
+    InvertedIndex invertedIndex(Bases::documents());
+
+    //Обновить базу документов или путей файлов документов
+    invertedIndex.updateInvertedIndexes();
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Установить результат операции
+    result = (invertedIndex.getInvertedIndexes() == Bases::invertedIndex());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта, обновление базы инвертированных индексов,
+// получение ссылки на базу инвертированных индексов, действительное фактическое количество потоков
+TEST(TestUpdateInvertedIndexes, desiredNumberOfThreads_3)
+{
+    //Создать объект документов
+    InvertedIndex invertedIndex(Bases::documents(), ProgramArguments::maximumAllowableErrorsNumber(), ProgramArguments::desiredNumberOfThreads_3());
+
+    //Обновить базу документов или путей файлов документов
+    invertedIndex.updateInvertedIndexes();
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Установить результат операции
+    result = (invertedIndex.getNumberOfThreads() == ProgramArguments::desiredNumberOfThreads_3());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта, обновление базы инвертированных индексов,
+// получение ссылки на базу инвертированных индексов, действительное максимальное количество непрочитанных файлов и
+// признак формирования базы документов или путей файлов документов
+TEST(TestUpdateInvertedIndexes, maximumAllowableErrorsNumber_1)
+{
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Создать объект документов
+    InvertedIndex invertedIndex(Bases::paths(),
+                                ProgramArguments::maximumAllowableErrorsNumber_1(),
+                                ProgramArguments::desiredNumberOfThreads(),
+                                ProgramArguments::documentsBaseOrPathsBase_no());
+
+    //Обновить базу документов или путей файлов документов
+    invertedIndex.updateInvertedIndexes();
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Установить результат операции
+    result = (invertedIndex.getDocumentsBaseOrPathsBase() == ProgramArguments::documentsBaseOrPathsBase_no() &&
+            invertedIndex.getMaximumAllowableErrorsNumber() == ProgramArguments::maximumAllowableErrorsNumber_1());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта, обновление базы инвертированных индексов,
+// получение ссылки на базу инвертированных индексов, и признак формирования базы документов или путей файлов документов
+TEST(TestUpdateInvertedIndexes, documentsBaseOrPathsBase_no)
+{
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Создать объект документов
+    InvertedIndex invertedIndex(Bases::paths(),
+                                ProgramArguments::maximumAllowableErrorsNumber(),
+                                ProgramArguments::desiredNumberOfThreads(),
+                                ProgramArguments::documentsBaseOrPathsBase_no());
 
     //Обновить базу документов или путей файлов документов
     invertedIndex.updateInvertedIndexes();

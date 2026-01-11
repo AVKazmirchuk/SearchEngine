@@ -116,7 +116,7 @@ struct ResultOfReadMultipleTextFiles
 class DispatcherOperations
 {
 
-private:
+public:
 
     /**
      * Класс реализует исключение

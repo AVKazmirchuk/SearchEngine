@@ -30,12 +30,40 @@ const std::string& ProgramArguments::configFilePath_2()
     return variable;
 }
 
+const std::string& ProgramArguments::configFilePath_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configFilePath_filesEmpty()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-files-empty.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::requestsFilePath()
     {
         //Значение по умолчанию
         static const std::string variable{"../../tests/resources/requests-test.json"};
         return variable;
     }
+
+const std::string& ProgramArguments::requestsFilePath_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/requests-test-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::requestsFilePath_requestsEmpty()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/requests-test-requests-empty.json"};
+    return variable;
+}
 
 const std::string& ProgramArguments::answersFilePath()
     {
@@ -44,12 +72,26 @@ const std::string& ProgramArguments::answersFilePath()
         return variable;
     }
 
+const std::string& ProgramArguments::answersFilePath_empty()
+{
+    //Значение по умолчанию
+    static const std::string variable;
+    return variable;
+}
+
 const std::string& ProgramArguments::documentsBaseOrPathsBase()
     {
         //Значение по умолчанию
         static const std::string variable{Constants::default_documentsBaseOrPathsBase()};
         return variable;
     }
+
+const std::string& ProgramArguments::documentsBaseOrPathsBase_no()
+{
+    //Значение по умолчанию
+    static const std::string variable{Constants::documentsBaseOrPathsBase_no()};
+    return variable;
+}
 
 const std::string& ProgramArguments::configLoggerFilePath()
     {
@@ -100,12 +142,19 @@ const int& ProgramArguments::formatByWidth()
         return variable;
     }
 
-const unsigned int& ProgramArguments::desiredNumberOfThreads()
+const unsigned int ProgramArguments::desiredNumberOfThreads()
     {
         //Значение по умолчанию
         static const unsigned int variable{std::thread::hardware_concurrency() - 1};
         return variable;
     }
+
+const unsigned int ProgramArguments::desiredNumberOfThreads_3()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{3};
+    return variable;
+}
 
 const std::size_t& ProgramArguments::maximumAllowableErrorsNumber()
     {
@@ -113,6 +162,13 @@ const std::size_t& ProgramArguments::maximumAllowableErrorsNumber()
         static const std::size_t variable{0};
         return variable;
     }
+
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_1()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{1};
+    return variable;
+}
 
 unsigned int ProgramArguments::maxResponses()
 {
@@ -134,6 +190,18 @@ const std::vector<std::string> &Bases::documents()
 
         return varDocuments;
     }
+
+const std::vector<std::string> &Bases::paths()
+{
+    static const std::vector<std::string> varDocuments
+            {
+                    "../../tests/resources/resources/file001-test.txt",
+                    "../../tests/resources/resources/file002-test.txt",
+                    "../../tests/resources/resources/file003-test.txt"
+            };
+
+    return varDocuments;
+}
 
 const std::map<std::string, std::vector<Entry>> &Bases::invertedIndex()
     {

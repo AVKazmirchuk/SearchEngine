@@ -12,7 +12,7 @@
 
 
 
-//Запустить проверку на создание объекта по const l-ref, получение списка путей файлов документов
+//Запустить проверку на создание объекта, получение списка путей файлов документов
 TEST(TestConverterJSON, getFilePaths)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -32,7 +32,7 @@ TEST(TestConverterJSON, getFilePaths)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на создание объекта по const l-ref, получение запросов
+//Запустить проверку на создание объекта, получение запросов
 TEST(TestConverterJSON, getRequests)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -52,7 +52,7 @@ TEST(TestConverterJSON, getRequests)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на создание объекта по const l-ref, получение количества знаков после запятой
+//Запустить проверку на создание объекта, получение количества знаков после запятой
 TEST(TestConverterJSON, getPrecision)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -61,81 +61,6 @@ TEST(TestConverterJSON, getPrecision)
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
-
-    //Обнулить результат операции
-    bool result{};
-
-    //Установить результат операции
-    result = (converterJson.getPrecision() == ProgramArguments::precision());
-
-    //Проверить утверждение
-    ASSERT_TRUE(result);
-}
-
-//Запустить проверку на создание объекта по r-ref, получение списка путей файлов документов
-TEST(TestConverterJSON, getFilePathsByRRef)
-{
-    //Установить соответствия имени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
-    //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
-
-    //Установить временной переменной путь файла конфигурации
-    std::string tmpConfigFilePath{ProgramArguments::configFilePath()};
-    //Установить временной переменной путь файла запросов
-    std::string tmpRequestsFilePath{ProgramArguments::requestsFilePath()};
-
-    //Создать объект JSON-конвертера
-    ConverterJSON converterJson(std::move(tmpConfigFilePath), std::move(tmpRequestsFilePath), ProgramArguments::precision());
-
-    //Обнулить результат операции
-    bool result{};
-
-    //Установить результат операции
-    result = (converterJson.getFilePaths() == Bases::filePaths());
-
-    //Проверить утверждение
-    ASSERT_TRUE(result);
-}
-
-//Запустить проверку на создание объекта по r-ref, получение запросов
-TEST(TestConverterJSON, getRequestsByRRef)
-{
-    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
-    //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
-
-    //Установить временной переменной путь файла конфигурации
-    std::string tmpConfigFilePath{ProgramArguments::configFilePath()};
-    //Установить временной переменной путь файла запросов
-    std::string tmpRequestsFilePath{ProgramArguments::requestsFilePath()};
-
-    //Создать объект JSON-конвертера
-    ConverterJSON converterJson(std::move(tmpConfigFilePath), std::move(tmpRequestsFilePath), ProgramArguments::precision());
-
-    //Обнулить результат операции
-    bool result{};
-
-    //Установить результат операции
-    result = (converterJson.getRequests() == Bases::requests());
-
-    //Проверить утверждение
-    ASSERT_TRUE(result);
-}
-
-//Запустить проверку на создание объекта по r-ref, получение количества знаков после запятой
-TEST(TestConverterJSON, getPrecisionByRRef)
-{
-    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
-    //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
-
-    //Установить временной переменной путь файла конфигурации
-    std::string tmpConfigFilePath{ProgramArguments::configFilePath()};
-    //Установить временной переменной путь файла запросов
-    std::string tmpRequestsFilePath{ProgramArguments::requestsFilePath()};
-
-    //Создать объект JSON-конвертера
-    ConverterJSON converterJson(std::move(tmpConfigFilePath), std::move(tmpRequestsFilePath), ProgramArguments::precision());
 
     //Обнулить результат операции
     bool result{};
@@ -167,7 +92,7 @@ TEST(TestConverterJSON, about)
     ASSERT_TRUE(result);
 }
 
-//Запустить проверку на создание объекта, получение информации о программе
+//Запустить проверку на создание объекта, получение максимального количества ответов
 TEST(TestConverterJSON, maxResponses)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -234,3 +159,102 @@ TEST(TestConverterJSON, answersJSON_2)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку на создание объекта (отсутствует файл конфигурации)
+TEST(TestConverterJSON, configFilePath_missing)
+{
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать объект JSON-конвертера
+        ConverterJSON converterJson(ProgramArguments::configFilePath_missing(), ProgramArguments::requestsFilePath(),
+                                    ProgramArguments::precision());
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта (отсутствует файл запросов)
+TEST(TestConverterJSON, requestsFilePath_missing)
+{
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать объект JSON-конвертера
+        ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath_missing(),
+                                    ProgramArguments::precision());
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта (список путей файлов документов пуст)
+TEST(TestConverterJSON, configFilePath_filesEmpty)
+{
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать объект JSON-конвертера
+        ConverterJSON converterJson(ProgramArguments::configFilePath_filesEmpty(), ProgramArguments::requestsFilePath(),
+                                    ProgramArguments::precision());
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта (список запросов пуст)
+TEST(TestConverterJSON, requestsFilePath_requestsEmpty)
+{
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать объект JSON-конвертера
+        ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath_requestsEmpty(),
+                                    ProgramArguments::precision());
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}

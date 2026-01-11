@@ -11,8 +11,11 @@
 
 
 
-std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths) const
+std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
+    //Действительное максимальное количество непрочитанных файлов
+    validMaximumAllowableErrorsNumber = maximumAllowableErrorsNumber;
+
     //Прочитать документы
     return DispatcherOperations::readMultipleTextFiles(filePaths, desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
 }
@@ -49,11 +52,26 @@ void SearchEngine::determineDocumentsBaseOrPathsBase()
     }
     else
     {
+        //Читаются файлы документов напрямую
+        validDocumentsBaseOrPathsBase = false;
+
         //Обновить список путей файлов документов
         documentsObj.updateDocuments(converterJSONObj.getFilePaths());
         //Пути файлов документов загружены в базу
         kav::Logger::info("Document file paths uploaded to the database");
     }
+}
+
+const std::string& SearchEngine::getDocumentsBaseOrPathsBase()
+{
+    if (validDocumentsBaseOrPathsBase) return Constants::default_documentsBaseOrPathsBase();
+
+    return Constants::documentsBaseOrPathsBase_no();
+}
+
+std::size_t SearchEngine::getMaximumAllowableErrorsNumber()
+{
+    return validMaximumAllowableErrorsNumber;
 }
 
 void SearchEngine::searchModifiedAll()

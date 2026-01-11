@@ -31,6 +31,16 @@ public:
         static const std::string variable{"yes"};
         return variable;
     }
+    /**
+     * Прочитать по умолчанию признак формирования базы документов или путей файлов документов. Пути файлов документов
+     * @return Ссылка на переменную
+     */
+    static const std::string& documentsBaseOrPathsBase_no()
+    {
+        //Значение по умолчанию
+        static const std::string variable{"no"};
+        return variable;
+    }
 
     /**
      * Прочитать по умолчанию признак логирования событий в консоль

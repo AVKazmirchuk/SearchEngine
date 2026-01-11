@@ -39,7 +39,19 @@ const std::map<std::string, std::vector<Entry>>& InvertedIndex::getInvertedIndex
 
 unsigned int InvertedIndex::getNumberOfThreads()
 {
-    return numberOfThreads;
+    return validNumberOfThreads;
+}
+
+const std::string& InvertedIndex::getDocumentsBaseOrPathsBase()
+{
+    if (validDocumentsBaseOrPathsBase) return Constants::default_documentsBaseOrPathsBase();
+
+    return Constants::documentsBaseOrPathsBase_no();
+}
+
+std::size_t InvertedIndex::getMaximumAllowableErrorsNumber()
+{
+    return validMaximumAllowableErrorsNumber;
 }
 
 /*void InvertedIndex::sortByAscendingDocumentID()

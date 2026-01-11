@@ -46,22 +46,58 @@ public:
     static const std::string& configFilePath_2();
 
     /**
+     * Прочитать путь файла конфигурации missing. Файл отсутствует
+     * @return Ссылка на переменную
+     */
+    static const std::string& configFilePath_missing();
+
+    /**
+     * Прочитать путь файла конфигурации. Список путей файлов документов пуст
+     * @return Ссылка на переменную
+     */
+    static const std::string& configFilePath_filesEmpty();
+
+    /**
      * Прочитать путь файла запросов
      * @return Ссылка на переменную
      */
     static const std::string& requestsFilePath();
 
     /**
-     * Прочитать/записать путь файла ответов
+     * Прочитать путь файла запросов missing. Файл отсутствует
+     * @return Ссылка на переменную
+     */
+    static const std::string& requestsFilePath_missing();
+
+    /**
+     * Прочитать путь файла запросов. Список запросов пуст
+     * @return Ссылка на переменную
+     */
+    static const std::string& requestsFilePath_requestsEmpty();
+
+    /**
+     * Прочитать путь файла ответов
      * @return Ссылка на переменную
      */
     static const std::string& answersFilePath();
+
+    /**
+     * Прочитать путь файла ответов
+     * @return Ссылка на переменную
+     */
+    static const std::string& answersFilePath_empty();
 
     /**
      * Прочитать/записать признак формирования базы документов или путей файлов документов
      * @return Ссылка на переменную
      */
     static const std::string& documentsBaseOrPathsBase();
+
+    /**
+     * Прочитать/записать признак формирования базы документов или путей файлов документов. Пути файлов документов
+     * @return Ссылка на переменную
+     */
+    static const std::string &documentsBaseOrPathsBase_no();
 
     /**
      * Прочитать/записать путь файла конфигурации логирования
@@ -106,16 +142,28 @@ public:
     static const int& formatByWidth();
 
     /**
-     * Прочитать/записать желаемое количество потоков
+     * Прочитать желаемое количество потоков
      * @return Ссылка на переменную
      */
-    static const unsigned int& desiredNumberOfThreads();
+    static const unsigned int desiredNumberOfThreads();
 
     /**
-     * Прочитать/записать максимальное количество непрочитанных файлов
+     * Прочитать желаемое количество потоков. Три потока
+     * @return Ссылка на переменную
+     */
+    static const unsigned int desiredNumberOfThreads_3();
+
+    /**
+     * Прочитать максимальное количество непрочитанных файлов
      * @return Ссылка на переменную
      */
     static const std::size_t& maximumAllowableErrorsNumber();
+
+    /**
+     * Прочитать максимальное количество непрочитанных файлов. Один ошибочный файл
+     * @return Ссылка на переменную
+     */
+    static const std::size_t& maximumAllowableErrorsNumber_1();
 
     /**
      * Прочитать максимальное количество ответов
@@ -140,6 +188,12 @@ public:
      * @return Ссылка на базу документов
      */
     static const std::vector<std::string> &documents();
+
+    /**
+     * Получить ссылку на пути файлов документов
+     * @return Ссылка на пути файлов документов
+     */
+    static const std::vector<std::string> &paths();
 
     /**
      * Получить ссылку на базу инвертированного индекса

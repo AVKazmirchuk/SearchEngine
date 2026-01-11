@@ -57,10 +57,22 @@ public:
     const std::map<std::string, std::vector<Entry>>& getInvertedIndexes();
 
     /**
-     * Получить фактическое количество потоков
-     * @return Фактическое количество потоков
+     * Получить действительное фактическое количество потоков
+     * @return Действительное фактическое количество потоков
      */
     unsigned int getNumberOfThreads();
+
+    /**
+     * Получить признак формирования базы документов или путей файлов документов
+     * @return Признак формирования базы документов или путей файлов документов
+     */
+    const std::string& getDocumentsBaseOrPathsBase();
+
+    /**
+     * Получить действительное максимальное количество непрочитанных файлов
+     * @return Действительное максимальное количество непрочитанных файлов
+     */
+     std::size_t getMaximumAllowableErrorsNumber();
 
 private:
 
@@ -101,6 +113,11 @@ private:
     const std::string documentsBaseOrPathsBase;
 
     /**
+     * Действительный признак формирования базы документов или путей файлов документов
+     */
+     bool validDocumentsBaseOrPathsBase{true};
+
+    /**
      * Желаемое количество потоков
      */
     const unsigned int desiredNumberOfThreads;
@@ -109,6 +126,11 @@ private:
      * Максимальное количество непрочитанных файлов
      */
     const std::size_t maximumAllowableErrorsNumber;
+
+    /**
+     * Действительное максимальное количество непрочитанных файлов
+     */
+    std::size_t validMaximumAllowableErrorsNumber{};
 
     /**
      * Сразу определить слово (выделить) в документе
@@ -122,6 +144,11 @@ private:
      * Фактическое количество потоков
      */
     unsigned int numberOfThreads{};
+
+    /**
+     * Действительное фактическое количество потоков
+     */
+    unsigned int validNumberOfThreads{};
 
     /**
      * Определить количество документов в потоке и количество потоков

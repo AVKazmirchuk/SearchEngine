@@ -45,21 +45,6 @@ public:
     }
 
     /**
-     * Инициализирует: ссылку на JSON-объект конфигурации, ссылку на JSON-объект запросов
-     * @param in_configFilePath Ссылка на путь файла конфигурации
-     * @param in_requestsFilePath Ссылка на путь файла запросов
-     * @param in_precision Количество знаков после запятой
-     */
-    ConverterJSON(std::string&& in_configFilePath, std::string&& in_requestsFilePath, unsigned int in_precision)
-
-            : configConverterJson(std::move(in_configFilePath), std::move(in_requestsFilePath)),
-            configJSON(configConverterJson.getConfigJSON()), requestsJSON(configConverterJson.getRequestsJSON()), precision{in_precision}
-
-    {
-        initialize();
-    }
-
-    /**
      * О программе
      * @return Строка о программе (название, версия)
      */

@@ -71,7 +71,7 @@ add_executable(${Application_Name_Test} main.cpp test.cpp testGeneral.cpp testIn
         ${CPP_PREPARED_REQUEST}
         ${CPP_REQUESTS}
         ${CPP_SEARCH_ENGINE}
-        testDocuments.cpp testRequests.cpp сonverterJSON.cpp testSearchEngine.cpp)
+        testDocuments.cpp testRequests.cpp testConverterJSON.cpp testSearchEngine.cpp)
 
 # Задать переменную списка поддиректорий с заголовками
 set(Include_Subdirectories "")

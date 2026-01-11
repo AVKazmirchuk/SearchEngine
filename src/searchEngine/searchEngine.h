@@ -60,36 +60,6 @@ public:
     }
 
     /**
-     * Инициализирует объекты всех классов
-     * @param in_configFilePath Ссылка на путь файла конфигурации
-     * @param in_requestsFilePath Ссылка на путь файла запросов
-     * @param in_answersFilePath Ссылка на путь файла ответов
-     * @param in_documentsBaseOrPathsBase Признак формирования базы документов или путей файлов документов
-     * @param in_precision Количество знаков после запятой
-     * @param in_formatByWidth Ширина вывода
-     * @param in_desiredNumberOfThreads Желаемое количество потоков
-     * @param in_maximumAllowableErrorsNumber Максимальное количество непрочитанных файлов (допустимых ошибок)
-     */
-    SearchEngine(std::string&& in_configFilePath, std::string&& in_requestsFilePath, std::string&& in_answersFilePath,
-                 std::string&& in_documentsBaseOrPathsBase,
-                 unsigned int in_precision,
-                 const int in_formatByWidth,
-                 const unsigned int in_desiredNumberOfThreads,
-                 const std::size_t in_maximumAllowableErrorsNumber)
-            : converterJSONObj(std::move(in_configFilePath), std::move(in_requestsFilePath), in_precision),
-              documentsObj{},
-              invertedIndexObj(documentsObj.getDocuments(), in_maximumAllowableErrorsNumber, in_desiredNumberOfThreads, in_documentsBaseOrPathsBase),
-              requestsObj{},
-              relevantResponseObj(invertedIndexObj.getInvertedIndexes(), requestsObj.getRequests(), in_precision),
-              answersFilePath{std::move(in_answersFilePath)}, documentsBaseOrPathsBase{in_documentsBaseOrPathsBase}, formatByWidth{in_formatByWidth},
-              desiredNumberOfThreads{in_desiredNumberOfThreads}, maximumAllowableErrorsNumber{in_maximumAllowableErrorsNumber}
-
-    {
-        //Логировать сообщение о программе
-        kav::Logger::info(converterJSONObj.about());
-    }
-
-    /**
      * Рассчитать релевантность ответов
      */
     void searchModifiedAll();
@@ -103,6 +73,18 @@ public:
      * Рассчитать релевантность ответов, при изменении запросов
      */
     void searchModifiedRequests();
+
+    /**
+     * Получить признак формирования базы документов или путей файлов документов
+     * @return Признак формирования базы документов или путей файлов документов
+     */
+    const std::string& getDocumentsBaseOrPathsBase();
+
+    /**
+     * Получить действительное максимальное количество непрочитанных файлов
+     * @return Действительное максимальное количество непрочитанных файлов
+     */
+    std::size_t getMaximumAllowableErrorsNumber();
 
 private:
 
@@ -142,6 +124,11 @@ private:
     const std::string documentsBaseOrPathsBase;
 
     /**
+     * Действительный признак формирования базы документов или путей файлов документов
+     */
+    bool validDocumentsBaseOrPathsBase{true};
+
+    /**
      * Ширина вывода
      */
     const int formatByWidth;
@@ -155,6 +142,11 @@ private:
      * Максимальное количество непрочитанных файлов
      */
     const std::size_t maximumAllowableErrorsNumber;
+
+    /**
+     * Действительное максимальное количество непрочитанных файлов
+     */
+    std::size_t validMaximumAllowableErrorsNumber{};
 
     /**
      * Определить: формировать базу документов или путей файлов документов
@@ -178,7 +170,7 @@ private:
      * @param filePaths Ссылка на контейнер путей файлов
      * @return Контейнер документов
      */
-    [[nodiscard]] std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths) const;
+    [[nodiscard]] std::vector<std::string> readDocsFromFiles(const std::vector<std::string>& filePaths);
 
 
 
