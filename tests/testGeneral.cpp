@@ -114,6 +114,34 @@ const std::string& ProgramArguments::configWriterMessageFilePath()
         return variable;
     }
 
+const std::string& ProgramArguments::logsFolderName()
+{
+    //Значение по умолчанию
+    static const std::string variable{"Logs"};
+    return variable;
+}
+
+const std::string& ProgramArguments::jsonFileName()
+{
+    //Значение по умолчанию
+    static const std::string variable{"writeJSONFile.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageTest()
+{
+    //Значение по умолчанию
+    static const std::string variable{"This is a test message!!!"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_info()
+{
+    //Значение по умолчанию
+    static const std::string variable{"INFO"};
+    return variable;
+}
+
 const std::string& ProgramArguments::launchConsole()
     {
         //Значение по умолчанию
@@ -1401,6 +1429,23 @@ const JSON &Bases::requestsJSON()
 
         return varRequests;
     }
+
+const JSON &Bases::jsonTest()
+{
+    static const JSON varRequests= JSON::parse(R"(
+    {
+         "requests":
+    [
+    "susic",
+    "water anothers gaad saa",
+    "of the and water is year"
+
+  ]
+    }
+    )");
+
+    return varRequests;
+}
 
 const JSON &Bases::answersJSON()
     {

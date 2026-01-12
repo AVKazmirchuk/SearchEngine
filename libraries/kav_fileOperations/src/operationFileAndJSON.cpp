@@ -84,7 +84,7 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
     return objectJSON;
 }
 
-std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::string& filePath)
+std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(const std::filesystem::path &filePath)
 {
     //Создать объект для чтения файла документа
     std::ifstream inFile(filePath);

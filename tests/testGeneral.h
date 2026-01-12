@@ -118,6 +118,31 @@ public:
     static const std::string& configWriterMessageFilePath();
 
     /**
+     * Прочитать имя папки логов
+     * @return Имя папки логов
+     */
+    static const std::string& logsFolderName();
+
+
+    /**
+     * Прочитать имя JSON-файла
+     * @return
+     */
+    static const std::string& jsonFileName();
+
+    /**
+     * Прочитать тестовое сообщение
+     * @return Тестовое сообщение
+     */
+    static const std::string& messageTest();
+
+    /**
+     * Прочитать уровень логирования info
+     * @return
+     */
+    static const std::string& errorLevel_info();
+
+    /**
      * Прочитать/записать признак логирования событий в консоль
      * @return Ссылка на переменную
      */
@@ -272,6 +297,12 @@ public:
      * @return Ссылка на JSON-объект запросов
      */
     static const JSON &requestsJSON();
+
+    /**
+     * Получить ссылку на JSON-объект
+     * @return Ссылка на JSON-объект
+     */
+    static const JSON &jsonTest();
 
     /**
      * Получить ссылку на JSON-объект ответов
