@@ -123,6 +123,16 @@ private:
     const unsigned int desiredNumberOfThreads;
 
     /**
+     * Фактическое количество потоков
+     */
+    unsigned int numberOfThreads{};
+
+    /**
+     * Действительное фактическое количество потоков
+     */
+    unsigned int validNumberOfThreads{};
+
+    /**
      * Максимальное количество непрочитанных файлов
      */
     const std::size_t maximumAllowableErrorsNumber;
@@ -139,16 +149,6 @@ private:
 
     //Начальное количество баз инвертированного индекса для каждого потока. Наименьшее время - при значении 2.
     unsigned int initialBasesNumberInStream{2};
-
-    /**
-     * Фактическое количество потоков
-     */
-    unsigned int numberOfThreads{};
-
-    /**
-     * Действительное фактическое количество потоков
-     */
-    unsigned int validNumberOfThreads{};
 
     /**
      * Определить количество документов в потоке и количество потоков

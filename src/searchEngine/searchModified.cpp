@@ -13,9 +13,6 @@
 
 std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::string>& filePaths)
 {
-    //Действительное максимальное количество непрочитанных файлов
-    validMaximumAllowableErrorsNumber = maximumAllowableErrorsNumber;
-
     //Прочитать документы
     return DispatcherOperations::readMultipleTextFiles(filePaths, desiredNumberOfThreads, maximumAllowableErrorsNumber).documentsAndErrors.first;
 }
@@ -47,13 +44,17 @@ void SearchEngine::determineDocumentsBaseOrPathsBase()
     {
         //Обновить список документов из файлов
         documentsObj.updateDocuments(readDocsFromFiles(converterJSONObj.getFilePaths()));
+
+        //Действительное максимальное количество непрочитанных файлов
+        validMaximumAllowableErrorsNumber = maximumAllowableErrorsNumber;
+
         //Документы загружены в базу
         kav::Logger::info("Documents uploaded to the database (additional threads: " + std::to_string(DispatcherOperations::getNumberOfThreads()) + ")");
     }
     else
     {
         //Читаются файлы документов напрямую
-        validDocumentsBaseOrPathsBase = false;
+        validDocumentsBaseOrPathsBase = Constants::documentsBaseOrPathsBase_no();
 
         //Обновить список путей файлов документов
         documentsObj.updateDocuments(converterJSONObj.getFilePaths());
@@ -64,14 +65,17 @@ void SearchEngine::determineDocumentsBaseOrPathsBase()
 
 const std::string& SearchEngine::getDocumentsBaseOrPathsBase()
 {
-    if (validDocumentsBaseOrPathsBase) return Constants::default_documentsBaseOrPathsBase();
-
-    return Constants::documentsBaseOrPathsBase_no();
+    return validDocumentsBaseOrPathsBase;
 }
 
 std::size_t SearchEngine::getMaximumAllowableErrorsNumber()
 {
     return validMaximumAllowableErrorsNumber;
+}
+
+unsigned int SearchEngine::getNumberOfThreads()
+{
+    return validNumberOfThreads;
 }
 
 void SearchEngine::searchModifiedAll()
@@ -134,6 +138,9 @@ void SearchEngine::searchModifiedAll()
 
     //База инвертированного индекса обновлена
     kav::Logger::info("The base of the inverted index has been updated (additional threads: " + std::to_string(invertedIndexObj.getNumberOfThreads()) + ")");
+
+    //Установить действительное фактическое количество потоков
+    validNumberOfThreads = invertedIndexObj.getNumberOfThreads();
 
     //Очистить список запросов
     requestsObj.clearRequests();

@@ -238,7 +238,7 @@ TEST(TestSearchModifiedAll, maximumAllowableErrorsNumber_1)
     bool result{};
 
     //Создать объект
-    SearchEngine searchEngine(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(),
+    SearchEngine searchEngine(ProgramArguments::configFilePath_file003_missing(), ProgramArguments::requestsFilePath(),
                               ProgramArguments::answersFilePath(),
                               ProgramArguments::documentsBaseOrPathsBase(),
                               ProgramArguments::precision(),
@@ -250,7 +250,42 @@ TEST(TestSearchModifiedAll, maximumAllowableErrorsNumber_1)
     searchEngine.searchModifiedAll();
 
     //Установить результат операции
-    result = (searchEngine.getMaximumAllowableErrorsNumber() == ProgramArguments::maximumAllowableErrorsNumber_1());
+    result = (searchEngine.getMaximumAllowableErrorsNumber() == ProgramArguments::maximumAllowableErrorsNumber_1() &&
+            DispatcherOperations::readJSONFile(ProgramArguments::answersFilePath(), "", ErrorLevel::fatal).first == Bases::answersJSON_file003_missing());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на создание объекта, действительное количество потоков (три потока)
+TEST(TestSearchModifiedAll, desiredNumberOfThreads_3)
+{
+    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    std::filesystem::create_directory("Logs");
+
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Создать объект
+    SearchEngine searchEngine(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(),
+                              ProgramArguments::answersFilePath(),
+                              ProgramArguments::documentsBaseOrPathsBase(),
+                              ProgramArguments::precision(),
+                              ProgramArguments::formatByWidth(),
+                              ProgramArguments::desiredNumberOfThreads_3(),
+                              ProgramArguments::maximumAllowableErrorsNumber());
+
+    //Рассчитать релевантность ответов
+    searchEngine.searchModifiedAll();
+
+    //Установить результат операции
+    result = (searchEngine.getNumberOfThreads() == ProgramArguments::desiredNumberOfThreads_3());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

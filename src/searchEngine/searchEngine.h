@@ -86,6 +86,12 @@ public:
      */
     std::size_t getMaximumAllowableErrorsNumber();
 
+    /**
+     * Получить действительное фактическое количество потоков
+     * @return Действительное фактическое количество потоков
+     */
+    unsigned int getNumberOfThreads();
+
 private:
 
     /**
@@ -126,7 +132,7 @@ private:
     /**
      * Действительный признак формирования базы документов или путей файлов документов
      */
-    bool validDocumentsBaseOrPathsBase{true};
+    std::string validDocumentsBaseOrPathsBase{Constants::default_documentsBaseOrPathsBase()};
 
     /**
      * Ширина вывода
@@ -137,6 +143,16 @@ private:
      * Желаемое количество потоков
      */
     const unsigned int desiredNumberOfThreads;
+
+    /**
+     * Фактическое количество потоков
+     */
+    unsigned int numberOfThreads{};
+
+    /**
+     * Действительное фактическое количество потоков
+     */
+    unsigned int validNumberOfThreads{};
 
     /**
      * Максимальное количество непрочитанных файлов

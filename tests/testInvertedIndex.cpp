@@ -62,7 +62,7 @@ TEST(TestUpdateInvertedIndexes, maximumAllowableErrorsNumber_1)
     DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект документов
-    InvertedIndex invertedIndex(Bases::paths(),
+    InvertedIndex invertedIndex(Bases::paths_file003_missing(),
                                 ProgramArguments::maximumAllowableErrorsNumber_1(),
                                 ProgramArguments::desiredNumberOfThreads(),
                                 ProgramArguments::documentsBaseOrPathsBase_no());
@@ -75,7 +75,8 @@ TEST(TestUpdateInvertedIndexes, maximumAllowableErrorsNumber_1)
 
     //Установить результат операции
     result = (invertedIndex.getDocumentsBaseOrPathsBase() == ProgramArguments::documentsBaseOrPathsBase_no() &&
-            invertedIndex.getMaximumAllowableErrorsNumber() == ProgramArguments::maximumAllowableErrorsNumber_1());
+            invertedIndex.getMaximumAllowableErrorsNumber() == ProgramArguments::maximumAllowableErrorsNumber_1() &&
+            invertedIndex.getInvertedIndexes() == Bases::invertedIndex_file003_missing());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

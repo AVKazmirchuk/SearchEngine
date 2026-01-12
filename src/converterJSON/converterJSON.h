@@ -108,17 +108,6 @@ private:
         }
 
         /**
-         * Инициализирует класс
-         * @param in_configFilePath Ссылка на путь файла конфигурации
-         * @param in_requestsFilePath Ссылка на путь файла запросов
-         */
-        ConfigConverterJSON(std::string&& in_configFilePath, std::string&& in_requestsFilePath)
-                : configFilePath{std::move(in_configFilePath)}, requestsFilePath{std::move(in_requestsFilePath)}
-        {
-            initialize();
-        }
-
-        /**
          * Получить ссылку на JSON-объект конфигурации
          * @return JSON-объект конфигурации
          */

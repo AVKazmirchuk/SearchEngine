@@ -58,6 +58,12 @@ public:
     static const std::string& configFilePath_filesEmpty();
 
     /**
+     * Прочитать путь файла конфигурации. File003 отсутствует
+     * @return Ссылка на переменную
+     */
+    static const std::string& configFilePath_file003_missing();
+
+    /**
      * Прочитать путь файла запросов
      * @return Ссылка на переменную
      */
@@ -196,10 +202,22 @@ public:
     static const std::vector<std::string> &paths();
 
     /**
+     * Получить ссылку на пути файлов документов. File003 отсутствует
+     * @return Ссылка на пути файлов документов
+     */
+    static const std::vector<std::string> &paths_file003_missing();
+
+    /**
      * Получить ссылку на базу инвертированного индекса
      * @return Ссылка на базу инвертированного индекса
      */
     static const std::map<std::string, std::vector<Entry>> &invertedIndex();
+
+    /**
+     * Получить ссылку на базу инвертированного индекса. File003 отсутствует
+     * @return Ссылка на базу инвертированного индекса
+     */
+    static const std::map<std::string, std::vector<Entry>> &invertedIndex_file003_missing();
 
     /**
      * Получить ссылку на пути файлов документов
@@ -226,7 +244,13 @@ public:
     static const std::vector<std::vector<RelativeIndex>> &relativeIndex();
 
     /**
-     * Получить ссылку на базу релевантности ответов
+     * Получить ссылку на базу релевантности ответов. File003 отсутствует
+     * @return Ссылка на базу релевантности ответов
+     */
+    const std::vector<std::vector<RelativeIndex>> &relativeIndex_file003_missing();
+
+    /**
+     * Получить ссылку на базу релевантности ответов. Количество знаков после запятой: 3
      * @return Ссылка на базу релевантности ответов
      */
     static const std::vector<std::vector<RelativeIndex>> &relativeIndex_3();
@@ -266,6 +290,12 @@ public:
      * @return Ссылка на JSON-объект ответов
      */
     static const JSON &answersJSON_3();
+
+    /**
+     * Получить ссылку на JSON-объект ответов
+     * @return Ссылка на JSON-объект ответов
+     */
+    static const JSON &answersJSON_file003_missing();
 
 };//Bases
 

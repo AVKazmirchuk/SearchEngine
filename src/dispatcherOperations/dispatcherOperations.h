@@ -294,11 +294,16 @@ public:
     static void setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel);
 
     /**
-     * Получить фактическое количество потоков
-     * @return Фактическое количество потоков
+     * Получить действительное фактическое количество потоков
+     * @return Действительное фактическое количество потоков
      */
     static unsigned int getNumberOfThreads();
 
+    /**
+     * Получить действительное максимальное количество непрочитанных файлов
+     * @return Действительное максимальное количество непрочитанных файлов
+     */
+    std::size_t getMaximumAllowableErrorsNumber();
 
 
     //------------------------------
@@ -467,6 +472,12 @@ private:
      * Фактическое количество потоков
      */
     inline static unsigned int numberOfThreads{};
+
+    /**
+     * Действительное максимальное количество непрочитанных файлов
+     */
+    inline static std::size_t validMaximumAllowableErrorsNumber{};
+
 };
 
 

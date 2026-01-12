@@ -299,9 +299,6 @@ void InvertedIndex::defineWord(std::size_t docID, const std::string& document, s
 
 void InvertedIndex::readDocument(std::size_t docID, const std::string& documentPath, std::map<std::string, std::vector<Entry>>& invertedIndexesForThread)
 {
-
-     //Действительное максимальное количество непрочитанных файлов TODO добавить получение этого значения в Диспетчер, и выдавать его в функции в этом классе
-     validMaximumAllowableErrorsNumber = maximumAllowableErrorsNumber;
      //Определить слово (выделить) в документе, предварительно прочитав файл
      defineWord(docID, DispatcherOperations::readMultipleTextFilesSequentially(documentPath, documents.size(), maximumAllowableErrorsNumber).first, invertedIndexesForThread);
 }
@@ -380,6 +377,9 @@ void InvertedIndex::startInvertedIndexing()
             //Ещё один поток запущен
             ++validNumberOfThreads;
         }
+
+        //Действительное максимальное количество непрочитанных файлов
+        validMaximumAllowableErrorsNumber = maximumAllowableErrorsNumber;
 
         /**
          * Cлияние инвертированных баз в разных потоках

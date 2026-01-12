@@ -33,6 +33,10 @@ unsigned int DispatcherOperations::getNumberOfThreads()
     return numberOfThreads;
 }
 
+std::size_t DispatcherOperations::getMaximumAllowableErrorsNumber()
+{
+    return validMaximumAllowableErrorsNumber;
+}
 
 std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
 {
