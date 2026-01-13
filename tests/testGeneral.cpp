@@ -128,10 +128,10 @@ const std::string& ProgramArguments::jsonFileName()
     return variable;
 }
 
-const std::string& ProgramArguments::messageTest()
+const std::string& ProgramArguments::dispatcherOperations_writeJSONFile_info()
 {
     //Значение по умолчанию
-    static const std::string variable{"This is a test message!!!"};
+    static const std::string variable{"DispatcherOperations_writeJSONFile_info"};
     return variable;
 }
 

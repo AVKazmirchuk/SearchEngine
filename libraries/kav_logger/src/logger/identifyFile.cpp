@@ -45,7 +45,6 @@ bool kav::Logger::isFileUsageTimeExceeded()
     std::chrono::system_clock::duration usageTimeLimit = Weeks(configLogger.weeksUsage()) + Days(configLogger.daysUsage()) + Hours(configLogger.hoursUsage()) +
                                                          Minutes(configLogger.minutesUsage()) + Seconds(configLogger.secondsUsage());
 
-    std::cout << "!!!" << usageTimeCurrent << "!!!";
     //Если время использования текущего файла превышено
     if (usageTimeCurrent >= usageTimeLimit)
     {

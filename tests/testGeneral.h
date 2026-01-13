@@ -134,7 +134,7 @@ public:
      * Прочитать тестовое сообщение
      * @return Тестовое сообщение
      */
-    static const std::string& messageTest();
+    static const std::string& dispatcherOperations_writeJSONFile_info();
 
     /**
      * Прочитать уровень логирования info
