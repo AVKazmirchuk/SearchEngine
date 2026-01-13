@@ -36,6 +36,28 @@ namespace kav
             return variable;
         }
 
+        /**
+         * Прочитать сообщение создания нового лог-файла
+         * @return Ссылка на переменную
+         */
+        static const std::string &messageNewFileCreate()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"The new file was created successfully"};
+            return variable;
+        }
+
+        /**
+         * Прочитать сообщение запуска логгера
+         * @return Ссылка на переменную
+         */
+        static const std::string &messageLoggerStarted()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"The logger was launched successfully"};
+            return variable;
+        }
+
     };
 
 }

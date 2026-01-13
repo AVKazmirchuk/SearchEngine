@@ -5,6 +5,8 @@
 
 
 #include <fstream>
+
+#include "kav/detail/constants.h"
 #include "kav/logger.h"
 
 
@@ -43,7 +45,7 @@ bool kav::Logger::isFileUsageTimeExceeded()
     std::chrono::system_clock::duration usageTimeLimit = Weeks(configLogger.weeksUsage()) + Days(configLogger.daysUsage()) + Hours(configLogger.hoursUsage()) +
                                                          Minutes(configLogger.minutesUsage()) + Seconds(configLogger.secondsUsage());
 
-
+    std::cout << "!!!" << usageTimeCurrent << "!!!";
     //Если время использования текущего файла превышено
     if (usageTimeCurrent >= usageTimeLimit)
     {
@@ -96,6 +98,8 @@ void kav::Logger::identifyNewFile()
     ts.resize(std::strftime(&ts[0], ts.size(), configLogger.fileNameFormat().c_str(), std::localtime(&t)));
     //Задать имя файла
     file = configLogger.filesDirectory() + ts + ".log";
+
+    logger(Constants::messageNewFileCreate());
 }
 
 void kav::Logger::identifyFile(const std::string& directoryPath)

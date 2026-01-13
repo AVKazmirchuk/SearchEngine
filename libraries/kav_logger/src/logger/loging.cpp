@@ -32,6 +32,8 @@ std::string kav::Logger::levelToString(Level level)
     //Вернуть строку уровня логирования в зависимости от значения перечисления
     switch (level)
     {
+        case Level::logger :
+            return "LOGGER";
         case Level::debug :
             return "DEBUG";
         case Level::info :

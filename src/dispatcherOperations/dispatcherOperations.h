@@ -75,7 +75,7 @@ public:
                 {ErrorCode::error_json_structure_not_match, "The structure of this file does not match the required one"},
                 {ErrorCode::error_array_empty,              "The array is empty"},
                 {ErrorCode::error_file_paths_array_empty,   "The array paths of this file is empty"},
-                {ErrorCode::error_requests_array_empty,     "The array requests of this file is empt"},
+                {ErrorCode::error_requests_array_empty,     "The array requests of this file is empty"},
                 {ErrorCode::error_all_files_not_read,       "All files have not been read"},
                 {ErrorCode::error_any_files_not_read,       "Any files have not been read"}
         };

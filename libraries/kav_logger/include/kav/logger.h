@@ -153,6 +153,7 @@ namespace kav
         //Уровень логирования
         enum class Level
         {
+            logger,
             debug,
             info,
             warning,
@@ -692,6 +693,19 @@ namespace kav
 
 
         //Вспомогательные функции инициализации и настройки класса
+
+        /**
+         * Записать сообщение уровня logger
+         * @param message Ссылка на сообщение
+         */
+        static void logger(const std::string &message);
+
+        /**
+         * Записать сообщение уровня logger
+         * @param message Ссылка на сообщение
+         * @param exception Ссылка на исключение
+         */
+        static void logger(const std::string &message, const std::exception &exception);
 
         /**
          * Определить файл для записи

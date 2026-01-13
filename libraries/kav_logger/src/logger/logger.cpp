@@ -9,6 +9,16 @@
 
 
 
+void kav::Logger::logger(const std::string &message)
+{
+    logger(message, ExceptionStub());
+}
+
+void kav::Logger::logger(const std::string& message, const std::exception& exception)
+{
+    ptrToLogger->log(Level::logger, message, exception);
+}
+
 void kav::Logger::debug(const std::string& message)
 {
     debug(message, ExceptionStub());
