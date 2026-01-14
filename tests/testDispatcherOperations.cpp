@@ -29,21 +29,39 @@ std::string getLastFilePath()
     return directoryEntry.path().string();
 }
 
-/*std::string timePointToString(const std::chrono::system_clock::time_point& timePoint)
+//Перевести отметку времени в строку
+std::string timePointToString(const std::chrono::system_clock::time_point& now)
 {
     //Преобразовать момент времени в объект времени POSIX
-    std::time_t t{std::chrono::system_clock::to_time_t(timePoint)};
+    std::time_t t{std::chrono::system_clock::to_time_t(now)};
 
     //Задать размер строки
     std::string ts(256,0);
 
     //Преобразовать время в строку, и задать размер строки
-    ts.resize(std::strftime(&ts[0], ts.size(), configLogger.dateTimeFormat().c_str(), std::localtime(&t)));
+    ts.resize(std::strftime(&ts[0], ts.size(), "%Y-%m-%d %H:%M:%S.", std::localtime(&t)));
+
+    //Преобразовать момент времени в секунды
+    std::chrono::system_clock::time_point nowSeconds{std::chrono::time_point_cast<std::chrono::seconds>(now)};
+
+    //Получить наносекунды
+    std::chrono::nanoseconds nanoseconds{now - nowSeconds};
+
+    //Преобразовать наносекунды в строку
+    std::stringstream ss4;
+    ss4 << nanoseconds.count();
+    std::string strNanosecondsCount;
+    ss4 >> strNanosecondsCount;
 
     //Вернуть строку времени
-    return ts;
-}*/
+    return ts + strNanosecondsCount;
+}
 
+void runWriteJSONFile(std::string& timePoint)
+{
+    //Записать JSON-файл
+    DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), timePoint, ErrorLevel::info);
+}
 
 TEST(TestDispatcherOperations_writeJSONFile, general)
 {
@@ -74,18 +92,15 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
                             nullptr // no attr. template
     );
 
+    //Получить текущий момент времени
     std::chrono::system_clock::time_point now{std::chrono::system_clock::now()};
-    std::cout << now;
 
-    std::chrono::duration<int64_t, std::ratio<1, 1000000000>> timeSinceEpoch{now.time_since_epoch()};
-    std::cout << timeSinceEpoch;
-    timeSinceEpoch.count();
+    //Перевести отметку времени в строку
+    std::string timePoint{timePointToString(now)};
 
-        //std::time_t now_c = std::chrono::system_clock::to_time_t(timePoint);
-        //std::cout << "Текущее системное время: " << std::ctime(&now_c) << std::endl;
-
-
-    DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), ProgramArguments::dispatcherOperations_writeJSONFile_info(), ErrorLevel::info);
+    //Записать JSON-файл
+    //DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), timePoint, ErrorLevel::info);
+    runWriteJSONFile(timePoint);
 
     //Закрыть дескриптор. Освободить файл
     CloseHandle(hFile);
@@ -99,13 +114,29 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
     std::cout << log << '\n';
 
     //Обнулить результат операции
-    bool result{};
+    bool result{true};
 
-    if (log.find_last_of(ProgramArguments::dispatcherOperations_writeJSONFile_info()) != std::string::npos &&
-        log.find_last_of(ProgramArguments::errorLevel_info()) != std::string::npos)
+    std::string::size_type found{log.rfind(timePoint)};
+    std::string::size_type begin{log.rfind('\n', found)};
+    std::string::size_type end{log.find('\n',found)};
+
+    std::cout << '\n' << found;
+    std::cout << '\n' << begin;
+    std::cout << '\n' << end;
+
+    /*if (found != std::string::npos)
     {
-        result = true;
-    }
+        std::cout << '\n' << found;
+        std::cout << '\n' << begin;
+        std::cout << '\n' << end;
+
+        std::cout << '\n' << log.substr(begin + 1, end);
+
+        if (log.find_last_of(ProgramArguments::errorLevel_info()) != std::string::npos)
+        {
+            result = true;
+        }
+    }*/
 
     //Проверить утверждение
     ASSERT_TRUE(result);

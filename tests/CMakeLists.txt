@@ -41,7 +41,7 @@ FetchContent_Declare(
 #Добавьте каталоги include в сборку
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 #Отключить поддержку многопоточности в библиотеке Google Test (gtest)
-set(gtest_disable_pthreads on)
+#set(gtest_disable_pthreads on)
 #Не позволить GoogleTest изменять настройки компилятора и компоновщика при сборке
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 #Гарантировать, что к моменту возврата каждая из указанных зависимостей будет доступна для проекта
