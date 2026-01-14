@@ -6,7 +6,7 @@
 
 #include "gtest/gtest.h"
 
-#include "dispatcherOperations.h"
+//#include "dispatcherOperations.h"
 #include "searchEngine.h"
 
 #include "testGeneral.h"
@@ -19,7 +19,7 @@ TEST(TestSearchModifiedAll, searchModifiedAll)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -52,7 +52,7 @@ TEST(TestSearchModifiedAll, precision_3)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -85,7 +85,7 @@ TEST(TestSearchModifiedAll, configFilePath_missing)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -120,7 +120,7 @@ TEST(TestSearchModifiedAll, requestsFilePath_missing)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -155,7 +155,7 @@ TEST(TestSearchModifiedAll, answersFilePath_empty)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -193,7 +193,7 @@ TEST(TestSearchModifiedAll, documentsBaseOrPathsBase_no)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -228,7 +228,7 @@ TEST(TestSearchModifiedAll, maximumAllowableErrorsNumber_1)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -263,7 +263,7 @@ TEST(TestSearchModifiedAll, desiredNumberOfThreads_3)
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут

@@ -41,14 +41,14 @@ FetchContent_Declare(
 #Добавьте каталоги include в сборку
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 #Отключить поддержку многопоточности в библиотеке Google Test (gtest)
-#set(gtest_disable_pthreads on)
+set(gtest_disable_pthreads on)
 #Не позволить GoogleTest изменять настройки компилятора и компоновщика при сборке
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 #Гарантировать, что к моменту возврата каждая из указанных зависимостей будет доступна для проекта
 FetchContent_MakeAvailable(googletest)
 
 #Определить файлы-исходники проекта в переменные
-#file(GLOB_RECURSE CPP_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp") # Внимание!!! Добавляет второй раз main.cpp
+#file(GLOB_RECURSE CPP_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp") # Внимание!!! Добавляет второй раз main.cpp (видимо, из тестов)
 #Пока сделал простым перечислением всех директорий
 #TODO Надо научиться добавлять исключения
 file(GLOB CPP_CONVERTER_JSON CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/converterJSON/*.cpp")

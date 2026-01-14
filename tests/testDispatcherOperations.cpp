@@ -63,18 +63,7 @@ void runWriteJSONFile(std::string& timePoint)
     DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), timePoint, ErrorLevel::info);
 }
 
-TEST(TestDispatcherOperations_writeJSONFile, general)
-{
 
-
-
-
-}
-
-TEST(TestDispatcherOperations_writeJSONFile, message)
-{
-
-}
 
 TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
 {
@@ -102,6 +91,7 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
     //DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), timePoint, ErrorLevel::info);
     runWriteJSONFile(timePoint);
 
+
     //Закрыть дескриптор. Освободить файл
     CloseHandle(hFile);
 
@@ -109,9 +99,10 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
 
     std::cout << "fileName: " << fileName << '\n';
 
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 
-    std::cout << log << '\n';
+    std::cout << log << log.size() << ' ' << timePoint;
 
     //Обнулить результат операции
     bool result{true};
@@ -142,7 +133,3 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
     ASSERT_TRUE(result);
 }
 
-TEST(TestDispatcherOperations_writeJSONFile, callingFunction)
-{
-
-}

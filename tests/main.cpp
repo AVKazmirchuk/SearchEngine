@@ -14,7 +14,7 @@
 
 int main()
 {
-    std::filesystem::create_directory("Logs");
+    //std::filesystem::create_directory("Logs");
 
     //Создать объект логирования событий
     kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_2());
