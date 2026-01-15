@@ -39,8 +39,9 @@ void kav::Logger::setup()
     //Определить файл для записи
     identifyFile(configLogger.filesDirectory());
 
-    logger(Constants::messageLoggerStarted());
-
     //Удалить файлы по сроку хранения
     deleteFilesByRetentionPeriod();
+
+    //Записать сообщение уровня logger
+    logger(Constants::messageLoggerStarted());
 }

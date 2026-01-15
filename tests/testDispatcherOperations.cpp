@@ -75,7 +75,7 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
     HANDLE hFile=CreateFile(ProgramArguments::jsonFileName().c_str(), // file to open
                             GENERIC_READ, // open for
                             0x00000000, // share for
-                            nullptr, // default security
+                            NULL, // default security
                             OPEN_ALWAYS, // OPEN_EXISTING - existing file only
                             FILE_ATTRIBUTE_NORMAL, // normal file
                             nullptr // no attr. template
@@ -91,7 +91,6 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
     //DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), timePoint, ErrorLevel::info);
     runWriteJSONFile(timePoint);
 
-
     //Закрыть дескриптор. Освободить файл
     CloseHandle(hFile);
 
@@ -99,13 +98,13 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
 
     std::cout << "fileName: " << fileName << '\n';
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    //std::this_thread::sleep_for(std::chrono::seconds(1));
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 
     std::cout << log << log.size() << ' ' << timePoint;
 
     //Обнулить результат операции
-    bool result{true};
+    bool result{};
 
     std::string::size_type found{log.rfind(timePoint)};
     std::string::size_type begin{log.rfind('\n', found)};
@@ -115,19 +114,16 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
     std::cout << '\n' << begin;
     std::cout << '\n' << end;
 
-    /*if (found != std::string::npos)
+    if (found != std::string::npos)
     {
-        std::cout << '\n' << found;
-        std::cout << '\n' << begin;
-        std::cout << '\n' << end;
+        std::cout << '\n' << log.substr(begin + 1, end - begin - 1) << '\n';
+        std::string logLine{log.substr(begin + 1, end - begin - 1)};
 
-        std::cout << '\n' << log.substr(begin + 1, end);
-
-        if (log.find_last_of(ProgramArguments::errorLevel_info()) != std::string::npos)
+        if (logLine.find(ProgramArguments::errorLevel_info()) != std::string::npos)
         {
             result = true;
         }
-    }*/
+    }
 
     //Проверить утверждение
     ASSERT_TRUE(result);

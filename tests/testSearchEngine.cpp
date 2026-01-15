@@ -16,9 +16,9 @@
 //Запустить проверку на создание объекта, рассчёт релевантности ответов, получение файла ответов
 TEST(TestSearchModifiedAll, searchModifiedAll)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -49,9 +49,9 @@ TEST(TestSearchModifiedAll, searchModifiedAll)
 //Запустить проверку на создание объекта, рассчёт релевантности ответов, получение файла ответов, количество знаков после запятой
 TEST(TestSearchModifiedAll, precision_3)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -82,9 +82,9 @@ TEST(TestSearchModifiedAll, precision_3)
 //Запустить проверку на создание объекта (отсутствует файл конфигурации)
 TEST(TestSearchModifiedAll, configFilePath_missing)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -117,9 +117,9 @@ TEST(TestSearchModifiedAll, configFilePath_missing)
 //Запустить проверку на создание объекта (отсутствует файл запросов)
 TEST(TestSearchModifiedAll, requestsFilePath_missing)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -152,9 +152,9 @@ TEST(TestSearchModifiedAll, requestsFilePath_missing)
 //Запустить проверку на создание объекта (отсутствует файл ответов)
 TEST(TestSearchModifiedAll, answersFilePath_empty)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -190,9 +190,9 @@ TEST(TestSearchModifiedAll, answersFilePath_empty)
 //Запустить проверку на создание объекта, признак формирования базы документов или путей файлов документов
 TEST(TestSearchModifiedAll, documentsBaseOrPathsBase_no)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -225,9 +225,9 @@ TEST(TestSearchModifiedAll, documentsBaseOrPathsBase_no)
 //Запустить проверку на создание объекта, действительное максимальное количество непрочитанных файлов
 TEST(TestSearchModifiedAll, maximumAllowableErrorsNumber_1)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
@@ -260,9 +260,9 @@ TEST(TestSearchModifiedAll, maximumAllowableErrorsNumber_1)
 //Запустить проверку на создание объекта, действительное количество потоков (три потока)
 TEST(TestSearchModifiedAll, desiredNumberOfThreads_3)
 {
-    std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
-    std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
+    //std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     //std::filesystem::create_directory("Logs");
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
