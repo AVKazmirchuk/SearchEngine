@@ -98,7 +98,7 @@ TEST(TestDispatcherOperations_writeJSONFile, errorLevel)
 
     std::cout << "fileName: " << fileName << '\n';
 
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 
     std::cout << log << log.size() << ' ' << timePoint;
