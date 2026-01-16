@@ -17,7 +17,7 @@ TEST(TestConverterJSON, getFilePaths)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -37,7 +37,7 @@ TEST(TestConverterJSON, getRequests)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -57,7 +57,7 @@ TEST(TestConverterJSON, getPrecision)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -77,7 +77,7 @@ TEST(TestConverterJSON, about)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -97,7 +97,7 @@ TEST(TestConverterJSON, maxResponses)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -117,7 +117,7 @@ TEST(TestConverterJSON, answersJSON)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -141,7 +141,7 @@ TEST(TestConverterJSON, answersJSON_2)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект JSON-конвертера
     ConverterJSON converterJson(ProgramArguments::configFilePath_2(), ProgramArguments::requestsFilePath(), ProgramArguments::precision());
@@ -164,7 +164,7 @@ TEST(TestConverterJSON, configFilePath_missing)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -189,7 +189,7 @@ TEST(TestConverterJSON, requestsFilePath_missing)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -214,7 +214,7 @@ TEST(TestConverterJSON, configFilePath_filesEmpty)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -239,7 +239,7 @@ TEST(TestConverterJSON, requestsFilePath_requestsEmpty)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};

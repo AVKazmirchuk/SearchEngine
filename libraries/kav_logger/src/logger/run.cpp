@@ -11,13 +11,13 @@
 
 
 
-void kav::Logger::WriterMessage::writeToMonitor(const std::string& message)
+void kav::Logger::WriterMessage::writeToMonitor(std::string&& message)
 {
     //Отправить сообщение монитору (другому процессу)
     monitorSender.send(message);
 }
 
-void kav::Logger::WriterMessage::writeToFile(const std::string& message)
+void kav::Logger::WriterMessage::writeToFile(std::string&& message)
 {
     //Создать объект для записи в файл
     kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(std::filesystem::absolute(Logger::ptrToLogger->file).string(), message + '\n', std::ios::app)};
@@ -39,16 +39,16 @@ void kav::Logger::WriterMessage::writeToFile(const std::string& message)
 void kav::Logger::WriterMessage::processMessageContainer()
 {
     //Каждое сообщение в контейнере текущих сообщений
-    for (const auto& message: messages)
+    for (auto&& message: messages)
     {
         //Записать в файл
-        writeToFile(message);
+        writeToFile(std::move(message));
 
         //Если логировать события в монитор
         if (launchConsole == Constants::default_launchConsole())
         {
             //Отправить в монитор
-            writeToMonitor(message);
+            writeToMonitor(std::move(message));
         }
     }
 }

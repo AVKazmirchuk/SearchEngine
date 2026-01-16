@@ -59,7 +59,7 @@ TEST(TestUpdateInvertedIndexes, maximumAllowableErrorsNumber_1)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект документов
     InvertedIndex invertedIndex(Bases::paths_file003_missing(),
@@ -88,7 +88,7 @@ TEST(TestUpdateInvertedIndexes, documentsBaseOrPathsBase_no)
 {
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект документов
     InvertedIndex invertedIndex(Bases::paths(),

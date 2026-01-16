@@ -137,10 +137,34 @@ public:
     static const std::string& dispatcherOperations_writeJSONFile_info();
 
     /**
+     * Прочитать уровень логирования debug
+     * @return
+     */
+    static const std::string& errorLevel_debug();
+
+    /**
      * Прочитать уровень логирования info
      * @return
      */
     static const std::string& errorLevel_info();
+
+    /**
+     * Прочитать уровень логирования warning
+     * @return
+     */
+    static const std::string& errorLevel_warn();
+
+    /**
+     * Прочитать уровень логирования error
+     * @return
+     */
+    static const std::string& errorLevel_error();
+
+    /**
+     * Прочитать уровень логирования fatal
+     * @return
+     */
+    static const std::string& errorLevel_fatal();
 
     /**
      * Прочитать/записать признак логирования событий в консоль

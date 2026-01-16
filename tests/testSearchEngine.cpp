@@ -23,7 +23,7 @@ TEST(TestSearchModifiedAll, searchModifiedAll)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект
     SearchEngine searchEngine(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::answersFilePath(),
@@ -56,7 +56,7 @@ TEST(TestSearchModifiedAll, precision_3)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Создать объект
     SearchEngine searchEngine(ProgramArguments::configFilePath(), ProgramArguments::requestsFilePath(), ProgramArguments::answersFilePath(),
@@ -89,7 +89,7 @@ TEST(TestSearchModifiedAll, configFilePath_missing)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -124,7 +124,7 @@ TEST(TestSearchModifiedAll, requestsFilePath_missing)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -159,7 +159,7 @@ TEST(TestSearchModifiedAll, answersFilePath_empty)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -197,7 +197,7 @@ TEST(TestSearchModifiedAll, documentsBaseOrPathsBase_no)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -232,7 +232,7 @@ TEST(TestSearchModifiedAll, maximumAllowableErrorsNumber_1)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};
@@ -267,7 +267,7 @@ TEST(TestSearchModifiedAll, desiredNumberOfThreads_3)
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
-    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+    //DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
 
     //Обнулить результат операции
     bool result{};

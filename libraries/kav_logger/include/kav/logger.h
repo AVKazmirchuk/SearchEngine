@@ -623,13 +623,13 @@ namespace kav
              * Записать информацию в файл
              * @param messageForOutput Ссылка на сообщение для вывода
              */
-            void writeToFile(const std::string &messageForOutput);
+            void writeToFile(std::string &&messageForOutput);
 
             /**
              * Отправить информацию в монитор в отдельном потоке
              * @param messageForOutput Ссылка на сообщение для вывода
              */
-            void writeToMonitor(const std::string &messageForOutput);
+            void writeToMonitor(std::string &&messageForOutput);
 
         };
 

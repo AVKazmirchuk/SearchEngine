@@ -19,6 +19,10 @@ int main()
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
     std::filesystem::create_directory("Logs");
 
+    //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
+    //этого класса, уровни логирования прямо указываться не будут
+    DispatcherOperations::setErrorLevelFrom(MatchingFunctionNameAndErrorLevel::matchingFunctionNameAndErrorLevel());
+
     //Создать объект логирования событий
     kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_2());
 

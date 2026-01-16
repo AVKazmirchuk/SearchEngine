@@ -135,10 +135,38 @@ const std::string& ProgramArguments::dispatcherOperations_writeJSONFile_info()
     return variable;
 }
 
+const std::string& ProgramArguments::errorLevel_debug()
+{
+    //Значение по умолчанию
+    static const std::string variable{"DEBUG"};
+    return variable;
+}
+
 const std::string& ProgramArguments::errorLevel_info()
 {
     //Значение по умолчанию
     static const std::string variable{"INFO"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_warn()
+{
+    //Значение по умолчанию
+    static const std::string variable{"WARNING"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_error()
+{
+    //Значение по умолчанию
+    static const std::string variable{"ERROR"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_fatal()
+{
+    //Значение по умолчанию
+    static const std::string variable{"FATAL"};
     return variable;
 }
 
