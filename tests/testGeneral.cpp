@@ -79,6 +79,27 @@ const std::string& ProgramArguments::answersFilePath()
         return variable;
     }
 
+const std::string& ProgramArguments::readJSONFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readJSONFile.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::readTextFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readTextFile.txt"};
+    return variable;
+}
+
+const std::string& ProgramArguments::checkRequestsArray()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/checkRequestsArray.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::answersFilePath_empty()
 {
     //Значение по умолчанию
@@ -170,14 +191,21 @@ const std::string& ProgramArguments::errorLevel_fatal()
     return variable;
 }
 
-const std::string& ProgramArguments::launchConsole()
+const std::string& ProgramArguments::dateTimeFormat()
+{
+    //Значение по умолчанию
+    static const std::string variable{"%Y-%m-%d %H:%M:%S."};
+    return variable;
+}
+
+const std::string& ProgramArguments::launchConsole_yes()
     {
         //Значение по умолчанию
         static const std::string variable{"yes"};
         return variable;
     }
 
-const std::string& ProgramArguments::launchConsole_2()
+const std::string& ProgramArguments::launchConsole_no()
 {
     //Значение по умолчанию
     static const std::string variable{"no"};
@@ -205,14 +233,14 @@ const int& ProgramArguments::formatByWidth()
         return variable;
     }
 
-const unsigned int ProgramArguments::desiredNumberOfThreads()
+unsigned int ProgramArguments::desiredNumberOfThreads()
     {
         //Значение по умолчанию
         static const unsigned int variable{std::thread::hardware_concurrency() - 1};
         return variable;
     }
 
-const unsigned int ProgramArguments::desiredNumberOfThreads_3()
+unsigned int ProgramArguments::desiredNumberOfThreads_3()
 {
     //Значение по умолчанию
     static const unsigned int variable{3};
@@ -1441,6 +1469,48 @@ const JSON &Bases::configJSON()
         return varConfig;
     }
 
+const JSON &Bases::configNotMatchJSON()
+{
+    static const JSON varConfig= JSON::parse(R"(
+    {
+         "config":
+         {
+              "name": "SkillboxSearchEngine",
+              "version": "1.0.0"
+
+         },
+        "files":
+        [
+             "../../tests/resources/resources/file001-test.txt",
+             "../../tests/resources/resources/file002-test.txt",
+             "../../tests/resources/resources/file003-test.txt"
+        ]
+    }
+    )");
+
+    return varConfig;
+}
+
+const JSON &Bases::configEmptyJSON()
+{
+    static const JSON varConfig= JSON::parse(R"(
+    {
+         "config":
+         {
+              "name": "SkillboxSearchEngine",
+              "version": "1.0.0",
+              "max_responses": 5
+         },
+        "files":
+        [
+
+        ]
+    }
+    )")["files"];
+
+    return varConfig;
+}
+
 const JSON &Bases::requestsJSON()
     {
         static const JSON varRequests= JSON::parse(R"(
@@ -1457,6 +1527,21 @@ const JSON &Bases::requestsJSON()
 
         return varRequests;
     }
+
+const JSON &Bases::requestsEmptyJSON()
+{
+    static const JSON varRequests= JSON::parse(R"(
+    {
+         "requests":
+    [
+
+
+  ]
+    }
+    )")["requests"];
+
+    return varRequests;
+}
 
 const JSON &Bases::jsonTest()
 {
@@ -1613,4 +1698,104 @@ const JSON &Bases::answersJSON_file003_missing()
     )");
 
     return varAnswers;
+}
+
+
+
+std::string getLastFilePath()
+{
+    //Подготовить переменные
+    std::filesystem::directory_entry directoryEntry;
+    std::chrono::system_clock::time_point timePoint{};
+
+    //Для каждого файла директории
+    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    {
+        //Преобразовать время в нужный тип
+        std::chrono::system_clock::time_point currentTimePoint{std::chrono::clock_cast<std::chrono::system_clock>(currentDirectoryEntry.last_write_time())};
+        //Если время изменения текущего файла позже
+        if (currentTimePoint > timePoint)
+        {
+            //Запомнить файл
+            directoryEntry = currentDirectoryEntry;
+        }
+    }
+
+    //Вернуть путь файла
+    return directoryEntry.path().string();
+}
+
+std::string timePointToString(const std::chrono::system_clock::time_point& now)
+{
+    //Преобразовать момент времени в объект времени POSIX
+    std::time_t t{std::chrono::system_clock::to_time_t(now)};
+
+    //Задать размер строки
+    std::string ts(256,0);
+
+    //Преобразовать время в строку, и задать размер строки
+    ts.resize(std::strftime(&ts[0], ts.size(), ProgramArguments::dateTimeFormat().c_str(), std::localtime(&t)));
+
+    //Преобразовать момент времени в секунды
+    std::chrono::system_clock::time_point nowSeconds{std::chrono::time_point_cast<std::chrono::seconds>(now)};
+
+    //Получить наносекунды
+    std::chrono::nanoseconds nanoseconds{now - nowSeconds};
+
+    //Преобразовать наносекунды в строку
+    std::stringstream ss4;
+    ss4 << nanoseconds.count();
+    std::string strNanosecondsCount;
+    ss4 >> strNanosecondsCount;
+
+    //Вернуть строку времени
+    return ts + strNanosecondsCount;
+}
+
+std::string  getTimePoint()
+{
+    //Получить текущий момент времени
+    std::chrono::system_clock::time_point now{std::chrono::system_clock::now()};
+
+    //Отметка времени
+    std::string timePoint{timePointToString(now)};
+
+    return timePoint;
+}
+
+bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel)
+{
+    //Получить путь текущего лог-файла
+    std::string fileName{getLastFilePath()};
+
+    //Прочитать лог-файл
+    std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Определить позицию отметки времени в лог-файле
+    std::string::size_type found{log.rfind(timePoint)};
+
+    //Если отметка присутствует
+    if (found != std::string::npos)
+    {
+        //Определить начало строки с отметкой в лог-файле
+        std::string::size_type begin{log.rfind('\n', found)};
+        //Определить конец строки с отметкой в лог-файле
+        std::string::size_type end{log.find('\n',found)};
+
+        //Выделить строку сообщения с отметкой
+        std::string logLine{log.substr(begin + 1, end - begin - 1)};
+
+        //Если уровень логирования совпадает
+        if (logLine.find(strErrorLevel) != std::string::npos)
+        {
+            //Установить результат операции
+            result = true;
+        }
+    }
+
+    //Возвратить результат операции
+    return result;
 }

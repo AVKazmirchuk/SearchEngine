@@ -1,0 +1,29 @@
+{
+  "answers": {
+    "request001": {
+      "result": "false"
+    },
+    "request002": {
+      "result": "true",
+      "docid": 0,
+      "rank": 0.017544
+    },
+    "request003": {
+      "result": "true",
+      "relevance": [
+        {
+          "docid": 0,
+          "rank": 1.0
+        },
+        {
+          "docid": 2,
+          "rank": 0.947368
+        },
+        {
+          "docid": 1,
+          "rank": 0.77193
+        }
+      ]
+    }
+  }
+}

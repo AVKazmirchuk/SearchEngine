@@ -88,6 +88,24 @@ public:
     static const std::string& answersFilePath();
 
     /**
+     * Прочитать путь файла теста чтения JSON-файла
+     * @return Ссылка на переменную
+     */
+    static const std::string& readJSONFile();
+
+    /**
+     * Прочитать путь файла теста чтения текстового файла
+     * @return Ссылка на переменную
+     */
+    static const std::string& readTextFile();
+
+    /**
+     * Прочитать JSON-объект массива запросов
+     * @return Ссылка на переменную
+     */
+    static const std::string& checkRequestsArray();
+
+    /**
      * Прочитать путь файла ответов
      * @return Ссылка на переменную
      */
@@ -167,16 +185,22 @@ public:
     static const std::string& errorLevel_fatal();
 
     /**
-     * Прочитать/записать признак логирования событий в консоль
-     * @return Ссылка на переменную
+     * Прочитать формат даты и времени
+     * @return
      */
-    static const std::string& launchConsole();
+    static const std::string& dateTimeFormat();
 
     /**
      * Прочитать/записать признак логирования событий в консоль
      * @return Ссылка на переменную
      */
-    static const std::string& launchConsole_2();
+    static const std::string& launchConsole_yes();
+
+    /**
+     * Прочитать/записать признак логирования событий в консоль
+     * @return Ссылка на переменную
+     */
+    static const std::string& launchConsole_no();
 
     /**
      * Прочитать количество знаков после запятой
@@ -200,13 +224,13 @@ public:
      * Прочитать желаемое количество потоков
      * @return Ссылка на переменную
      */
-    static const unsigned int desiredNumberOfThreads();
+    static unsigned int desiredNumberOfThreads();
 
     /**
      * Прочитать желаемое количество потоков. Три потока
      * @return Ссылка на переменную
      */
-    static const unsigned int desiredNumberOfThreads_3();
+    static unsigned int desiredNumberOfThreads_3();
 
     /**
      * Прочитать максимальное количество непрочитанных файлов
@@ -317,10 +341,28 @@ public:
     static const JSON &configJSON();
 
     /**
+     * Получить ссылку на JSON-объект конфигурации несоответствующий шаблону
+     * @return Ссылка на JSON-объект конфигурации
+     */
+    static const JSON &configNotMatchJSON();
+
+    /**
+     * Получить ссылку на JSON-объект конфигурации пустого массива путей файлов
+     * @return Ссылка на JSON-объект конфигурации
+     */
+    static const JSON &configEmptyJSON();
+
+    /**
      * Получить ссылку на JSON-объект запросов
      * @return Ссылка на JSON-объект запросов
      */
     static const JSON &requestsJSON();
+
+    /**
+     * Получить ссылку на JSON-объект пустого массива запросов
+     * @return Ссылка на JSON-объект запросов
+     */
+    static const JSON &requestsEmptyJSON();
 
     /**
      * Получить ссылку на JSON-объект
@@ -387,5 +429,21 @@ public:
     }
 
 };//MatchingFunctionNameAndErrorLevel
+
+
+
+//Получить путь текущего файла логирования
+std::string getLastFilePath();
+
+//Перевести отметку времени в строку
+std::string timePointToString(const std::chrono::system_clock::time_point& now);
+
+//Получить отметку времени
+std::string  getTimePoint();
+
+//Соответствует ли фактический уровень логирования ожидаемому
+bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel);
+
+
 
 #endif //SEARCH_ENGINE_TESTGENERAL_H
