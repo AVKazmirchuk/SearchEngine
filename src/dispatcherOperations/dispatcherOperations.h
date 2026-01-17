@@ -262,7 +262,7 @@ public:
             const std::vector<std::string>& filePaths,
             const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
             const std::size_t maximumAllowableErrorsNumber = 0,
-            const std::string& message = "",
+            const std::string& messageOneFile = "", const std::string& messageMultipleFiles = "",
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
@@ -305,6 +305,12 @@ public:
      */
     std::size_t getMaximumAllowableErrorsNumber();
 
+    /*
+     * Получить строку уровня логирования из перечисления
+     * @param errorLevel Уровень логирования
+     * @return Строка уровня логирования
+     */
+    static std::string getStringFromErrorLevel(ErrorLevel errorLevel);
 
     //------------------------------
 
@@ -337,6 +343,7 @@ public:
             const std::string& message = "",
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);//Для тестирования передачи контейнера по ссылке*/
+
 
 private:
 

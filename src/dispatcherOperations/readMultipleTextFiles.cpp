@@ -29,18 +29,19 @@ std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErro
         //Установить соответствующий код ошибки
         error = ErrorCode::error_any_files_not_read;
     }
-
+std::cout << getStringFromErrorLevel(errorLevelOneFile) << ' ' << getStringFromErrorLevel(errorLevelMultipleFiles) << ' ' << errorNumber << ' ' << maximumAllowableErrorsNumber;
     //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
     //функция, из которой вызывается чтение документов, помечена как фатальная
     if (errorNumber <= maximumAllowableErrorsNumber &&
         (errorLevelMultipleFiles == ErrorLevel::fatal || getErrorLevel(callingFunction) == ErrorLevel::fatal))
     {
+        std::cout << "qqq";
         //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
         if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
             //В противном случае - понизить уровень логирования
         else errorLevelMultipleFiles = ErrorLevel::error;
     }
-
+std::cout << getStringFromErrorLevel(errorLevelMultipleFiles);
     return {error, errorLevelMultipleFiles};
 }
 
@@ -144,7 +145,7 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         const std::vector<std::string> &filePaths,
         const unsigned int desiredNumberOfThreads,
         const std::size_t maximumAllowableErrorsNumber,
-        const std::string& message,
+        const std::string& messageOneFile, const std::string& messageMultipleFiles,
         ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const boost::source_location &callingFunction)
 {
@@ -152,7 +153,7 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     //Timer t;
 
     //Контейнер прочитанных документов с приведённым типом ошибок
-    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, message, errorLevelOneFile, callingFunction)};
+    std::pair<std::vector<std::string>, std::vector<ErrorCode>> documents{readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, messageOneFile, errorLevelOneFile, callingFunction)};
 
     //std::cout << '\n' << sizeof(documents) << '\n';
     //std::cout << '\n' << t.elapsed() << '\n';
@@ -191,7 +192,7 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     std::pair<ErrorCode, ErrorLevel> tmp{determineErrorCodeAndErrorLevelForMultipleFiles(filePaths.size(), errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
 
     //Логировать событие по коду ошибки и уровню логирования
-    determineValidity("", tmp.first, tmp.second, message, callingFunction);
+    determineValidity("", tmp.first, tmp.second, messageMultipleFiles, callingFunction);
 
     //Вернуть структуру результатов чтения текстовых файлов
     return ResultOfReadMultipleTextFiles{documents, errorNumber, tmp.first};

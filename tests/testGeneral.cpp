@@ -247,7 +247,7 @@ unsigned int ProgramArguments::desiredNumberOfThreads_3()
     return variable;
 }
 
-const std::size_t& ProgramArguments::maximumAllowableErrorsNumber()
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_0()
     {
         //Значение по умолчанию
         static const std::size_t variable{0};
@@ -258,6 +258,13 @@ const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_1()
 {
     //Значение по умолчанию
     static const std::size_t variable{1};
+    return variable;
+}
+
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_2()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{2};
     return variable;
 }
 
@@ -289,6 +296,30 @@ const std::vector<std::string> &Bases::paths()
                     "../../tests/resources/resources/file001-test.txt",
                     "../../tests/resources/resources/file002-test.txt",
                     "../../tests/resources/resources/file003-test.txt"
+            };
+
+    return varDocuments;
+}
+
+const std::vector<std::string> &Bases::paths_file001_002_missing()
+{
+    static const std::vector<std::string> varDocuments
+            {
+                    "../../tests/resources/resources/file001-test-missing.txt",
+                    "../../tests/resources/resources/file002-test-missing.txt",
+                    "../../tests/resources/resources/file003-test.txt"
+            };
+
+    return varDocuments;
+}
+
+const std::vector<std::string> &Bases::paths_files_all_missing()
+{
+    static const std::vector<std::string> varDocuments
+            {
+                    "../../tests/resources/resources/file001-test-missing.txt",
+                    "../../tests/resources/resources/file002-test-missing.txt",
+                    "../../tests/resources/resources/file003-test-missing.txt"
             };
 
     return varDocuments;
@@ -1782,8 +1813,13 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
     {
         //Определить начало строки с отметкой в лог-файле
         std::string::size_type begin{log.rfind('\n', found)};
+        //Если это начало файла
+        if (begin == std::string::npos) begin = 0;
+
         //Определить конец строки с отметкой в лог-файле
         std::string::size_type end{log.find('\n',found)};
+        //Если это конец файла
+        if (end == std::string::npos) end = log.size() - 1;
 
         //Выделить строку сообщения с отметкой
         std::string logLine{log.substr(begin + 1, end - begin - 1)};
@@ -1794,6 +1830,68 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
             //Установить результат операции
             result = true;
         }
+    }
+
+    //Возвратить результат операции
+    return result;
+}
+
+bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::string& strErrorLevel, std::size_t maximumAllowableErrorsNumber)
+{
+    //Получить путь текущего лог-файла
+    std::string fileName{getLastFilePath()};
+
+    //Прочитать лог-файл
+    std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
+
+    //Обнулить результат операции
+    bool result{};
+    //Количество совпадений
+    std::size_t count{};
+    //Начальная позиция поиска
+    std::string::size_type found{std::string::npos};
+
+    //Подсчитать количество совпадений
+    for (;;)
+    {
+        //Определить позицию отметки времени в лог-файле
+        found = log.rfind(timePoint, found);
+
+        //Если отметка присутствует
+        if (found != std::string::npos)
+        {
+            //Определить начало строки с отметкой в лог-файле
+            std::string::size_type begin{log.rfind('\n', found)};
+            //Если это начало файла
+            if (begin == std::string::npos) begin = 0;
+
+            //Определить конец строки с отметкой в лог-файле
+            std::string::size_type end{log.find('\n', found)};
+            //Если это конец файла
+            if (end == std::string::npos) end = log.size() - 1;
+
+            //Выделить строку сообщения с отметкой
+            std::string logLine{log.substr(begin + 1, end - begin - 1)};
+
+            //Если уровень логирования совпадает
+            if (logLine.find(strErrorLevel) != std::string::npos)
+            {
+                //Увеличить количество совпадений
+                ++count;
+            }
+
+            found = begin + 1;
+        }
+        else
+        {
+            //Совпадений больше нет
+            break;
+        }
+    }
+
+    if (count == maximumAllowableErrorsNumber)
+    {
+        result = true;
     }
 
     //Возвратить результат операции

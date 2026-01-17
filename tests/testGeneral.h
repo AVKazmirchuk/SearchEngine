@@ -236,13 +236,19 @@ public:
      * Прочитать максимальное количество непрочитанных файлов
      * @return Ссылка на переменную
      */
-    static const std::size_t& maximumAllowableErrorsNumber();
+    static const std::size_t& maximumAllowableErrorsNumber_0();
 
     /**
      * Прочитать максимальное количество непрочитанных файлов. Один ошибочный файл
      * @return Ссылка на переменную
      */
     static const std::size_t& maximumAllowableErrorsNumber_1();
+
+    /**
+     * Прочитать максимальное количество непрочитанных файлов. Два ошибочных файла
+     * @return Ссылка на переменную
+     */
+    static const std::size_t& maximumAllowableErrorsNumber_2();
 
     /**
      * Прочитать максимальное количество ответов
@@ -273,6 +279,18 @@ public:
      * @return Ссылка на пути файлов документов
      */
     static const std::vector<std::string> &paths();
+
+    /**
+     * Получить ссылку на пути файлов документов. File001-002 отсутствуют
+     * @return Ссылка на пути файлов документов
+     */
+    static const std::vector<std::string> &paths_file001_002_missing();
+
+    /**
+     * Получить ссылку на пути файлов документов. Все файлы отсутствуют
+     * @return Ссылка на пути файлов документов
+     */
+    static const std::vector<std::string> &paths_files_all_missing();
 
     /**
      * Получить ссылку на пути файлов документов. File003 отсутствует
@@ -444,6 +462,7 @@ std::string  getTimePoint();
 //Соответствует ли фактический уровень логирования ожидаемому
 bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel);
 
-
+//Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::string& strErrorLevel, std::size_t maximumAllowableErrorsNumber);
 
 #endif //SEARCH_ENGINE_TESTGENERAL_H

@@ -37,7 +37,7 @@ TEST(TestUpdateInvertedIndexes, updateInvertedIndexes)
 TEST(TestUpdateInvertedIndexes, desiredNumberOfThreads_3)
 {
     //Создать объект документов
-    InvertedIndex invertedIndex(Bases::documents(), ProgramArguments::maximumAllowableErrorsNumber(), ProgramArguments::desiredNumberOfThreads_3());
+    InvertedIndex invertedIndex(Bases::documents(), ProgramArguments::maximumAllowableErrorsNumber_0(), ProgramArguments::desiredNumberOfThreads_3());
 
     //Обновить базу документов или путей файлов документов
     invertedIndex.updateInvertedIndexes();
@@ -92,7 +92,7 @@ TEST(TestUpdateInvertedIndexes, documentsBaseOrPathsBase_no)
 
     //Создать объект документов
     InvertedIndex invertedIndex(Bases::paths(),
-                                ProgramArguments::maximumAllowableErrorsNumber(),
+                                ProgramArguments::maximumAllowableErrorsNumber_0(),
                                 ProgramArguments::desiredNumberOfThreads(),
                                 ProgramArguments::documentsBaseOrPathsBase_no());
 

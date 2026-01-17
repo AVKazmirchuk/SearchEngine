@@ -38,6 +38,25 @@ std::size_t DispatcherOperations::getMaximumAllowableErrorsNumber()
     return validMaximumAllowableErrorsNumber;
 }
 
+std::string DispatcherOperations::getStringFromErrorLevel(ErrorLevel errorLevel)
+{
+    switch (errorLevel)
+    {
+        case ErrorLevel::fatal:
+            return "FATAL";
+        case ErrorLevel::error:
+            return "ERROR";
+        case ErrorLevel::warning:
+            return "WARNING";
+        case ErrorLevel::info:
+            return "INFO";
+        case ErrorLevel::debug:
+            return "DEBUG";
+        case ErrorLevel::no_level:
+            return "NO_LEVEL";
+    }
+}
+
 std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
 {
     //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку

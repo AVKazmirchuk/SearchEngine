@@ -31,7 +31,7 @@ TEST(TestSearchModifiedAll, searchModifiedAll)
                               ProgramArguments::precision(),
                               ProgramArguments::formatByWidth(),
                               ProgramArguments::desiredNumberOfThreads(),
-                              ProgramArguments::maximumAllowableErrorsNumber());
+                              ProgramArguments::maximumAllowableErrorsNumber_0());
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
@@ -64,7 +64,7 @@ TEST(TestSearchModifiedAll, precision_3)
                               ProgramArguments::precision_3(),
                               ProgramArguments::formatByWidth(),
                               ProgramArguments::desiredNumberOfThreads(),
-                              ProgramArguments::maximumAllowableErrorsNumber());
+                              ProgramArguments::maximumAllowableErrorsNumber_0());
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
@@ -103,7 +103,7 @@ TEST(TestSearchModifiedAll, configFilePath_missing)
                                   ProgramArguments::precision(),
                                   ProgramArguments::formatByWidth(),
                                   ProgramArguments::desiredNumberOfThreads(),
-                                  ProgramArguments::maximumAllowableErrorsNumber());
+                                  ProgramArguments::maximumAllowableErrorsNumber_0());
     }
     catch (const DispatcherOperations::OperationException& exception)
     {
@@ -138,7 +138,7 @@ TEST(TestSearchModifiedAll, requestsFilePath_missing)
                                   ProgramArguments::precision(),
                                   ProgramArguments::formatByWidth(),
                                   ProgramArguments::desiredNumberOfThreads(),
-                                  ProgramArguments::maximumAllowableErrorsNumber());
+                                  ProgramArguments::maximumAllowableErrorsNumber_0());
     }
     catch (const DispatcherOperations::OperationException& exception)
     {
@@ -171,7 +171,7 @@ TEST(TestSearchModifiedAll, answersFilePath_empty)
                                   ProgramArguments::precision(),
                                   ProgramArguments::formatByWidth(),
                                   ProgramArguments::desiredNumberOfThreads(),
-                                  ProgramArguments::maximumAllowableErrorsNumber());
+                                  ProgramArguments::maximumAllowableErrorsNumber_0());
 
     try
     {
@@ -209,7 +209,7 @@ TEST(TestSearchModifiedAll, documentsBaseOrPathsBase_no)
                               ProgramArguments::precision(),
                               ProgramArguments::formatByWidth(),
                               ProgramArguments::desiredNumberOfThreads(),
-                              ProgramArguments::maximumAllowableErrorsNumber());
+                              ProgramArguments::maximumAllowableErrorsNumber_0());
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
@@ -279,7 +279,7 @@ TEST(TestSearchModifiedAll, desiredNumberOfThreads_3)
                               ProgramArguments::precision(),
                               ProgramArguments::formatByWidth(),
                               ProgramArguments::desiredNumberOfThreads_3(),
-                              ProgramArguments::maximumAllowableErrorsNumber());
+                              ProgramArguments::maximumAllowableErrorsNumber_0());
 
     //Рассчитать релевантность ответов
     searchEngine.searchModifiedAll();
