@@ -443,6 +443,8 @@ public:
                         {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
                         {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
                         {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
+                        {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
+                        {"testReadMultipleTextFiles",                                   ErrorLevel::fatal},
                         {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
                         {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
                         {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},

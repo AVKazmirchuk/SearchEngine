@@ -215,7 +215,7 @@ namespace kav
             try
             {
                 //Ждать окончания работы отдельного потока логирования
-                resultOfWriteToFileAndMonitor.wait();
+                resultOfWriteToFileAndMonitor.get();
             }
             catch (std::exception& e)
             {

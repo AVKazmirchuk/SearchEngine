@@ -27,7 +27,7 @@ int main()
     kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    
+
     //Запустить все тесты
     ::testing::InitGoogleTest();
     return RUN_ALL_TESTS();

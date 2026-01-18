@@ -295,6 +295,12 @@ public:
     static void setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel);
 
     /**
+     * Получить контейнер соответствия имени вызывающей функции уровню логирования
+     * @return Контейнер соответствия имени вызывающей функции уровню логирования
+     */
+    static std::map<std::string, ErrorLevel>& getMatchingFunctionNameAndErrorLevel();
+
+    /**
      * Получить действительное фактическое количество потоков
      * @return Действительное фактическое количество потоков
      */

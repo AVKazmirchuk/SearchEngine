@@ -41,6 +41,11 @@ void DispatcherOperations::setErrorLevelFrom(const std::map<std::string, ErrorLe
 
 }
 
+std::map<std::string, ErrorLevel>& DispatcherOperations::getMatchingFunctionNameAndErrorLevel()
+{
+    return matchingFunctionNameAndErrorLevel;
+}
+
 unsigned int DispatcherOperations::getNumberOfThreads()
 {
     return numberOfThreads;
