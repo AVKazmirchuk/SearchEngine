@@ -71,6 +71,7 @@ public:
                 {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
                 {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
                 {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
+                {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
                 {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
                 {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
                 {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},

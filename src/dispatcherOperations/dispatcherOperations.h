@@ -252,7 +252,8 @@ public:
       * @param filePaths Ссылка на путь контейнера путей файлов
       * @param desiredNumberOfThreads Желаемое количество потоков
       * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
-      * @param message Ссылка на сообщение
+      * @param messageOneFile Ссылка на сообщение для каждого файла
+      * @param messageMultipleFiles Ссылка на сообщение для всех файлов
       * @param errorLevelOneFile Уровень логирования для одного фойла
       * @param errorLevelMultipleFiles Уровень логирования для всех файлов
       * @param callingFunction Ссылка на вызывающую функцию
@@ -380,6 +381,7 @@ private:
     /**
      * Определить код ошибки и уровень логирования для множества файлов
      * @param filesNumber Количество файлов
+     * @param isFatalForOneFile Признак выброса исключения при чтении каждого файла
      * @param errorNumber Количество ошибок
      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
      * @param errorLevelOneFile Уровень логирования для одного фойла
@@ -389,6 +391,7 @@ private:
      */
     static std::pair<ErrorCode, ErrorLevel> determineErrorCodeAndErrorLevelForMultipleFiles(
             const std::size_t filesNumber,
+            bool isFatalForOneFile,
             const std::size_t errorNumber, const std::size_t maximumAllowableErrorsNumber,
             ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
             const boost::source_location &callingFunction);

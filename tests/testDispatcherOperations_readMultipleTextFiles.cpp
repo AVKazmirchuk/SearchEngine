@@ -13,8 +13,20 @@
 
 
 //Тестирование функции readMultipleTextFiles
-//Прочитать документы
-ResultOfReadMultipleTextFiles readDocsFromFiles(
+
+/**
+      * Прочитать несколько текстовых файлов одновременно в разных потоках
+      * @param filePaths Ссылка на путь контейнера путей файлов
+      * @param desiredNumberOfThreads Желаемое количество потоков
+      * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
+      * @param messageOneFile Ссылка на сообщение для каждого файла
+      * @param messageMultipleFiles Ссылка на сообщение для всех файлов
+      * @param errorLevelOneFile Уровень логирования для одного фойла
+      * @param errorLevelMultipleFiles Уровень логирования для всех файлов
+      * @param callingFunction Ссылка на вызывающую функцию
+      * @return Структура результатов чтения текстовых файлов
+      */
+ResultOfReadMultipleTextFiles testReadMultipleTextFiles(
         const std::vector<std::string> &filePaths,
         const unsigned int desiredNumberOfThreads = std::thread::hardware_concurrency(),
         const std::size_t maximumAllowableErrorsNumber = 0,
@@ -27,43 +39,306 @@ ResultOfReadMultipleTextFiles readDocsFromFiles(
                                                        messageOneFile, messageMultipleFiles, errorLevelOneFile, errorLevelMultipleFiles);
 }
 
-//Проверить функцию на уровень логирования debug
-TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMultipleFiles)
+//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForAllFiles)
 {
     //Обнулить результат операции
     bool result{};
 
     //Отметка времени для каждого файла
-    std::string timePointOneFile{getTimePoint()};
+    std::string timePointForEachFile{getTimePoint()};
 
     //Отметка времени для всех файлов
-    std::string timePointMultipleFiles{getTimePoint()};
+    std::string timePointForAllFiles{getTimePoint()};
 
-    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = readDocsFromFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
-                                                                                    timePointOneFile, timePointMultipleFiles, ErrorLevel::error, ErrorLevel::fatal);
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::fatal);
 
-    result = isMatchingErrorLevel(timePointMultipleFiles, ProgramArguments::errorLevel_error());
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
 
     //Проверить утверждение
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования debug
-TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalOneFile)
+//Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAllFiles)
 {
     //Обнулить результат операции
     bool result{};
 
     //Отметка времени для каждого файла
-    std::string timePointOneFile{getTimePoint()};
+    std::string timePointForEachFile{getTimePoint()};
 
     //Отметка времени для всех файлов
-    std::string timePointMultipleFiles{getTimePoint()};
+    std::string timePointForAllFiles{getTimePoint()};
+    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
-    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = readDocsFromFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
-                                                                                    timePointOneFile, timePointMultipleFiles, ErrorLevel::error, ErrorLevel::fatal);
+    try
+    {
+        //Прочитать несколько текстовых файлов одновременно в разных потоках
+        ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::fatal);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
 
-    result = isMatchingErrorLevelForEachFile(timePointOneFile, ProgramArguments::errorLevel_error(), ProgramArguments::maximumAllowableErrorsNumber_2());
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForEachFile)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::fatal);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), ProgramArguments::maximumAllowableErrorsNumber_2());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForEachFile)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_file001_002_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), ProgramArguments::maximumAllowableErrorsNumber_2());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов одновременно в разных потоках
+        ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_files_all_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::fatal);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов и было исключение
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов одновременно в разных потоках
+        ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_files_all_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::fatal);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов и было исключение
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForEachFile)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов одновременно в разных потоках
+        ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_files_all_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::fatal);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла и было исключение
+    result = result && isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), Bases::paths_files_all_missing().size());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_files_all_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_files_all_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForEachFile)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов одновременно в разных потоках
+    ResultOfReadMultipleTextFiles resultOfReadMultipleTextFiles = testReadMultipleTextFiles(Bases::paths_files_all_missing(), ProgramArguments::desiredNumberOfThreads(), ProgramArguments::maximumAllowableErrorsNumber_2(),
+                                                                                            timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), Bases::paths_files_all_missing().size());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

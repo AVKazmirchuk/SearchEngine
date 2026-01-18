@@ -10,14 +10,27 @@
 
 ErrorLevel DispatcherOperations::getErrorLevelFrom(const std::string& functionName)
 {
+    //Определить уровень логирования
+    ErrorLevel errorLevel{ErrorLevel::info};
+
+    try
+    {
+        //Получить уровень логирования по имени вызывающей функции
+        errorLevel = matchingFunctionNameAndErrorLevel.at(functionName);
+    }
+    catch (const std::out_of_range& exception)
+    {
+        //Исключение "обработано". Функция в списке отсутствует
+    }
+
     //Вернуть уровень логирования
-    return matchingFunctionNameAndErrorLevel.at(functionName);
+    return errorLevel;
 }
 
 void DispatcherOperations::setErrorLevelFrom(const std::map<std::string, ErrorLevel>& in_matchingFunctionNameAndErrorLevel)
 {
     //Добавить соответствия для внутреннего использования//TODO На тест, рассмотреть возможность изменения уровня логирования для закрытых функций в зависимости от уровня логирования вызываемых открытых
-    matchingFunctionNameAndErrorLevel["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
+    //matchingFunctionNameAndErrorLevel["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
 
     //Для каждого соответствия
     for (auto& elem : in_matchingFunctionNameAndErrorLevel)
@@ -55,6 +68,9 @@ std::string DispatcherOperations::getStringFromErrorLevel(ErrorLevel errorLevel)
         case ErrorLevel::no_level:
             return "NO_LEVEL";
     }
+
+    //Вернуть неопределённую строку (никак не используется)
+    return "UNDEFINED";
 }
 
 std::string DispatcherOperations::getFunctionName(const boost::source_location &callingFunction)
@@ -122,7 +138,7 @@ std::cout << DescriptionErrorCode::descriptionErrorCode(errorCode) << static_cas
         switch (errorLevel)
         {
             case ErrorLevel::fatal:
-                kav::Logger::fatal(completedMessage);
+                kav::Logger::fatal(completedMessage);std::cout << "from determine, throw";
                 //Выбросить исключение
                 throw OperationException(completedMessage);
             case ErrorLevel::error:

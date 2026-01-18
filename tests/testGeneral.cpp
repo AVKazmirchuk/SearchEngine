@@ -240,6 +240,13 @@ unsigned int ProgramArguments::desiredNumberOfThreads()
         return variable;
     }
 
+unsigned int ProgramArguments::desiredNumberOfThreads_1()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{1};
+    return variable;
+}
+
 unsigned int ProgramArguments::desiredNumberOfThreads_3()
 {
     //Значение по умолчанию

@@ -30,6 +30,9 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
                                   >
                          > currentErrorsNumber*/
 
+    //Признак выброса исключения при чтении каждого файла
+    bool isFatalForOneFile{};
+
     //Прочитать текстовый файл TODO возможно, надо читать не файл целеком, а слово в файле. Надо сделать замер
     std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFile(filePath, message, errorLevelOneFile, BOOST_CURRENT_LOCATION)};
 
@@ -96,6 +99,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     //Если все документы прочитаны
     if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber)
     {
+        //Определить количество ошибок
         std::size_t errorNumber{currentErrorsNumber[getFunctionName(callingFunction)][packageID].second};
 
         //Удалить записи этого пакета для этой функции
@@ -128,7 +132,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         }//Для тестов*/
 
         //Определить код ошибки и уровень логирования для всех файлов
-        std::pair<ErrorCode, ErrorLevel> ErrorCodeAndLevel{determineErrorCodeAndErrorLevelForMultipleFiles(filesNumber, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
+        std::pair<ErrorCode, ErrorLevel> ErrorCodeAndLevel{determineErrorCodeAndErrorLevelForMultipleFiles(filesNumber, isFatalForOneFile, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
 
         //Логировать событие по коду ошибки и уровню логирования
         determineValidity("", ErrorCodeAndLevel.first, ErrorCodeAndLevel.second, message, callingFunction);

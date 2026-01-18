@@ -227,6 +227,12 @@ public:
     static unsigned int desiredNumberOfThreads();
 
     /**
+     * Прочитать желаемое количество потоков. Один поток
+     * @return Ссылка на переменную
+     */
+    static unsigned int desiredNumberOfThreads_1();
+
+    /**
      * Прочитать желаемое количество потоков. Три потока
      * @return Ссылка на переменную
      */
