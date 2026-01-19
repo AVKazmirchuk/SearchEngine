@@ -69,3 +69,7 @@ void kav::Logger::fatal(const std::string& message, const std::exception& except
     ptrToLogger->log(Level::fatal, message, exception);
 }
 
+const std::filesystem::path& kav::Logger::getCurrentLogPath()
+{
+    return ptrToLogger->file;
+}

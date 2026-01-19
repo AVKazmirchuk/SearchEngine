@@ -257,6 +257,12 @@ public:
     static const std::size_t& maximumAllowableErrorsNumber_2();
 
     /**
+     * Прочитать максимальное количество непрочитанных файлов. Два ошибочных файла
+     * @return Ссылка на переменную
+     */
+    static const std::size_t& packageID_0();
+
+    /**
      * Прочитать максимальное количество ответов
      * @return Максимальное количество ответов
      */

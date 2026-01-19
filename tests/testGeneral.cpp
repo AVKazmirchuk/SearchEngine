@@ -275,6 +275,13 @@ const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_2()
     return variable;
 }
 
+const std::size_t& ProgramArguments::packageID_0()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{0};
+    return variable;
+}
+
 unsigned int ProgramArguments::maxResponses()
 {
     //Значение по умолчанию
@@ -1761,6 +1768,7 @@ std::string getLastFilePath()
 
     //Вернуть путь файла
     return directoryEntry.path().string();
+    //return kav::Logger::getCurrentLogPath().string();
 }
 
 std::string timePointToString(const std::chrono::system_clock::time_point& now)
@@ -1846,7 +1854,7 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
 bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::string& strErrorLevel, std::size_t maximumAllowableErrorsNumber)
 {
     //Получить путь текущего лог-файла
-    std::string fileName{getLastFilePath()};
+    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
 
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};

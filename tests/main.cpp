@@ -12,6 +12,8 @@
 
 
 
+std::atomic<bool> readyLogger(false);
+
 int main()
 {
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
@@ -26,7 +28,9 @@ int main()
     //Создать объект логирования событий
     kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    readyLogger.store(true);
+
+    std::this_thread::sleep_for(std::chrono::seconds(2));
 
     //Запустить все тесты
     ::testing::InitGoogleTest();

@@ -273,7 +273,8 @@ public:
       * @param filesNumber Количество файлов
       * @param maximumAllowableErrorsNumber Максимально возможное количество ошибок
       * @param packageID ID пакета для разных потоков
-      * @param message Ссылка на сообщение
+      * @param messageOneFile Ссылка на сообщение для каждого файла
+      * @param messageMultipleFiles Ссылка на сообщение для всех файлов
       * @param errorLevelOneFile Уровень логирования для одного фойла
       * @param errorLevelMultipleFiles Уровень логирования для всех файлов
       * @param callingFunction Ссылка на вызывающую функцию
@@ -284,7 +285,7 @@ public:
             const std::size_t filesNumber,
             const std::size_t maximumAllowableErrorsNumber = 0,
             const std::size_t packageID = 0,
-            const std::string& message = "",
+            const std::string& messageOneFile = "", const std::string& messageMultipleFiles = "",
             ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level,
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 

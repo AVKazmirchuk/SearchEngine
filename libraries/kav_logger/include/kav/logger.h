@@ -291,6 +291,12 @@ namespace kav
          */
         static void fatal(const std::string &message, const std::exception &exception);
 
+        /**
+         * Получить текущий путь лог-файла
+         * @return Текущий путь лог-файла
+         */
+        static const std::filesystem::path& getCurrentLogPath();
+
     private:
 
         /**

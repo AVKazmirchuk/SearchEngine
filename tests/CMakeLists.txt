@@ -82,7 +82,10 @@ add_executable(${Application_Name_Test} main.cpp test.cpp testGeneral.cpp
         testDispatcherOperations_readJSONFile.cpp
         testDispatcherOperations_readTextFile.cpp
         testDispatcherOperations_checkFilePathsArray.cpp
-        testDispatcherOperations_checkRequestsArray.cpp testDispatcherOperations_checkJSONStructureMatch.cpp testDispatcherOperations_readMultipleTextFiles.cpp)
+        testDispatcherOperations_checkRequestsArray.cpp
+        testDispatcherOperations_checkJSONStructureMatch.cpp
+        testDispatcherOperations_readMultipleTextFiles.cpp
+        testDispatcherOperations_readMultipleTextFilesSequentially.cpp)
 
 # Задать переменную списка поддиректорий с заголовками
 set(Include_Subdirectories "")
