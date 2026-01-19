@@ -107,8 +107,8 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
 
     //Увеличить количество прочитанных документов
     ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].first;
-    std::cout << '\n' << "current errorNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].second;
-    std::cout << '\n' << "current fileNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].first << '\n';
+    std::cout << '\n' << "current errorNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].second << ", " << "current fileNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].first << '\n';
+
     //Если все документы прочитаны
     if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber || isFatalForOneFile)
     {
