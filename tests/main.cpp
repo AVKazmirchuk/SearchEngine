@@ -30,7 +30,7 @@ int main()
 
     readyLogger.store(true);
 
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    //std::this_thread::sleep_for(std::chrono::seconds(2));
 
     //Запустить все тесты
     ::testing::InitGoogleTest();
