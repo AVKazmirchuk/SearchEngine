@@ -1812,7 +1812,7 @@ std::string  getTimePoint()
 bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel)
 {
     //Получить путь текущего лог-файла
-    std::string fileName{getLastFilePath()};
+    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
 
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};

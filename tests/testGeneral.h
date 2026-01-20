@@ -451,6 +451,7 @@ public:
                         {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
                         {"DispatcherOperations::readTextFileFromMultipleFiles",         ErrorLevel::error},
                         {"testReadMultipleTextFiles",                                   ErrorLevel::fatal},
+                        {"testReadMultipleTextFilesSequentially",                       ErrorLevel::fatal},
                         {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
                         {"SearchEngine::readDocsFromFiles",                             ErrorLevel::fatal},
                         {"SearchEngine::readDocsFromFilesRef",                          ErrorLevel::fatal},

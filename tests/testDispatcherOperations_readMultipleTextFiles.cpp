@@ -352,7 +352,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForEach
 
 //Проверка, когда уровни логирования указываются в контейнере соответствия имени вызывающей функции и уровня логирования
 
-//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для всех.
+//13. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForAllFilesWithoutErrorLevel)
 {
     //Обнулить результат операции
@@ -375,7 +375,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForAll
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех fatal, сообщение для всех.
+//14. Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех fatal, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
@@ -412,7 +412,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAll
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для каждого.
+//15. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для каждого.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForEachFileWithoutErrorLevel)
 {
     //Обнулить результат операции
@@ -435,7 +435,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForEac
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для всех.
+//16. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
@@ -464,7 +464,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForAll
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех error, сообщение для всех.
+//17. Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех error, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
@@ -495,7 +495,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForAll
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для каждого.
+//18. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для каждого.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForEachFileWithoutErrorLevel)
 {
 
@@ -525,7 +525,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForEac
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для всех.
+//19. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForAllFilesWithoutErrorLevel)
 {
     //Обнулить результат операции
@@ -555,7 +555,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForAllF
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех fatal, сообщение для всех.
+//20. Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех fatal, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalMoreErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
@@ -591,7 +591,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalMoreErrorsForAllF
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для каждого.
+//21. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для каждого.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForEachFileWithoutErrorLevel)
 {
     //Обнулить результат операции
@@ -621,7 +621,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForEach
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для всех.
+//22. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
@@ -650,7 +650,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForAllF
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех error, сообщение для всех.
+//23. Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех error, сообщение для всех.
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
@@ -681,7 +681,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllF
     ASSERT_TRUE(result);
 }
 
-//Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для каждого.
+//24. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для каждого.
 TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForEachFileWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия

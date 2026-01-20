@@ -46,7 +46,7 @@ std::pair <std::vector<std::string>, std::vector<ErrorCode>> readFilePathsSequen
                                                 const std::size_t maximumAllowableErrorsNumber,
                                                 const std::size_t packageID,
                                                 const std::string& messageOneFile, const std::string& messageMultipleFiles,
-                                                ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles)
+                                                ErrorLevel errorLevelOneFile = ErrorLevel::no_level, ErrorLevel errorLevelMultipleFiles = ErrorLevel::no_level)
 {
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair <std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
@@ -188,7 +188,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorFewer
     std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
                                                                                                                 ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
                                                                                                                 timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::error);
-
+std::this_thread::sleep_for(std::chrono::seconds(1));
     //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
     result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
 
@@ -250,3 +250,511 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalMoreE
     //Проверить утверждение
     ASSERT_TRUE(result);
 }
+
+//8. Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalFatalMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов последовательно
+        std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                    ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                    timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::fatal);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов и было исключение
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//9. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalMoreErrorsForEachFile)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов последовательно
+        std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                    ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                    timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::fatal);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла и было исключение
+    result = result && isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), Bases::paths_files_all_missing().size());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//10. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorErrorMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//11. Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorMoreErrorsForAllFiles)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::fatal, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//12. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorErrorMoreErrorsForEachFile)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::error);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), Bases::paths_files_all_missing().size());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//Проверка, когда уровни логирования указываются при вызове функции
+
+
+
+//Проверка, когда уровни логирования указываются в контейнере соответствия имени вызывающей функции и уровня логирования
+
+//13. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalFewerErrorsForAllFilesWithoutErrorLevel)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//14. Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalFatalFewerErrorsForAllFilesWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+
+    try
+    {
+        //Прочитать несколько текстовых файлов последовательно
+        std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
+                                                                                                                    ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                    timePointForEachFile, timePointForAllFiles);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//15. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех fatal, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalFewerErrorsForEachFileWithoutErrorLevel)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), ProgramArguments::maximumAllowableErrorsNumber_2());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//16. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorErrorFewerErrorsForAllFilesWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//17. Проверить функцию на уровень логирования. Ошибок меньше, для каждого fatal, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorFewerErrorsForAllFilesWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::error;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//18. Проверить функцию на уровень логирования. Ошибок меньше, для каждого error, для всех error, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorErrorFewerErrorsForEachFileWithoutErrorLevel)
+{
+
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), ProgramArguments::maximumAllowableErrorsNumber_2());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//19. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalMoreErrorsForAllFilesWithoutErrorLevel)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов последовательно
+        std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                    ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                    timePointForEachFile, timePointForAllFiles);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов и было исключение
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//20. Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех fatal, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalFatalMoreErrorsForAllFilesWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов последовательно
+        std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                    ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                    timePointForEachFile, timePointForAllFiles);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов и было исключение
+    result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//21. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех fatal, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalMoreErrorsForEachFileWithoutErrorLevel)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    try
+    {
+        //Прочитать несколько текстовых файлов последовательно
+        std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                    ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                    timePointForEachFile, timePointForAllFiles);
+    }
+    catch (const DispatcherOperations::OperationException& exception)
+    {
+        result = true;
+    }
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла и было исключение
+    result = result && isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), Bases::paths_files_all_missing().size());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//22. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorErrorMoreErrorsForAllFilesWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//23. Проверить функцию на уровень логирования. Ошибок больше, для каждого fatal, для всех error, сообщение для всех.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorMoreErrorsForAllFilesWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
+    result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFilesSequentially"] = ErrorLevel::error;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//24. Проверить функцию на уровень логирования. Ошибок больше, для каждого error, для всех error, сообщение для каждого.
+TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorErrorMoreErrorsForEachFileWithoutErrorLevel)
+{
+    //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::error;
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Отметка времени для каждого файла
+    std::string timePointForEachFile{getTimePoint()};
+
+    //Отметка времени для всех файлов
+    std::string timePointForAllFiles{getTimePoint()};
+
+    //Прочитать несколько текстовых файлов последовательно
+    std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_files_all_missing(), Bases::paths_files_all_missing().size(),
+                                                                                                                ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
+                                                                                                                timePointForEachFile, timePointForAllFiles);
+
+    //Соответствует ли фактический уровень логирования ожидаемому для каждого файла
+    result = isMatchingErrorLevelForEachFile(timePointForEachFile, ProgramArguments::errorLevel_error(), Bases::paths_files_all_missing().size());
+
+    //Вернуть уровень логирования в значение по умолчанию
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFilesSequentially"] = ErrorLevel::fatal;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//Проверка, когда уровни логирования указываются в контейнере соответствия имени вызывающей функции и уровня логирования

@@ -38,7 +38,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
 
     try
     {
-        //Прочитать текстовый файл TODO возможно, надо читать не файл целеком, а слово в файле. Надо сделать замер
+        //Прочитать текстовый файл TODO возможно, надо читать не файл целиком, а слово в файле. Надо сделать замер
         tmp = DispatcherOperations::readTextFile(filePath, messageOneFile, errorLevelOneFile, BOOST_CURRENT_LOCATION);
 
         {
@@ -103,6 +103,8 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         //Исключение "обработано". В первую очередь - для каждого файла с уровнем логирования fatal.
         //Установить признак выброса исключения при чтении каждого файла
         isFatalForOneFile = true;
+        //Увеличить количество ошибок
+        ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].second;
     }
 
     //Увеличить количество прочитанных документов
@@ -110,15 +112,25 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     std::cout << '\n' << "current errorNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].second << ", " << "current fileNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].first << '\n';
 
     //Если все документы прочитаны
-    if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber || isFatalForOneFile)
+    if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber)
     {
         //Определить количество ошибок
         std::size_t errorNumber{currentErrorsNumber[getFunctionName(callingFunction)][packageID].second};
 
+        //Для тестов
+        for (auto& elem : currentErrorsNumber)
+        {
+            std::cout << "1: " << elem.first << " ";
+            for (auto& elem2 : elem.second)
+            {
+                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+            }
+            std::cout << " before delete ID of package" << '\n';
+        }//Для тестов*/
         //Удалить записи этого пакета для этой функции
         currentErrorsNumber[getFunctionName(callingFunction)].erase(packageID);
         //Для тестов
-        /*for (auto& elem : currentErrorsNumber)
+        for (auto& elem : currentErrorsNumber)
         {
             std::cout << "1: " << elem.first << " ";
             for (auto& elem2 : elem.second)
@@ -130,11 +142,21 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         //Если записей пакетов для этой функции нет
         if (currentErrorsNumber[getFunctionName(callingFunction)].empty())
         {
+            //Для тестов
+            for (auto& elem : currentErrorsNumber)
+            {
+                std::cout << "1: " << elem.first << " ";
+                for (auto& elem2 : elem.second)
+                {
+                    std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                }
+                std::cout << " before delete name of function" << '\n';
+            }//Для тестов*/
             //Удалить запись этой функции
             currentErrorsNumber.erase(getFunctionName(callingFunction));
         }
         //Для тестов
-        /*for (auto& elem : currentErrorsNumber)
+        for (auto& elem : currentErrorsNumber)
         {
             std::cout << "1: " << elem.first << " ";
             for (auto& elem2 : elem.second)
