@@ -1814,6 +1814,10 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
     //Получить путь текущего лог-файла
     std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
 
+    std::ofstream out(fileName, std::ios::app);
+    out << "\n--- New Test ---\n";
+    out.close();
+std::this_thread::sleep_for(std::chrono::milliseconds(10));
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 
@@ -1856,6 +1860,10 @@ bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::st
     //Получить путь текущего лог-файла
     std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
 
+    std::ofstream out(fileName, std::ios::app);
+    out << "\n--- New Test ---\n";
+    out.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 

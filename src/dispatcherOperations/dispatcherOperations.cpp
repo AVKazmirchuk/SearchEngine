@@ -16,6 +16,9 @@ ErrorCode DispatcherOperations::writeJSONFile(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Записать JSON-файл
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::writeJSONFile(filePath, objectJSON, formatByWidth)};
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -33,6 +36,9 @@ std::pair<JSON, ErrorCode> DispatcherOperations::readJSONFile(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Прочитать JSON-файл
     std::pair<JSON, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readJSONFile(filePath)};
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -52,6 +58,9 @@ ErrorCode DispatcherOperations::checkJSONStructureMatch(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Проверить JSON-структуру на соответствие шаблону
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkJSONStructureMatch(objectJSON, objectJSONTemplate)};
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -69,6 +78,9 @@ ErrorCode DispatcherOperations::checkFilePathsArray(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Проверить массив JSON-объекта на пустоту
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON)};
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -93,6 +105,9 @@ ErrorCode DispatcherOperations::checkRequestsArray(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Проверить массив JSON-объекта на пустоту
     kav::ErrorCode errorCodeOriginal{kav::OperationFileAndJSON::checkArray(objectJSON)};
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -116,6 +131,9 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Прочитать текстовый файл
     std::pair<std::string, kav::ErrorCode> tmpOriginal{kav::OperationFileAndJSON::readTextFile(filePath)};
     //Преобразовать код ошибки из внешней функции во внутренний код ошибки
@@ -143,6 +161,9 @@ void DispatcherOperations::readTextFileRef(
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevel = determineErrorLevel(errorLevel, callingFunction);
+
     //Объявить временную переменную для конвертации типа
     kav::ErrorCode tmpError;
     //Прочитать текстовый файл

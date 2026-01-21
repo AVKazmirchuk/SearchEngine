@@ -101,6 +101,18 @@ ErrorLevel DispatcherOperations::getErrorLevel(const boost::source_location &cal
     //Вернуть уровень логирования
     return getErrorLevelFrom(getFunctionName(callingFunction));
 }
+
+ErrorLevel DispatcherOperations::determineErrorLevel(ErrorLevel errorLevel, const boost::source_location& callingFunction)
+{
+    //Если уровень логирования не указан
+    if (errorLevel == ErrorLevel::no_level)
+    {
+        //Определить уровень логирования по имени функции
+        errorLevel = getErrorLevel(callingFunction);
+    }
+
+    return errorLevel;
+}
 //TODO На тест, проверить при ошибке вызова простой функции какая  функция указана
 void DispatcherOperations::determineValidity(
         const std::string &filePath,
@@ -112,12 +124,12 @@ void DispatcherOperations::determineValidity(
     //Преобразовать объект предоставленный BOOST_CURRENT_LOCATION в строку
     std::string callingFunctionStr{callingFunction.to_string()};
 
-    //Если уровень логирования не указан
+    /*//Если уровень логирования не указан
     if (errorLevel == ErrorLevel::no_level)
     {
         //Определить уровень логирования по имени функции
         errorLevel = getErrorLevel(callingFunction);
-    }
+    }*/
 
     //Окончательное сообщение для логирования
     std::string completedMessage;

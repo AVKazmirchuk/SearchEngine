@@ -25,23 +25,29 @@ std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErro
         error = ErrorCode::error_all_files_not_read;
     }
     //В противном случае, если есть какие-то ошибки
-    else if (errorNumber > 0 || isFatalForOneFile)
+    else if (errorNumber > 0)
     {
         //Установить соответствующий код ошибки
         error = ErrorCode::error_any_files_not_read;
     }
 
 std::cout << getStringFromErrorLevel(errorLevelOneFile) << ' ' << getStringFromErrorLevel(errorLevelMultipleFiles) << ' ' << errorNumber << ' ' << maximumAllowableErrorsNumber;
+
+
+
+
+
     //Если количество ошибок не превышает максимально допустимого и, уровень логирования для всех файлов установлен как фатальный или
     //функция, из которой вызывается чтение документов, помечена как фатальная
-    if (errorNumber <= maximumAllowableErrorsNumber && !isFatalForOneFile &&
-        (errorLevelMultipleFiles == ErrorLevel::fatal || (getErrorLevel(callingFunction) == ErrorLevel::fatal && errorLevelMultipleFiles == ErrorLevel::no_level)))
+    if (errorNumber <= maximumAllowableErrorsNumber && errorLevelMultipleFiles == ErrorLevel::fatal)
     {
         std::cout << "qqq";
+
+        if (errorLevelOneFile != ErrorLevel::fatal) errorLevelMultipleFiles = ErrorLevel::error;
         //Если используется уровень логирования напрямую - назначить уровень логирования для всех файлов как для одного
-        if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
+        /*if (errorLevelOneFile != ErrorLevel::no_level) errorLevelMultipleFiles = errorLevelOneFile;
             //В противном случае - понизить уровень логирования
-        else if (errorLevelOneFile != ErrorLevel::fatal && errorLevelMultipleFiles == ErrorLevel::fatal) errorLevelMultipleFiles = ErrorLevel::error;
+        else if (errorLevelOneFile != ErrorLevel::fatal && errorLevelMultipleFiles == ErrorLevel::fatal) errorLevelMultipleFiles = ErrorLevel::error;//*/
     }
 std::cout << getStringFromErrorLevel(errorLevelMultipleFiles);
     return {error, errorLevelMultipleFiles};
@@ -153,6 +159,9 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         ErrorLevel errorLevelOneFile, ErrorLevel errorLevelMultipleFiles,
         const boost::source_location &callingFunction)
 {
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevelMultipleFiles = determineErrorLevel(errorLevelMultipleFiles, callingFunction);
+
     //Контейнер прочитанных документов с приведённым типом ошибок
     std::pair <std::vector<std::string>, std::vector<ErrorCode>> documents(filePaths.size(), filePaths.size());
 
@@ -177,6 +186,9 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
         isFatalForOneFile = true;
     }
 
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevelOneFile = determineErrorLevel(errorLevelOneFile, callingFunction);
+    
     //Определить код ошибки и уровень логирования для всех файлов
     std::pair<ErrorCode, ErrorLevel> tmp{determineErrorCodeAndErrorLevelForMultipleFiles(filePaths.size(), isFatalForOneFile, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
 

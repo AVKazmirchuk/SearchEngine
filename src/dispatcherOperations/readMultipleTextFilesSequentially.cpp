@@ -30,6 +30,9 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
                                   >
                          > currentErrorsNumber*/
 
+    //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+    errorLevelMultipleFiles = determineErrorLevel(errorLevelMultipleFiles, callingFunction);
+
     //Признак выброса исключения при чтении каждого файла
     bool isFatalForOneFile{};
 
@@ -166,6 +169,9 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
             std::cout << " after delete name of function" << '\n';
         }//Для тестов*/
 std::cout << '\n' << "errorNumber: " << errorNumber << ", " << "filesNumber: " << filesNumber << ", " << "errorLevelMultipleFiles: " << getStringFromErrorLevel(errorLevelMultipleFiles) << '\n';
+        //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+        errorLevelOneFile = determineErrorLevel(errorLevelOneFile, callingFunction);
+
         //Определить код ошибки и уровень логирования для всех файлов
         std::pair<ErrorCode, ErrorLevel> ErrorCodeAndLevel{determineErrorCodeAndErrorLevelForMultipleFiles(filesNumber, isFatalForOneFile, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
 

@@ -432,6 +432,14 @@ private:
     static ErrorLevel getErrorLevel(const boost::source_location &callingFunction);
 
     /**
+     * Определить уровень логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
+     * @param errorLevel Уровень логирования
+     * @param callingFunction Вызывающая функция
+     * @return Уровень логирования
+     */
+    static ErrorLevel determineErrorLevel(ErrorLevel errorLevel, const boost::source_location& callingFunction);
+
+    /**
      * Определить количество документов в потоке
      * @param filePaths Ссылка на путь контейнера путей файлов
      * @param desiredNumberOfThreads Желаемое количество потоков
