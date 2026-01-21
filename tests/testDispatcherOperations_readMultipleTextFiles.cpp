@@ -379,7 +379,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalFewerErrorsForAll
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::fatal;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::fatal;
 
     //Обнулить результат операции
     bool result{};
@@ -406,7 +406,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAll
     result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
 
     //Вернуть уровень логирования в значение по умолчанию
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::error;
 
     //Проверить утверждение
     ASSERT_TRUE(result);
@@ -468,7 +468,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorFewerErrorsForAll
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::fatal;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::fatal;
     DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFiles"] = ErrorLevel::error;
 
     //Обнулить результат операции
@@ -488,7 +488,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForAll
     result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
 
     //Вернуть уровень логирования в значение по умолчанию
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::error;
     DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFiles"] = ErrorLevel::fatal;
 
     //Проверить утверждение
@@ -559,7 +559,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorFatalMoreErrorsForAllF
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalMoreErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::fatal;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::fatal;
 
     //Обнулить результат операции
     bool result{};
@@ -585,7 +585,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalMoreErrorsForAllF
     result = result && isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
 
     //Вернуть уровень логирования в значение по умолчанию
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::error;
 
     //Проверить утверждение
     ASSERT_TRUE(result);
@@ -654,7 +654,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, errorErrorMoreErrorsForAllF
 TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllFilesWithoutErrorLevel)
 {
     //Установить вызывающую функцию в нужный уровень логирования в контейнере соответствия
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::fatal;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::fatal;
     DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFiles"] = ErrorLevel::error;
 
     //Обнулить результат операции
@@ -674,7 +674,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllF
     result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
 
     //Вернуть уровень логирования в значение по умолчанию
-    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readTextFileFromMultipleFiles"] = ErrorLevel::error;
+    DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["DispatcherOperations::readMultipleTextFiles"] = ErrorLevel::error;
     DispatcherOperations::getMatchingFunctionNameAndErrorLevel()["testReadMultipleTextFiles"] = ErrorLevel::fatal;
 
     //Проверить утверждение

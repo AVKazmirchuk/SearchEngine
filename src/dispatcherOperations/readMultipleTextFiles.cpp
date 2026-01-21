@@ -60,7 +60,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultiple
         const boost::source_location &callingFunction)
 {
     std::cout << "errorLevel: " << getStringFromErrorLevel(errorLevel);
-    return DispatcherOperations::readTextFile(filePath, message, errorLevel, BOOST_CURRENT_LOCATION);
+    return DispatcherOperations::readTextFile(filePath, message, errorLevel, callingFunction);
 }
 
 std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations::readMultipleTextFilesImpl(
@@ -80,8 +80,22 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         for (std::size_t currentDocID{beginDocID}; currentDocID < endDocID; ++currentDocID)
         {
             //Запустить чтение из файла и добавить документ в любом случае (даже если он пустой), так как в будущем надо учитывать его ID
-            //TODO Не горит. Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
-            std::pair<std::string, ErrorCode> tmp{DispatcherOperations::readTextFileFromMultipleFiles(filePaths[currentDocID], message, errorLevel, callingFunction)};
+            //TODO Попробовать обработать заранее допустимое количество ошибок чтения файла и выйти из двойного цикла
+
+            //Результат чтения тесктового файла
+            std::pair<std::string, ErrorCode> tmp;
+            //Признак выброса исключения при чтении каждого файла
+            bool isFatal{};
+
+            try
+            {
+                //Прочитать текстовый файл
+                tmp = std::move(DispatcherOperations::readTextFile(filePaths[currentDocID], message, errorLevel, callingFunction));
+            }
+            catch (const DispatcherOperations::OperationException& exception)
+            {
+                //TODO проверить, когда ловится исключение, что за значение записывается в tmp.second
+            }
             //Скопировать (переместить) результаты в контейнер прочитанных документов
             documents.first[currentDocID] = std::move(tmp.first);
             documents.second[currentDocID] = tmp.second;
@@ -140,7 +154,6 @@ std::pair<std::vector<std::string>, std::vector<ErrorCode>> DispatcherOperations
         }
         catch (const DispatcherOperations::OperationException &exception)
         {
-            std::cout << "from readMultipleTextFilesImpl, throw";
             //Регенерировать исключение выше. Будет обработано в главной функции
             throw;
         }
@@ -174,7 +187,7 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     try
     {
         //Прочитать файлы
-        documents = std::move(readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, messageOneFile, errorLevelOneFile, callingFunction));
+        documents = std::move(readMultipleTextFilesImpl(filePaths, desiredNumberOfThreads, messageOneFile, errorLevelOneFile, BOOST_CURRENT_LOCATION));
 
         //Подсчитать количество непрочитанных документов
         errorNumber = countErrorsNumber(documents.second);
@@ -187,7 +200,7 @@ ResultOfReadMultipleTextFiles DispatcherOperations::readMultipleTextFiles(
     }
 
     //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
-    errorLevelOneFile = determineErrorLevel(errorLevelOneFile, callingFunction);
+    errorLevelOneFile = determineErrorLevel(errorLevelOneFile, BOOST_CURRENT_LOCATION);
     
     //Определить код ошибки и уровень логирования для всех файлов
     std::pair<ErrorCode, ErrorLevel> tmp{determineErrorCodeAndErrorLevelForMultipleFiles(filePaths.size(), isFatalForOneFile, errorNumber, maximumAllowableErrorsNumber, errorLevelOneFile, errorLevelMultipleFiles, callingFunction)};
