@@ -42,7 +42,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     try
     {
         //Прочитать текстовый файл TODO возможно, надо читать не файл целиком, а слово в файле. Надо сделать замер
-        tmp = DispatcherOperations::readTextFile(filePath, messageOneFile, errorLevelOneFile, BOOST_CURRENT_LOCATION);
+        tmp = std::move(DispatcherOperations::readTextFile(filePath, messageOneFile, errorLevelOneFile, BOOST_CURRENT_LOCATION));
 
         {
             //Установить защиту на поиск и добавление ID пакета в контейнер соответствия
@@ -115,10 +115,16 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
     std::cout << '\n' << "current errorNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].second << ", " << "current fileNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].first << '\n';
 
     //Если все документы прочитаны
-    if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber)
+    if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber || isFatalForOneFile)
     {
-        //Определить количество ошибок
-        std::size_t errorNumber{currentErrorsNumber[getFunctionName(callingFunction)][packageID].second};
+        //Количество ошибок
+        std::size_t errorNumber;
+
+        if (!isFatalForOneFile)
+        {
+            //Определить количество ошибок
+            errorNumber = currentErrorsNumber[getFunctionName(callingFunction)][packageID].second;
+        }
 
         //Для тестов
         for (auto& elem : currentErrorsNumber)

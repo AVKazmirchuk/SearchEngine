@@ -449,7 +449,7 @@ public:
                         {"ConverterJSON::checkFilePath",                                ErrorLevel::fatal},
                         {"ConverterJSON::checkRequests",                                ErrorLevel::fatal},
                         {"DispatcherOperations::readMultipleTextFilesSequentially",     ErrorLevel::error},
-                        {"DispatcherOperations::readMultipleTextFiles",         ErrorLevel::error},
+                        {"DispatcherOperations::readMultipleTextFiles",                 ErrorLevel::error},
                         {"testReadMultipleTextFiles",                                   ErrorLevel::fatal},
                         {"testReadMultipleTextFilesSequentially",                       ErrorLevel::fatal},
                         {"InvertedIndex::readDocument",                                 ErrorLevel::fatal},
