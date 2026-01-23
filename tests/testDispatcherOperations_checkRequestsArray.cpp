@@ -26,6 +26,32 @@ bool testCheckRequestsArray(ErrorLevel errorLevel, const std::string& strErrorLe
     return isMatchingErrorLevel(timePoint, strErrorLevel);
 }
 
+//Массив запросов полон
+TEST(TestDispatcherOperations_checkRequestsArray, full)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Проверить массив запросов фалов
+    result = DispatcherOperations::checkRequestsArray(Bases::requestsFullJSON(), "", ErrorLevel::error) == ErrorCode::no_error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Массив запросов пуст
+TEST(TestDispatcherOperations_checkRequestsArray, empty)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Проверить массив запросов фалов
+    result = DispatcherOperations::checkRequestsArray(Bases::requestsEmptyJSON(), "", ErrorLevel::error) == ErrorCode::error_requests_array_empty;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
 //Проверить функцию на уровень логирования debug
 TEST(TestDispatcherOperations_checkRequestsArray, debug)
 {
@@ -56,7 +82,7 @@ TEST(TestDispatcherOperations_checkRequestsArray, wrning)
     //Обнулить результат операции
     bool result{};
 
-    result = testCheckRequestsArray(ErrorLevel::warning, ProgramArguments::errorLevel_warn());
+    result = testCheckRequestsArray(ErrorLevel::warning, ProgramArguments::errorLevel_warning());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

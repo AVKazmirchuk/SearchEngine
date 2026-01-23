@@ -19,11 +19,37 @@ bool testCheckFilePathsArray(ErrorLevel errorLevel, const std::string& strErrorL
     //Отметка времени
     std::string timePoint{getTimePoint()};
 
-    //Записать JSON-файл, указав отметку времени (будет использоваться для поиска строки в лог-файле)
+    //Проверить JSON-файл, указав отметку времени (будет использоваться для поиска строки в лог-файле)
     DispatcherOperations::checkFilePathsArray(Bases::configEmptyJSON(), timePoint, errorLevel);
 
     //Возвратить соответствие фактического уровня логирования ожидаемому
     return isMatchingErrorLevel(timePoint, strErrorLevel);
+}
+
+//Массив путей файлов полон
+TEST(TestDispatcherOperations_checkFilePathsArray, full)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Проверить массив путей фалов
+    result = DispatcherOperations::checkFilePathsArray(Bases::configFullJSON(), "", ErrorLevel::error) == ErrorCode::no_error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Массив путей файлов пуст
+TEST(TestDispatcherOperations_checkFilePathsArray, empty)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Проверить массив путей фалов
+    result = DispatcherOperations::checkFilePathsArray(Bases::configEmptyJSON(), "", ErrorLevel::error) == ErrorCode::error_file_paths_array_empty;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
 }
 
 //Проверить функцию на уровень логирования debug
@@ -51,12 +77,12 @@ TEST(TestDispatcherOperations_checkFilePathsArray, info)
 }
 
 //Проверить функцию на уровень логирования warning
-TEST(TestDispatcherOperations_checkFilePathsArray, wrning)
+TEST(TestDispatcherOperations_checkFilePathsArray, warning)
 {
     //Обнулить результат операции
     bool result{};
 
-    result = testCheckFilePathsArray(ErrorLevel::warning, ProgramArguments::errorLevel_warn());
+    result = testCheckFilePathsArray(ErrorLevel::warning, ProgramArguments::errorLevel_warning());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

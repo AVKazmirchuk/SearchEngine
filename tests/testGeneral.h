@@ -94,10 +94,22 @@ public:
     static const std::string& readJSONFile();
 
     /**
+     * Прочитать путь файла теста чтения JSON-файла. Файл отсутствует
+     * @return Ссылка на переменную
+     */
+    static const std::string& readMissingJSONFile();
+
+    /**
      * Прочитать путь файла теста чтения текстового файла
      * @return Ссылка на переменную
      */
     static const std::string& readTextFile();
+
+    /**
+     * Прочитать путь файла теста чтения текстового файла. Файл отсутствует
+     * @return Ссылка на переменную
+     */
+    static const std::string& readMissingTextFile();
 
     /**
      * Прочитать JSON-объект массива запросов
@@ -170,7 +182,7 @@ public:
      * Прочитать уровень логирования warning
      * @return
      */
-    static const std::string& errorLevel_warn();
+    static const std::string& errorLevel_warning();
 
     /**
      * Прочитать уровень логирования error
@@ -287,6 +299,12 @@ public:
     static const std::vector<std::string> &documents();
 
     /**
+     * Получить ссылку на базу документов. Два документа отсутствуют
+     * @return Ссылка на базу документов
+     */
+    static const std::vector<std::string> &documents_file001_002_missing();
+
+    /**
      * Получить ссылку на пути файлов документов
      * @return Ссылка на пути файлов документов
      */
@@ -383,6 +401,12 @@ public:
     static const JSON &configEmptyJSON();
 
     /**
+    * Получить ссылку на JSON-объект конфигурации полного массива путей файлов
+    * @return Ссылка на JSON-объект конфигурации
+    */
+    static const JSON &configFullJSON();
+
+    /**
      * Получить ссылку на JSON-объект запросов
      * @return Ссылка на JSON-объект запросов
      */
@@ -393,6 +417,12 @@ public:
      * @return Ссылка на JSON-объект запросов
      */
     static const JSON &requestsEmptyJSON();
+
+    /**
+     * Получить ссылку на JSON-объект полного массива запросов
+     * @return Ссылка на JSON-объект запросов
+     */
+    static const JSON &requestsFullJSON();
 
     /**
      * Получить ссылку на JSON-объект

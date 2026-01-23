@@ -19,11 +19,37 @@ bool testCheckJSONStructureMatch(ErrorLevel errorLevel, const std::string& strEr
     //Отметка времени
     std::string timePoint{getTimePoint()};
 
-    //Записать JSON-файл, указав отметку времени (будет использоваться для поиска строки в лог-файле)
+    //Проверить структуру JSON-файла на соответствие шаблону, указав отметку времени (будет использоваться для поиска строки в лог-файле)
     DispatcherOperations::checkJSONStructureMatch(ProgramArguments::configFilePath(), Bases::configNotMatchJSON(), Bases::configJSON(), timePoint, errorLevel);
 
     //Возвратить соответствие фактического уровня логирования ожидаемому
     return isMatchingErrorLevel(timePoint, strErrorLevel);
+}
+
+//Проверить структуру JSON-файла на соответствие шаблону. Структура соответствует
+TEST(TestDispatcherOperations_checkJSONStructureMatch, match)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Проверить структуру JSON-файла на соответствие шаблону
+    result = DispatcherOperations::checkJSONStructureMatch(ProgramArguments::configFilePath(), Bases::configJSON(), Bases::configJSON(), "", ErrorLevel::error) == ErrorCode::no_error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить структуру JSON-файла на соответствие шаблону. Структура не соответствует
+TEST(TestDispatcherOperations_checkJSONStructureMatch, notMatch)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Проверить структуру JSON-файла на соответствие шаблону
+    result = DispatcherOperations::checkJSONStructureMatch(ProgramArguments::configFilePath(), Bases::configNotMatchJSON(), Bases::configJSON(), "", ErrorLevel::error) == ErrorCode::error_json_structure_not_match;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
 }
 
 //Проверить функцию на уровень логирования debug
@@ -56,7 +82,7 @@ TEST(TestDispatcherOperations_checkJSONStructureMatch, wrning)
     //Обнулить результат операции
     bool result{};
 
-    result = testCheckJSONStructureMatch(ErrorLevel::warning, ProgramArguments::errorLevel_warn());
+    result = testCheckJSONStructureMatch(ErrorLevel::warning, ProgramArguments::errorLevel_warning());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

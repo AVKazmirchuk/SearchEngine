@@ -86,10 +86,24 @@ const std::string& ProgramArguments::readJSONFile()
     return variable;
 }
 
+const std::string& ProgramArguments::readMissingJSONFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readJSONFile-missing.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::readTextFile()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/readTextFile.txt"};
+    return variable;
+}
+
+const std::string& ProgramArguments::readMissingTextFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readTextFile-missing.txt"};
     return variable;
 }
 
@@ -170,7 +184,7 @@ const std::string& ProgramArguments::errorLevel_info()
     return variable;
 }
 
-const std::string& ProgramArguments::errorLevel_warn()
+const std::string& ProgramArguments::errorLevel_warning()
 {
     //Значение по умолчанию
     static const std::string variable{"WARNING"};
@@ -302,6 +316,18 @@ const std::vector<std::string> &Bases::documents()
 
         return varDocuments;
     }
+
+const std::vector<std::string> &Bases::documents_file001_002_missing()
+{
+    static const std::vector<std::string> varDocuments
+            {
+                "",
+                "",
+                "america s music culture would be incomplete without blues music  thought it was created in the early decades of the   th century  blues music has had a huge influence on american popular music up to the present days  in fact  many key elements we hear in pop  soul  rhythm and blues  rock and roll  have their beginnings in blues music  it has never been the leader in music sales  blues music has retained a significant presence not only in concerts and festivals throughout the united states  but in the daily life of every person on the planet  as well  one can hear the sound of the blues in unexpected places  from a television commercial to a new country or western song   the best known blues musician today is b b  king  his fame is well deserved  born in indianola  mississippi in       he earned the nickname  b b     blues boy   while playing on radio programs in memphis  tennessee  from the     s through the     s  he played mostly in clubs in the south that had only black audiences  in       he had a hit record with  three a m  blues  and toured steadily thereafter  his fame spread as he played at blues festivals  concert halls  universities  and on television shows across the country  no other blues artist has worked harder  than b  b  king in his many years of playing over three hundred shows a year   by the late     s  b  b  had perfected his famous guitar style of vibrating the fingers of his left hand as he played  and bending notes to achieve the blues notes  that are such an integral part of blue music  this singing guitar sound  coupled with his expressive tenor voice  brought king great success in      with the recording of  the thrill is gone   the song broke through the limited sales of the blues market to achieve mainstream success and brought b b  a grammy award   b b s songs display a wide range of emotions  in addition to the sadness  so fundamental to blue music  he combines humor with a keen understanding of human nature in  everybody lies a little sometimes  and  how blue can you get    king s long and distinguished career includes many musical collaborations  young rock musicians  in particular  appreciate his contributions to their genre  in      b b  played guitar and sang on the hit song  when love comes to town  by the irish band u   in      he recorded an award winning record with eric clapton called  riding with the king     in a nutshell  king s guitar work has had a strong influence on thousands of guitar soloists to this day  b b  king remains the blues  greatest ambassador "
+            };
+
+    return varDocuments;
+}
 
 const std::vector<std::string> &Bases::paths()
 {
@@ -1556,6 +1582,28 @@ const JSON &Bases::configEmptyJSON()
     return varConfig;
 }
 
+const JSON &Bases::configFullJSON()
+{
+    static const JSON varConfig= JSON::parse(R"(
+    {
+         "config":
+         {
+              "name": "SkillboxSearchEngine",
+              "version": "1.0.0",
+              "max_responses": 5
+         },
+        "files":
+        [
+            "../../tests/resources/resources/file001-test.txt",
+            "../../tests/resources/resources/file002-test.txt",
+            "../../tests/resources/resources/file003-test.txt"
+        ]
+    }
+    )")["files"];
+
+    return varConfig;
+}
+
 const JSON &Bases::requestsJSON()
     {
         static const JSON varRequests= JSON::parse(R"(
@@ -1580,6 +1628,23 @@ const JSON &Bases::requestsEmptyJSON()
          "requests":
     [
 
+
+  ]
+    }
+    )")["requests"];
+
+    return varRequests;
+}
+
+const JSON &Bases::requestsFullJSON()
+{
+    static const JSON varRequests= JSON::parse(R"(
+    {
+         "requests":
+    [
+        "susic",
+        "water anothers gaad saa",
+        "of the and water is year"
 
   ]
     }
@@ -1912,7 +1977,13 @@ bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::st
         }
     }
 
-    if (count == maximumAllowableErrorsNumber)
+    //Если уровень логирования фатальный - достаточно единичной ошибки, из-за одновременной обработки файлов в разных потоках
+    if (strErrorLevel == ProgramArguments::errorLevel_fatal() && count > 0)
+    {
+        result = true;
+    }
+    //Если уровень логирования нефатальный - ошибок должно быть сколько указано в параметре
+    else if (strErrorLevel != ProgramArguments::errorLevel_fatal() && count == maximumAllowableErrorsNumber)
     {
         result = true;
     }

@@ -39,6 +39,32 @@ bool testReadTextFile(ErrorLevel errorLevel, const std::string& strErrorLevel)
     return isMatchingErrorLevel(timePoint, strErrorLevel);
 }
 
+//Файл читается успешно
+TEST(TestDispatcherOperations_readTextFile, success)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Прочитать текстовый файл
+    result = DispatcherOperations::readTextFile(ProgramArguments::readTextFile(), "", ErrorLevel::error).second == ErrorCode::no_error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Файл не читается
+TEST(TestDispatcherOperations_readTextFile, fail)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Прочитать текстовый файл
+    result = DispatcherOperations::readTextFile(ProgramArguments::readMissingTextFile(), "", ErrorLevel::error).second == ErrorCode::error_file_missing;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
 //Проверить функцию на уровень логирования debug
 TEST(TestDispatcherOperations_readTextFile, debug)
 {
@@ -69,7 +95,7 @@ TEST(TestDispatcherOperations_readTextFile, wrning)
     //Обнулить результат операции
     bool result{};
 
-    result = testReadTextFile(ErrorLevel::warning, ProgramArguments::errorLevel_warn());
+    result = testReadTextFile(ErrorLevel::warning, ProgramArguments::errorLevel_warning());
 
     //Проверить утверждение
     ASSERT_TRUE(result);

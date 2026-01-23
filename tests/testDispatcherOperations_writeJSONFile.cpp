@@ -39,6 +39,42 @@ bool testWriteJSONFile(ErrorLevel errorLevel, const std::string& strErrorLevel)
     return isMatchingErrorLevel(timePoint, strErrorLevel);
 }
 
+//Файл читается успешно
+TEST(TestDispatcherOperations_writeJSONFile, success)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Записать JSON-файл
+    result = DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), "", ErrorLevel::error) == ErrorCode::no_error;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Файл не читается
+TEST(TestDispatcherOperations_writeJSONFile, fail)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Создать объект для записи. Запретить доступ к файлу
+    HANDLE hFile=CreateFile(ProgramArguments::jsonFileName().c_str(), // file to open
+                            GENERIC_READ, // open for
+                            0x00000000, // share for
+                            nullptr, // default security
+                            OPEN_ALWAYS, // OPEN_EXISTING - existing file only
+                            FILE_ATTRIBUTE_NORMAL, // normal file
+                            nullptr // no attr. template
+    );
+
+    //Записать JSON-файл
+    result = DispatcherOperations::writeJSONFile(ProgramArguments::jsonFileName(), Bases::jsonTest(), ProgramArguments::formatByWidth(), "", ErrorLevel::error) == ErrorCode::error_file_not_open_write;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
 //Проверить функцию на уровень логирования debug
 TEST(TestDispatcherOperations_writeJSONFile, debug)
 {
@@ -69,7 +105,7 @@ TEST(TestDispatcherOperations_writeJSONFile, wrning)
     //Обнулить результат операции
     bool result{};
 
-    result = testWriteJSONFile(ErrorLevel::warning, ProgramArguments::errorLevel_warn());
+    result = testWriteJSONFile(ErrorLevel::warning, ProgramArguments::errorLevel_warning());
 
     //Проверить утверждение
     ASSERT_TRUE(result);
