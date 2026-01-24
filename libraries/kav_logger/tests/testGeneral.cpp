@@ -1,0 +1,445 @@
+//
+// Created by Alexander on 24.01.2026.
+//
+
+
+
+#include "testGeneral.h"
+
+
+
+const std::string& ProgramArguments::configFilePath()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configFilePath_2()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-2.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configFilePath_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configFilePath_filesEmpty()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-files-empty.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configFilePath_file003_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/config-test-file003-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::requestsFilePath()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/requests-test.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::requestsFilePath_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/requests-test-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::requestsFilePath_requestsEmpty()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/requests-test-requests-empty.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::answersFilePath()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/answers-test.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::readJSONFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readJSONFile.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::readMissingJSONFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readJSONFile-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::readTextFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readTextFile.txt"};
+    return variable;
+}
+
+const std::string& ProgramArguments::readMissingTextFile()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/readTextFile-missing.txt"};
+    return variable;
+}
+
+const std::string& ProgramArguments::checkRequestsArray()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/checkRequestsArray.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::answersFilePath_empty()
+{
+    //Значение по умолчанию
+    static const std::string variable;
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configWriterMessageFilePath()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/messageQueue.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::logsFolderName()
+{
+    //Значение по умолчанию
+    static const std::string variable{"Logs"};
+    return variable;
+}
+
+const std::string& ProgramArguments::jsonFileName()
+{
+    //Значение по умолчанию
+    static const std::string variable{"writeJSONFile.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageForException()
+{
+    //Значение по умолчанию
+    static const std::string variable{"This is a test message for an exception"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_debug()
+{
+    //Значение по умолчанию
+    static const std::string variable{"DEBUG"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_info()
+{
+    //Значение по умолчанию
+    static const std::string variable{"INFO"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_warning()
+{
+    //Значение по умолчанию
+    static const std::string variable{"WARNING"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_error()
+{
+    //Значение по умолчанию
+    static const std::string variable{"ERROR"};
+    return variable;
+}
+
+const std::string& ProgramArguments::errorLevel_fatal()
+{
+    //Значение по умолчанию
+    static const std::string variable{"FATAL"};
+    return variable;
+}
+
+const std::string& ProgramArguments::dateTimeFormat()
+{
+    //Значение по умолчанию
+    static const std::string variable{"%Y-%m-%d %H:%M:%S."};
+    return variable;
+}
+
+const std::string& ProgramArguments::launchConsole_yes()
+{
+    //Значение по умолчанию
+    static const std::string variable{"yes"};
+    return variable;
+}
+
+const std::string& ProgramArguments::launchConsole_no()
+{
+    //Значение по умолчанию
+    static const std::string variable{"no"};
+    return variable;
+}
+
+const unsigned int& ProgramArguments::precision()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{6};
+    return variable;
+}
+
+const unsigned int& ProgramArguments::precision_3()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{3};
+    return variable;
+}
+
+const int& ProgramArguments::formatByWidth()
+{
+    //Значение по умолчанию
+    static const int variable{2};
+    return variable;
+}
+
+unsigned int ProgramArguments::desiredNumberOfThreads()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{std::thread::hardware_concurrency() - 1};
+    return variable;
+}
+
+unsigned int ProgramArguments::desiredNumberOfThreads_1()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{1};
+    return variable;
+}
+
+unsigned int ProgramArguments::desiredNumberOfThreads_3()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{3};
+    return variable;
+}
+
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_0()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{0};
+    return variable;
+}
+
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_1()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{1};
+    return variable;
+}
+
+const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_2()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{2};
+    return variable;
+}
+
+const std::size_t& ProgramArguments::packageID_0()
+{
+    //Значение по умолчанию
+    static const std::size_t variable{0};
+    return variable;
+}
+
+unsigned int ProgramArguments::maxResponses()
+{
+    //Значение по умолчанию
+    static const unsigned int variable{5};
+    return variable;
+}
+
+
+
+std::string getLastFilePath()
+{
+    //Подготовить переменные
+    std::filesystem::directory_entry directoryEntry;
+    std::chrono::system_clock::time_point timePoint{};
+
+    //Для каждого файла директории
+    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    {
+        //Преобразовать время в нужный тип
+        std::chrono::system_clock::time_point currentTimePoint{std::chrono::clock_cast<std::chrono::system_clock>(currentDirectoryEntry.last_write_time())};
+        //Если время изменения текущего файла позже
+        if (currentTimePoint > timePoint)
+        {
+            //Запомнить файл
+            directoryEntry = currentDirectoryEntry;
+        }
+    }
+
+    //Вернуть путь файла
+    return directoryEntry.path().string();
+    //return kav::Logger::getCurrentLogPath().string();
+}
+
+std::string timePointToString(const std::chrono::system_clock::time_point& now)
+{
+    //Преобразовать момент времени в объект времени POSIX
+    std::time_t t{std::chrono::system_clock::to_time_t(now)};
+
+    //Задать размер строки
+    std::string ts(256,0);
+
+    //Преобразовать время в строку, и задать размер строки
+    ts.resize(std::strftime(&ts[0], ts.size(), ProgramArguments::dateTimeFormat().c_str(), std::localtime(&t)));
+
+    //Преобразовать момент времени в секунды
+    std::chrono::system_clock::time_point nowSeconds{std::chrono::time_point_cast<std::chrono::seconds>(now)};
+
+    //Получить наносекунды
+    std::chrono::nanoseconds nanoseconds{now - nowSeconds};
+
+    //Преобразовать наносекунды в строку
+    std::stringstream ss4;
+    ss4 << nanoseconds.count();
+    std::string strNanosecondsCount;
+    ss4 >> strNanosecondsCount;
+
+    //Вернуть строку времени
+    return ts + strNanosecondsCount;
+}
+
+std::string  getTimePoint()
+{
+    //Получить текущий момент времени
+    std::chrono::system_clock::time_point now{std::chrono::system_clock::now()};
+
+    //Отметка времени
+    std::string timePoint{timePointToString(now)};
+
+    return timePoint;
+}
+
+bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel)
+{
+    //Получить путь текущего лог-файла
+    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
+
+    std::ofstream out(fileName, std::ios::app);
+    out << "\n--- New Test ---\n";
+    out.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //Прочитать лог-файл
+    std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Определить позицию отметки времени в лог-файле
+    std::string::size_type found{log.rfind(timePoint)};
+
+    //Если отметка присутствует
+    if (found != std::string::npos)
+    {
+        //Определить начало строки с отметкой в лог-файле
+        std::string::size_type begin{log.rfind('\n', found)};
+        //Если это начало файла
+        if (begin == std::string::npos) begin = 0;
+
+        //Определить конец строки с отметкой в лог-файле
+        std::string::size_type end{log.find('\n',found)};
+        //Если это конец файла
+        if (end == std::string::npos) end = log.size() - 1;
+
+        //Выделить строку сообщения с отметкой
+        std::string logLine{log.substr(begin + 1, end - begin - 1)};
+
+        //Если уровень логирования совпадает
+        if (logLine.find(strErrorLevel) != std::string::npos)
+        {
+            //Установить результат операции
+            result = true;
+        }
+    }
+
+    //Возвратить результат операции
+    return result;
+}
+
+bool isMatchingErrorLevelForException(const std::string& timePoint, const std::string& message, const std::string& strErrorLevel)
+{
+    //Получить путь текущего лог-файла
+    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
+
+    std::ofstream out(fileName, std::ios::app);
+    out << "\n--- New Test ---\n";
+    out.close();
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //Прочитать лог-файл
+    std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Определить позицию отметки времени в лог-файле
+    std::string::size_type found{log.rfind(timePoint)};
+
+    //Если отметка присутствует
+    if (found != std::string::npos)
+    {
+        //Определить начало строки с отметкой в лог-файле
+        std::string::size_type begin{log.rfind('\n', found)};
+        //Если это начало файла
+        if (begin == std::string::npos) begin = 0;
+
+        //Определить конец строки с отметкой в лог-файле
+        std::string::size_type end{log.find('\n',found)};
+        //Если это конец файла
+        if (end == std::string::npos) end = log.size() - 1;
+
+        //Выделить строку сообщения с отметкой
+        std::string logLine{log.substr(begin + 1, end - begin - 1)};
+
+        //Если уровень логирования совпадает
+        if (logLine.find(strErrorLevel) != std::string::npos)
+        {
+            //Установить результат операции
+            result = true;
+        }
+
+        //Если сообщение для исключения не присутствует
+        if (logLine.find(message) == std::string::npos)
+        {
+            //Установить результат операции
+            result = false;
+        }
+    }
+
+    //Возвратить результат операции
+    return result;
+}

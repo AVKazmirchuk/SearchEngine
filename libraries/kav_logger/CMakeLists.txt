@@ -43,8 +43,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -static
 
 # Установить библиотеку по умолчанию как статическую
 option(BUILD_SHARED_LIBS "Build using shared libraries." OFF)
-# Разрешить инсталлирование библиотеки
+# Разрешить инсталлирование библиотеки, если проект является проектом верхнего уровня
 option(logger_Install "Install CMake targets during install step." ${PROJECT_IS_TOP_LEVEL})
+# Разрешить собрать тесты, если проект является проектом верхнего уровня
+option(logger_BuildTests "Build the unit tests when BUILD_TESTING is enabled." ${PROJECT_IS_TOP_LEVEL})
 
 # Если библиотека разделяемая
 if(BUILD_SHARED_LIBS)
@@ -58,6 +60,7 @@ endif()
 # Добавить в проект библиотеку с возможностью установки подкаталога
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
+# Насколько оправданы эти установки здесь - не знаю																							
 # Установить уровни предупреждений для разных компиляторов
 # Насколько оправданы эти установки - не знаю
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang|GNU")
@@ -79,17 +82,18 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 set(JSON_Install ON CACHE INTERNAL "")
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
-set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
-find_package(Boost REQUIRED)
-target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
-
 # В зависимости от добавления библиотеки в проект, закомментировать-раскомментировать if-endif и find_package
 #find_package(kav_fileOperations REQUIRED)
 if (NOT TARGET kav_fileOperations)
     add_subdirectory(./libraries/kav_fileOperations)
 endif()
+set(check_BuildTests OFF CACHE INTERNAL "")
 set(check_Install ON CACHE INTERNAL "")
 target_link_libraries(${PROJECT_NAME} PRIVATE kav_fileOperations::kav_fileOperations)
+
+set(Boost_INCLUDE_DIR "C:\\boost_1_87_0")
+find_package(Boost REQUIRED)
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 
 # Здесь не нужно. Пока оставляю
 # Является ли текущий проект проектом верхнего уровня
@@ -122,12 +126,12 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/include/kav/detail
         PUBLIC
         # где проект верхнего уровня будет искать общедоступные заголовки библиотеки
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         # где внешние проекты будут искать общедоступные заголовки библиотеки
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-# Пока закомментировано. Можно указать при установки библиотеки
+# Пока закомментировано. Можно указать при установки библиотеки вручную
 # Изменить путь установки по умолчанию
 #if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 #    message(
@@ -148,6 +152,19 @@ target_include_directories(${PROJECT_NAME}
 #    )
 #endif()
 
+###8
+# Установить файл pkg-config, чтобы другие инструменты могли найти
+# Скопировать файл с выполнением преобразований содержимого файла
+CONFIGURE_FILE(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkg-config.pc.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+)
+if (logger_BuildTests)
+    #    include(CTest)
+    #    enable_testing()
+    add_subdirectory(tests)
+endif()
+
 # Включить вспомогательные функции для создания конфигурационных файлов, которые могут быть включены в другие проекты для поиска
 # и использования пакета
 include(CMakePackageConfigHelpers)
@@ -167,8 +184,9 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.cmake.in
         INSTALL_DESTINATION cmake
 ) # another function is used: configure_file
 
-if(logger_Install)
 
+
+if(logger_Install)
     # Определить переменные каталога установки
     include(GNUInstallDirs)
 
@@ -204,6 +222,15 @@ if(logger_Install)
             DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME} # ...cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
     )
 
+	###7
+    #Экспортировать цели или пакеты для внешних проектов, чтобы использовать их непосредственно в дереве сборки текущего
+    # проекта без установки. Создать файл, который может быть включён во внешние проекты для импорта целей из дерева сборки
+    # текущего проекта.
+    export(TARGETS
+            ${PROJECT_NAME}
+            NAMESPACE ${PROJECT_NAME}::
+            FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+    )
     ###1
     # Установить цель и связанные с ней файлы, создать экспортный набор
     install(TARGETS ${PROJECT_NAME}
@@ -226,14 +253,20 @@ if(logger_Install)
             DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME} # ...cmake # there are in nlohmann ${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}
     )
 
-    # Якобы это может вызывать проблемы. Я не заметил
+	###9
+    # Установить файлы для проекта (предназначено для установки программ, которые не являются целевыми)
+    install(FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/pkgconfig
+    )
+    # Якобы это может вызывать проблемы. Я не заметил. Но пока закомментировал
     # Экспортировать цели или пакеты для внешних проектов, чтобы использовать их непосредственно в дереве сборки текущего
     # проекта без установки. Создать файл, который может быть включён во внешние проекты для импорта целей из дерева сборки
-    # текущего проекта
-    export(EXPORT "${PROJECT_NAME}Targets"
-            FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
-            NAMESPACE ${PROJECT_NAME}::
-    )
+    # текущего проекта. Это то же самое, что и сигнатура export(TARGETS), за исключением того, что цели не перечисляются явно
+    #export(EXPORT "${PROJECT_NAME}Targets"
+    #        FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Targets.cmake"
+    #        NAMESPACE ${PROJECT_NAME}::
+    #)
 
 endif()
 

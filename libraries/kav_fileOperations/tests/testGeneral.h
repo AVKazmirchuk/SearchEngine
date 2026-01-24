@@ -37,6 +37,9 @@ namespace testConstants
     //Текстовая строка для записи
     extern const std::string textString;
 
+    //Содержимое файла file001.txt
+    extern const std::string fileContents;
+
     //Имя поля массива
     extern const std::string files;
 
