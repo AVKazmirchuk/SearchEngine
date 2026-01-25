@@ -118,6 +118,12 @@ public:
     static const std::string& configLoggerFilePath();
 
     /**
+     * Прочитать/записать путь файла конфигурации логирования. Время использования файла 1 секунда
+     * @return Ссылка на переменную
+     */
+    static const std::string& configLoggerFilePath_usage_1sec();
+
+    /**
      * Прочитать/записать путь файла конфигурации очереди сообщений
      * @return Ссылка на переменную
      */
@@ -269,12 +275,16 @@ std::string timePointToString(const std::chrono::system_clock::time_point& now);
 //Получить отметку времени
 std::string  getTimePoint();
 
+//Получить строку лог-файл
+std::string getLogLine(const std::string& timePoint);
+
 //Соответствует ли фактический уровень логирования ожидаемому
 bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel);
 
-////Соответствует ли фактический уровень логирования ожидаемому для исключения
+//Соответствует ли фактический уровень логирования ожидаемому для исключения
 bool isMatchingErrorLevelForException(const std::string& timePoint, const std::string& message, const std::string& strErrorLevel);
 
-
+//Получить время из строки
+std::chrono::system_clock::time_point getTimePointFromString(std::string& strLogLine);
 
 #endif //KAV_LOGGER_TESTGENERAL_H

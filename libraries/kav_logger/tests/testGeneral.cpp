@@ -120,6 +120,13 @@ const std::string& ProgramArguments::configLoggerFilePath()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerFilePath_usage_1sec()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-usage-1sec.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::configWriterMessageFilePath()
 {
     //Значение по умолчанию
@@ -345,7 +352,8 @@ std::string  getTimePoint()
     return timePoint;
 }
 
-bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel)
+//Получить строку лог-файл
+std::string getLogLine(const std::string& timePoint)
 {
     //Получить путь текущего лог-файла
     std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
@@ -363,6 +371,9 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
     //Определить позицию отметки времени в лог-файле
     std::string::size_type found{log.rfind(timePoint)};
 
+    //Строка лог-файла
+    std::string logLine{""};
+
     //Если отметка присутствует
     if (found != std::string::npos)
     {
@@ -372,19 +383,30 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
         if (begin == std::string::npos) begin = 0;
 
         //Определить конец строки с отметкой в лог-файле
-        std::string::size_type end{log.find('\n',found)};
+        std::string::size_type end{log.find('\n', found)};
         //Если это конец файла
         if (end == std::string::npos) end = log.size() - 1;
 
         //Выделить строку сообщения с отметкой
-        std::string logLine{log.substr(begin + 1, end - begin - 1)};
+        logLine = log.substr(begin + 1, end - begin - 1);
+    }
 
-        //Если уровень логирования совпадает
-        if (logLine.find(strErrorLevel) != std::string::npos)
-        {
-            //Установить результат операции
-            result = true;
-        }
+    return logLine;
+}
+
+bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Строка лог-файла
+    std::string logLine{getLogLine(timePoint)};
+
+    //Если уровень логирования совпадает
+    if (logLine.find(strErrorLevel) != std::string::npos)
+    {
+        //Установить результат операции
+        result = true;
     }
 
     //Возвратить результат операции
@@ -393,53 +415,51 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
 
 bool isMatchingErrorLevelForException(const std::string& timePoint, const std::string& message, const std::string& strErrorLevel)
 {
-    //Получить путь текущего лог-файла
-    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
-
-    std::ofstream out(fileName, std::ios::app);
-    out << "\n--- New Test ---\n";
-    out.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    //Прочитать лог-файл
-    std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
-
     //Обнулить результат операции
     bool result{};
 
-    //Определить позицию отметки времени в лог-файле
-    std::string::size_type found{log.rfind(timePoint)};
+    //Соответствует ли фактический уровень логирования ожидаемому
+    std::string logLine{getLogLine(timePoint)};
 
-    //Если отметка присутствует
-    if (found != std::string::npos)
+    //Если уровень логирования совпадает
+    if (logLine.find(strErrorLevel) != std::string::npos)
     {
-        //Определить начало строки с отметкой в лог-файле
-        std::string::size_type begin{log.rfind('\n', found)};
-        //Если это начало файла
-        if (begin == std::string::npos) begin = 0;
+        //Установить результат операции
+        result = true;
+    }
 
-        //Определить конец строки с отметкой в лог-файле
-        std::string::size_type end{log.find('\n',found)};
-        //Если это конец файла
-        if (end == std::string::npos) end = log.size() - 1;
-
-        //Выделить строку сообщения с отметкой
-        std::string logLine{log.substr(begin + 1, end - begin - 1)};
-
-        //Если уровень логирования совпадает
-        if (logLine.find(strErrorLevel) != std::string::npos)
-        {
-            //Установить результат операции
-            result = true;
-        }
-
-        //Если сообщение для исключения не присутствует
-        if (logLine.find(message) == std::string::npos)
-        {
-            //Установить результат операции
-            result = false;
-        }
+    //Если сообщение для исключения не присутствует
+    if (logLine.find(message) == std::string::npos)
+    {
+        //Установить результат операции
+        result = false;
     }
 
     //Возвратить результат операции
     return result;
+}
+
+std::chrono::system_clock::time_point getTimePointFromString(std::string& strLogLine)
+{
+    //Объявить переменные
+    std::string dateFirstEntry, timeFirstEntry;
+    std::stringstream ss{strLogLine};
+    //Прочитать дату и время первой записи в файле
+    ss >> dateFirstEntry >> timeFirstEntry;
+
+    //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
+    std::tm tm{};
+    std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
+    iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
+    std::time_t tt{std::mktime(&tm)};
+    std::chrono::system_clock::time_point tp{std::chrono::system_clock::from_time_t(tt)};
+
+    //Определить подстроку с наносекундами
+    std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+
+    //Получить из подстроки наносекунды
+    std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+
+    //Получить момент времени с наносекундами
+    return tp + nanoseconds;
 }
