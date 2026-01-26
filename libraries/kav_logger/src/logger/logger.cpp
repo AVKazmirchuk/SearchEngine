@@ -69,7 +69,16 @@ void kav::Logger::fatal(const std::string& message, const std::exception& except
     ptrToLogger->log(Level::fatal, message, exception);
 }
 
-const std::filesystem::path& kav::Logger::getCurrentLogPath()
+void kav::Logger::reset(const std::string &in_configLoggerFilePath)
+{
+    //Изменить конфигурацию логгера
+    ptrToLogger->configLogger.reset(in_configLoggerFilePath);
+
+    //Настроить класс
+    ptrToLogger->setup();
+}
+
+/*const std::filesystem::path& kav::Logger::getCurrentLogPath()
 {
     return ptrToLogger->file;
-}
+}*/

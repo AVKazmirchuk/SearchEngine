@@ -292,10 +292,17 @@ namespace kav
         static void fatal(const std::string &message, const std::exception &exception);
 
         /**
+         * Изменить конфигурацию логгера
+         * @param in_configLoggerFilePath Путь файла конфигурации логирования
+         */
+        static void reset(const std::string &in_configLoggerFilePath);
+        /**
          * Получить текущий путь лог-файла
          * @return Текущий путь лог-файла
          */
-        static const std::filesystem::path& getCurrentLogPath();
+        //static const std::filesystem::path& getCurrentLogPath();
+
+
 
     private:
 
@@ -414,6 +421,18 @@ namespace kav
              */
             [[nodiscard]] const std::string &filesDirectory() const
             { return filesDir; }
+
+            /**
+             * Изменить конфигурацию логгера
+             * @param in_configLoggerFilePath Ссылка на путь файла конфигурации логирования
+             */
+            void reset(const std::string &in_configLoggerFilePath)
+            {
+                //Изменить путь файла конфигурации логирования
+                configLoggerFilePath = in_configLoggerFilePath;
+                //Инициализировать (настроить) класс
+                initialize();
+            }
 
         private:
 

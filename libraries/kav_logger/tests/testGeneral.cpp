@@ -127,6 +127,13 @@ const std::string& ProgramArguments::configLoggerFilePath_usage_1sec()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerFilePath_usage_3sec()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-usage-3sec.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::configWriterMessageFilePath()
 {
     //Значение по умолчанию
@@ -208,6 +215,20 @@ const std::string& ProgramArguments::launchConsole_no()
 {
     //Значение по умолчанию
     static const std::string variable{"no"};
+    return variable;
+}
+
+std::chrono::seconds ProgramArguments::seconds_1()
+{
+    //Значение по умолчанию
+    static const std::chrono::seconds variable{1};
+    return variable;
+}
+
+std::chrono::seconds ProgramArguments::seconds_3()
+{
+    //Значение по умолчанию
+    static const std::chrono::seconds variable{3};
     return variable;
 }
 
@@ -462,4 +483,13 @@ std::chrono::system_clock::time_point getTimePointFromString(std::string& strLog
 
     //Получить момент времени с наносекундами
     return tp + nanoseconds;
+}
+
+std::chrono::system_clock::time_point getTimePointFromFile(std::string& fileName)
+{
+    std::ifstream inFile(fileName);
+    std::string logLine;
+    std::getline(inFile, logLine);
+    std::cout << logLine;
+    return getTimePointFromString(logLine);
 }

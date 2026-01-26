@@ -11,6 +11,59 @@
 #include "testGeneral.h"
 
 
+
+//Вспомогательная функция для проверки времени использования файла
+bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::seconds seconds)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Удалить все файлы из директории лог-файлов
+    std::filesystem::remove_all(ProgramArguments::logsFolderName());
+    std::filesystem::create_directory("Logs");
+
+    //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
+    kav::Logger::reset(configLoggerFilePath);
+    //Ожидать появление нового файла
+    std::this_thread::sleep_for(seconds);
+
+    //Получить путь текущего файла логирования
+    std::string pathOfLogBeforeResetting{getLastFilePath()};
+
+    //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
+    kav::Logger::reset(configLoggerFilePath);
+    //Ожидать появление нового файла
+    std::this_thread::sleep_for(seconds);
+
+
+    //Получить путь текущего файла логирования
+    std::string pathOfLogAfterResetting{getLastFilePath()};
+
+    //Подсчитать количество лог-файлов в директории
+    int filesNumber{};
+    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    {
+        ++filesNumber;
+    }
+
+    //Получить время создания файлов, прочитав их первые записи
+    std::chrono::system_clock::time_point timePointBeforeResetting{getTimePointFromFile(pathOfLogBeforeResetting)};
+    std::chrono::system_clock::time_point timePointAfterResetting{getTimePointFromFile(pathOfLogAfterResetting)};
+
+    std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
+    //Если пути файлов разные и количество лог-файлов равно 2 и время создания файлов отличаются
+    if (pathOfLogBeforeResetting != pathOfLogAfterResetting && filesNumber == 2 &&
+    (timePointAfterResetting > timePointBeforeResetting))
+    {
+        //Условие выполнено
+        result = true;
+    }
+
+    return result;
+}
+
+
+
 //Проверка одного сообщения, без исключений
 
 //Проверить функцию на уровень логирования debug
@@ -234,27 +287,24 @@ TEST(TestLogger, timeOfMessage)
 }
 
 //Проверить время использования файла
-TEST(TestLogger, fileUsageTime_seconds)
+TEST(TestLogger, usage_1sec)
 {
-    //Создать объект логирования событий
-    //kav::Logger logger(ProgramArguments::configLoggerFilePath_usage_1sec(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
-
     //Обнулить результат операции
     bool result{};
 
-    std::filesystem::path pathOfLogBeforeChecking{kav::Logger::getCurrentLogPath()};
+    result = checkFileUsageTime(ProgramArguments::configLoggerFilePath_usage_1sec(), ProgramArguments::seconds_1());
 
-    kav::Logger::info(pathOfLogBeforeChecking.string());
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+//Проверить время использования файла
+TEST(TestLogger, usage_3sec)
+{
+    //Обнулить результат операции
+    bool result{};
 
-    kav::Logger::info(pathOfLogBeforeChecking.string());
-
-    if (pathOfLogBeforeChecking != kav::Logger::getCurrentLogPath())
-    {
-        result =true;
-    }
+    result = checkFileUsageTime(ProgramArguments::configLoggerFilePath_usage_3sec(), ProgramArguments::seconds_3());
 
     //Проверить утверждение
     ASSERT_TRUE(result);
