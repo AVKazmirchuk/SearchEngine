@@ -134,6 +134,76 @@ const std::string& ProgramArguments::configLoggerFilePath_usage_3sec()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerFilePath_storage_3sec()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-storage-3sec.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_usage_6sec_in_minutes()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-usage-6sec-in-minutes.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_storage_6sec_in_minutes()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-storage-6sec-in-minutes.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_usage_6sec_in_hours()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-usage-6sec-in-hours.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_storage_6sec_in_hours()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-storage-6sec-in-hours.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_usage_6sec_in_days()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-usage-6sec-in-days.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_storage_6sec_in_days()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-storage-6sec-in-days.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_usage_6sec_in_weeks()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-usage-6sec-in-weeks.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_storage_6sec_in_weeks()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-storage-6sec-in-weeks.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_size_100_bytes()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-size-100-bytes.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::configWriterMessageFilePath()
 {
     //Значение по умолчанию
@@ -218,6 +288,20 @@ const std::string& ProgramArguments::launchConsole_no()
     return variable;
 }
 
+int ProgramArguments::size_100()
+{
+    //Значение по умолчанию
+    static const int variable{100};
+    return variable;
+}
+
+int ProgramArguments::numberFiles_3()
+{
+    //Значение по умолчанию
+    static const int variable{3};
+    return variable;
+}
+
 std::chrono::seconds ProgramArguments::seconds_1()
 {
     //Значение по умолчанию
@@ -229,6 +313,34 @@ std::chrono::seconds ProgramArguments::seconds_3()
 {
     //Значение по умолчанию
     static const std::chrono::seconds variable{3};
+    return variable;
+}
+
+std::chrono::duration<double, std::ratio<60>> ProgramArguments::seconds_6_in_minutes()
+{
+    //Значение по умолчанию
+    static const std::chrono::duration<double, std::ratio<60>> variable{0.1};
+    return variable;
+}
+
+std::chrono::duration<double, std::ratio<60 * 60>> ProgramArguments::seconds_6_in_hours()
+{
+    //Значение по умолчанию
+    static const std::chrono::duration<double, std::ratio<60 * 60>> variable{0.0017};
+    return variable;
+}
+
+std::chrono::duration<double, std::ratio<60 * 60 * 24>> ProgramArguments::seconds_6_in_days()
+{
+    //Значение по умолчанию
+    static const std::chrono::duration<double, std::ratio<60 * 60 * 24>> variable{0.000069};
+    return variable;
+}
+
+std::chrono::duration<double, std::ratio<60 * 60 * 24 * 7>> ProgramArguments::seconds_6_in_weeks()
+{
+    //Значение по умолчанию
+    static const std::chrono::duration<double, std::ratio<60 * 60 * 24 * 7>> variable{0.0000099};
     return variable;
 }
 

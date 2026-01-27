@@ -42,7 +42,7 @@ bool kav::Logger::isFileUsageTimeExceeded()
     std::chrono::system_clock::duration usageTimeCurrent = std::chrono::system_clock::now() - tp;
 
     //Вычислить интервал времени, до которого можно использовать текущий файл
-    std::chrono::system_clock::duration usageTimeLimit = Weeks(configLogger.weeksUsage()) + Days(configLogger.daysUsage()) + Hours(configLogger.hoursUsage()) +
+    std::chrono::duration<double, std::ratio<1>> usageTimeLimit = Weeks(configLogger.weeksUsage()) + Days(configLogger.daysUsage()) + Hours(configLogger.hoursUsage()) +
                                                          Minutes(configLogger.minutesUsage()) + Seconds(configLogger.secondsUsage());
 
     //Если время использования текущего файла превышено
@@ -56,23 +56,8 @@ bool kav::Logger::isFileUsageTimeExceeded()
     return false;
 }
 
-void kav::Logger::identifyFilesByLastModification(const std::string& directoryPath)
+void kav::Logger::identifyFilesByLastModification()
 {
-    //Определить файл в директории по последнему логированию
-    //Для каждого файла в директории
-    for (auto& entry : std::filesystem::directory_iterator(directoryPath))
-    {
-        //Определить момент времени последнего изменения файла
-        auto lastWriteTime = std::filesystem::last_write_time(entry.path());
-
-        //Преобразовать момент времени последнего изменения файла в нужный тип
-        std::time_t ttCurrent = to_time_t(lastWriteTime);
-        std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(ttCurrent)};
-
-        //Добавить в контейнер пару пути и момента времени последнего изменения файла
-        logs.emplace_back(entry.path(), tpCurrent);
-    }
-
     using PairOfPathAndTimePoint = std::pair<std::filesystem::path, std::chrono::system_clock::time_point>;
 
     //Сортировать контейнер пар пути и момента времени последнего изменения файла
@@ -112,13 +97,14 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
     }
 
     //Определить файлы по последнему изменению
-    identifyFilesByLastModification(directoryPath);
+    identifyFilesByLastModification();
 
     //Размер файла больше допустимого
     if (std::filesystem::file_size(file) >= configLogger.fileSizeLimit())
     {
         //Заменить файл
         identifyNewFile();
+        return;
     }
 
     //Время использования файла превышено
@@ -126,5 +112,8 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
     {
         //Заменить файл
         identifyNewFile();
+        return;
     }
+
+
 }

@@ -124,10 +124,70 @@ public:
     static const std::string& configLoggerFilePath_usage_1sec();
 
     /**
-     * Прочитать путь файла конфигурации логирования. Время использования файла 5 секунд
-     * @return
+     * Прочитать путь файла конфигурации логирования. Время использования файла 3 секунды
+     * @return Путь файла
      */
     static const std::string& configLoggerFilePath_usage_3sec();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время хранения файла 3 секунды
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_storage_3sec();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время использования файла 6 секунд в минутах
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_usage_6sec_in_minutes();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время хранения файла 6 секунд в минутах
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_storage_6sec_in_minutes();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время использования файла 6 секунд в часах
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_usage_6sec_in_hours();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время хранения файла 6 секунд в часах
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_storage_6sec_in_hours();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время использования файла 6 секунд в днях
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_usage_6sec_in_days();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время хранения файла 6 секунд в днях
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_storage_6sec_in_days();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время использования файла 6 секунд в неделях
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_usage_6sec_in_weeks();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Время хранения файла 6 секунд в неделях
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_storage_6sec_in_weeks();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Размер файла 100 байт
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_size_100_bytes();
 
     /**
      * Прочитать/записать путь файла конфигурации очереди сообщений
@@ -203,16 +263,52 @@ public:
     static const std::string& launchConsole_no();
 
     /**
+     * Прочитать размер файла. Размер 100Б
+     * @return Ссылка на переменную
+     */
+    static int size_100();
+
+    /**
+     * Прочитать количество файлов. 3 файла
+     * @return Ссылка на переменную
+     */
+    static int numberFiles_3();
+
+    /**
      * Прочитать время в секундах (1 секунда)
      * @return Время в секундах
      */
     static std::chrono::seconds seconds_1();
 
     /**
-     * Прочитать время в секундах (5 секунд)
+     * Прочитать время в секундах (3 секунды)
      * @return Время в секундах
      */
     static std::chrono::seconds seconds_3();
+
+    /**
+     * Прочитать время в секундах (6 секунд в минутах)
+     * @return Время в секундах
+     */
+    static std::chrono::duration<double, std::ratio<60>> seconds_6_in_minutes();
+
+    /**
+     * Прочитать время в секундах (6 секунд в часах)
+     * @return Время в секундах
+     */
+    static std::chrono::duration<double, std::ratio<60 * 60>> seconds_6_in_hours();
+
+    /**
+     * Прочитать время в секундах (6 секунд в днях)
+     * @return Время в секундах
+     */
+    static std::chrono::duration<double, std::ratio<60 * 60 * 24>> seconds_6_in_days();
+
+    /**
+     * Прочитать время в секундах (6 секунд в неделях)
+     * @return Время в секундах
+     */
+    static std::chrono::duration<double, std::ratio<60 * 60 * 24 * 7>> seconds_6_in_weeks();
 
     /**
      * Прочитать количество знаков после запятой

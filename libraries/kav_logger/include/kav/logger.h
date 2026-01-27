@@ -86,18 +86,18 @@ namespace kav
             static const JSON variable = JSON::parse(R"(
     {
     "usageTimeLimit" : {
-        "seconds" : 0,
-        "minutes" : 1,
-        "hours" : 0,
-        "days" : 0,
-        "weeks" : 0
+        "seconds" : 0.0,
+        "minutes" : 1.0,
+        "hours" : 0.0,
+        "days" : 0.0,
+        "weeks" : 0.0
     },
     "storageTimeLimit" : {
-        "seconds" : 0,
-        "minutes" : 7,
-        "hours" : 0,
-        "days" : 0,
-        "weeks" : 0
+        "seconds" : 0.0,
+        "minutes" : 0.7,
+        "hours" : 0.0,
+        "days" : 0.0,
+        "weeks" : 0.0
     },
     "dateTimeFormat" : "%Y-%m-%d %H:%M:%S",
     "fileNameFormat" : "%Y-%m-%d_%H-%M-%S",
@@ -328,70 +328,70 @@ namespace kav
              * Получить интервал времени хранения файла
              * @return Количество недель
              */
-            [[nodiscard]] std::int64_t weeksStorage() const
+            [[nodiscard]] double weeksStorage() const
             { return weeksStorageTime; }
 
             /**
              * Получить интервал времени хранения файла
              * @return Количество дней
              */
-            [[nodiscard]] std::int64_t daysStorage() const
+            [[nodiscard]] double daysStorage() const
             { return daysStorageTime; }
 
             /**
              * Получить интервал времени хранения файла
              * @return Количество часов
              */
-            [[nodiscard]] std::int64_t hoursStorage() const
+            [[nodiscard]] double hoursStorage() const
             { return hoursStorageTime; }
 
             /**
              * Получить интервал времени хранения файла
              * @return Количество минут
              */
-            [[nodiscard]] std::int64_t minutesStorage() const
+            [[nodiscard]] double minutesStorage() const
             { return minutesStorageTime; }
 
             /**
              * Получить интервал времени хранения файла
              * @return Количество секунд
              */
-            [[nodiscard]] std::int64_t secondsStorage() const
+            [[nodiscard]] double secondsStorage() const
             { return secondsStorageTime; }
 
             /**
              * Получить интервал времени использования файла
              * @return Количество недель
              */
-            [[nodiscard]] std::int64_t weeksUsage() const
+            [[nodiscard]] double weeksUsage() const
             { return weeksUsageTime; }
 
             /**
              * Получить интервал времени использования файла
              * @return Количество дней
              */
-            [[nodiscard]] std::int64_t daysUsage() const
+            [[nodiscard]] double daysUsage() const
             { return daysUsageTime; }
 
             /**
              * Получить интервал времени использования файла
              * @return Количество часов
              */
-            [[nodiscard]] std::int64_t hoursUsage() const
+            [[nodiscard]] double hoursUsage() const
             { return hoursUsageTime; }
 
             /**
              * Получить интервал времени использования файла
              * @return Количество минут
              */
-            [[nodiscard]] std::int64_t minutesUsage() const
+            [[nodiscard]] double minutesUsage() const
             { return minutesUsageTime; }
 
             /**
              * Получить интервал времени использования файла
              * @return Количество секунд
              */
-            [[nodiscard]] std::int64_t secondsUsage() const
+            [[nodiscard]] double secondsUsage() const
             { return secondsUsageTime; }
 
             /**
@@ -449,28 +449,28 @@ namespace kav
             //Интервалы времени хранения файла
 
             //Интервал времени хранения файла, количество недель
-            std::int64_t weeksStorageTime{};
+            double weeksStorageTime{};
             //Интервал времени хранения файла, количество дней
-            std::int64_t daysStorageTime{};
+            double daysStorageTime{};
             //Интервал времени хранения файла, количество часов
-            std::int64_t hoursStorageTime{};
+            double hoursStorageTime{};
             //Интервал времени хранения файла, количество минут
-            std::int64_t minutesStorageTime{};
+            double minutesStorageTime{};
             //Интервал времени хранения файла, количество секунд
-            std::int64_t secondsStorageTime{};
+            double secondsStorageTime{};
 
             //Интервалы времени использования файла
 
             //Интервал времени использования файла, количество недель
-            std::int64_t weeksUsageTime{};
+            double weeksUsageTime{};
             //Интервал времени использования файла, количество дней
-            std::int64_t daysUsageTime{};
+            double daysUsageTime{};
             //Интервал времени использования файла, количество часов
-            std::int64_t hoursUsageTime{};
+            double hoursUsageTime{};
             //Интервал времени использования файла, количество минут
-            std::int64_t minutesUsageTime{};
+            double minutesUsageTime{};
             //Интервал времени использования файла, количество секунд
-            std::int64_t secondsUsageTime{};
+            double secondsUsageTime{};
 
             //Формат даты и времени записи в файл
             std::string dateTimeFmt{};
@@ -671,15 +671,15 @@ namespace kav
         //Типы интервалов времени
 
         //Интервал времени в секундах
-        using Seconds = std::chrono::duration<int64_t, std::ratio<1>>;
+        using Seconds = std::chrono::duration<double, std::ratio<1>>;
         //Интервал времени в минутах
-        using Minutes = std::chrono::duration<int64_t, std::ratio<60>>;
+        using Minutes = std::chrono::duration<double, std::ratio<60>>;
         //Интервал времени в часах
-        using Hours = std::chrono::duration<int64_t, std::ratio<60 * 60>>;
+        using Hours = std::chrono::duration<double, std::ratio<60 * 60>>;
         //Интервал времени в днях
-        using Days = std::chrono::duration<int64_t, std::ratio<60 * 60 * 24>>;
+        using Days = std::chrono::duration<double, std::ratio<60 * 60 * 24>>;
         //Интервал времени в неделях
-        using Weeks = std::chrono::duration<int64_t, std::ratio<60 * 60 * 24 * 7>>;
+        using Weeks = std::chrono::duration<double, std::ratio<60 * 60 * 24 * 7>>;
 
 
         //Текущий файл для записи
@@ -747,7 +747,7 @@ namespace kav
          * Определить файлы по последнему изменению
          * @param directoryPath Ссылка на путь к директории с логами
          */
-        void identifyFilesByLastModification(const std::string &directoryPath);
+        void identifyFilesByLastModification();
 
         /**
          * Преобразовать момент времени одного типа в другой
@@ -771,7 +771,7 @@ namespace kav
         /**
          * Удалить файлы по сроку хранения
          */
-        void deleteFilesByRetentionPeriod();
+        void deleteFilesByRetentionPeriod(const std::string& directoryPath);
 
 
 

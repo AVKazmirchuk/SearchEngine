@@ -13,7 +13,7 @@
 
 
 //Вспомогательная функция для проверки времени использования файла
-bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::seconds seconds)
+bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::duration<double, std::ratio<1>> seconds)
 {
     //Обнулить результат операции
     bool result{};
@@ -53,7 +53,7 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::se
     std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
     //Если пути файлов разные и количество лог-файлов равно 2 и время создания файлов отличаются
     if (pathOfLogBeforeResetting != pathOfLogAfterResetting && filesNumber == 2 &&
-    (timePointAfterResetting > timePointBeforeResetting))
+            (timePointAfterResetting - timePointBeforeResetting) > seconds)
     {
         //Условие выполнено
         result = true;
@@ -61,6 +61,65 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::se
 
     return result;
 }
+
+//Вспомогательная функция для проверки времени хранения файла
+bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::duration<double, std::ratio<1>> seconds)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Удалить все файлы из директории лог-файлов
+    std::filesystem::remove_all(ProgramArguments::logsFolderName());
+    std::filesystem::create_directory("Logs");
+
+    //Изменить конфигурацию логгера. Создать новый файл для записи. Стандартная конфигурация
+    kav::Logger::reset(ProgramArguments::configLoggerFilePath());
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    //Получить путь текущего файла логирования
+    std::string pathOfLogBeforeResetting{getLastFilePath()};
+
+    //Получить время создания файла, прочитав его первую запись
+    std::chrono::system_clock::time_point timePointBeforeResetting{getTimePointFromFile(pathOfLogBeforeResetting)};
+
+    //Ожидать появление нового файла
+    std::this_thread::sleep_for(seconds);
+
+    //Получить путь текущего файла логирования
+    //std::string pathOfLogBeforeResetting{getLastFilePath()};
+
+    //Получить текущий момент времени
+    //std::chrono::system_clock::time_point timePointBefore{std::chrono::system_clock::now()};
+
+    //Изменить конфигурацию логгера. Создать новый файл для записи. Время хранения файла определено в конфигурации
+    kav::Logger::reset(configLoggerFilePath);
+    //Ожидать появление нового файла
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    //Получить путь текущего файла логирования
+    std::string pathOfLogAfterResetting{getLastFilePath()};
+
+    //Получить время создания файла, прочитав его первую запись
+    std::chrono::system_clock::time_point timePointAfterResetting{getTimePointFromFile(pathOfLogAfterResetting)};
+
+    //Подсчитать количество лог-файлов в директории
+    int filesNumber{};
+    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    {
+        ++filesNumber;
+    }
+
+    std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
+    //Если пути файлов разные и количество лог-файлов равно 2 и время создания файлов отличаются
+    if (filesNumber == 1 && (timePointAfterResetting - timePointBeforeResetting) > seconds)
+    {
+        //Условие выполнено
+        result = true;
+    }
+
+    return result;
+}
+
 
 
 
@@ -286,7 +345,7 @@ TEST(TestLogger, timeOfMessage)
     ASSERT_TRUE(result);
 }
 
-//Проверить время использования файла
+/*//Проверить время использования файла. 1 скунда
 TEST(TestLogger, usage_1sec)
 {
     //Обнулить результат операции
@@ -298,7 +357,7 @@ TEST(TestLogger, usage_1sec)
     ASSERT_TRUE(result);
 }
 
-//Проверить время использования файла
+//Проверить время использования файла. 3 секунды
 TEST(TestLogger, usage_3sec)
 {
     //Обнулить результат операции
@@ -310,3 +369,156 @@ TEST(TestLogger, usage_3sec)
     ASSERT_TRUE(result);
 }
 
+//Проверить время использования файла. 6 секунд в минутах
+TEST(TestLogger, usage_6sec_in_minutes)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileUsageTime(ProgramArguments::configLoggerFilePath_usage_6sec_in_minutes(), ProgramArguments::seconds_6_in_minutes());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время использования файла. 6 секунд в часах
+TEST(TestLogger, usage_6sec_in_hours)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileUsageTime(ProgramArguments::configLoggerFilePath_usage_6sec_in_hours(), ProgramArguments::seconds_6_in_hours());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время использования файла. 6 секунд в днях
+TEST(TestLogger, usage_6sec_in_days)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileUsageTime(ProgramArguments::configLoggerFilePath_usage_6sec_in_days(), ProgramArguments::seconds_6_in_days());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время использования файла. 6 секунд в неделях
+TEST(TestLogger, usage_6sec_in_weeks)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileUsageTime(ProgramArguments::configLoggerFilePath_usage_6sec_in_weeks(), ProgramArguments::seconds_6_in_weeks());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//*/
+
+/*//Проверить время хранения файла. 3 секунды
+TEST(TestLogger, storage_3sec)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileStorageTime(ProgramArguments::configLoggerFilePath_storage_3sec(), ProgramArguments::seconds_3());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время хранения файла. 6 секунд в минутах
+TEST(TestLogger, storage_6sec_in_minutes)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileStorageTime(ProgramArguments::configLoggerFilePath_storage_6sec_in_minutes(), ProgramArguments::seconds_6_in_minutes());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время хранения файла. 6 секунд в часах
+TEST(TestLogger, storage_6sec_in_hours)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileStorageTime(ProgramArguments::configLoggerFilePath_storage_6sec_in_hours(), ProgramArguments::seconds_6_in_hours());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время хранения файла. 6 секунд в днях
+TEST(TestLogger, storage_6sec_in_days)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileStorageTime(ProgramArguments::configLoggerFilePath_storage_6sec_in_days(), ProgramArguments::seconds_6_in_days());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить время хранения файла. 6 секунд в неделях
+TEST(TestLogger, storage_6sec_in_weeks)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    result = checkFileStorageTime(ProgramArguments::configLoggerFilePath_storage_6sec_in_weeks(), ProgramArguments::seconds_6_in_weeks());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//*/
+
+//Проверить время хранения файла. Размер файла 100 байт
+TEST(TestLogger, size_100_bytes)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Удалить все файлы из директории лог-файлов
+    std::filesystem::remove_all(ProgramArguments::logsFolderName());
+    std::filesystem::create_directory("Logs");
+
+    //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
+    //kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+    //Ожидать появление нового файла
+    //std::this_thread::sleep_for(seconds);
+
+    //Строка для заполнения лог-файла
+    std::string str{"qazwsxedcrfvtgbyhnujmikolp"};
+
+    //Количество итераций для заполнения нужного количества файлов
+    int numberOfIterations{(ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) / static_cast<int>(str.size())};
+
+    for (int i{}; i < numberOfIterations; ++i)
+    {
+        //Изменить конфигурацию логгера. Создать новый файл для записи.
+        kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+        //Записать строку в файл
+        kav::Logger::info(str);
+    }
+
+    //Подсчитать количество лог-файлов в директории
+    int filesNumber{};
+    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    {
+        ++filesNumber;
+    }
+
+    //Усли количество файлов равно требуемого
+    if (filesNumber >= ProgramArguments::numberFiles_3())
+    {
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
