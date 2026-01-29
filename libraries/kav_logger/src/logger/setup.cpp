@@ -65,4 +65,6 @@ void kav::Logger::setup()
 
     //Записать сообщение уровня logger
     logger(Constants::messageLoggerStarted());
+
+    //std::cout << "\nInSetup, size: " << std::filesystem::file_size(file) << "\n";
 }

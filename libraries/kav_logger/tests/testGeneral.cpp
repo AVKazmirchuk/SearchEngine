@@ -291,7 +291,7 @@ const std::string& ProgramArguments::launchConsole_no()
 int ProgramArguments::size_100()
 {
     //Значение по умолчанию
-    static const int variable{100};
+    static const int variable{200};
     return variable;
 }
 

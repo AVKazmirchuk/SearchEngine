@@ -82,7 +82,7 @@ void kav::Logger::identifyNewFile()
     ts.resize(std::strftime(&ts[0], ts.size(), configLogger.fileNameFormat().c_str(), std::localtime(&t)));
     //Задать имя файла
     file = configLogger.filesDirectory() + ts + ".log";
-
+std::cout << file << ' ';
     logger(Constants::messageNewFileCreate());
 }
 
@@ -91,6 +91,7 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
     //В директории файлов нет
     if (std::filesystem::is_empty(directoryPath))
     {
+        std::cout << "\nDirectory is empty\n";
         //Заменить файл
         identifyNewFile();
         return;
@@ -102,6 +103,8 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
     //Размер файла больше допустимого
     if (std::filesystem::file_size(file) >= configLogger.fileSizeLimit())
     {
+
+        std::cout << "\nInCondition, size: " << std::filesystem::file_size(file) << "\n";
         //Заменить файл
         identifyNewFile();
         return;

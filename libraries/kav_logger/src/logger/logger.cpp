@@ -78,6 +78,11 @@ void kav::Logger::reset(const std::string &in_configLoggerFilePath)
     ptrToLogger->setup();
 }
 
+bool kav::Logger::isMessageRecorded()
+{
+    return ptrToLogger->recordingMessage.load();
+}
+
 /*const std::filesystem::path& kav::Logger::getCurrentLogPath()
 {
     return ptrToLogger->file;

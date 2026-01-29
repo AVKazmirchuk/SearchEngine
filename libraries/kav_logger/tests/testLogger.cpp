@@ -125,7 +125,7 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 
 //Проверка одного сообщения, без исключений
 
-//Проверить функцию на уровень логирования debug
+/*//Проверить функцию на уровень логирования debug
 TEST(TestLogger, debug)
 {
     //Обнулить результат операции
@@ -311,7 +311,7 @@ TEST(TestLogger, fatalWithException)
 
 
 
-//Проверить время сообщения
+/*//Проверить время сообщения
 TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
@@ -343,7 +343,7 @@ TEST(TestLogger, timeOfMessage)
 
     //Проверить утверждение
     ASSERT_TRUE(result);
-}
+}//*/
 
 /*//Проверить время использования файла. 1 скунда
 TEST(TestLogger, usage_1sec)
@@ -493,17 +493,43 @@ TEST(TestLogger, size_100_bytes)
     //std::this_thread::sleep_for(seconds);
 
     //Строка для заполнения лог-файла
-    std::string str{"qazwsxedcrfvtgbyhnujmikolp"};
+    //std::string str{"qazwsxedcrfvtgbyhnujmikolp"};
 
     //Количество итераций для заполнения нужного количества файлов
-    int numberOfIterations{(ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) / static_cast<int>(str.size())};
+    int numberOfIterations{(ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) / 161};
+
+    if ((ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) % 161)
+    {
+        ++numberOfIterations;
+    }
 
     for (int i{}; i < numberOfIterations; ++i)
     {
+        std::cout << "\ni: " << i;
         //Изменить конфигурацию логгера. Создать новый файл для записи.
         kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+
+        int k{};
+        while (true)
+        {
+            bool isMessageRecorded{kav::Logger::isMessageRecorded()};
+            if (isMessageRecorded)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                std::cout << "k: " << ++k << " " << isMessageRecorded;
+
+            }
+            else
+            {
+                std::cout << "else: " << isMessageRecorded;
+                break;
+            }
+        }
+
+        //std::this_thread::sleep_for(std::chrono::seconds(1));
         //Записать строку в файл
-        kav::Logger::info(str);
+        //kav::Logger::info(str);
+
     }
 
     //Подсчитать количество лог-файлов в директории

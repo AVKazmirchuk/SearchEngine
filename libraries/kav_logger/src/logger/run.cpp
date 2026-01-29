@@ -164,6 +164,9 @@ void kav::Logger::WriterMessage::run()
 
         //Обработать контейнер сообщений
         processMessageContainer();
+
+        //Сообщение записано в файл и в монитор
+        Logger::ptrToLogger->recordingMessage.store(false);
     }
 
     //Перед завершением работы потока, проверить контейнер сообщений из основного потока и обработать, так как пока

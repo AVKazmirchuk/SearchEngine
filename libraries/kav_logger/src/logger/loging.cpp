@@ -115,6 +115,9 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
         //Разблокировать доступ к контейнеру сообщений из отдельного потока логирования
         uniqueLock.unlock();
 
+        //Сообщение для потока записи отправлено в контейнер. Другой поток будет записывать в файл и в монитор
+        recordingMessage.store(true);
+
         //Сигнализировать о добавлении сообщения в контейнер сообщений
         cvPushMessage.notify_one();
     }

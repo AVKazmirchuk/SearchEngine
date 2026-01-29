@@ -296,6 +296,13 @@ namespace kav
          * @param in_configLoggerFilePath Путь файла конфигурации логирования
          */
         static void reset(const std::string &in_configLoggerFilePath);
+
+        /**
+         * Записывается ли сообщение в файл и в монитор
+         * @return Процесс записи сообщения в лог-файл и в монитор идёт
+         */
+        static bool isMessageRecorded();
+
         /**
          * Получить текущий путь лог-файла
          * @return Текущий путь лог-файла
@@ -708,6 +715,9 @@ namespace kav
 
         //Уведомление о завершении работы отдельного потока логирования
         std::atomic<bool> stopLogger{false};
+
+        //Флаг процесса записи сообщения в лог-файл и в монитор
+        std::atomic<bool> recordingMessage{true};
 
 
         /**
