@@ -485,8 +485,9 @@ TEST(TestLogger, size_100_bytes)
 
     //Удалить все файлы из директории лог-файлов
     std::filesystem::remove_all(ProgramArguments::logsFolderName());
-    std::filesystem::create_directory("Logs");
-
+    std::filesystem::create_directory(ProgramArguments::logsFolderName());
+    std::filesystem::directory_entry directoryEntry(ProgramArguments::logsFolderName());
+    std::cout << directoryEntry.last_write_time();
     //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
     //kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
     //Ожидать появление нового файла
@@ -525,6 +526,48 @@ TEST(TestLogger, size_100_bytes)
                 break;
             }
         }
+
+        //Подсчитать количество лог-файлов в директории
+        int filesNumberBefore{};
+        std::filesystem::directory_entry directoryEntryBefore(ProgramArguments::logsFolderName());
+        for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+        {
+            ++filesNumberBefore;
+            std::cout << " filesNumberBefore: " << filesNumberBefore;
+            if (currentDirectoryEntry.last_write_time() > directoryEntryBefore.last_write_time())
+            {
+                directoryEntryBefore = currentDirectoryEntry;
+            }
+        }
+        /*if (i > 0)
+        {
+            while (true)
+            {
+                //Подсчитать количество лог-файлов в директории
+                int filesNumberAfter{};
+                std::filesystem::directory_entry directoryEntryAfter(ProgramArguments::logsFolderName());
+                for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(
+                        ProgramArguments::logsFolderName()))
+                {
+                    ++filesNumberAfter;
+                    if (currentDirectoryEntry.last_write_time() > directoryEntryAfter.last_write_time())
+                    {
+                        directoryEntryAfter = currentDirectoryEntry;
+                    }
+                }
+
+                if (filesNumberAfter > filesNumberBefore ||
+                    directoryEntryAfter.last_write_time() > directoryEntryBefore.last_write_time())
+                {
+                    break;
+                } else
+                {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                }
+            }
+        }*/
+
+
 
         //std::this_thread::sleep_for(std::chrono::seconds(1));
         //Записать строку в файл
