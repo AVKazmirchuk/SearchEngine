@@ -76,6 +76,9 @@ void kav::Logger::reset(const std::string &in_configLoggerFilePath)
 
     //Настроить класс
     ptrToLogger->setup();
+
+    //Записать сообщение уровня logger
+    logger(Constants::messageLoggerReseted());
 }
 
 bool kav::Logger::isMessageRecorded()

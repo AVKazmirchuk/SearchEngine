@@ -12,6 +12,7 @@
 
 
 #include "converterJSON.h"
+#include "constants.h"
 #include "documents.h"
 #include "invertedIndex.h"
 #include "requests.h"

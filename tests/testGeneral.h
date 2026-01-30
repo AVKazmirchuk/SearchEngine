@@ -9,6 +9,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include "constants.h"
 #include "dispatcherOperations.h"
 #include "entry.h"
 #include "relativeIndex.h"

@@ -2,8 +2,8 @@
 // Created by Alexander on 25.12.2025.
 //
 
-#ifndef SEARCH_ENGINE_SOLUTION_CONSTANTS_H
-#define SEARCH_ENGINE_SOLUTION_CONSTANTS_H
+#ifndef KAV_LOGGER_CONSTANTS_H
+#define KAV_LOGGER_CONSTANTS_H
 
 
 
@@ -58,9 +58,20 @@ namespace kav
             return variable;
         }
 
+        /**
+         * Прочитать сообщение запуска логгера
+         * @return Ссылка на переменную
+         */
+        static const std::string &messageLoggerReseted()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"The logger was reseted successfully"};
+            return variable;
+        }
+
     };
 
 }
 
 
-#endif //SEARCH_ENGINE_SOLUTION_CONSTANTS_H
+#endif //KAV_LOGGER_CONSTANTS_H

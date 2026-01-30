@@ -311,8 +311,8 @@ TEST(TestLogger, fatalWithException)
 
 
 
-/*//Проверить время сообщения
-TEST(TestLogger, timeOfMessage)
+//Проверить время сообщения
+/*TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
     bool result{};
@@ -487,7 +487,13 @@ TEST(TestLogger, size_100_bytes)
     std::filesystem::remove_all(ProgramArguments::logsFolderName());
     std::filesystem::create_directory(ProgramArguments::logsFolderName());
     std::filesystem::directory_entry directoryEntry(ProgramArguments::logsFolderName());
-    std::cout << directoryEntry.last_write_time();
+    std::cout << directoryEntry.last_write_time() << '\n';
+
+    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    {
+        std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
+    }
+
     //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
     //kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
     //Ожидать появление нового файла
@@ -509,8 +515,12 @@ TEST(TestLogger, size_100_bytes)
         std::cout << "\ni: " << i;
         //Изменить конфигурацию логгера. Создать новый файл для записи.
         kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
 
-        int k{};
+        /*int k{};
         while (true)
         {
             bool isMessageRecorded{kav::Logger::isMessageRecorded()};
@@ -525,9 +535,9 @@ TEST(TestLogger, size_100_bytes)
                 std::cout << "else: " << isMessageRecorded;
                 break;
             }
-        }
+        }*/
 
-        //Подсчитать количество лог-файлов в директории
+        /*//Подсчитать количество лог-файлов в директории
         int filesNumberBefore{};
         std::filesystem::directory_entry directoryEntryBefore(ProgramArguments::logsFolderName());
         for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
@@ -579,7 +589,7 @@ TEST(TestLogger, size_100_bytes)
     int filesNumber{};
     for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
-        ++filesNumber;
+        ++filesNumber;std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
     }
 
     //Усли количество файлов равно требуемого
@@ -591,3 +601,16 @@ TEST(TestLogger, size_100_bytes)
     //Проверить утверждение
     ASSERT_TRUE(result);
 }
+
+//Проверить время хранения файла.
+/*TEST(TestLogger, size_100_bytes)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Изменить конфигурацию логгера. Создать новый файл для записи.
+    kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//*/

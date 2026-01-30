@@ -184,12 +184,17 @@ namespace kav
 
                 //Запустить в отдельном потоке запись сообщения в лог-файл и отправку сообщения в монитор
                 resultOfWriteToFileAndMonitor = std::async(&Logger::WriterMessage::run, &writerMessage);
+
+                //Записать сообщение уровня logger
+                logger(Constants::messageLoggerStarted());
             }
             else
             {
                 //Выбросить исключение, так как более обного объекта создавать запрещено
                 throw OnlyOneObject();
             }
+
+
         }
         catch (OnlyOneObject& e)
         {

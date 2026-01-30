@@ -16,7 +16,38 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
     //Очистить контейнер пар пути и момента времени последнего изменения файла
     logs.clear();
 
-    //Определить файл в директории по последнему логированию
+    //Вычислить интервал времени, в течение которого можно хранить файл
+    std::chrono::duration<double, std::ratio<1>> storageTimeLimit = Weeks(configLogger.weeksStorage()) + Days(configLogger.daysStorage()) + Hours(configLogger.hoursStorage()) +
+                                                                    Minutes(configLogger.minutesStorage()) + Seconds(configLogger.secondsStorage());
+
+    //Для каждого файла в директории
+    for (auto& entry : std::filesystem::directory_iterator(directoryPath))
+    {
+        //Определить момент времени последнего изменения файла
+        auto lastWriteTime = std::filesystem::last_write_time(entry.path());
+
+        //Преобразовать момент времени последнего изменения файла в нужный тип
+        std::time_t ttCurrent = to_time_t(lastWriteTime);
+        std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(ttCurrent)};
+
+        //Определить текущий интервал хранения файла
+        std::chrono::system_clock::duration storageTimeCurrent = std::chrono::system_clock::now() - tpCurrent;
+
+        //Текущий интервал хранения файла больше либо равно предельного
+        if (storageTimeCurrent >= storageTimeLimit)
+        {
+            //Удалить текущий файл из директории
+            std::filesystem::remove(entry.path());
+        }
+        else
+        {
+            //Добавить в контейнер пару пути и момента времени последнего изменения файла
+            logs.emplace_back(entry.path(), tpCurrent);
+            std::cout << "path: " << entry.path() << ", " << "time: " << tpCurrent << '\n';
+        }
+    }
+
+    /*//Определить файл в директории по последнему логированию
     //Для каждого файла в директории
     for (auto& entry : std::filesystem::directory_iterator(directoryPath))
     {
@@ -52,7 +83,7 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
                 std::filesystem::remove(it->first);
             }
         }
-    }
+    }//*/
 }
 
 void kav::Logger::setup()
@@ -62,9 +93,6 @@ void kav::Logger::setup()
 
     //Определить файл для записи
     identifyFile(configLogger.filesDirectory());
-
-    //Записать сообщение уровня logger
-    logger(Constants::messageLoggerStarted());
 
     //std::cout << "\nInSetup, size: " << std::filesystem::file_size(file) << "\n";
 }

@@ -17,7 +17,7 @@ int main()
     std::filesystem::create_directory("Logs");
 
     //Создать объект логирования событий
-    kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
+    kav::Logger logger(ProgramArguments::configLoggerFilePath_size_100_bytes(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
 

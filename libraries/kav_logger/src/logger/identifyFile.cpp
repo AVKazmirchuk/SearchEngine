@@ -82,7 +82,7 @@ void kav::Logger::identifyNewFile()
     ts.resize(std::strftime(&ts[0], ts.size(), configLogger.fileNameFormat().c_str(), std::localtime(&t)));
     //Задать имя файла
     file = configLogger.filesDirectory() + ts + ".log";
-std::cout << file << ' ';
+std::cout << "current log: " << file << ' ';
     logger(Constants::messageNewFileCreate());
 }
 
