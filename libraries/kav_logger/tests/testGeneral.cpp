@@ -302,6 +302,13 @@ int ProgramArguments::numberFiles_3()
     return variable;
 }
 
+std::chrono::microseconds ProgramArguments::waitFileWrite_micro_10()
+{
+    //Значение по умолчанию
+    static const std::chrono::microseconds variable{10};
+    return variable;
+}
+
 std::chrono::seconds ProgramArguments::seconds_1()
 {
     //Значение по умолчанию

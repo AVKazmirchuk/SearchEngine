@@ -275,6 +275,12 @@ public:
     static int numberFiles_3();
 
     /**
+     * Время ожидания записи файла. 10 микросекунд
+     * @return Время ожидания записи файла
+     */
+    static std::chrono::microseconds waitFileWrite_micro_10();
+
+    /**
      * Прочитать время в секундах (1 секунда)
      * @return Время в секундах
      */
@@ -379,6 +385,23 @@ public:
 };//Класс хранения переменных аргументов программы
 
 
+
+//Ожидать записи в файл
+template <typename T>
+void waitFileWrite(T value)
+{
+    while (true)
+    {
+        if (kav::Logger::isMessageRecorded())
+        {
+            std::this_thread::sleep_for(value);
+        }
+        else
+        {
+            break;
+        }
+    }
+}
 
 //Получить путь текущего файла логирования
 std::string getLastFilePath();

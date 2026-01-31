@@ -486,26 +486,36 @@ TEST(TestLogger, size_100_bytes)
     //Удалить все файлы из директории лог-файлов
     std::filesystem::remove_all(ProgramArguments::logsFolderName());
     std::filesystem::create_directory(ProgramArguments::logsFolderName());
-    std::filesystem::directory_entry directoryEntry(ProgramArguments::logsFolderName());
-    std::cout << directoryEntry.last_write_time() << '\n';
 
+    //Изменить конфигурацию логгера. Создать новый файл для записи.
+    kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+
+    //Определить начальный размер файла
+    int sizeBegin;
     for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
-        std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
+        sizeBegin = currentDirectoryEntry.file_size();
     }
 
-    //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
-    //kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
-    //Ожидать появление нового файла
-    //std::this_thread::sleep_for(seconds);
+    //Удалить все файлы из директории лог-файлов
+    std::filesystem::remove_all(ProgramArguments::logsFolderName());
+    std::filesystem::create_directory(ProgramArguments::logsFolderName());
 
-    //Строка для заполнения лог-файла
-    //std::string str{"qazwsxedcrfvtgbyhnujmikolp"};
+    //std::filesystem::directory_entry directoryEntry(ProgramArguments::logsFolderName());
+    //std::cout << directoryEntry.last_write_time() << '\n';
+
+    //for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    //{
+    //    std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
+    //}
 
     //Количество итераций для заполнения нужного количества файлов
-    int numberOfIterations{(ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) / 161};
+    int numberOfIterations{(ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) / sizeBegin};
 
-    if ((ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) % 161)
+    if ((ProgramArguments::size_100() * ProgramArguments::numberFiles_3()) % sizeBegin)
     {
         ++numberOfIterations;
     }
@@ -515,10 +525,15 @@ TEST(TestLogger, size_100_bytes)
         std::cout << "\ni: " << i;
         //Изменить конфигурацию логгера. Создать новый файл для записи.
         kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+        //std::this_thread::sleep_for(std::chrono::seconds(1));
+
         kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+        waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+        //std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        //kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
+        //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
         /*int k{};
         while (true)
@@ -526,7 +541,7 @@ TEST(TestLogger, size_100_bytes)
             bool isMessageRecorded{kav::Logger::isMessageRecorded()};
             if (isMessageRecorded)
             {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
                 std::cout << "k: " << ++k << " " << isMessageRecorded;
 
             }
@@ -572,14 +587,14 @@ TEST(TestLogger, size_100_bytes)
                     break;
                 } else
                 {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
                 }
             }
         }*/
 
 
 
-        //std::this_thread::sleep_for(std::chrono::seconds(1));
+        //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
         //Записать строку в файл
         //kav::Logger::info(str);
 
@@ -592,8 +607,8 @@ TEST(TestLogger, size_100_bytes)
         ++filesNumber;std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
     }
 
-    //Усли количество файлов равно требуемого
-    if (filesNumber >= ProgramArguments::numberFiles_3())
+    //Если количество файлов равно требуемого
+    if (filesNumber >= ProgramArguments::numberFiles_3() && filesNumber <= ProgramArguments::numberFiles_3() + 1)
     {
         result = true;
     }

@@ -153,6 +153,9 @@ void kav::Logger::WriterMessage::run()
         std::unique_lock<std::mutex> uniqueLock(Logger::ptrToLogger->mutReadWriteMessages);
         Logger::ptrToLogger->cvPushMessage.wait(uniqueLock, []() { return Logger::ptrToLogger->pushMessage; });
 
+        //Сообщение пишется в файл и в монитор
+        //Logger::ptrToLogger->recordingMessage.store(true);
+
         //Переместить сообщения из основного потока
         messages = std::move(Logger::ptrToLogger->messages);
 

@@ -71,6 +71,12 @@ void kav::Logger::fatal(const std::string& message, const std::exception& except
 
 void kav::Logger::reset(const std::string &in_configLoggerFilePath)
 {
+    while (ptrToLogger->recordingMessage.load())
+    {
+        std::this_thread::sleep_for(std::chrono::microseconds(10));
+        std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    }
+
     //Изменить конфигурацию логгера
     ptrToLogger->configLogger.reset(in_configLoggerFilePath);
 
