@@ -492,7 +492,7 @@ std::string  getTimePoint()
     return timePoint;
 }
 
-//Получить строку лог-файл
+//Получить строку лог-файла
 std::string getLogLine(const std::string& timePoint)
 {
     //Получить путь текущего лог-файла

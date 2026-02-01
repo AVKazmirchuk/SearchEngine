@@ -602,6 +602,7 @@ TEST(TestLogger, size_100_bytes)
 
     //Подсчитать количество лог-файлов в директории
     int filesNumber{};
+    std::cout << '\n';
     for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
         ++filesNumber;std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
