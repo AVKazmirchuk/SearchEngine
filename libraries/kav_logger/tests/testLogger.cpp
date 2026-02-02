@@ -26,6 +26,7 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::du
     kav::Logger::reset(configLoggerFilePath);
     //Ожидать появление нового файла
     std::this_thread::sleep_for(seconds);
+    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
     //Получить путь текущего файла логирования
     std::string pathOfLogBeforeResetting{getLastFilePath()};
@@ -34,6 +35,7 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::du
     kav::Logger::reset(configLoggerFilePath);
     //Ожидать появление нового файла
     std::this_thread::sleep_for(seconds);
+    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
 
     //Получить путь текущего файла логирования
@@ -125,7 +127,7 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 
 //Проверка одного сообщения, без исключений
 
-/*//Проверить функцию на уровень логирования debug
+//Проверить функцию на уровень логирования debug
 TEST(TestLogger, debug)
 {
     //Обнулить результат операции
@@ -312,7 +314,7 @@ TEST(TestLogger, fatalWithException)
 
 
 //Проверить время сообщения
-/*TEST(TestLogger, timeOfMessage)
+TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
     bool result{};
@@ -345,7 +347,7 @@ TEST(TestLogger, fatalWithException)
     ASSERT_TRUE(result);
 }//*/
 
-/*//Проверить время использования файла. 1 скунда
+//Проверить время использования файла. 1 скунда
 TEST(TestLogger, usage_1sec)
 {
     //Обнулить результат операции
@@ -417,7 +419,7 @@ TEST(TestLogger, usage_6sec_in_weeks)
     ASSERT_TRUE(result);
 }//*/
 
-/*//Проверить время хранения файла. 3 секунды
+//Проверить время хранения файла. 3 секунды
 TEST(TestLogger, storage_3sec)
 {
     //Обнулить результат операции
@@ -535,68 +537,6 @@ TEST(TestLogger, size_100_bytes)
         //kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_100_bytes());
         //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
-        /*int k{};
-        while (true)
-        {
-            bool isMessageRecorded{kav::Logger::isMessageRecorded()};
-            if (isMessageRecorded)
-            {
-                waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
-                std::cout << "k: " << ++k << " " << isMessageRecorded;
-
-            }
-            else
-            {
-                std::cout << "else: " << isMessageRecorded;
-                break;
-            }
-        }*/
-
-        /*//Подсчитать количество лог-файлов в директории
-        int filesNumberBefore{};
-        std::filesystem::directory_entry directoryEntryBefore(ProgramArguments::logsFolderName());
-        for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
-        {
-            ++filesNumberBefore;
-            std::cout << " filesNumberBefore: " << filesNumberBefore;
-            if (currentDirectoryEntry.last_write_time() > directoryEntryBefore.last_write_time())
-            {
-                directoryEntryBefore = currentDirectoryEntry;
-            }
-        }
-        /*if (i > 0)
-        {
-            while (true)
-            {
-                //Подсчитать количество лог-файлов в директории
-                int filesNumberAfter{};
-                std::filesystem::directory_entry directoryEntryAfter(ProgramArguments::logsFolderName());
-                for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(
-                        ProgramArguments::logsFolderName()))
-                {
-                    ++filesNumberAfter;
-                    if (currentDirectoryEntry.last_write_time() > directoryEntryAfter.last_write_time())
-                    {
-                        directoryEntryAfter = currentDirectoryEntry;
-                    }
-                }
-
-                if (filesNumberAfter > filesNumberBefore ||
-                    directoryEntryAfter.last_write_time() > directoryEntryBefore.last_write_time())
-                {
-                    break;
-                } else
-                {
-                    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
-                }
-            }
-        }*/
-
-
-
-        //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
-        //Записать строку в файл
-        //kav::Logger::info(str);
 
     }
 

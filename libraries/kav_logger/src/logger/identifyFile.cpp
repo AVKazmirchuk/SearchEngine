@@ -38,6 +38,15 @@ bool kav::Logger::isFileUsageTimeExceeded()
     std::time_t tt{std::mktime(&tm)};
     std::chrono::system_clock::time_point tp{std::chrono::system_clock::from_time_t(tt)};
 
+    //Определить подстроку с наносекундами
+    std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+
+    //Получить из подстроки наносекунды
+    std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+
+    //Получить момент времени с наносекундами
+    tp += nanoseconds;
+
     //Вычислить интервал времени, в течение которого можно использовать текущий файл
     std::chrono::system_clock::duration usageTimeCurrent = std::chrono::system_clock::now() - tp;
 
@@ -65,7 +74,7 @@ void kav::Logger::identifyFilesByLastModification()
                      [] (const PairOfPathAndTimePoint& a, const PairOfPathAndTimePoint& b)
                      {
                          //По возрастанию времени последнего изменения файла
-                         return a.first.filename() < b.first.filename();
+                         return a.second < b.second;
                      });
 
     //Сделать файл для записи текущим
