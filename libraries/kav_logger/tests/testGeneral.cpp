@@ -430,28 +430,79 @@ unsigned int ProgramArguments::maxResponses()
 
 
 
-std::string getLastFilePath()
+std::string getLastUsageFilePath()
 {
     //Подготовить переменные
     std::filesystem::directory_entry directoryEntry;
     std::chrono::system_clock::time_point timePoint{};
-
+std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
     //Для каждого файла директории
-    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
-        //Преобразовать время в нужный тип
-        std::chrono::system_clock::time_point currentTimePoint{std::chrono::clock_cast<std::chrono::system_clock>(currentDirectoryEntry.last_write_time())};
-        //Если время изменения текущего файла позже
-        if (currentTimePoint > timePoint)
+
+        std::ifstream inFile(currentDirectoryEntry.path(), std::ios::binary);
+
+        /*inFile.seekg(-2, std::ios::end);
+        std::istream::pos_type pos;
+        for (unsigned long charNumber{1}; charNumber <= 2; ++charNumber)
         {
+            char ch;
+            while (inFile.get(ch))
+            {
+                std::cout << ch;
+                if (ch == '\n')
+                {
+                    if (charNumber == 2)
+                    {
+                        pos = inFile.tellg();
+                        break;
+                    }
+                    break;
+                }
+                inFile.seekg(-2, std::ios::cur);
+            }
+        }*/
+
+        //Объявить переменные
+        std::string dateFirstEntry, timeFirstEntry;
+        //Прочитать дату и время первой записи в файле
+        inFile >> dateFirstEntry >> timeFirstEntry;
+
+        //Закрыть файл
+        inFile.close();
+        std::cout << '\n' << "getLastFilePath" << '\n';
+        std::cout << "dateFirstEntry: " << dateFirstEntry << ", " << "timeFirstEntry: " << timeFirstEntry << '\n';
+
+        //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
+        std::tm tm{};
+        std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
+        iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
+        std::time_t tt{std::mktime(&tm)};
+        std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(tt)};
+
+        //Определить подстроку с наносекундами
+        std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+
+        //Получить из подстроки наносекунды
+        std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+
+        //Получить момент времени с наносекундами
+        tpCurrent += nanoseconds;
+
+        //Если время изменения текущего файла позже
+        if (tpCurrent > timePoint)
+        {
+            timePoint = tpCurrent;
             //Запомнить файл
             directoryEntry = currentDirectoryEntry;
         }
+        std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
     }
-
+    std::cout << "\nlastFile: " << directoryEntry.path().filename();
     //Вернуть путь файла
     return directoryEntry.path().string();
     //return kav::Logger::getCurrentLogPath().string();
+    std::cout << "\nlastFile: " << directoryEntry.path().filename();
 }
 
 std::string timePointToString(const std::chrono::system_clock::time_point& now)

@@ -404,7 +404,7 @@ void waitFileWrite(T value)
 }
 
 //Получить путь текущего файла логирования
-std::string getLastFilePath();
+std::string getLastUsageFilePath();
 
 //Перевести отметку времени в строку
 std::string timePointToString(const std::chrono::system_clock::time_point& now);

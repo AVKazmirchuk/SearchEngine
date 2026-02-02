@@ -74,7 +74,7 @@ void kav::Logger::reset(const std::string &in_configLoggerFilePath)
     std::cout << '\n' << "reset" << '\n';
     while (ptrToLogger->recordingMessage.load())
     {
-        std::this_thread::sleep_for(std::chrono::nanoseconds(300));
+        std::this_thread::sleep_for(std::chrono::nanoseconds(900));
         std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     }
 

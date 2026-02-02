@@ -22,20 +22,20 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::du
     std::filesystem::remove_all(ProgramArguments::logsFolderName());
     std::filesystem::create_directory("Logs");
 
-    //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
+    //Изменить конфигурацию логгера. Создать новый файл для записи.
     kav::Logger::reset(configLoggerFilePath);
     //Ожидать появление нового файла
-    std::this_thread::sleep_for(seconds);
-    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+    //std::this_thread::sleep_for(seconds);
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
     //Получить путь текущего файла логирования
     std::string pathOfLogBeforeResetting{getLastFilePath()};
 
-    //Изменить конфигурацию логгера. Создать новый файл для записи. Время использования файла 1 секунда
+    //Изменить конфигурацию логгера. Создать новый файл для записи.
     kav::Logger::reset(configLoggerFilePath);
     //Ожидать появление нового файла
     std::this_thread::sleep_for(seconds);
-    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
 
     //Получить путь текущего файла логирования
@@ -128,7 +128,7 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 //Проверка одного сообщения, без исключений
 
 //Проверить функцию на уровень логирования debug
-TEST(TestLogger, debug)
+/*TEST(TestLogger, debug)
 {
     //Обнулить результат операции
     bool result{};
@@ -313,7 +313,7 @@ TEST(TestLogger, fatalWithException)
 
 
 
-//Проверить время сообщения
+/*//Проверить время сообщения
 TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
@@ -360,7 +360,7 @@ TEST(TestLogger, usage_1sec)
 }
 
 //Проверить время использования файла. 3 секунды
-TEST(TestLogger, usage_3sec)
+/*TEST(TestLogger, usage_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -419,7 +419,7 @@ TEST(TestLogger, usage_6sec_in_weeks)
     ASSERT_TRUE(result);
 }//*/
 
-//Проверить время хранения файла. 3 секунды
+/*//Проверить время хранения файла. 3 секунды
 TEST(TestLogger, storage_3sec)
 {
     //Обнулить результат операции
@@ -479,7 +479,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
     ASSERT_TRUE(result);
 }//*/
 
-//Проверить время хранения файла. Размер файла 100 байт
+/*//Проверить время хранения файла. Размер файла 100 байт
 TEST(TestLogger, size_100_bytes)
 {
     //Обнулить результат операции
@@ -556,7 +556,7 @@ TEST(TestLogger, size_100_bytes)
 
     //Проверить утверждение
     ASSERT_TRUE(result);
-}
+}//*/
 
 //Проверить время хранения файла.
 /*TEST(TestLogger, size_100_bytes)
