@@ -7,6 +7,7 @@
 #include <thread>
 
 #include "kav/logger.h"
+#include "kav/operationFileAndJSON.h"
 #include "kav/detail/types.h"
 
 
@@ -23,40 +24,18 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
     //Для каждого файла в директории
     for (auto& entry : std::filesystem::directory_iterator(directoryPath))
     {
-        std::ifstream inFile(entry.path(), std::ios::binary);
+        //Прочитать файл конфигурации
+        auto tmp = OperationFileAndJSON::readLastLineFromTextFile(entry.path().string());
 
-        char ch2;
-
-        inFile.seekg(-1, std::ios::end);
-        for (int i{1}; i <= 10; ++i)
+        //Проверить JSON-структуру на соответствие шаблону
+        if (lastLine.second != ErrorCode::no_error)
         {
-            inFile.get(ch2);
-            //std::cout << ch2;
-            inFile.seekg(-2, std::ios::cur);
+            configLoggerJSON = tmp.first;
         }
-
-
-        inFile.seekg(-2, std::ios::end);
-        std::istream::pos_type pos;
-        for (unsigned long charNumber{1}; charNumber <= 2; ++charNumber)
+        else
         {
-            char ch;
-
-            while (inFile.get(ch))
-            {
-                //std::cout << ch;
-                if (ch == '\n')
-                {
-
-                    if (charNumber == 2)
-                    {
-                        pos = inFile.tellg();
-                        break;
-                    }
-                    break;
-                }
-                inFile.seekg(-2, std::ios::cur);
-            }
+            //Выбросить соответствующее исключение
+            throw LoggerException(DescriptionErrorCode::descriptionErrorCode(tmpError) + ": " + configLoggerFilePath);
         }
 
         //Объявить переменные
