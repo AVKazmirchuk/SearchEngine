@@ -40,9 +40,23 @@ bool kav::Logger::isFileUsageTimeExceeded()
 
     //Определить подстроку с наносекундами
     std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+    //std::cout << "strNanoseconds: " << strNanoseconds;
+
+    unsigned long long nanosecondsElementary{};
+
+    try
+    {
+        //Получить из подстроки наносекунды
+        nanosecondsElementary = std::stoull(strNanoseconds);
+    }
+    catch (const std::exception& exception)
+    {
+        //Удалить текущий файл из директории
+        //std::filesystem::remove(entry.path());
+    }
 
     //Получить из подстроки наносекунды
-    std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+    std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
 
     //Получить момент времени с наносекундами
     tp += nanoseconds;
@@ -147,8 +161,8 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
     //Размер файла больше допустимого
     if (std::filesystem::file_size(file) >= configLogger.fileSizeLimit())
     {
-        std::cout << '\n' << "identifyFile (file_size)" << '\n';
-        std::cout << std::filesystem::file_size(file) << "\n";
+        //std::cout << '\n' << "identifyFile (file_size)" << '\n';
+        //std::cout << std::filesystem::file_size(file) << "\n";
         //Заменить файл
         identifyNewFile();
         return;

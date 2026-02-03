@@ -430,7 +430,7 @@ unsigned int ProgramArguments::maxResponses()
 
 
 
-std::string getLastUsageFilePath()
+std::string getLastFilePath()
 {
     //Подготовить переменные
     std::filesystem::directory_entry directoryEntry;
@@ -442,14 +442,14 @@ std::cout << "------------------------------------------------------------------
 
         std::ifstream inFile(currentDirectoryEntry.path(), std::ios::binary);
 
-        /*inFile.seekg(-2, std::ios::end);
+        inFile.seekg(-2, std::ios::end);
         std::istream::pos_type pos;
         for (unsigned long charNumber{1}; charNumber <= 2; ++charNumber)
         {
             char ch;
             while (inFile.get(ch))
             {
-                std::cout << ch;
+                //std::cout << ch;
                 if (ch == '\n')
                 {
                     if (charNumber == 2)
@@ -461,7 +461,7 @@ std::cout << "------------------------------------------------------------------
                 }
                 inFile.seekg(-2, std::ios::cur);
             }
-        }*/
+        }
 
         //Объявить переменные
         std::string dateFirstEntry, timeFirstEntry;
@@ -482,9 +482,23 @@ std::cout << "------------------------------------------------------------------
 
         //Определить подстроку с наносекундами
         std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+        //std::cout << "strNanoseconds: " << strNanoseconds;
+
+        unsigned long long nanosecondsElementary{};
+
+        try
+        {
+            //Получить из подстроки наносекунды
+            nanosecondsElementary = std::stoull(strNanoseconds);
+        }
+        catch (const std::exception& exception)
+        {
+            //Удалить текущий файл из директории
+            std::filesystem::remove(currentDirectoryEntry.path());
+        }
 
         //Получить из подстроки наносекунды
-        std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+        std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
 
         //Получить момент времени с наносекундами
         tpCurrent += nanoseconds;
@@ -496,9 +510,11 @@ std::cout << "------------------------------------------------------------------
             //Запомнить файл
             directoryEntry = currentDirectoryEntry;
         }
+        std::cout << '\n' << "getLastFilePath" << '\n';
         std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
     }
-    std::cout << "\nlastFile: " << directoryEntry.path().filename();
+    std::cout << '\n' << "getLastFilePath" << '\n';
+    std::cout << "lastFile: " << directoryEntry.path().filename();
     //Вернуть путь файла
     return directoryEntry.path().string();
     //return kav::Logger::getCurrentLogPath().string();
@@ -547,7 +563,7 @@ std::string  getTimePoint()
 std::string getLogLine(const std::string& timePoint)
 {
     //Получить путь текущего лог-файла
-    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
+    std::string fileName{getLastFilePath()};//std::cout << '\n' << "fileName: " << fileName << '\n';
 
     std::ofstream out(fileName, std::ios::app);
     out << "\n--- New Test ---\n";
@@ -647,9 +663,23 @@ std::chrono::system_clock::time_point getTimePointFromString(std::string& strLog
 
     //Определить подстроку с наносекундами
     std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+    //std::cout << "strNanoseconds: " << strNanoseconds;
+
+    unsigned long long nanosecondsElementary{};
+
+    try
+    {
+        //Получить из подстроки наносекунды
+        nanosecondsElementary = std::stoull(strNanoseconds);
+    }
+    catch (const std::exception& exception)
+    {
+        //Удалить текущий файл из директории
+        //std::filesystem::remove(currentDirectoryEntry.path());
+    }
 
     //Получить из подстроки наносекунды
-    std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+    std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
 
     //Получить момент времени с наносекундами
     return tp + nanoseconds;
@@ -660,6 +690,74 @@ std::chrono::system_clock::time_point getTimePointFromFile(std::string& fileName
     std::ifstream inFile(fileName);
     std::string logLine;
     std::getline(inFile, logLine);
-    std::cout << logLine;
+    //std::cout << logLine;
     return getTimePointFromString(logLine);
+}
+
+std::chrono::system_clock::time_point getLastTimePointFromFile(std::string& fileName)
+{
+    std::ifstream inFile(fileName, std::ios::binary);
+
+    inFile.seekg(-2, std::ios::end);
+    std::istream::pos_type pos;
+    for (unsigned long charNumber{1}; charNumber <= 2; ++charNumber)
+    {
+        char ch;
+        while (inFile.get(ch))
+        {
+            //std::cout << ch;
+            if (ch == '\n')
+            {
+                if (charNumber == 2)
+                {
+                    pos = inFile.tellg();
+                    break;
+                }
+                break;
+            }
+            inFile.seekg(-2, std::ios::cur);
+        }
+    }
+
+    //Объявить переменные
+    std::string dateFirstEntry, timeFirstEntry;
+    //Прочитать дату и время первой записи в файле
+    inFile >> dateFirstEntry >> timeFirstEntry;
+
+    //Закрыть файл
+    inFile.close();
+    std::cout << '\n' << "getLastFilePath" << '\n';
+    std::cout << "dateFirstEntry: " << dateFirstEntry << ", " << "timeFirstEntry: " << timeFirstEntry << '\n';
+
+    //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
+    std::tm tm{};
+    std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
+    iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
+    std::time_t tt{std::mktime(&tm)};
+    std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(tt)};
+
+    //Определить подстроку с наносекундами
+    std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+    //std::cout << "strNanoseconds: " << strNanoseconds;
+
+    unsigned long long nanosecondsElementary{};
+
+    try
+    {
+        //Получить из подстроки наносекунды
+        nanosecondsElementary = std::stoull(strNanoseconds);
+    }
+    catch (const std::exception& exception)
+    {
+        //Удалить текущий файл из директории
+        //std::filesystem::remove(currentDirectoryEntry.path());
+    }
+
+    //Получить из подстроки наносекунды
+    std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
+
+    //Получить момент времени с наносекундами
+    tpCurrent += nanoseconds;
+    //std::cout << logLine;
+    return tpCurrent;
 }

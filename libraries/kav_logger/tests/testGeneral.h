@@ -404,7 +404,7 @@ void waitFileWrite(T value)
 }
 
 //Получить путь текущего файла логирования
-std::string getLastUsageFilePath();
+std::string getLastFilePath();
 
 //Перевести отметку времени в строку
 std::string timePointToString(const std::chrono::system_clock::time_point& now);
@@ -426,5 +426,8 @@ std::chrono::system_clock::time_point getTimePointFromString(std::string& strLog
 
 //Получить время создания файла из имени файла, прочитав его первую запись
 std::chrono::system_clock::time_point getTimePointFromFile(std::string& fileName);
+
+//Получить время последней записи в файл из имени файла
+std::chrono::system_clock::time_point getLastTimePointFromFile(std::string& fileName);
 
 #endif //KAV_LOGGER_TESTGENERAL_H

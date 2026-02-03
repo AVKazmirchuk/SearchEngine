@@ -31,10 +31,13 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::du
     //Получить путь текущего файла логирования
     std::string pathOfLogBeforeResetting{getLastFilePath()};
 
+    //Ожидать время использования файла
+    std::this_thread::sleep_for(seconds);
+
     //Изменить конфигурацию логгера. Создать новый файл для записи.
     kav::Logger::reset(configLoggerFilePath);
     //Ожидать появление нового файла
-    std::this_thread::sleep_for(seconds);
+    //std::this_thread::sleep_for(seconds);
     waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
 
@@ -76,33 +79,29 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 
     //Изменить конфигурацию логгера. Создать новый файл для записи. Стандартная конфигурация
     kav::Logger::reset(ProgramArguments::configLoggerFilePath());
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    //std::this_thread::sleep_for(std::chrono::seconds(2));
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
     //Получить путь текущего файла логирования
     std::string pathOfLogBeforeResetting{getLastFilePath()};
 
     //Получить время создания файла, прочитав его первую запись
-    std::chrono::system_clock::time_point timePointBeforeResetting{getTimePointFromFile(pathOfLogBeforeResetting)};
+    std::chrono::system_clock::time_point timePointBeforeResetting{getLastTimePointFromFile(pathOfLogBeforeResetting)};
 
-    //Ожидать появление нового файла
+    //Ожидать время хранения файла
     std::this_thread::sleep_for(seconds);
-
-    //Получить путь текущего файла логирования
-    //std::string pathOfLogBeforeResetting{getLastFilePath()};
-
-    //Получить текущий момент времени
-    //std::chrono::system_clock::time_point timePointBefore{std::chrono::system_clock::now()};
 
     //Изменить конфигурацию логгера. Создать новый файл для записи. Время хранения файла определено в конфигурации
     kav::Logger::reset(configLoggerFilePath);
     //Ожидать появление нового файла
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    //std::this_thread::sleep_for(std::chrono::seconds(2));
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
     //Получить путь текущего файла логирования
     std::string pathOfLogAfterResetting{getLastFilePath()};
 
     //Получить время создания файла, прочитав его первую запись
-    std::chrono::system_clock::time_point timePointAfterResetting{getTimePointFromFile(pathOfLogAfterResetting)};
+    std::chrono::system_clock::time_point timePointAfterResetting{getLastTimePointFromFile(pathOfLogAfterResetting)};
 
     //Подсчитать количество лог-файлов в директории
     int filesNumber{};
@@ -348,7 +347,7 @@ TEST(TestLogger, timeOfMessage)
 }//*/
 
 //Проверить время использования файла. 1 скунда
-TEST(TestLogger, usage_1sec)
+/*TEST(TestLogger, usage_1sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -360,7 +359,7 @@ TEST(TestLogger, usage_1sec)
 }
 
 //Проверить время использования файла. 3 секунды
-/*TEST(TestLogger, usage_3sec)
+TEST(TestLogger, usage_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -479,7 +478,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
     ASSERT_TRUE(result);
 }//*/
 
-/*//Проверить время хранения файла. Размер файла 100 байт
+//Проверить время хранения файла. Размер файла 100 байт
 TEST(TestLogger, size_100_bytes)
 {
     //Обнулить результат операции

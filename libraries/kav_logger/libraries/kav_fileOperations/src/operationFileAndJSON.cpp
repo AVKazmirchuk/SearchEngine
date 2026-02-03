@@ -122,6 +122,112 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     return tmp;
 }
 
+std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFromTextFile(const std::string &filePath)
+{
+    //Создать объект для чтения файла документа. Открытие в обычном режиме приводит к неочевидным результатам (появляются дополнительные символы)
+    std::ifstream inFile(filePath, std::ios::binary);
+
+    //Подготовить документ для записи
+    std::pair<std::string, kav::ErrorCode> tmp;
+
+    //Обнулить код ошибки
+    tmp.second = ErrorCode::no_error;
+
+    //Если файл не существует - установить соответствующий код ошибки
+    if (!std::filesystem::exists(filePath)) tmp.second = ErrorCode::error_file_missing;
+        //В противном случае, если файл не открыт - установить соответствующий код ошибки
+    else if (!inFile.is_open()) tmp.second = ErrorCode::error_file_not_open_read;
+
+    //Если ошибки нет
+    if (tmp.second == ErrorCode::no_error)
+    {
+        //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
+        //system("disconnectDisk.bat");
+
+        //Читать последнюю строку
+        try
+        {
+            //Передвинуть указатель, чтобы прочитать последний символ
+            inFile.seekg(-1, std::ios::end);
+
+            char ch;
+            //Прочитать последний символ
+            inFile.get(ch);
+            //Если прочитан символ новой строки - перейти на чтение последнего символа
+            if (ch == '\n') inFile.seekg(-2, std::ios::cur);
+            //Перейти на чтение последнего символа
+            else inFile.seekg(-1, std::ios::cur);
+
+            //Пока читается
+            while (inFile.get(ch))
+            {
+                //Если прочитанный символ новой строки - указатель стоит в начале строки
+                if (ch == '\n') break;
+                //Если указатель на второй позиции
+                else if (inFile.tellg() == 1)
+                {
+                    //Перейти на начало строки
+                    inFile.seekg(-1, std::ios::cur);
+                    break;
+                }
+
+                //Перейти для чтения предыдущего символа
+                inFile.seekg(-2, std::ios::cur);
+            }
+
+            //Прочитать строку целиком
+            std::getline(inFile, tmp.first);
+        }
+        catch (const std::exception& e)
+        {
+            //Если при чтении произошла ошибка - установить соответствующий код ошибки
+            tmp.second = ErrorCode::error_file_not_read;
+        }
+    }
+
+    //Вернуть пару текста и кода ошибки
+    return tmp;
+}
+
+std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readFirstLineFromTextFile(const std::string &filePath)
+{
+    //Создать объект для чтения файла документа. Открытие в обычном режиме приводит к неочевидным результатам (появляются дополнительные символы)
+    std::ifstream inFile(filePath);
+
+    //Подготовить документ для записи
+    std::pair<std::string, kav::ErrorCode> tmp;
+
+    //Обнулить код ошибки
+    tmp.second = ErrorCode::no_error;
+
+    //Если файл не существует - установить соответствующий код ошибки
+    if (!std::filesystem::exists(filePath)) tmp.second = ErrorCode::error_file_missing;
+        //В противном случае, если файл не открыт - установить соответствующий код ошибки
+    else if (!inFile.is_open()) tmp.second = ErrorCode::error_file_not_open_read;
+
+    //Если ошибки нет
+    if (tmp.second == ErrorCode::no_error)
+    {
+        //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
+        //system("disconnectDisk.bat");
+
+        //Читать последнюю строку
+        try
+        {
+            //Прочитать строку целиком
+            std::getline(inFile, tmp.first);
+        }
+        catch (const std::exception& e)
+        {
+            //Если при чтении произошла ошибка - установить соответствующий код ошибки
+            tmp.second = ErrorCode::error_file_not_read;
+        }
+    }
+
+    //Вернуть пару текста и кода ошибки
+    return tmp;
+}
+
 kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openMode)
 {
     //Создать объект для записи

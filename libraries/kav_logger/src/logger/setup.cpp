@@ -31,7 +31,7 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
         for (int i{1}; i <= 10; ++i)
         {
             inFile.get(ch2);
-            std::cout << ch2;
+            //std::cout << ch2;
             inFile.seekg(-2, std::ios::cur);
         }
 
@@ -44,7 +44,7 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
 
             while (inFile.get(ch))
             {
-                std::cout << ch;
+                //std::cout << ch;
                 if (ch == '\n')
                 {
 
@@ -78,21 +78,26 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
 
         //Определить подстроку с наносекундами
         std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+//std::cout << "strNanoseconds: " << strNanoseconds;
+
+        unsigned long long nanosecondsElementary{};
+
+        try
+        {
+            //Получить из подстроки наносекунды
+            nanosecondsElementary = std::stoull(strNanoseconds);
+        }
+        catch (const std::exception& exception)
+        {
+            //Удалить текущий файл из директории
+            std::filesystem::remove(entry.path());
+        }
 
         //Получить из подстроки наносекунды
-        std::chrono::nanoseconds nanoseconds{std::stoull(strNanoseconds)};
+        std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
 
         //Получить момент времени с наносекундами
         tpCurrent += nanoseconds;
-
-
-
-        //Определить момент времени последнего изменения файла
-        //auto lastWriteTime = std::filesystem::last_write_time(entry.path());
-
-        //Преобразовать момент времени последнего изменения файла в нужный тип
-        //std::time_t ttCurrent = to_time_t(lastWriteTime);
-        //std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(ttCurrent)};
 
         //Определить текущий интервал хранения файла
         std::chrono::system_clock::duration storageTimeCurrent = std::chrono::system_clock::now() - tpCurrent;
