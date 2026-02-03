@@ -13,53 +13,23 @@
 
 bool kav::Logger::isFileUsageTimeExceeded()
 {
-    //Создать объект для открытия файла
-    std::ifstream inFile(file);
+    //Момент времени последнего изменения текущего файла
+    std::chrono::system_clock::time_point tp{};
 
-    //Файл не открывается для чтения
-    if (!inFile.is_open())
+    //Прочитать первую строку лог-файла
+    auto tmp = OperationFileAndJSON::readFirstLineFromTextFile(file.string());
+
+    //Если при чтении ошибок не было
+    if (tmp.second == ErrorCode::no_error)
     {
-        //Заменить файл
-        return true;
+        //Получить момент времени из строки
+        tp = getTimePointFromString(tmp.first);
     }
-
-    //Объявить переменные
-    std::string dateFirstEntry, timeFirstEntry;
-    //Прочитать дату и время первой записи в файле
-    inFile >> dateFirstEntry >> timeFirstEntry;
-
-    //Закрыть файл
-    inFile.close();
-
-    //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
-    std::tm tm{};
-    std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
-    iss >> std::get_time(&tm, configLogger.dateTimeFormat().c_str());
-    std::time_t tt{std::mktime(&tm)};
-    std::chrono::system_clock::time_point tp{std::chrono::system_clock::from_time_t(tt)};
-
-    //Определить подстроку с наносекундами
-    std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
-    //std::cout << "strNanoseconds: " << strNanoseconds;
-
-    unsigned long long nanosecondsElementary{};
-
-    try
+    else
     {
-        //Получить из подстроки наносекунды
-        nanosecondsElementary = std::stoull(strNanoseconds);
+        //Обработать ошибку чтения лог-файла. В этой функции избыточно
+        handleErrorReadingLogFile(file);
     }
-    catch (const std::exception& exception)
-    {
-        //Удалить текущий файл из директории
-        //std::filesystem::remove(entry.path());
-    }
-
-    //Получить из подстроки наносекунды
-    std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
-
-    //Получить момент времени с наносекундами
-    tp += nanoseconds;
 
     //Вычислить интервал времени, в течение которого можно использовать текущий файл
     std::chrono::system_clock::duration usageTimeCurrent = std::chrono::system_clock::now() - tp;

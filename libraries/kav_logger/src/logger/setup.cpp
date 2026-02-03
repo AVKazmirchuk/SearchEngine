@@ -24,59 +24,23 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
     //Для каждого файла в директории
     for (auto& entry : std::filesystem::directory_iterator(directoryPath))
     {
-        //Прочитать файл конфигурации
+        //Момент времени последнего изменения текущего файла
+        std::chrono::system_clock::time_point tpCurrent{};
+
+        //Прочитать последнюю строку лог-файла
         auto tmp = OperationFileAndJSON::readLastLineFromTextFile(entry.path().string());
 
-        //Проверить JSON-структуру на соответствие шаблону
-        if (lastLine.second != ErrorCode::no_error)
+        //Если при чтении ошибок не было
+        if (tmp.second == ErrorCode::no_error)
         {
-            configLoggerJSON = tmp.first;
+            //Получить момент времени из строки
+            tpCurrent = getTimePointFromString(tmp.first);
         }
         else
         {
-            //Выбросить соответствующее исключение
-            throw LoggerException(DescriptionErrorCode::descriptionErrorCode(tmpError) + ": " + configLoggerFilePath);
+            //Обработать ошибку чтения лог-файла. В этой функции избыточно
+            handleErrorReadingLogFile(entry.path());
         }
-
-        //Объявить переменные
-        std::string dateFirstEntry, timeFirstEntry;
-        //Прочитать дату и время первой записи в файле
-        inFile >> dateFirstEntry >> timeFirstEntry;
-
-        //Закрыть файл
-        inFile.close();
-        std::cout << '\n' << "deleteFilesByRetentionPeriod" << '\n';
-        std::cout << "dateFirstEntry: " << dateFirstEntry << ", " << "timeFirstEntry: " << timeFirstEntry << '\n';
-
-        //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
-        std::tm tm{};
-        std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
-        iss >> std::get_time(&tm, configLogger.dateTimeFormat().c_str());
-        std::time_t tt{std::mktime(&tm)};
-        std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(tt)};
-
-        //Определить подстроку с наносекундами
-        std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
-//std::cout << "strNanoseconds: " << strNanoseconds;
-
-        unsigned long long nanosecondsElementary{};
-
-        try
-        {
-            //Получить из подстроки наносекунды
-            nanosecondsElementary = std::stoull(strNanoseconds);
-        }
-        catch (const std::exception& exception)
-        {
-            //Удалить текущий файл из директории
-            std::filesystem::remove(entry.path());
-        }
-
-        //Получить из подстроки наносекунды
-        std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
-
-        //Получить момент времени с наносекундами
-        tpCurrent += nanoseconds;
 
         //Определить текущий интервал хранения файла
         std::chrono::system_clock::duration storageTimeCurrent = std::chrono::system_clock::now() - tpCurrent;

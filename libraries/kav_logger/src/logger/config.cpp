@@ -14,7 +14,7 @@ void kav::Logger::ConfigLogger::initialize()
     //Прочитать файл конфигурации
     auto tmp = OperationFileAndJSON::readJSONFile(configLoggerFilePath);
 
-    //Создать JSON-объект конфигурации
+    //Если были ошибки при чтении
     if ( tmp.second != ErrorCode::no_error)
     {
         //Выбросить соответствующее исключение

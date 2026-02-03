@@ -24,8 +24,7 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::du
 
     //Изменить конфигурацию логгера. Создать новый файл для записи.
     kav::Logger::reset(configLoggerFilePath);
-    //Ожидать появление нового файла
-    //std::this_thread::sleep_for(seconds);
+    //Ожидать
     waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
     //Получить путь текущего файла логирования
@@ -127,7 +126,7 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 //Проверка одного сообщения, без исключений
 
 //Проверить функцию на уровень логирования debug
-/*TEST(TestLogger, debug)
+TEST(TestLogger, debug)
 {
     //Обнулить результат операции
     bool result{};
@@ -312,7 +311,7 @@ TEST(TestLogger, fatalWithException)
 
 
 
-/*//Проверить время сообщения
+//Проверить время сообщения
 TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
@@ -347,7 +346,7 @@ TEST(TestLogger, timeOfMessage)
 }//*/
 
 //Проверить время использования файла. 1 скунда
-/*TEST(TestLogger, usage_1sec)
+TEST(TestLogger, usage_1sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -418,7 +417,7 @@ TEST(TestLogger, usage_6sec_in_weeks)
     ASSERT_TRUE(result);
 }//*/
 
-/*//Проверить время хранения файла. 3 секунды
+//Проверить время хранения файла. 3 секунды
 TEST(TestLogger, storage_3sec)
 {
     //Обнулить результат операции

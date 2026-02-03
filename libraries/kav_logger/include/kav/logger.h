@@ -825,7 +825,18 @@ namespace kav
          */
         std::string timePointToString(const std::chrono::system_clock::time_point &timePoint);
 
+        /**
+         * Получить момент времени из строки
+         * @param strLogLine Строка
+         * @return Момент времени
+         */
+        std::chrono::system_clock::time_point getTimePointFromString(std::string& strLogLine);
 
+        /**
+         * Обработать ошибку чтения лог-файла
+         * @param path Путь лог-файла
+         */
+        void handleErrorReadingLogFile(const std::filesystem::path &path);
 
         //Вспомогательные классы
 

@@ -6,7 +6,7 @@
 #define KAV_LOGGER_CONSTANTS_H
 
 
-
+#include <stdint.h>
 #include <string>
 
 
@@ -66,6 +66,17 @@ namespace kav
         {
             //Значение по умолчанию
             static const std::string variable{"The logger was reseted successfully"};
+            return variable;
+        }
+
+        /**
+         * Прочитать время ожидания
+         * @return Ссылка на переменную
+         */
+        static uint64_t waitTime()
+        {
+            //Значение по умолчанию
+            static const uint64_t variable{10};
             return variable;
         }
 
