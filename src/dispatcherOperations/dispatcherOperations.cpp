@@ -153,7 +153,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFile(
  * Для тестирования передачи контейнера по ссылке
  */
 
-void DispatcherOperations::readTextFileRef(
+/*void DispatcherOperations::readTextFileRef(
         const std::string& filePath,
         std::string &document,
         ErrorCode &errorCode,

@@ -9,6 +9,8 @@
 
 #include "nlohmann/json.hpp"
 
+#include "kav/operationFileAndJSON.h"
+
 #include "constants.h"
 #include "dispatcherOperations.h"
 #include "entry.h"
@@ -214,6 +216,12 @@ public:
      * @return Ссылка на переменную
      */
     static const std::string& launchConsole_no();
+
+    /**
+     * Время ожидания записи файла. 10 микросекунд
+     * @return Время ожидания записи файла
+     */
+    static std::chrono::microseconds waitFileWrite_micro_10();
 
     /**
      * Прочитать количество знаков после запятой
@@ -495,6 +503,26 @@ public:
 };//MatchingFunctionNameAndErrorLevel
 
 
+
+//Ожидать записи в файл
+template <typename T>
+void waitFileWrite(T value)
+{
+    while (true)
+    {
+        if (kav::Logger::isMessageRecorded())
+        {
+            std::this_thread::sleep_for(value);
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
+//Получить время из строки
+std::chrono::system_clock::time_point getTimePointFromString(std::string& strLogLine);
 
 //Получить путь текущего файла логирования
 std::string getLastFilePath();

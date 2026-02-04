@@ -19,7 +19,7 @@ int main()
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    std::filesystem::create_directory(ProgramArguments::logsFolderName());
 
     //Установить соответствия именени вызывающей функции и уровня логирования в программе. Означает, что при вызове функций
     //этого класса, уровни логирования прямо указываться не будут
@@ -27,10 +27,6 @@ int main()
 
     //Создать объект логирования событий
     kav::Logger logger(ProgramArguments::configLoggerFilePath(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
-
-
-
-    //std::this_thread::sleep_for(std::chrono::seconds(2));
 
     //Запустить все тесты
     ::testing::InitGoogleTest();

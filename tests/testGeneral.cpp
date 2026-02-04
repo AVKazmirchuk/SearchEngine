@@ -5,7 +5,7 @@
 
 
 #include "testGeneral.h"
-
+#include "../libraries/kav_logger/libraries/kav_fileOperations/include/kav/operationFileAndJSON.h"
 
 
 namespace testConstants
@@ -223,6 +223,13 @@ const std::string& ProgramArguments::launchConsole_no()
 {
     //Значение по умолчанию
     static const std::string variable{"no"};
+    return variable;
+}
+
+std::chrono::microseconds ProgramArguments::waitFileWrite_micro_10()
+{
+    //Значение по умолчанию
+    static const std::chrono::microseconds variable{10};
     return variable;
 }
 
@@ -1812,28 +1819,100 @@ const JSON &Bases::answersJSON_file003_missing()
 
 
 
+std::chrono::system_clock::time_point getTimePointFromString(std::string& strLogLine)
+{
+    //Объявить переменные
+    std::string dateFirstEntry, timeFirstEntry;
+    std::stringstream ss{strLogLine};
+    //Прочитать дату и время первой записи в файле
+    ss >> dateFirstEntry >> timeFirstEntry;
+
+    //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
+    std::tm tm{};
+    std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
+    iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
+
+    //Если произошла ошибка
+    if (iss.fail())
+    {
+        //Вернуть начало эпохи
+        return {};
+    }
+
+    std::time_t tt{std::mktime(&tm)};
+    std::chrono::system_clock::time_point tp{std::chrono::system_clock::from_time_t(tt)};
+
+    //Определить подстроку с наносекундами
+    std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
+
+    unsigned long long nanosecondsElementary{};
+
+    try
+    {
+        //Получить из подстроки наносекунды
+        nanosecondsElementary = std::stoull(strNanoseconds);
+    }
+    catch (const std::exception& exception)
+    {
+        //Вернуть начало эпохи
+        return {};
+    }
+
+    //Получить из подстроки наносекунды
+    std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
+
+    //Получить момент времени с наносекундами
+    return tp + nanoseconds;
+}
+
 std::string getLastFilePath()
 {
     //Подготовить переменные
     std::filesystem::directory_entry directoryEntry;
     std::chrono::system_clock::time_point timePoint{};
 
+    //Ожидать
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+
+    std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
     //Для каждого файла директории
-    for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
+    for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
-        //Преобразовать время в нужный тип
-        std::chrono::system_clock::time_point currentTimePoint{std::chrono::clock_cast<std::chrono::system_clock>(currentDirectoryEntry.last_write_time())};
-        //Если время изменения текущего файла позже
-        if (currentTimePoint > timePoint)
+        //Момент времени последнего изменения текущего файла
+        std::chrono::system_clock::time_point tpCurrent{};
+
+        //Прочитать последнюю строку лог-файла
+        auto tmp = kav::OperationFileAndJSON::readLastLineFromTextFile(currentDirectoryEntry.path().string());
+
+        //Если при чтении ошибок не было
+        if (tmp.second == kav::ErrorCode::no_error)
         {
+            //Получить момент времени из строки
+            tpCurrent = getTimePointFromString(tmp.first);
+        }
+        else
+        {
+            //Обработать ошибку чтения лог-файла. В этой функции избыточно
+            //handleErrorReadingLogFile(currentDirectoryEntry.path());
+        }
+
+        //Если время изменения текущего файла позже
+        if (tpCurrent > timePoint)
+        {
+            timePoint = tpCurrent;
             //Запомнить файл
             directoryEntry = currentDirectoryEntry;
         }
-    }
 
+        std::cout << '\n' << "getLastFilePath" << '\n';
+        std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
+    }
+    std::cout << '\n' << "getLastFilePath" << '\n';
+    std::cout << "lastFile: " << directoryEntry.path().filename();
     //Вернуть путь файла
     return directoryEntry.path().string();
     //return kav::Logger::getCurrentLogPath().string();
+    //std::cout << "\nlastFile: " << directoryEntry.path().filename();
 }
 
 std::string timePointToString(const std::chrono::system_clock::time_point& now)
@@ -1879,10 +1958,11 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
     //Получить путь текущего лог-файла
     std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
 
-    std::ofstream out(fileName, std::ios::app);
-    out << "\n--- New Test ---\n";
-    out.close();
-std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //std::ofstream out(fileName, std::ios::app);
+    //out << "\n--- New Test ---\n";
+    //out.close();
+    //Ожидать записи в файл
+    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 
@@ -1925,10 +2005,11 @@ bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::st
     //Получить путь текущего лог-файла
     std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
 
-    std::ofstream out(fileName, std::ios::app);
-    out << "\n--- New Test ---\n";
-    out.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //std::ofstream out(fileName, std::ios::app);
+    //out << "\n--- New Test ---\n";
+    //out.close();
+    //Ожидать записи в файл
+    //waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 

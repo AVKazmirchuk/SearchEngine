@@ -104,7 +104,21 @@ namespace kav
          * @param filePath Ссылка на путь текстового файла
          * @return Пара текста и кода ошибки
          */
-        static std::pair<std::string, ErrorCode> readTextFile(const std::filesystem::path &filePath);
+        static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
+
+        /**
+         * Прочитать последнюю строку текстового файла
+         * @param filePath Ссылка на путь текстового файла
+         * @return Пара строки и кода ошибки
+         */
+        static std::pair<std::string, ErrorCode> readLastLineFromTextFile(const std::string &filePath);
+
+        /**
+         * Прочитать первую строку текстового файла
+         * @param filePath Ссылка на путь текстового файла
+         * @return Пара строки и кода ошибки
+         */
+        static std::pair<std::string, ErrorCode> readFirstLineFromTextFile(const std::string &filePath);
 
         /**
          * Записать текстовый файл
@@ -115,23 +129,8 @@ namespace kav
          */
         static ErrorCode writeTextFile(const std::string &filePath, const std::string &text, std::ios_base::openmode openModeFile = std::ios::out);
 
-
-
-        //------------------------------
-
-        /**
-         * Для тестирования передачи контейнера по ссылке
-         */
-
-        /**
-         * Прочитать текстовый файл
-         * @param filePath Ссылка на путь текстового файла
-         * @param document Ссылка на документ
-         * @param errorCode Код ошибки
-         * @return Пара текста и кода ошибки
-         */
-        static void readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode);//Для тестирования передачи контейнера по ссылке*/
-
+        //Для тестирования передачи контейнера по ссылке
+        //static void readTextFileRef(const std::string &filePath, std::string &document, ErrorCode &errorCode);
     };
 
 }

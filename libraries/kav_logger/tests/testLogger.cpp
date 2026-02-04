@@ -126,7 +126,7 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 //Проверка одного сообщения, без исключений
 
 //Проверить функцию на уровень логирования debug
-/*TEST(TestLogger, debug)
+TEST(TestLogger, debug)
 {
     //Обнулить результат операции
     bool result{};
@@ -312,7 +312,7 @@ TEST(TestLogger, fatalWithException)
 
 
 //Проверить время сообщения
-/*TEST(TestLogger, timeOfMessage)
+TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
     bool result{};
@@ -349,7 +349,7 @@ TEST(TestLogger, fatalWithException)
 }//*/
 
 //Проверить время использования файла. Будет писаться в один файл
-/*TEST(TestLogger, usageOneFile_3sec)
+TEST(TestLogger, usageOneFile_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -433,7 +433,7 @@ TEST(TestLogger, usage_6sec_in_weeks)
 }//*/
 
 //Проверить время хранения файла. Будет два файла
-/*TEST(TestLogger, storageTwoFile_3sec)
+TEST(TestLogger, storageTwoFile_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -505,7 +505,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 }//*/
 
 //Проверить время хранения файла. Размер файла 100 байт
-/*TEST(TestLogger, size_200_bytes)
+TEST(TestLogger, size_200_bytes)
 {
     //Обнулить результат операции
     bool result{};

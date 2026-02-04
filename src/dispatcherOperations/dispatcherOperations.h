@@ -336,7 +336,7 @@ public:
             const boost::source_location &callingFunction = BOOST_CURRENT_LOCATION);
 
     //Для тестирования передачи контейнера по ссылке
-    static void readMultipleTextFilesImplRef(
+    /*static void readMultipleTextFilesImplRef(
             const std::vector<std::string>& filePaths,
             std::pair<std::vector<std::string>, std::vector<ErrorCode>> &documents,
             const std::string &message = "",

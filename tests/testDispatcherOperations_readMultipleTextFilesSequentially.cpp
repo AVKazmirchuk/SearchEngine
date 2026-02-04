@@ -187,7 +187,9 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalFewer
     std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
                                                                                                     ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
                                                                                                     timePointForEachFile, timePointForAllFiles, ErrorLevel::error, ErrorLevel::fatal);
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    //Ожидать записи в файл
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
     //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
     result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_error());
 
@@ -298,8 +300,9 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorFewer
         result = true;
     }
 
-    //Прочитать несколько текстовых файлов последовательно
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    //Ожидать записи в файл
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
     //Соответствует ли фактический уровень логирования ожидаемому для всех файлов
     result = isMatchingErrorLevel(timePointForAllFiles, ProgramArguments::errorLevel_fatal());
 

@@ -25,7 +25,7 @@ std::vector<std::string> SearchEngine::readDocsFromFiles(const std::vector<std::
  * Для тестирования передачи контейнера по ссылке
  */
 
-void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents)
+/*void SearchEngine::readDocsFromFilesRef(const std::vector<std::string>& filePaths, ResultOfReadMultipleTextFiles &documents)
 {
     //Прочитать документы
     DispatcherOperations::readMultipleTextFilesRef(converterJSONObj.getFilePaths(), documents);
