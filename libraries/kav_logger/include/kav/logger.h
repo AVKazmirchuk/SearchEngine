@@ -838,6 +838,13 @@ namespace kav
          */
         void handleErrorReadingLogFile(const std::filesystem::path &path);
 
+        /**
+         * Получить наносекунды
+         * @param now Момент времени
+         * @return Строка наносекунд
+         */
+        std::string converTimePointToNanoseconds(const std::chrono::system_clock::time_point& now);
+
         //Вспомогательные классы
 
         /**
@@ -874,6 +881,8 @@ namespace kav
             }
 
         };
+
+    public:
 
         /**
          * Класс реализует исключение о невозможности создания более одного объекта

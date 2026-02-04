@@ -7,6 +7,7 @@
 
 
 
+#include "kav/operationFileAndJSON.h"
 #include "logger.h"
 
 
@@ -136,6 +137,12 @@ public:
     static const std::string& configLoggerFilePath_storage_3sec();
 
     /**
+     * Прочитать путь файла конфигурации логирования. Время хранения файла 3 секунды
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_storageTwoFile_3sec();
+
+    /**
      * Прочитать путь файла конфигурации логирования. Время использования файла 6 секунд в минутах
      * @return Путь файла
      */
@@ -187,7 +194,7 @@ public:
      * Прочитать путь файла конфигурации логирования. Размер файла 100 байт
      * @return Путь файла
      */
-    static const std::string& configLoggerFilePath_size_100_bytes();
+    static const std::string& configLoggerFilePath_size_200_bytes();
 
     /**
      * Прочитать/записать путь файла конфигурации очереди сообщений
@@ -266,7 +273,7 @@ public:
      * Прочитать размер файла. Размер 100Б
      * @return Ссылка на переменную
      */
-    static int size_100();
+    static int size_200();
 
     /**
      * Прочитать количество файлов. 3 файла
@@ -425,7 +432,7 @@ bool isMatchingErrorLevelForException(const std::string& timePoint, const std::s
 std::chrono::system_clock::time_point getTimePointFromString(std::string& strLogLine);
 
 //Получить время создания файла из имени файла, прочитав его первую запись
-std::chrono::system_clock::time_point getTimePointFromFile(std::string& fileName);
+std::chrono::system_clock::time_point getFirstTimePointFromFile(std::string& fileName);
 
 //Получить время последней записи в файл из имени файла
 std::chrono::system_clock::time_point getLastTimePointFromFile(std::string& fileName);

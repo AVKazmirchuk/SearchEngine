@@ -145,6 +145,23 @@ void kav::Logger::handleErrorReadingLogFile(const std::filesystem::path &path)
     std::filesystem::remove(path);
 }
 
+std::string kav::Logger::converTimePointToNanoseconds(const std::chrono::system_clock::time_point& now)
+{
+    //Преобразовать момент времени в секунды
+    std::chrono::system_clock::time_point nowSeconds{std::chrono::time_point_cast<std::chrono::seconds>(now)};
+
+    //Получить наносекунды
+    std::chrono::nanoseconds nanoseconds{now - nowSeconds};
+
+    //Преобразовать наносекунды в строку
+    std::stringstream ss4;
+    ss4 << nanoseconds.count();
+    std::string strNanosecondsCount;
+    ss4 >> strNanosecondsCount;
+
+    return strNanosecondsCount;
+}
+
 /*const std::filesystem::path& kav::Logger::getCurrentLogPath()
 {
     return ptrToLogger->file;

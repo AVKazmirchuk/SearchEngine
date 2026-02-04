@@ -78,36 +78,16 @@ void kav::Logger::identifyNewFile()
     //Преобразовать текущее значение времени в нужный формат
     std::time_t t{std::chrono::system_clock::to_time_t(now)};
     //Подготовить переменную
-    std::string ts(256,0);
+    std::string ts(256, 0);
     //Определить имя файла по формату даты и времени
     ts.resize(std::strftime(&ts[0], ts.size(), configLogger.fileNameFormat().c_str(), std::localtime(&t)));
-    //Задать временное имя файла
-    //std::filesystem::path fileTmp = configLogger.filesDirectory() + ts + ".log";
 
-    //if (fileTmp == file)
-    //{
-        //Преобразовать момент времени в секунды
-        std::chrono::system_clock::time_point nowSeconds{std::chrono::time_point_cast<std::chrono::seconds>(now)};
+    //Получить наносекунды
+    std::string strNanosecondsCount{converTimePointToNanoseconds(now)};
 
-        //Получить наносекунды
-        std::chrono::nanoseconds nanoseconds{now - nowSeconds};
+    //Получить имя файла с наносекундами
+    file = configLogger.filesDirectory() + ts + '_' + strNanosecondsCount + ".log";
 
-        //Преобразовать наносекунды в строку
-        std::stringstream ss4;
-        ss4 << nanoseconds.count();
-        std::string strNanosecondsCount;
-        ss4 >> strNanosecondsCount;
-
-
-
-        //Получить имя файла с наносекундами
-        file = configLogger.filesDirectory() + ts + '_' + strNanosecondsCount + ".log";
-    //}
-    //else
-    //{
-    //    //Получить имя файла без наносекунд (по шаблону)
-    //    file = configLogger.filesDirectory() + ts + ".log";
-    //}
     std::cout << '\n' << "identifyNewFile" << '\n';
     std::cout << "current log: " << file;
     logger(Constants::messageNewFileCreate());

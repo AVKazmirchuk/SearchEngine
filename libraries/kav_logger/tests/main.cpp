@@ -14,12 +14,13 @@ int main()
     std::filesystem::copy("../../tests/resources/logger.json", "logger.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/messageQueue.json", "messageQueue.json", std::filesystem::copy_options::update_existing);
     std::filesystem::copy("../../tests/resources/logger_monitor.exe", "logger_monitor.exe", std::filesystem::copy_options::update_existing);
-    std::filesystem::create_directory("Logs");
+    std::filesystem::create_directory(ProgramArguments::logsFolderName());
 
     //Создать объект логирования событий
-    kav::Logger logger(ProgramArguments::configLoggerFilePath_size_100_bytes(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
+    kav::Logger logger(ProgramArguments::configLoggerFilePath_size_200_bytes(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    //Ожидать
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
     //Запустить все тесты
     ::testing::InitGoogleTest();

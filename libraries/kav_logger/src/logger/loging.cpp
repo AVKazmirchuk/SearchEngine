@@ -23,17 +23,8 @@ std::string kav::Logger::timePointToString(const std::chrono::system_clock::time
     //Преобразовать время в строку, и задать размер строки
     ts.resize(std::strftime(&ts[0], ts.size(), configLogger.dateTimeFormat().c_str(), std::localtime(&t)));
 
-    //Преобразовать момент времени в секунды
-    std::chrono::system_clock::time_point nowSeconds{std::chrono::time_point_cast<std::chrono::seconds>(timePoint)};
-
     //Получить наносекунды
-    std::chrono::nanoseconds nanoseconds{timePoint - nowSeconds};
-
-    //Преобразовать наносекунды в строку
-    std::stringstream ss4;
-    ss4 << nanoseconds.count();
-    std::string strNanosecondsCount;
-    ss4 >> strNanosecondsCount;
+    std::string strNanosecondsCount{converTimePointToNanoseconds(timePoint)};
 
     //Вернуть строку времени
     return ts + '.' + strNanosecondsCount;

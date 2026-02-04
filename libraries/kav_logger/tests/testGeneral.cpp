@@ -141,6 +141,13 @@ const std::string& ProgramArguments::configLoggerFilePath_storage_3sec()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerFilePath_storageTwoFile_3sec()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-storageTwoFile-3sec.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::configLoggerFilePath_usage_6sec_in_minutes()
 {
     //Значение по умолчанию
@@ -197,10 +204,10 @@ const std::string& ProgramArguments::configLoggerFilePath_storage_6sec_in_weeks(
     return variable;
 }
 
-const std::string& ProgramArguments::configLoggerFilePath_size_100_bytes()
+const std::string& ProgramArguments::configLoggerFilePath_size_200_bytes()
 {
     //Значение по умолчанию
-    static const std::string variable{"../../tests/resources/logger-size-100-bytes.json"};
+    static const std::string variable{"../../tests/resources/logger-size-200-bytes.json"};
     return variable;
 }
 
@@ -288,7 +295,7 @@ const std::string& ProgramArguments::launchConsole_no()
     return variable;
 }
 
-int ProgramArguments::size_100()
+int ProgramArguments::size_200()
 {
     //Значение по умолчанию
     static const int variable{200};
@@ -435,73 +442,31 @@ std::string getLastFilePath()
     //Подготовить переменные
     std::filesystem::directory_entry directoryEntry;
     std::chrono::system_clock::time_point timePoint{};
+
+    //Ожидать
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
+
 std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
     //Для каждого файла директории
     for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
+        //Момент времени последнего изменения текущего файла
+        std::chrono::system_clock::time_point tpCurrent{};
 
-        std::ifstream inFile(currentDirectoryEntry.path(), std::ios::binary);
+        //Прочитать последнюю строку лог-файла
+        auto tmp = kav::OperationFileAndJSON::readLastLineFromTextFile(currentDirectoryEntry.path().string());
 
-        inFile.seekg(-2, std::ios::end);
-        std::istream::pos_type pos;
-        for (unsigned long charNumber{1}; charNumber <= 2; ++charNumber)
+        //Если при чтении ошибок не было
+        if (tmp.second == kav::ErrorCode::no_error)
         {
-            char ch;
-            while (inFile.get(ch))
-            {
-                //std::cout << ch;
-                if (ch == '\n')
-                {
-                    if (charNumber == 2)
-                    {
-                        pos = inFile.tellg();
-                        break;
-                    }
-                    break;
-                }
-                inFile.seekg(-2, std::ios::cur);
-            }
+            //Получить момент времени из строки
+            tpCurrent = getTimePointFromString(tmp.first);
         }
-
-        //Объявить переменные
-        std::string dateFirstEntry, timeFirstEntry;
-        //Прочитать дату и время первой записи в файле
-        inFile >> dateFirstEntry >> timeFirstEntry;
-
-        //Закрыть файл
-        inFile.close();
-        std::cout << '\n' << "getLastFilePath" << '\n';
-        std::cout << "dateFirstEntry: " << dateFirstEntry << ", " << "timeFirstEntry: " << timeFirstEntry << '\n';
-
-        //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
-        std::tm tm{};
-        std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
-        iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
-        std::time_t tt{std::mktime(&tm)};
-        std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(tt)};
-
-        //Определить подстроку с наносекундами
-        std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
-        //std::cout << "strNanoseconds: " << strNanoseconds;
-
-        unsigned long long nanosecondsElementary{};
-
-        try
+        else
         {
-            //Получить из подстроки наносекунды
-            nanosecondsElementary = std::stoull(strNanoseconds);
+            //Обработать ошибку чтения лог-файла. В этой функции избыточно
+            //handleErrorReadingLogFile(currentDirectoryEntry.path());
         }
-        catch (const std::exception& exception)
-        {
-            //Удалить текущий файл из директории
-            std::filesystem::remove(currentDirectoryEntry.path());
-        }
-
-        //Получить из подстроки наносекунды
-        std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
-
-        //Получить момент времени с наносекундами
-        tpCurrent += nanoseconds;
 
         //Если время изменения текущего файла позже
         if (tpCurrent > timePoint)
@@ -510,6 +475,7 @@ std::cout << "------------------------------------------------------------------
             //Запомнить файл
             directoryEntry = currentDirectoryEntry;
         }
+
         std::cout << '\n' << "getLastFilePath" << '\n';
         std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
     }
@@ -518,7 +484,7 @@ std::cout << "------------------------------------------------------------------
     //Вернуть путь файла
     return directoryEntry.path().string();
     //return kav::Logger::getCurrentLogPath().string();
-    std::cout << "\nlastFile: " << directoryEntry.path().filename();
+    //std::cout << "\nlastFile: " << directoryEntry.path().filename();
 }
 
 std::string timePointToString(const std::chrono::system_clock::time_point& now)
@@ -568,7 +534,8 @@ std::string getLogLine(const std::string& timePoint)
     std::ofstream out(fileName, std::ios::app);
     out << "\n--- New Test ---\n";
     out.close();
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //Ожидать
+    waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
     //Прочитать лог-файл
     std::string log{kav::OperationFileAndJSON::readTextFile(fileName).first};
 
@@ -658,12 +625,19 @@ std::chrono::system_clock::time_point getTimePointFromString(std::string& strLog
     std::tm tm{};
     std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
     iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
+
+    //Если произошла ошибка
+    if (iss.fail())
+    {
+        //Вернуть начало эпохи
+        return {};
+    }
+
     std::time_t tt{std::mktime(&tm)};
     std::chrono::system_clock::time_point tp{std::chrono::system_clock::from_time_t(tt)};
 
     //Определить подстроку с наносекундами
     std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
-    //std::cout << "strNanoseconds: " << strNanoseconds;
 
     unsigned long long nanosecondsElementary{};
 
@@ -674,8 +648,8 @@ std::chrono::system_clock::time_point getTimePointFromString(std::string& strLog
     }
     catch (const std::exception& exception)
     {
-        //Удалить текущий файл из директории
-        //std::filesystem::remove(currentDirectoryEntry.path());
+        //Вернуть начало эпохи
+        return {};
     }
 
     //Получить из подстроки наносекунды
@@ -685,79 +659,48 @@ std::chrono::system_clock::time_point getTimePointFromString(std::string& strLog
     return tp + nanoseconds;
 }
 
-std::chrono::system_clock::time_point getTimePointFromFile(std::string& fileName)
+std::chrono::system_clock::time_point getFirstTimePointFromFile(std::string& fileName)
 {
-    std::ifstream inFile(fileName);
-    std::string logLine;
-    std::getline(inFile, logLine);
-    //std::cout << logLine;
-    return getTimePointFromString(logLine);
+    //Момент времени последнего изменения текущего файла
+    std::chrono::system_clock::time_point tp{};
+
+    //Прочитать первую строку лог-файла
+    auto tmp = kav::OperationFileAndJSON::readFirstLineFromTextFile(fileName);
+
+    //Если при чтении ошибок не было
+    if (tmp.second == kav::ErrorCode::no_error)
+    {
+        //Получить момент времени из строки
+        tp = getTimePointFromString(tmp.first);
+    }
+    else
+    {
+        //Обработать ошибку чтения лог-файла. В этой функции избыточно
+        //handleErrorReadingLogFile(fileName);
+    }
+
+    return tp;
 }
 
 std::chrono::system_clock::time_point getLastTimePointFromFile(std::string& fileName)
 {
-    std::ifstream inFile(fileName, std::ios::binary);
+    //Момент времени последнего изменения текущего файла
+    std::chrono::system_clock::time_point tpCurrent{};
 
-    inFile.seekg(-2, std::ios::end);
-    std::istream::pos_type pos;
-    for (unsigned long charNumber{1}; charNumber <= 2; ++charNumber)
+    //Прочитать последнюю строку лог-файла
+    auto tmp = kav::OperationFileAndJSON::readLastLineFromTextFile(fileName);
+
+    //Если при чтении ошибок не было
+    if (tmp.second == kav::ErrorCode::no_error)
     {
-        char ch;
-        while (inFile.get(ch))
-        {
-            //std::cout << ch;
-            if (ch == '\n')
-            {
-                if (charNumber == 2)
-                {
-                    pos = inFile.tellg();
-                    break;
-                }
-                break;
-            }
-            inFile.seekg(-2, std::ios::cur);
-        }
+        //Получить момент времени из строки
+        tpCurrent = getTimePointFromString(tmp.first);
+    }
+    else
+    {
+        //Обработать ошибку чтения лог-файла. В этой функции избыточно
+        //handleErrorReadingLogFile(fileName);
     }
 
-    //Объявить переменные
-    std::string dateFirstEntry, timeFirstEntry;
-    //Прочитать дату и время первой записи в файле
-    inFile >> dateFirstEntry >> timeFirstEntry;
-
-    //Закрыть файл
-    inFile.close();
-    std::cout << '\n' << "getLastFilePath" << '\n';
-    std::cout << "dateFirstEntry: " << dateFirstEntry << ", " << "timeFirstEntry: " << timeFirstEntry << '\n';
-
-    //Преобразовать строки даты и времени, прочитанных из файла, в удобный формат времени для дальнейшего использования
-    std::tm tm{};
-    std::istringstream iss{dateFirstEntry + ' ' + timeFirstEntry};
-    iss >> std::get_time(&tm, ProgramArguments::dateTimeFormat().c_str());
-    std::time_t tt{std::mktime(&tm)};
-    std::chrono::system_clock::time_point tpCurrent{std::chrono::system_clock::from_time_t(tt)};
-
-    //Определить подстроку с наносекундами
-    std::string strNanoseconds{timeFirstEntry.substr(timeFirstEntry.find('.') + 1)};
-    //std::cout << "strNanoseconds: " << strNanoseconds;
-
-    unsigned long long nanosecondsElementary{};
-
-    try
-    {
-        //Получить из подстроки наносекунды
-        nanosecondsElementary = std::stoull(strNanoseconds);
-    }
-    catch (const std::exception& exception)
-    {
-        //Удалить текущий файл из директории
-        //std::filesystem::remove(currentDirectoryEntry.path());
-    }
-
-    //Получить из подстроки наносекунды
-    std::chrono::nanoseconds nanoseconds{nanosecondsElementary};
-
-    //Получить момент времени с наносекундами
-    tpCurrent += nanoseconds;
-    //std::cout << logLine;
     return tpCurrent;
 }
