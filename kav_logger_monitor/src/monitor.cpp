@@ -48,7 +48,7 @@ void kav::LoggerMonitor::run()
     while (true)
     {
         //Получить сообщение
-        std::string message{monitorReceiver.receive(configLoggerMonitor.maxMessageSize())};
+        std::string message = monitorReceiver.receive(configLoggerMonitor.maxMessageSize());
 
         //Исключительная ситуация
         if (message == (configLoggerMonitor.nameOfQueue() + "Stop"))
@@ -58,6 +58,11 @@ void kav::LoggerMonitor::run()
 
         //Вывести сообщение на монитор
         outputToConsole(message);
+
+        //Заблокировать доступ к последнему сообщению
+        std::lock_guard<std::mutex> lg(mutReadWriteLastMessage);
+
+        lastMessage = message;
     }
 }
 

@@ -54,6 +54,12 @@ public:
     static const std::string &message();
 
     /**
+     * Прочитать сообщение об остановке программы
+     * @return Ссылка на переменную
+     */
+    static const std::string& messageStop();
+
+    /**
      * Прочитать файл конфигурации монитора
      * @return Ссылка на переменную
      */

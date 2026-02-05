@@ -10,6 +10,7 @@
 #include <list>
 #include <string>
 #include <fstream>
+#include <mutex>
 
 #include "boost/interprocess/ipc/message_queue.hpp"
 #include "nlohmann/json.hpp"
@@ -76,7 +77,8 @@ namespace kav
                   monitorReceiver(configLoggerMonitor.nameOfQueue(),
                                   configLoggerMonitor.maxNumberOfMessages(),
                                   configLoggerMonitor.maxMessageSize(),
-                                  configLoggerMonitor.fileNameOfMainProgram())
+                                  configLoggerMonitor.fileNameOfMainProgram(),
+                                  lastMessage, std::ref(mutReadWriteLastMessage))
         {
             //Добавить в контейнер имя очереди
             queuesInUse.push_back(configLoggerMonitor.nameOfQueue());
@@ -102,6 +104,18 @@ namespace kav
          * Запустить монитор
          */
         void run();
+
+        /**
+         * Получить последнее полученное сообщение
+         * @return Сообщение
+         */
+        const std::string& getLastMessageReceived()
+        {
+            //Заблокировать доступ к последнему сообщению
+            std::lock_guard<std::mutex> lg(mutReadWriteLastMessage);
+
+            return lastMessage;
+        }
 
     private:
 
@@ -207,6 +221,12 @@ namespace kav
 
         //Объект монитора получения сообщений
         MonitorReceiver monitorReceiver;
+
+        //Последнее полученное сообщение
+        std::string lastMessage;
+
+        //Мьютекс чтения-записи последнего сообщения
+        std::mutex mutReadWriteLastMessage;
 
         //Контейнер очередей сообщений
         inline static std::list<std::string> queuesInUse;

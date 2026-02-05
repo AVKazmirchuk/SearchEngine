@@ -6,6 +6,7 @@
 #define SEARCH_ENGINE_MONITORRECEIVER_H
 
 
+#include <mutex>
 
 #include "windows.h"
 #include <tlhelp32.h>
@@ -16,6 +17,8 @@
 
 namespace kav
 {
+
+
 
     //Класс реализует получение сообщений для вывода на монитор
     class MonitorReceiver
@@ -35,10 +38,12 @@ namespace kav
         MonitorReceiver(const std::string &in_nameOfQueue,
                         const boost::interprocess::message_queue::size_type in_maxNumberOfMessages,
                         const boost::interprocess::message_queue::size_type in_maxMessageSize,
-                        const std::string &in_fileNameOfMainProgram) :
+                        const std::string &in_fileNameOfMainProgram,
+                        std::string &in_lastMessage, std::mutex& in_mutReadWriteLastMessage) :
                 removeMessageQueue(in_nameOfQueue, in_fileNameOfMainProgram),
                 mq{boost::interprocess::open_or_create, in_nameOfQueue.c_str(), in_maxNumberOfMessages,
-                   in_maxMessageSize}
+                   in_maxMessageSize},
+                   lastMessage{in_lastMessage}, mutReadWriteLastMessage{in_mutReadWriteLastMessage}
         {}
 
         /**
@@ -105,6 +110,11 @@ namespace kav
         //Объект оригинальной очереди сообщений
         boost::interprocess::message_queue mq;
 
+        //Последнее полученное сообщение
+        std::string& lastMessage;
+
+        //Мьютекс чтения-записи последнего сообщения
+        std::mutex &mutReadWriteLastMessage;
     };
 
 }

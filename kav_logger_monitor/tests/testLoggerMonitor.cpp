@@ -4,9 +4,20 @@
 
 
 
+#include <future>
+#include <thread>
+
 #include "gtest/gtest.h"
 
 #include "testGeneral.h"
+
+
+
+void runLoggerMonitor(kav::LoggerMonitor& loggerMonitor)
+{
+    //Запустить монитор
+    loggerMonitor.run();
+}
 
 
 
@@ -29,10 +40,22 @@ std::cout << "Очередь удалилась";
     //Создать объект класса логирования событий в монитор
     kav::LoggerMonitor loggerMonitor(ProgramArguments::configLoggerMonitorFilePath());
 
-    //Запустить монитор
-    loggerMonitor.run();
+    std::future<void> future = std::async(&runLoggerMonitor, std::ref(loggerMonitor));
+
+    /*while (loggerMonitor.getLastMessageReceived().empty())
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }*/
 
 
+    if (loggerMonitor.getLastMessageReceived() == ProgramArguments::message())
+    {
+        result = true;
+    }
+
+    monitorSender.send(ProgramArguments::messageStop());
+
+    future.get();
 
     //Проверить утверждение
     ASSERT_TRUE(result);

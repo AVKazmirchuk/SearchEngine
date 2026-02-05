@@ -43,6 +43,13 @@ const std::string& ProgramArguments::message()
     return variable;
 }
 
+const std::string& ProgramArguments::messageStop()
+{
+    //Значение по умолчанию
+    static const std::string variable{ProgramArguments::nameOfQueue() + "Stop"};
+    return variable;
+}
+
 const std::string& ProgramArguments::configLoggerMonitorFilePath()
 {
     //Значение по умолчанию
