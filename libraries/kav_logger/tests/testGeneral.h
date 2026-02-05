@@ -270,7 +270,7 @@ public:
     static const std::string& launchConsole_no();
 
     /**
-     * Прочитать размер файла. Размер 100Б
+     * Прочитать размер файла. Размер 200Б
      * @return Ссылка на переменную
      */
     static int size_200();

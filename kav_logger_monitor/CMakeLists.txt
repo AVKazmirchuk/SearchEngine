@@ -60,6 +60,8 @@ set(check_Install ON CACHE INTERNAL "")
 
 add_subdirectory(src)
 
+add_subdirectory(tests)
+
 # Указать библиотеки, которые нужно использовать при компоновке заданной цели и/или её зависимостей
 target_link_libraries(${Application_Name} PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(${Application_Name} PRIVATE kav_fileOperations::kav_fileOperations)

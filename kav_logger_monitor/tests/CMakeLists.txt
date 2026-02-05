@@ -20,7 +20,7 @@ include(CMakePrintHelpers)
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${Runtime_Output_Directory})
 
 # Задать имя приложения
-set(Application_Name_Test "kav_logger_monitor_test")
+set(Application_Name_Test "logger_monitor_test")
 # Задать переменную списка директорий с заголовками
 set(Include_Directories_Test "")
 # Добавить директории с заголовками. Может что-то лишнее из списка?
@@ -51,41 +51,16 @@ FetchContent_MakeAvailable(googletest)
 #file(GLOB_RECURSE CPP_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp") # Внимание!!! Добавляет второй раз main.cpp (видимо, из тестов)
 #Пока сделал простым перечислением всех директорий
 #TODO Надо научиться добавлять исключения
-file(GLOB CPP_CONVERTER_JSON CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/converterJSON/*.cpp")
-file(GLOB CPP_DISPATCHER_OPERATION_VALIDITY CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/dispatcherOperations/*.cpp")
-file(GLOB CPP_DOCUMENTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/documents/*.cpp")
-file(GLOB CPP_INVERTED_INDEX CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/invertedIndex/*.cpp")
-file(GLOB CPP_RELEVANT_RESPONSE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/relevantResponse/*.cpp")
-file(GLOB CPP_PREPARED_REQUEST CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/relevantResponse/preparedRequest/*.cpp")
-file(GLOB CPP_REQUESTS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/requests/*.cpp")
-file(GLOB CPP_SEARCH_ENGINE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/searchEngine/*.cpp")
+#file(GLOB CPP_LOGGER_MONITOR CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 #Добавить цель, исполняемый файл, для сборки из исходных файлов, перечисленных в вызове команды
 add_executable(${Application_Name_Test} main.cpp test.cpp testGeneral.cpp
 
-        ${CPP_CONVERTER_JSON}
-        ${CPP_DISPATCHER_OPERATION_VALIDITY}
-        ${CPP_DOCUMENTS}
-        ${CPP_INVERTED_INDEX}
-        ${CPP_RELEVANT_RESPONSE}
-        ${CPP_PREPARED_REQUEST}
-        ${CPP_REQUESTS}
-        ${CPP_SEARCH_ENGINE}
+        ${PROJECT_SOURCE_DIR}/src/monitor.cpp
+        ${PROJECT_SOURCE_DIR}/src/monitorReceiver.cpp
 
-        testInvertedIndex.cpp
-        testRelevantResponse.cpp
-        testDocuments.cpp
-        testRequests.cpp
-        testConverterJSON.cpp
-        testSearchEngine.cpp
-        testDispatcherOperations_writeJSONFile.cpp
-        testDispatcherOperations_readJSONFile.cpp
-        testDispatcherOperations_readTextFile.cpp
-        testDispatcherOperations_checkFilePathsArray.cpp
-        testDispatcherOperations_checkRequestsArray.cpp
-        testDispatcherOperations_checkJSONStructureMatch.cpp
-        testDispatcherOperations_readMultipleTextFiles.cpp
-        testDispatcherOperations_readMultipleTextFilesSequentially.cpp)
+        testLoggerMonitor.cpp
+        monitorSender.cpp)
 
 # Задать переменную списка поддиректорий с заголовками
 set(Include_Subdirectories "")
@@ -105,12 +80,12 @@ target_include_directories(${Application_Name_Test} PUBLIC ${Include_Subdirector
 #Подключить библиотеку
 target_link_libraries(${Application_Name_Test} PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(${Application_Name_Test} PRIVATE kav_fileOperations::kav_fileOperations)
-target_link_libraries(${Application_Name_Test} PRIVATE kav_logger::kav_logger)
+#target_link_libraries(${Application_Name_Test} PRIVATE kav_logger::kav_logger)
 target_link_libraries(${Application_Name_Test} PRIVATE gtest_main)
 #Загрузить и запустить код CMake из файла или модуля
 include(GoogleTest)
 #Автоматически добавить тесты с помощью CTest, запрашивая у скомпилированного исполняемого файла теста информацию о доступных тестах
-gtest_discover_tests(${Application_Name_Test})
+gtest_discover_tests(${Application_Name_Test} PROPERTIES TEST_DISCOVERY_TIMEOUT 180)
 
 
 
