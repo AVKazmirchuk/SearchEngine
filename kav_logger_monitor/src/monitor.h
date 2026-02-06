@@ -6,7 +6,7 @@
 #define SEARCH_ENGINE_MONITOR_H
 
 
-
+#include <iostream>
 #include <list>
 #include <string>
 #include <fstream>
@@ -77,8 +77,7 @@ namespace kav
                   monitorReceiver(configLoggerMonitor.nameOfQueue(),
                                   configLoggerMonitor.maxNumberOfMessages(),
                                   configLoggerMonitor.maxMessageSize(),
-                                  configLoggerMonitor.fileNameOfMainProgram(),
-                                  lastMessage, std::ref(mutReadWriteLastMessage))
+                                  configLoggerMonitor.fileNameOfMainProgram())
         {
             //Добавить в контейнер имя очереди
             queuesInUse.push_back(configLoggerMonitor.nameOfQueue());
@@ -89,6 +88,9 @@ namespace kav
                 //Зарегистрировать обработчик нажатия клавиш консоли
                 SetConsoleCtrlHandler(&ConsoleCtrlEventHandler, TRUE);
             }
+
+            std::cout << "LoggerMonitor" << '\n';
+            std::cout << "The object LoggerMonitor was created" << '\n';
         }
 
         ~LoggerMonitor()

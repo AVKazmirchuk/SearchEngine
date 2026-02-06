@@ -38,7 +38,7 @@
                    in_maxMessageSize)
         {
             std::cout << "MonitorSender" << '\n';
-            std::cout << "Объект MonitorSender создался";
+            std::cout << "The object MonitorSender was created" << '\n';
         }
 
         /**

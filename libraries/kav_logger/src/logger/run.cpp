@@ -139,6 +139,8 @@ void kav::Logger::WriterMessage::waitForMonitorToStart()
 
 void kav::Logger::WriterMessage::run()
 {
+    //Сначала надо запустить монитор. Если наоборот, - запись и чтение очереди не работает.
+
     //Если логировать события в монитор
     if (launchConsole == Constants::default_launchConsole())
     {

@@ -13,7 +13,7 @@ void MonitorSender::send(const std::string& message)
     //Отправить сообщение в очередь сообщений. Ожидать, пока очередь сообщений не освободится для нового сообщения
     mq.send(message.data(), message.size(), 0);
     std::cout << "MonitorSender::send" << '\n';
-    std::cout << "Сообщение отправлено";
+    std::cout << "The message has been sent" << '\n';
 }
 
 bool MonitorSender::RemoveMessageQueue::isProcessRun(const char * const processName)

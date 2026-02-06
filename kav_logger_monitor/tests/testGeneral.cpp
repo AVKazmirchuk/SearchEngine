@@ -36,10 +36,45 @@ const std::string &ProgramArguments::fileNameOfMonitor()
     return variable;
 }
 
-const std::string& ProgramArguments::message()
+const std::string& ProgramArguments::messageDebug()
 {
     //Значение по умолчанию
     static const std::string variable{"DEBUG: This is a test message!"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageInfo()
+{
+    //Значение по умолчанию
+    static const std::string variable{"INFO: This is a test message!"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageWarning()
+{
+    //Значение по умолчанию
+    static const std::string variable{"WARNING: This is a test message!"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageError()
+{
+    //Значение по умолчанию
+    static const std::string variable{"ERROR: This is a test message!"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageFatal()
+{
+    //Значение по умолчанию
+    static const std::string variable{"FATAL: This is a test message!"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageLogger()
+{
+    //Значение по умолчанию
+    static const std::string variable{"LOGGER: This is a test message!"};
     return variable;
 }
 

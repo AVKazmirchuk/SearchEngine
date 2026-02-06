@@ -38,12 +38,10 @@ namespace kav
         MonitorReceiver(const std::string &in_nameOfQueue,
                         const boost::interprocess::message_queue::size_type in_maxNumberOfMessages,
                         const boost::interprocess::message_queue::size_type in_maxMessageSize,
-                        const std::string &in_fileNameOfMainProgram,
-                        std::string &in_lastMessage, std::mutex& in_mutReadWriteLastMessage) :
+                        const std::string &in_fileNameOfMainProgram) :
                 removeMessageQueue(in_nameOfQueue, in_fileNameOfMainProgram),
                 mq{boost::interprocess::open_or_create, in_nameOfQueue.c_str(), in_maxNumberOfMessages,
-                   in_maxMessageSize},
-                   lastMessage{in_lastMessage}, mutReadWriteLastMessage{in_mutReadWriteLastMessage}
+                   in_maxMessageSize}
         {}
 
         /**
@@ -110,11 +108,9 @@ namespace kav
         //Объект оригинальной очереди сообщений
         boost::interprocess::message_queue mq;
 
-        //Последнее полученное сообщение
-        std::string& lastMessage;
 
-        //Мьютекс чтения-записи последнего сообщения
-        std::mutex &mutReadWriteLastMessage;
+
+
     };
 
 }

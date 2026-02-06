@@ -51,7 +51,37 @@ public:
      * Прочитать сообщение
      * @return Ссылка на переменную
      */
-    static const std::string &message();
+    static const std::string &messageDebug();
+
+    /**
+     * Прочитать сообщение
+     * @return Ссылка на переменную
+     */
+    static const std::string &messageInfo();
+
+    /**
+     * Прочитать сообщение
+     * @return Ссылка на переменную
+     */
+    static const std::string &messageWarning();
+
+    /**
+     * Прочитать сообщение
+     * @return Ссылка на переменную
+     */
+    static const std::string &messageError();
+
+    /**
+     * Прочитать сообщение
+     * @return Ссылка на переменную
+     */
+    static const std::string &messageFatal();
+
+    /**
+    * Прочитать сообщение
+    * @return Ссылка на переменную
+    */
+    static const std::string &messageLogger();
 
     /**
      * Прочитать сообщение об остановке программы
