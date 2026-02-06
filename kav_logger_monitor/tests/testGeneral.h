@@ -95,6 +95,30 @@ public:
      */
     static const std::string &configLoggerMonitorFilePath();
 
+    /**
+     * Прочитать формат даты и времени
+     * @return
+     */
+    static const std::string& dateTimeFormat();
+
 };
+
+
+//Получить строку из консоли
+std::string getLineFromConsole(unsigned long x, unsigned long y, unsigned long length);
+
+//Получить аттрибуты из консоли
+std::vector<WORD> getAttributeFromConsole(unsigned long x, unsigned long y, unsigned long length);
+
+//Получить размер консоли (количество столбцов и строк соответственно)
+std::pair<unsigned long, unsigned long> getSizeOfConsole();
+
+//Получить номер строки консоли, содержащей отправленное сообщение
+unsigned long getLineNumber(const std::string &message);
+
+//Перевести отметку времени в строку
+std::string timePointToString(const std::chrono::system_clock::time_point& now);
+
+
 
 #endif //LOGGER_MONITOR_TESTGENERAL_H

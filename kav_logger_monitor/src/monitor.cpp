@@ -44,13 +44,9 @@ void kav::LoggerMonitor::run()
     //Установить заглавие консоли
     SetConsoleTitle(configLoggerMonitor.nameOfConsole().c_str());
 
-
-    std::cout << "run" << '\n';
-    std::cout << "queuesInUse: " << queuesInUse.back() << '\n';
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
     {
-        std::cout << "wait message" << '\n';
         //Получить сообщение
         std::string message = monitorReceiver.receive(configLoggerMonitor.maxMessageSize());
 

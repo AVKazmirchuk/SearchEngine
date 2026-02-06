@@ -34,18 +34,18 @@ message(STATUS "CMAKE_SOURCE_DIR_TEST: ${CMAKE_SOURCE_DIR}")
 #Загрузить и запустить код CMake из файла или модуля
 include(FetchContent)
 #Записать параметры, описывающие способ заполнения указанного контента
-#FetchContent_Declare(
-#        googletest
-#        URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
-#)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+)
 #Добавьте каталоги include в сборку
-#include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 #Отключить поддержку многопоточности в библиотеке Google Test (gtest)
-#set(gtest_disable_pthreads on)
+set(gtest_disable_pthreads on)
 #Не позволить GoogleTest изменять настройки компилятора и компоновщика при сборке
-#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 #Гарантировать, что к моменту возврата каждая из указанных зависимостей будет доступна для проекта
-#FetchContent_MakeAvailable(googletest)
+FetchContent_MakeAvailable(googletest)
 
 #Определить файлы-исходники проекта в переменные
 #file(GLOB_RECURSE CPP_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.cpp") # Внимание!!! Добавляет второй раз main.cpp (видимо, из тестов)
@@ -81,11 +81,11 @@ target_include_directories(${Application_Name_Test} PUBLIC ${Include_Subdirector
 target_link_libraries(${Application_Name_Test} PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(${Application_Name_Test} PRIVATE kav_fileOperations::kav_fileOperations)
 #target_link_libraries(${Application_Name_Test} PRIVATE kav_logger::kav_logger)
-#target_link_libraries(${Application_Name_Test} PRIVATE gtest_main)
+target_link_libraries(${Application_Name_Test} PRIVATE gtest_main)
 #Загрузить и запустить код CMake из файла или модуля
-#include(GoogleTest)
+include(GoogleTest)
 #Автоматически добавить тесты с помощью CTest, запрашивая у скомпилированного исполняемого файла теста информацию о доступных тестах
-#gtest_discover_tests(${Application_Name_Test} PROPERTIES TEST_DISCOVERY_TIMEOUT 180)
+gtest_discover_tests(${Application_Name_Test} PROPERTIES TEST_DISCOVERY_TIMEOUT 180)
 
 
 

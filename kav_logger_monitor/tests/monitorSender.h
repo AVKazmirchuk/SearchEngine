@@ -36,10 +36,7 @@
                 removeMessageQueue(in_nameOfQueue, in_fileNameOfMonitor),
                 mq(boost::interprocess::open_or_create, in_nameOfQueue.c_str(), in_maxNumberOfMessages,
                    in_maxMessageSize)
-        {
-            std::cout << "MonitorSender" << '\n';
-            std::cout << "The object MonitorSender was created" << '\n';
-        }
+        {}
 
         /**
          * Отправить сообщение в очередь сообщений

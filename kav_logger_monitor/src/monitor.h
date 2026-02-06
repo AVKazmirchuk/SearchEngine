@@ -88,9 +88,6 @@ namespace kav
                 //Зарегистрировать обработчик нажатия клавиш консоли
                 SetConsoleCtrlHandler(&ConsoleCtrlEventHandler, TRUE);
             }
-
-            std::cout << "LoggerMonitor" << '\n';
-            std::cout << "The object LoggerMonitor was created" << '\n';
         }
 
         ~LoggerMonitor()
