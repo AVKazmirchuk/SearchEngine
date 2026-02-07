@@ -92,6 +92,13 @@ const std::string& ProgramArguments::configLoggerMonitorFilePath()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerMonitorFilePathNotExists()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/messageQueue-notExists.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::dateTimeFormat()
 {
     //Значение по умолчанию
@@ -99,6 +106,47 @@ const std::string& ProgramArguments::dateTimeFormat()
     return variable;
 }
 
+unsigned short ProgramArguments::messageDebugColor()
+{
+    //Значение по умолчанию
+    static const unsigned short variable{7};
+    return variable;
+}
+
+unsigned short ProgramArguments::messageInfoColor()
+{
+    //Значение по умолчанию
+    static const unsigned short variable{2};
+    return variable;
+}
+
+unsigned short ProgramArguments::messageWarningColor()
+{
+    //Значение по умолчанию
+    static const unsigned short variable{6};
+    return variable;
+}
+
+unsigned short ProgramArguments::messageErrorColor()
+{
+    //Значение по умолчанию
+    static const unsigned short variable{4};
+    return variable;
+}
+
+unsigned short ProgramArguments::messageFatalColor()
+{
+    //Значение по умолчанию
+    static const unsigned short variable{12};
+    return variable;
+}
+
+unsigned short ProgramArguments::messageLoggerColor()
+{
+    //Значение по умолчанию
+    static const unsigned short variable{3};
+    return variable;
+}
 
 
 std::string getLineFromConsole(unsigned long x, unsigned long y, unsigned long length)
@@ -151,21 +199,23 @@ std::vector<WORD> getAttributeFromConsole(unsigned long x, unsigned long y, unsi
     return lpAttribute;
 }
 
-std::pair<unsigned long, unsigned long> getSizeOfConsole()
+std::pair<unsigned long, unsigned long> getCursorPositionOfConsole()
 {
-    CONSOLE_SCREEN_BUFFER_INFO sbInfo;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
 
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &sbInfo);
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 
-    unsigned long availableColumns = sbInfo.dwSize.X;
-    unsigned long availableRows = sbInfo.dwSize.Y;
+    COORD dwCursorPosition = csbi.dwCursorPosition;
 
-    return {availableColumns, availableRows};
+    SHORT x{dwCursorPosition.X};
+    SHORT y{dwCursorPosition.Y};
+
+    return {x, y};
 }
 
 unsigned long getLineNumber(const std::string &message)
 {
-    std::pair<unsigned long, unsigned long> sizeOfConsole{getSizeOfConsole()};
+    std::pair<unsigned long, unsigned long> sizeOfConsole{getCursorPositionOfConsole()};
 
     for (unsigned long currentY{}; currentY < sizeOfConsole.second; ++currentY)
     {
@@ -175,7 +225,7 @@ unsigned long getLineNumber(const std::string &message)
         }
     }
 
-    return std::numeric_limits<unsigned long >::max();
+    return std::numeric_limits<unsigned long>::max();
 }
 
 std::string timePointToString(const std::chrono::system_clock::time_point& now)

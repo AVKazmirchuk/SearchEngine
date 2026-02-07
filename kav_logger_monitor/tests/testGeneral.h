@@ -96,10 +96,52 @@ public:
     static const std::string &configLoggerMonitorFilePath();
 
     /**
+     * Прочитать файл конфигурации монитора (отсутствует)
+     * @return Ссылка на переменную
+     */
+    static const std::string &configLoggerMonitorFilePathNotExists();
+
+    /**
      * Прочитать формат даты и времени
      * @return
      */
     static const std::string& dateTimeFormat();
+
+    /**
+     * Прочитать аттрибут (цвет) сообщения уровня Debug
+     * @return Цвет
+     */
+    static unsigned short messageDebugColor();
+
+    /**
+     * Прочитать аттрибут (цвет) сообщения уровня Info
+     * @return Цвет
+     */
+    static unsigned short messageInfoColor();
+
+    /**
+     * Прочитать аттрибут (цвет) сообщения уровня Warning
+     * @return Цвет
+     */
+    static unsigned short messageWarningColor();
+
+    /**
+     * Прочитать аттрибут (цвет) сообщения уровня Error
+     * @return Цвет
+     */
+    static unsigned short messageErrorColor();
+
+    /**
+     * Прочитать аттрибут (цвет) сообщения уровня Fatal
+     * @return Цвет
+     */
+    static unsigned short messageFatalColor();
+
+    /**
+     * Прочитать аттрибут (цвет) сообщения уровня Logger
+     * @return Цвет
+     */
+    static unsigned short messageLoggerColor();
 
 };
 
@@ -111,7 +153,7 @@ std::string getLineFromConsole(unsigned long x, unsigned long y, unsigned long l
 std::vector<WORD> getAttributeFromConsole(unsigned long x, unsigned long y, unsigned long length);
 
 //Получить размер консоли (количество столбцов и строк соответственно)
-std::pair<unsigned long, unsigned long> getSizeOfConsole();
+std::pair<unsigned long, unsigned long> getCursorPositionOfConsole();
 
 //Получить номер строки консоли, содержащей отправленное сообщение
 unsigned long getLineNumber(const std::string &message);
