@@ -29,7 +29,7 @@ void kav::Logger::WriterMessage::writeToFile(std::string&& message)
         if (launchConsole == Constants::default_launchConsole())
         {
             //Отправить сообщение монитору о невозможности открытия файла для записи
-            monitorSender.send("Logger: Errors occurred when trying to write to the log file " +
+            writeToMonitor("Logger: Errors occurred when trying to write to the log file " +
                                std::filesystem::absolute(Logger::ptrToLogger->file).string() + ": " +
                                kav::DescriptionErrorCode::descriptionErrorCode(errorCode));
         }

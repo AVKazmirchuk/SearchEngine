@@ -1,9 +1,9 @@
 {
     "messageQueue" : {
-        "nameOfQueue" : "search_engine",
+        "nameOfQueue" : "search_engine_test",
         "maxNumberOfMessages" : 100,
         "maxMessageSize" : 1024,
-        "fileNameOfMainProgram" : "kav_logger_test.exe",
+
         "fileNameOfMonitor" : "logger_monitor.exe",
         "nameOfConsole" : "Logger Monitor",
         "indicatesMonitorStarting" : "C:\\Windows\\Temp\\logger_monitor"

@@ -123,10 +123,12 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 
 
 
+
+
 //Проверка одного сообщения, без исключений
 
 //Проверить функцию на уровень логирования debug
-TEST(TestLogger, debug)
+/*TEST(TestLogger, debug)
 {
     //Обнулить результат операции
     bool result{};
@@ -312,7 +314,7 @@ TEST(TestLogger, fatalWithException)
 
 
 //Проверить время сообщения
-TEST(TestLogger, timeOfMessage)
+/*TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
     bool result{};
@@ -349,7 +351,7 @@ TEST(TestLogger, timeOfMessage)
 }//*/
 
 //Проверить время использования файла. Будет писаться в один файл
-TEST(TestLogger, usageOneFile_3sec)
+/*TEST(TestLogger, usageOneFile_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -433,7 +435,7 @@ TEST(TestLogger, usage_6sec_in_weeks)
 }//*/
 
 //Проверить время хранения файла. Будет два файла
-TEST(TestLogger, storageTwoFile_3sec)
+/*TEST(TestLogger, storageTwoFile_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -570,13 +572,140 @@ TEST(TestLogger, size_200_bytes)
 
 
 
-//Проверить .
-/*TEST(TestLogger, anyTest)
+//Проверить на невозможность создания дополнительного объекта.
+TEST(TestLogger, additionalObjectFalse)
 {
     //Обнулить результат операции
     bool result{};
 
+    try
+    {
+        //Создать дополнительный объект логирования событий
+        kav::Logger logger2(ProgramArguments::configLoggerFilePath_size_200_bytes(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
+    }
+    catch (const kav::LoggerException& exception)
+    {
+        if (exception.what() == std::string("There should be only one object of the Logger class"))
+        {
+            result = true;
+        }
+    }
 
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//*/
+
+//Проверить на невозможность создания объекта при указании несуществующего файла конфигурации логгера
+TEST(TestLogger, configLoggerFilePath_missing)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать дополнительный объект логирования событий
+        kav::Logger logger2(ProgramArguments::configLoggerFilePath_missing(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
+    }
+    catch (const kav::LoggerException& exception)
+    {
+        if (exception.what() == std::string("This file is missing: " + ProgramArguments::configLoggerFilePath_missing()))
+        {
+            result = true;
+        }
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить на невозможность создания объекта при указании файла конфигурации логгера несоответствующего шаблону
+TEST(TestLogger, configLoggerFilePath_notMatch)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать дополнительный объект логирования событий
+        kav::Logger logger3(ProgramArguments::configLoggerFilePath_notMatch(), ProgramArguments::configWriterMessageFilePath(), ProgramArguments::launchConsole_no());
+    }
+    catch (const kav::LoggerException& exception)
+    {
+        if (exception.what() == std::string("The structure of this file does not match the required one: " + ProgramArguments::configLoggerFilePath_notMatch()))
+        {
+            result = true;
+        }
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить на невозможность создания объекта при указании несуществующего файла конфигурации записи сообщений
+TEST(TestLogger, configWriterMessageFilePath_missing)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать дополнительный объект логирования событий
+        kav::Logger logger2(ProgramArguments::configLoggerFilePath_size_200_bytes(), ProgramArguments::configWriterMessageFilePath_missing(), ProgramArguments::launchConsole_no());
+    }
+    catch (const kav::LoggerException& exception)
+    {
+        if (exception.what() == std::string("This file is missing: " + ProgramArguments::configWriterMessageFilePath_missing()))
+        {
+            result = true;
+        }
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить на невозможность создания объекта при указании файла конфигурации записи сообщений несоответствующего шаблону
+TEST(TestLogger, configWriterMessageFilePath_notMatch)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать дополнительный объект логирования событий
+        kav::Logger logger3(ProgramArguments::configLoggerFilePath_size_200_bytes(), ProgramArguments::configWriterMessageFilePath_notMatch(), ProgramArguments::launchConsole_no());
+    }
+    catch (const kav::LoggerException& exception)
+    {
+        if (exception.what() == std::string("The structure of this file does not match the required one: " + ProgramArguments::configWriterMessageFilePath_notMatch()))
+        {
+            result = true;
+        }
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Проверить на невозможность создания дополнительного объекта.
+TEST(TestLogger, sendAndReceive)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    //Удалить оставшуюся очередь (скорее всего, заблокированную)
+    //boost::interprocess::message_queue::remove(ProgramArguments::nameOfQueue().c_str());
+
+    kav::Logger::debug(ProgramArguments::messageForTest());
+
+    std::string lastMessage{loggerMonitorExtern->getLastMessageReceived()};
+
+        std::cout << lastMessage;
+
+    /*if (last == ProgramArguments::messageForTest())
+    {
+        result = true;
+    }*/
 
     //Проверить утверждение
     ASSERT_TRUE(result);

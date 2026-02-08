@@ -10,6 +10,13 @@
 #include "kav/operationFileAndJSON.h"
 #include "logger.h"
 
+#include "monitor.h"
+#include "monitorReceiver.h"
+
+
+
+inline kav::LoggerMonitor *loggerMonitorExtern;
+
 
 
 /**
@@ -197,10 +204,40 @@ public:
     static const std::string& configLoggerFilePath_size_200_bytes();
 
     /**
+     * Прочитать путь файла конфигурации логирования. Файл отсутствует
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_missing();
+
+    /**
+     * Прочитать путь файла конфигурации логирования. Файл не соответствует шаблону
+     * @return Путь файла
+     */
+    static const std::string& configLoggerFilePath_notMatch();
+
+    /**
      * Прочитать/записать путь файла конфигурации очереди сообщений
      * @return Ссылка на переменную
      */
     static const std::string& configWriterMessageFilePath();
+
+    /**
+     * Прочитать/записать путь файла конфигурации очереди сообщений. Для тестирования логгера
+     * @return Ссылка на переменную
+     */
+    static const std::string& configWriterMessageFilePath_loggerTest();
+
+    /**
+     * Прочитать/записать путь файла конфигурации очереди сообщений. Файл отсутствует
+     * @return Ссылка на переменную
+     */
+    static const std::string& configWriterMessageFilePath_missing();
+
+    /**
+     * Прочитать/записать путь файла конфигурации очереди сообщений. Файл не соответствует шаблону
+     * @return Ссылка на переменную
+     */
+    static const std::string& configWriterMessageFilePath_notMatch();
 
     /**
      * Прочитать имя папки логов
@@ -220,6 +257,36 @@ public:
      * @return Тестовое сообщение
      */
     static const std::string& messageForException();
+
+    /**
+     * Прочитать тестовое сообщение
+     * @return Тестовое сообщение
+     */
+    static const std::string& messageForTest();
+
+    /**
+     * Прочитать имя очереди
+     * @return Ссылка на переменную
+     */
+    static const std::string &nameOfQueue();
+
+    /**
+     * Прочитать максимальное количество сообщений в очереди.
+     * @return Ссылка на переменную
+     */
+    static boost::interprocess::message_queue::size_type maxNumberOfMessages_100();
+
+    /**
+     * Прочитать максимальный размер сообщения в очереди
+     * @return Ссылка на переменную
+     */
+    static boost::interprocess::message_queue::size_type maxMessageSize_1024();
+
+    /**
+     * Прочитать имя файла монитора
+     * @return Ссылка на переменную
+     */
+    static const std::string &fileNameOfMonitor();
 
     /**
      * Прочитать уровень логирования debug

@@ -211,10 +211,45 @@ const std::string& ProgramArguments::configLoggerFilePath_size_200_bytes()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerFilePath_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configLoggerFilePath_notMatch()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/logger-notMatch.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::configWriterMessageFilePath()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/messageQueue.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configWriterMessageFilePath_loggerTest()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/messageQueueLoggerTest.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configWriterMessageFilePath_missing()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/messageQueue-missing.json"};
+    return variable;
+}
+
+const std::string& ProgramArguments::configWriterMessageFilePath_notMatch()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/messageQueue-notMatch.json"};
     return variable;
 }
 
@@ -236,6 +271,41 @@ const std::string& ProgramArguments::messageForException()
 {
     //Значение по умолчанию
     static const std::string variable{"This is a test message for an exception"};
+    return variable;
+}
+
+const std::string& ProgramArguments::messageForTest()
+{
+    //Значение по умолчанию
+    static const std::string variable{"This is a test message"};
+    return variable;
+}
+
+const std::string& ProgramArguments::nameOfQueue()
+{
+    //Значение по умолчанию
+    static const std::string variable{"search_engine_test"};
+    return variable;
+}
+
+boost::interprocess::message_queue::size_type ProgramArguments::maxNumberOfMessages_100()
+{
+    //Значение по умолчанию
+    static const boost::interprocess::message_queue::size_type variable{100};
+    return variable;
+}
+
+boost::interprocess::message_queue::size_type ProgramArguments::maxMessageSize_1024()
+{
+    //Значение по умолчанию
+    static const boost::interprocess::message_queue::size_type variable{1024};
+    return variable;
+}
+
+const std::string &ProgramArguments::fileNameOfMonitor()
+{
+    //Значение по умолчанию
+    static const std::string variable{"logger_monitor.exe"};
     return variable;
 }
 

@@ -47,6 +47,9 @@ file(GLOB_RECURSE CPP_LOGGER_FILE CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*
 #Добавить цель, исполняемый файл, для сборки из исходных файлов, перечисленных в вызове команды
 add_executable(${Application_Name_Test} main.cpp test.cpp testLogger.cpp testGeneral.cpp
         ${CPP_LOGGER_FILE}
+
+        monitorReceiver.cpp
+        monitor.cpp
 )
 
 # Задать переменную списка поддиректорий с заголовками
