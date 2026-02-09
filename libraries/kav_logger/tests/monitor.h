@@ -147,6 +147,24 @@ namespace kav
             return lastMessage;
         }
 
+        /**
+         * Получить текущее количество сообщений
+         * @return Сообщение
+         */
+        int getNumberOfReceivedMessages()
+        {
+            return counterOfReceivedMessages.load();
+        }
+
+        /**
+         * Обнулить текущее количество сообщений
+         * @return Сообщение
+         */
+        void resetNumberOfReceivedMessages()
+        {
+            counterOfReceivedMessages.store(0);
+        }
+
     private:
 
         /**
@@ -257,6 +275,9 @@ namespace kav
 
         //Мьютекс чтения-записи последнего сообщения
         std::mutex mutReadWriteLastMessage;
+
+        //Счётчик полученных сообщений. Используется в функции run()
+        std::atomic<int> counterOfReceivedMessages{};
 
         //Контейнер очередей сообщений
         inline static std::list<std::string> queuesInUse;

@@ -17,7 +17,7 @@
 
 inline kav::LoggerMonitor *loggerMonitorExtern;
 
-
+inline std::future<void> *futureRun;
 
 /**
  * Класс хранения переменных аргументов программы

@@ -63,10 +63,15 @@ void kav::LoggerMonitor::run()
             break;
         }
 
-        //Заблокировать доступ к последнему сообщению
-        std::lock_guard<std::mutex> lg(mutReadWriteLastMessage);
+        {
+            //Заблокировать доступ к последнему сообщению
+            std::lock_guard<std::mutex> lg(mutReadWriteLastMessage);
 
-        lastMessage = message;
+            //Определить последнее сообщение для чтения из вне
+            lastMessage = message;
+        }
+
+        ++counterOfReceivedMessages;
     }
 }
 

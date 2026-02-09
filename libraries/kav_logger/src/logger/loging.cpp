@@ -101,6 +101,8 @@ void kav::Logger::log(Level level, const std::string& message, const std::except
         //Заблокировать доступ к контейнеру сообщений из отдельного потока
         std::unique_lock<std::mutex> uniqueLock(mutReadWriteMessages);
 
+        if (message == "search_engine_testStop") messageForOutput = message;
+
         //Добавить сообщение в контейнер сообщений
         messages.push_back(messageForOutput);
         //Установить подтверждение добавления сообщения

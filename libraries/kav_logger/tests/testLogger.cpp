@@ -596,7 +596,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 }//*/
 
 //Проверить на невозможность создания объекта при указании несуществующего файла конфигурации логгера
-/*TEST(TestLogger, configLoggerFilePath_missing)
+TEST(TestLogger, configLoggerFilePath_missing)
 {
     //Обнулить результат операции
     bool result{};
@@ -691,21 +691,47 @@ TEST(TestLogger, configWriterMessageFilePath_notMatch)
 TEST(TestLogger, sendAndReceive)
 {
     //Обнулить результат операции
-    bool result{};
+    bool result{true};
 
-    //Удалить оставшуюся очередь (скорее всего, заблокированную)
-    //boost::interprocess::message_queue::remove(ProgramArguments::nameOfQueue().c_str());
+    //Запустить монитор в другом потоке
+    //std::future<void> fut = std::async(&kav::LoggerMonitor::run, loggerMonitorExtern);
 
-    kav::Logger::debug(ProgramArguments::messageForTest());
+    //Обнулить текущее количество сообщений
+    loggerMonitorExtern->resetNumberOfReceivedMessages();
 
-    std::string lastMessage{loggerMonitorExtern->getLastMessageReceived()};
-
-        std::cout << lastMessage;
-
-    /*if (last == ProgramArguments::messageForTest())
+    //Пока количество посланных сообщений не превисило максимаоьного значения и текущий результат положительный
+    for (int i{1}; i <= 10 && result; ++i)
     {
-        result = true;
+        //Определить текущий момент времени
+        std::chrono::system_clock::time_point now{std::chrono::system_clock::now()};
+
+        //Преобразовать текущий момент времени в строку
+        std::string strNow{timePointToString(now)};
+
+        //Послать сообщение
+        kav::Logger::debug(ProgramArguments::messageForTest() + ' ' + strNow);
+
+        //Пока количество принятых сообщений не равно посланным
+        /*while (loggerMonitorExtern->getNumberOfReceivedMessages() != i)
+        {
+            //Ожидать получение сообщения в очереди
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }*/
+
+        //Определить полученное сообщение
+        std::string receivedMessage{loggerMonitorExtern->getLastMessageReceived()};
+
+        std::cout << "receivedMessage: " << receivedMessage << ", strNow: " << strNow << '\n';
+
+        //Определить текущий результат точной идентификацией полученного сообщения
+        result = result && receivedMessage.find(strNow) != std::string::npos;
     }
+
+    //Отправить сигнал об остановки монитора
+    kav::Logger::debug("search_engine_testStop");
+
+    //Дождаться завершения работы монитора
+    futureRun->wait();
 
     //Проверить утверждение
     ASSERT_TRUE(result);
