@@ -358,6 +358,13 @@ const std::string& ProgramArguments::launchConsole_yes()
     return variable;
 }
 
+const std::string& ProgramArguments::queue_only()
+{
+    //Значение по умолчанию
+    static const std::string variable{"queueOnly"};
+    return variable;
+}
+
 const std::string& ProgramArguments::launchConsole_no()
 {
     //Значение по умолчанию

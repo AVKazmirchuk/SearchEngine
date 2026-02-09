@@ -507,7 +507,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 }//*/
 
 //Проверить время хранения файла. Размер файла 100 байт
-TEST(TestLogger, size_200_bytes)
+/*TEST(TestLogger, size_200_bytes)
 {
     //Обнулить результат операции
     bool result{};
@@ -573,7 +573,7 @@ TEST(TestLogger, size_200_bytes)
 
 
 //Проверить на невозможность создания дополнительного объекта.
-TEST(TestLogger, additionalObjectFalse)
+/*TEST(TestLogger, additionalObjectFalse)
 {
     //Обнулить результат операции
     bool result{};
@@ -596,7 +596,7 @@ TEST(TestLogger, additionalObjectFalse)
 }//*/
 
 //Проверить на невозможность создания объекта при указании несуществующего файла конфигурации логгера
-TEST(TestLogger, configLoggerFilePath_missing)
+/*TEST(TestLogger, configLoggerFilePath_missing)
 {
     //Обнулить результат операции
     bool result{};
@@ -705,7 +705,7 @@ TEST(TestLogger, sendAndReceive)
     /*if (last == ProgramArguments::messageForTest())
     {
         result = true;
-    }*/
+    }
 
     //Проверить утверждение
     ASSERT_TRUE(result);

@@ -1,6 +1,6 @@
 {
     "messageQueue" : {
-        "nameOfQueue" : "search_engine_test",
+        "nameOfQueue" : "search_engine",
         "maxNumberOfMessages" : 100,
         "maxMessageSize" : 1024,
         "fileNameOfMainProgram" : "kav_logger_test.exe",

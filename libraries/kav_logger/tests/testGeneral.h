@@ -331,6 +331,12 @@ public:
     static const std::string& launchConsole_yes();
 
     /**
+     * Прочитать признак логирования событий только в очередь
+     * @return Ссылка на переменную
+     */
+    static const std::string& queue_only();
+
+    /**
      * Прочитать/записать признак логирования событий в консоль
      * @return Ссылка на переменную
      */

@@ -44,8 +44,8 @@ void kav::Logger::WriterMessage::processMessageContainer()
         //Записать в файл
         writeToFile(std::move(message));
 
-        //Если логировать события в монитор
-        if (launchConsole == Constants::default_launchConsole())
+        //Если логировать события в монитор или в очередь
+        if (launchConsole == Constants::default_launchConsole() || launchConsole == Constants::queue_only())
         {
             //Отправить в монитор
             writeToMonitor(std::move(message));

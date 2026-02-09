@@ -37,6 +37,17 @@ namespace kav
         }
 
         /**
+         * Прочитать признак логирования событий только в очередь
+         * @return Ссылка на переменную
+         */
+        static const std::string &queue_only()
+        {
+            //Значение по умолчанию
+            static const std::string variable{"queueOnly"};
+            return variable;
+        }
+
+        /**
          * Прочитать сообщение создания нового лог-файла
          * @return Ссылка на переменную
          */

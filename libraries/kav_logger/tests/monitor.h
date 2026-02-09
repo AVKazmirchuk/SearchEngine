@@ -117,7 +117,7 @@ namespace kav
             if (queuesInUse.size() == 1)
             {
                 //Зарегистрировать обработчик нажатия клавиш консоли
-                SetConsoleCtrlHandler(&ConsoleCtrlEventHandler, TRUE);
+                //SetConsoleCtrlHandler(&ConsoleCtrlEventHandler, TRUE);
             }
         }
 
@@ -265,19 +265,19 @@ namespace kav
          * Вывод сообщения на консоль
          * @param message Ссылка на сообщение
          */
-        void outputToConsole(const std::string &message);
+        //void outputToConsole(const std::string &message);
 
         /**
          * Завершить работу. Используется в обработчике нажатия клавиш консоли
          */
-        static void stop();
+        //static void stop();
 
         /**
          * Обработчик нажатия клавиш консоли
          * @param dwCtrlType Событие нажатия сочетания клавиш или выключение или выход
          * @return Признак выполнения
          */
-        static BOOL WINAPI ConsoleCtrlEventHandler(DWORD dwCtrlType);
+        //static BOOL WINAPI ConsoleCtrlEventHandler(DWORD dwCtrlType);
 
     };
 

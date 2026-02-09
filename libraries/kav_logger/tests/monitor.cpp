@@ -40,15 +40,16 @@
 
 void kav::LoggerMonitor::run()
 {
+    std::cout << "begin kav::LoggerMonitor::run";
     //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
-    std::filesystem::remove(configLoggerMonitor.indicatesMonitorStarting());
+    //std::filesystem::remove(configLoggerMonitor.indicatesMonitorStarting());
     //Создать сигнал-файл (маркер запущенного процесса)
-    std::ofstream loggerMonitorAlreadyRunning(configLoggerMonitor.indicatesMonitorStarting());
+    //std::ofstream loggerMonitorAlreadyRunning(configLoggerMonitor.indicatesMonitorStarting());
     //Закрыть сигнал-файл
-    loggerMonitorAlreadyRunning.close();
+    //loggerMonitorAlreadyRunning.close();
 
     //Установить заглавие консоли
-    SetConsoleTitle(configLoggerMonitor.nameOfConsole().c_str());
+    //SetConsoleTitle(configLoggerMonitor.nameOfConsole().c_str());
 
     //Ожидать новых сообщений, получать и выводить их на монитор
     while (true)
@@ -62,8 +63,6 @@ void kav::LoggerMonitor::run()
             break;
         }
 
-
-
         //Заблокировать доступ к последнему сообщению
         std::lock_guard<std::mutex> lg(mutReadWriteLastMessage);
 
@@ -71,7 +70,7 @@ void kav::LoggerMonitor::run()
     }
 }
 
-void kav::LoggerMonitor::stop()
+/*void kav::LoggerMonitor::stop()
 {
     //Для каждой очереди
     for (auto& queue : queuesInUse)
@@ -83,9 +82,9 @@ void kav::LoggerMonitor::stop()
         //Послать в очередь сообщение о заверешении работы
         mq.send(messageStop.data(), messageStop.size(), 0);
     }
-}
+}*/
 
-BOOL WINAPI kav::LoggerMonitor::ConsoleCtrlEventHandler(DWORD dwCtrlType)
+/*BOOL WINAPI kav::LoggerMonitor::ConsoleCtrlEventHandler(DWORD dwCtrlType)
 {
     //В зависимости от события
     switch (dwCtrlType)
@@ -108,7 +107,7 @@ BOOL WINAPI kav::LoggerMonitor::ConsoleCtrlEventHandler(DWORD dwCtrlType)
 
     //Если обработка событий приведёт сюда - оставить обработчик по умолчанию
     return FALSE;
-}
+}*/
 
 void kav::LoggerMonitor::ConfigLoggerMonitor::initialize()
 {
