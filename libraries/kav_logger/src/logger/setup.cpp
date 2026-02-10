@@ -59,6 +59,7 @@ void kav::Logger::deleteFilesByRetentionPeriod(const std::string& directoryPath)
     }
 
     std::cout << '\n' << "deleteFilesByRetentionPeriod" << '\n';
+    std::cout << "logs size: " << logs.size() << '\n';
     for (auto& elem : logs)
     {
         std::cout << "path: " << elem.first << ", " << "time: " << elem.second << '\n';
@@ -73,5 +74,5 @@ void kav::Logger::setup()
     //Определить файл для записи
     identifyFile(configLogger.filesDirectory());
 
-    //std::cout << "\nInSetup, size: " << std::filesystem::file_size(file) << "\n";
+    std::cout << "Setup exit" << "\n";
 }

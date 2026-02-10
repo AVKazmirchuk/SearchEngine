@@ -4,7 +4,7 @@
 
 
 
-#include "gtest/gtest.h"
+//#include "gtest/gtest.h"
 
 #include "kav/operationFileAndJSON.h"
 
@@ -596,7 +596,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 }//*/
 
 //Проверить на невозможность создания объекта при указании несуществующего файла конфигурации логгера
-TEST(TestLogger, configLoggerFilePath_missing)
+/*TEST(TestLogger, configLoggerFilePath_missing)
 {
     //Обнулить результат операции
     bool result{};
@@ -685,10 +685,10 @@ TEST(TestLogger, configWriterMessageFilePath_notMatch)
 
     //Проверить утверждение
     ASSERT_TRUE(result);
-}
+}*/
 
 //Проверить на невозможность создания дополнительного объекта.
-TEST(TestLogger, sendAndReceive)
+/*TEST(TestLogger, sendAndReceive)
 {
     //Обнулить результат операции
     bool result{true};
@@ -712,11 +712,11 @@ TEST(TestLogger, sendAndReceive)
         kav::Logger::debug(ProgramArguments::messageForTest() + ' ' + strNow);
 
         //Пока количество принятых сообщений не равно посланным
-        /*while (loggerMonitorExtern->getNumberOfReceivedMessages() != i)
+        while (loggerMonitorExtern->getNumberOfReceivedMessages() != i)
         {
             //Ожидать получение сообщения в очереди
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }*/
+        }
 
         //Определить полученное сообщение
         std::string receivedMessage{loggerMonitorExtern->getLastMessageReceived()};

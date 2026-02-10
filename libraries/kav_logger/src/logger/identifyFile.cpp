@@ -65,6 +65,7 @@ void kav::Logger::identifyFilesByLastModification()
     file = logs.back().first;
 
     std::cout << '\n' << "identifyFilesByLastModification" << '\n';
+    std::cout << "logs size: " << logs.size() << '\n';
     for (auto& elem : logs)
     {
         std::cout << "path: " << elem.first << ", " << "time: " << elem.second << '\n';
@@ -107,7 +108,7 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
 
     //Определить файлы по последнему изменению
     identifyFilesByLastModification();
-
+std::cout << "after identifyFilesByLastModification" << '\n';
     //Размер файла больше допустимого
     if (std::filesystem::file_size(file) >= configLogger.fileSizeLimit())
     {
