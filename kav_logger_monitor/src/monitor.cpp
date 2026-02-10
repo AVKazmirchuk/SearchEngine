@@ -21,6 +21,15 @@
 
 
 
+//Константы переменных
+namespace Constants
+{
+
+    const std::string stop{"Stop"};
+}
+
+
+
 void kav::LoggerMonitor::outputToConsole(const std::string& message)
 {
     //В зависимости от уровня логирования вывести сообщения своими цветами
@@ -51,7 +60,7 @@ void kav::LoggerMonitor::run()
         std::string message = monitorReceiver.receive(configLoggerMonitor.maxMessageSize());
 
         //Исключительная ситуация
-        if (message == (configLoggerMonitor.nameOfQueue() + "Stop"))
+        if (message == (configLoggerMonitor.nameOfQueue() + Constants::stop))
         {
             break;
         }

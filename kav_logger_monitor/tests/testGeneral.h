@@ -102,6 +102,12 @@ public:
     static const std::string &configLoggerMonitorFilePathNotExists();
 
     /**
+     * Прочитать файл конфигурации монитора (несоответствие шаблону)
+     * @return Ссылка на переменную
+     */
+    static const std::string &configLoggerMonitorFilePathNotMatch();
+
+    /**
      * Прочитать формат даты и времени
      * @return
      */

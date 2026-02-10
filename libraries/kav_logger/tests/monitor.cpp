@@ -40,7 +40,7 @@
 
 void kav::LoggerMonitor::run()
 {
-    std::cout << "begin kav::LoggerMonitor::run";
+    //std::cout << "begin kav::LoggerMonitor::run";
     //Удалить сигнал-файл в любом случае (маркер запущенного процесса)
     //std::filesystem::remove(configLoggerMonitor.indicatesMonitorStarting());
     //Создать сигнал-файл (маркер запущенного процесса)

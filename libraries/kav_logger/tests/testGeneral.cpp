@@ -288,6 +288,13 @@ const std::string& ProgramArguments::nameOfQueue()
     return variable;
 }
 
+const std::string& ProgramArguments::stop()
+{
+    //Значение по умолчанию
+    static const std::string variable{"Stop"};
+    return variable;
+}
+
 boost::interprocess::message_queue::size_type ProgramArguments::maxNumberOfMessages_100()
 {
     //Значение по умолчанию
@@ -404,6 +411,13 @@ std::chrono::seconds ProgramArguments::seconds_3()
 {
     //Значение по умолчанию
     static const std::chrono::seconds variable{3};
+    return variable;
+}
+
+int ProgramArguments::numberOfPackagesInQueue_10()
+{
+    //Значение по умолчанию
+    static const int variable{10};
     return variable;
 }
 

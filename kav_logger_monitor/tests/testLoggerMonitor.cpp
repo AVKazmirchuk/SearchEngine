@@ -13,8 +13,6 @@
 
 
 
-//https://stackoverflow.com/questions/52539568/how-i-can-read-simply-console-output
-
 void runLoggerMonitor(kav::LoggerMonitor& loggerMonitor)
 {
     //Запустить монитор
@@ -206,8 +204,8 @@ bool checkSendAndReadFromConsoleAttribute(const std::string &message, unsigned s
 
 
 
-//Проверить отправку и получение сообщения из очереди уровня Debug
-TEST(TestLoggerMonitor, createObjectFalse)
+//Проверить невозможность создания объекта при отсутствии файла конфигурации
+TEST(TestLoggerMonitor, configLoggerMonitorFilePath_notExists)
 {
     //Обнулить результат операции
     bool result{};
@@ -219,12 +217,38 @@ TEST(TestLoggerMonitor, createObjectFalse)
     }
     catch (const kav::LoggerMonitorException& exception)
     {
-        result = true;
+        if (exception.what() == std::string("This file is missing: " + ProgramArguments::configLoggerMonitorFilePathNotExists()))
+        {
+            result = true;
+        }
     }
 
     //Проверить утверждение
     ASSERT_TRUE(result);
 }
+
+//Проверить на невозможность создания объекта при указании файла конфигурации записи сообщений несоответствующего шаблону
+TEST(TestLoggerMonitor, configLoggerMonitorFilePath_notMatch)
+{
+    //Обнулить результат операции
+    bool result{};
+
+    try
+    {
+        //Создать объект класса логирования событий в монитор
+        kav::LoggerMonitor loggerMonitor(ProgramArguments::configLoggerMonitorFilePathNotMatch());
+    }
+    catch (const kav::LoggerMonitorException& exception)
+    {
+        if (exception.what() == std::string("The structure of this file does not match the required one: " + ProgramArguments::configLoggerMonitorFilePathNotMatch()))
+        {
+            result = true;
+        }
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}//*/
 
 //Проверить отправку и получение сообщения из очереди уровня Debug
 TEST(TestLoggerMonitor, sendAndReceive_Debug)

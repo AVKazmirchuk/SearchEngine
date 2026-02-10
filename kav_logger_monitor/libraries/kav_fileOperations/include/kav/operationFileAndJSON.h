@@ -107,6 +107,20 @@ namespace kav
         static std::pair<std::string, ErrorCode> readTextFile(const std::string &filePath);
 
         /**
+         * Прочитать последнюю строку текстового файла
+         * @param filePath Ссылка на путь текстового файла
+         * @return Пара строки и кода ошибки
+         */
+        static std::pair<std::string, ErrorCode> readLastLineFromTextFile(const std::string &filePath);
+
+        /**
+         * Прочитать первую строку текстового файла
+         * @param filePath Ссылка на путь текстового файла
+         * @return Пара строки и кода ошибки
+         */
+        static std::pair<std::string, ErrorCode> readFirstLineFromTextFile(const std::string &filePath);
+
+        /**
          * Записать текстовый файл
          * @param filePath Ссылка на путь текстового файла
          * @param text Текст для записи

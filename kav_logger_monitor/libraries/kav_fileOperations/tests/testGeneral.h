@@ -31,11 +31,23 @@ namespace testConstants
     //Путь текстового файла
     extern const std::string textFile;
 
+    //Путь текстового файла со строками
+    extern const std::string textFileMultylines;
+
     //Путь текстового файла для записи
     extern const std::string textFileForWrite;
 
     //Текстовая строка для записи
     extern const std::string textString;
+
+    //Содержимое файла file001.txt
+    extern const std::string fileContents;
+
+    //Содержимое файла fileMultylines.txt (первая строка)
+    extern const std::string fileFirstLineContents;
+
+    //Содержимое файла fileMultylines.txt (последняя строка)
+    extern const std::string fileLastLineContents;
 
     //Имя поля массива
     extern const std::string files;

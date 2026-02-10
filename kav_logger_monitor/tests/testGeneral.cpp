@@ -99,6 +99,13 @@ const std::string& ProgramArguments::configLoggerMonitorFilePathNotExists()
     return variable;
 }
 
+const std::string& ProgramArguments::configLoggerMonitorFilePathNotMatch()
+{
+    //Значение по умолчанию
+    static const std::string variable{"../../tests/resources/messageQueue-notMatch.json"};
+    return variable;
+}
+
 const std::string& ProgramArguments::dateTimeFormat()
 {
     //Значение по умолчанию

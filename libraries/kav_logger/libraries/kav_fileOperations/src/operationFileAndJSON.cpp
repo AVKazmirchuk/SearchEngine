@@ -124,8 +124,9 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
 
 std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFromTextFile(const std::string &filePath)
 {
-    //Создать объект для чтения файла документа. Открытие в обычном режиме приводит к неочевидным результатам (появляются дополнительные символы)
-    std::ifstream inFile(filePath, std::ios::binary);
+    //Создать объект для чтения файла документа. Открытие в обычном режиме приводит к неочевидным результатам (появляются дополнительные символы).
+    //Но открытие в бинарном формате приводит к совсем неочевидным результатам (строка отображается верно, но сравнение с шаблоном не проходит).
+    std::ifstream inFile(filePath);
 
     //Подготовить документ для записи
     std::pair<std::string, kav::ErrorCode> tmp;
@@ -154,7 +155,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
             //Прочитать последний символ
             inFile.get(ch);
             //Если прочитан символ новой строки - перейти на чтение последнего символа
-            if (ch == '\n') inFile.seekg(-2, std::ios::cur);
+            if (ch == '\n') inFile.seekg(-3, std::ios::cur);
             //Перейти на чтение последнего символа
             else inFile.seekg(-1, std::ios::cur);
 
@@ -172,7 +173,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
                 }
 
                 //Перейти для чтения предыдущего символа
-                inFile.seekg(-2, std::ios::cur);
+                inFile.seekg(-3, std::ios::cur);
             }
 
             //Прочитать строку целиком
@@ -191,7 +192,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
 
 std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readFirstLineFromTextFile(const std::string &filePath)
 {
-    //Создать объект для чтения файла документа. Открытие в обычном режиме приводит к неочевидным результатам (появляются дополнительные символы)
+    //Создать объект для чтения файла документа.
     std::ifstream inFile(filePath);
 
     //Подготовить документ для записи

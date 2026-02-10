@@ -85,11 +85,11 @@ namespace kav
             RemoveMessageQueue(const std::string &in_nameOfQueue, const std::string &in_fileNameOfMainProgram)
             {
                 //Процесс получения и вывода сообщений не запущен
-                if (!isProcessRun(in_fileNameOfMainProgram.c_str()))
-                {
+                //if (!isProcessRun(in_fileNameOfMainProgram.c_str()))
+                //{
                     //Удалить оставшуюся очередь (скорее всего, заблокированную)
-                    boost::interprocess::message_queue::remove(in_nameOfQueue.c_str());
-                }
+                //    boost::interprocess::message_queue::remove(in_nameOfQueue.c_str());
+                //}
             }
 
         private:

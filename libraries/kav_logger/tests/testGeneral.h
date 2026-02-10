@@ -14,9 +14,10 @@
 #include "monitorReceiver.h"
 
 
-
+//Указатель для доступа к объекту из тестов
 inline kav::LoggerMonitor *loggerMonitorExtern;
 
+//Указатель для доступа к объекту из тестов
 inline std::future<void> *futureRun;
 
 /**
@@ -271,6 +272,12 @@ public:
     static const std::string &nameOfQueue();
 
     /**
+     * Прочитать stop (для команды остановки приёма сообщений из очереди)
+     * @return Ссылка на переменную
+     */
+    static const std::string &stop();
+
+    /**
      * Прочитать максимальное количество сообщений в очереди.
      * @return Ссылка на переменную
      */
@@ -371,6 +378,12 @@ public:
      * @return Время в секундах
      */
     static std::chrono::seconds seconds_3();
+
+    /**
+     * Прочитать количество посылок в очередь (10)
+     * @return Время в секундах
+     */
+    static int numberOfPackagesInQueue_10();
 
     /**
      * Прочитать время в секундах (6 секунд в минутах)

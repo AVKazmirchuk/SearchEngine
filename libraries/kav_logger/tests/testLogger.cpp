@@ -4,7 +4,7 @@
 
 
 
-//#include "gtest/gtest.h"
+#include "gtest/gtest.h"
 
 #include "kav/operationFileAndJSON.h"
 
@@ -122,13 +122,10 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
 
 
 
-
-
-
 //Проверка одного сообщения, без исключений
 
 //Проверить функцию на уровень логирования debug
-/*TEST(TestLogger, debug)
+TEST(TestLogger, debug)
 {
     //Обнулить результат операции
     bool result{};
@@ -314,7 +311,7 @@ TEST(TestLogger, fatalWithException)
 
 
 //Проверить время сообщения
-/*TEST(TestLogger, timeOfMessage)
+TEST(TestLogger, timeOfMessage)
 {
     //Обнулить результат операции
     bool result{};
@@ -351,7 +348,7 @@ TEST(TestLogger, fatalWithException)
 }//*/
 
 //Проверить время использования файла. Будет писаться в один файл
-/*TEST(TestLogger, usageOneFile_3sec)
+TEST(TestLogger, usageOneFile_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -435,7 +432,7 @@ TEST(TestLogger, usage_6sec_in_weeks)
 }//*/
 
 //Проверить время хранения файла. Будет два файла
-/*TEST(TestLogger, storageTwoFile_3sec)
+TEST(TestLogger, storageTwoFile_3sec)
 {
     //Обнулить результат операции
     bool result{};
@@ -507,7 +504,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 }//*/
 
 //Проверить время хранения файла. Размер файла 100 байт
-/*TEST(TestLogger, size_200_bytes)
+TEST(TestLogger, size_200_bytes)
 {
     //Обнулить результат операции
     bool result{};
@@ -573,7 +570,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 
 
 //Проверить на невозможность создания дополнительного объекта.
-/*TEST(TestLogger, additionalObjectFalse)
+TEST(TestLogger, additionalObjectFalse)
 {
     //Обнулить результат операции
     bool result{};
@@ -596,7 +593,7 @@ TEST(TestLogger, storage_6sec_in_weeks)
 }//*/
 
 //Проверить на невозможность создания объекта при указании несуществующего файла конфигурации логгера
-/*TEST(TestLogger, configLoggerFilePath_missing)
+TEST(TestLogger, configLoggerFilePath_missing)
 {
     //Обнулить результат операции
     bool result{};
@@ -685,22 +682,35 @@ TEST(TestLogger, configWriterMessageFilePath_notMatch)
 
     //Проверить утверждение
     ASSERT_TRUE(result);
-}*/
+}//*/
 
-//Проверить на невозможность создания дополнительного объекта.
-/*TEST(TestLogger, sendAndReceive)
+//Проверить на отправку и приём сообщений в очереди сообщений.
+TEST(TestLogger, sendAndReceive)
 {
     //Обнулить результат операции
     bool result{true};
 
-    //Запустить монитор в другом потоке
-    //std::future<void> fut = std::async(&kav::LoggerMonitor::run, loggerMonitorExtern);
+    /*std::string lastMessage{loggerMonitorExtern->getLastMessageReceived()};
+    while (true)
+    {
+        std::cout << "lastMessage: " << lastMessage << '\n';
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        std::string maybeLastMessage{loggerMonitorExtern->getLastMessageReceived()};
+        std::cout << "maybeLastMessage: " << maybeLastMessage << '\n';
+        if (maybeLastMessage == lastMessage)
+        {
+            break;
+        }
+
+        lastMessage = maybeLastMessage;
+    }*/
 
     //Обнулить текущее количество сообщений
     loggerMonitorExtern->resetNumberOfReceivedMessages();
 
-    //Пока количество посланных сообщений не превисило максимаоьного значения и текущий результат положительный
-    for (int i{1}; i <= 10 && result; ++i)
+    //Пока количество посланных сообщений не превисило максимального значения и текущий результат положительный
+    for (int i{1}; i <= ProgramArguments::numberOfPackagesInQueue_10() && result; ++i)
     {
         //Определить текущий момент времени
         std::chrono::system_clock::time_point now{std::chrono::system_clock::now()};
@@ -709,29 +719,25 @@ TEST(TestLogger, configWriterMessageFilePath_notMatch)
         std::string strNow{timePointToString(now)};
 
         //Послать сообщение
-        kav::Logger::debug(ProgramArguments::messageForTest() + ' ' + strNow);
+        kav::Logger::debug(ProgramArguments::messageForTest() + " " + strNow);
 
-        //Пока количество принятых сообщений не равно посланным
-        while (loggerMonitorExtern->getNumberOfReceivedMessages() != i)
-        {
-            //Ожидать получение сообщения в очереди
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
+        //Ожидать получение сообщения в очереди
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
         //Определить полученное сообщение
         std::string receivedMessage{loggerMonitorExtern->getLastMessageReceived()};
-
-        std::cout << "receivedMessage: " << receivedMessage << ", strNow: " << strNow << '\n';
 
         //Определить текущий результат точной идентификацией полученного сообщения
         result = result && receivedMessage.find(strNow) != std::string::npos;
     }
 
     //Отправить сигнал об остановки монитора
-    kav::Logger::debug("search_engine_testStop");
+    kav::Logger::debug(ProgramArguments::nameOfQueue() + ProgramArguments::stop());
 
     //Дождаться завершения работы монитора
     futureRun->wait();
+
+
 
     //Проверить утверждение
     ASSERT_TRUE(result);

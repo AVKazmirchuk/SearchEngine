@@ -23,7 +23,7 @@ TEST(TestWriteTextFile, fileExist)
     putFiles();
 
     //Записать JSON-файл
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(testConstants::textFileForWrite, testConstants::textString)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(testConstants::textFileForWrite, testConstants::fileContents)};
 
     //Обнулить результат операции
     bool result{};
@@ -34,6 +34,17 @@ TEST(TestWriteTextFile, fileExist)
         //Установить результат операции
         result = true;
     }
+
+    //Инициализировать объект
+    std::ifstream inFile(testConstants::textFileForWrite);
+
+    //Прочитать записанное в файл
+    std::stringstream ss;
+    ss << inFile.rdbuf();
+    std::string tmp{ss.str()} ;
+
+    //Записанное в файл должно соответствовать
+    result = result && tmp == testConstants::fileContents;
 
     //Проверить утверждение
     ASSERT_TRUE(result);
@@ -56,7 +67,7 @@ TEST(TestWriteTextFile, fileNotOpen)
     );
 
     //Записать JSON-файл
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(testConstants::textFileForWrite, testConstants::textString)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile(testConstants::textFileForWrite, testConstants::fileContents)};
 
     //Закрыть дескриптор. Освободить файл
     CloseHandle(hFile);
@@ -88,7 +99,7 @@ TEST(TestWriteTextFile, fileNotOpen)
     system("connectDisk.bat");
 
     //Записать JSON-файл
-    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile("w:\\" + testConstants::textFileForWrite, testConstants::textString)};
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::writeTextFile("w:\\" + testConstants::textFileForWrite, testConstants::fileContents)};
 
     //Обнулить результат операции
     bool result{};
@@ -122,6 +133,15 @@ TEST(TestWriteJSONFile, fileExist)
         //Установить результат операции
         result = true;
     }
+
+    //Инициализировать объект
+    std::ifstream inFile(testConstants::configFilePath);
+
+    //Читать файл в JSON-объект
+    kav::JSON tmpJSON = kav::JSON::parse(inFile, nullptr, false);
+
+    //Записанное в файл должно соответствовать
+    result = result && tmpJSON == testConstants::configTemplate;
 
     //Проверить утверждение
     ASSERT_TRUE(result);
@@ -199,17 +219,20 @@ TEST(TestReadJSONFile, fileExist)
     putFiles();
 
     //Прочитать JSON-файл
-    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readJSONFile(testConstants::configFilePath)).second};
+    std::pair<kav::JSON, kav::ErrorCode> JSONAndErrorCode{kav::OperationFileAndJSON::readJSONFile(testConstants::configFilePath)};
 
     //Обнулить результат операции
     bool result{};
 
     //Если чтение файла прошло без ошибок
-    if (errorCode == kav::ErrorCode::no_error)
+    if (JSONAndErrorCode.second == kav::ErrorCode::no_error)
     {
         //Установить результат операции
         result = true;
     }
+
+    //Прочитанное из файла должно соответствовать
+    result = result && JSONAndErrorCode.first == testConstants::configTemplate;
 
     //Проверить утверждение
     ASSERT_TRUE(result);
@@ -333,17 +356,20 @@ TEST(TestReadTextFile, fileExist)
     putFiles();
 
     //Прочитать файл
-    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::textFile)).second};
+    std::pair<std::string, kav::ErrorCode> textAndErrorCode{(kav::OperationFileAndJSON::readTextFile(testConstants::textFile))};
 
     //Обнулить результат операции
     bool result{};
 
     //Если чтение файла прошло без ошибок
-    if (errorCode == kav::ErrorCode::no_error)
+    if (textAndErrorCode.second == kav::ErrorCode::no_error)
     {
         //Установить результат операции
         result = true;
     }
+
+    //Прочитанное из файла должно соответствовать
+    result = result && textAndErrorCode.first == testConstants::fileContents;
 
     //Проверить утверждение
     ASSERT_TRUE(result);
@@ -528,6 +554,238 @@ TEST(TestCheckArray, arrayNotFilled)
     //Проверить утверждение
     ASSERT_TRUE(result);
 }
+
+
+
+//Запустить проверку на чтение первой строки текстового файла (файл присутствует, открыт, читается)
+TEST(TestReadFirstLineFromTextFile, fileExist)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Прочитать файл
+    std::pair<std::string, kav::ErrorCode> textAndErrorCode{(kav::OperationFileAndJSON::readFirstLineFromTextFile(testConstants::textFileMultylines))};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если чтение файла прошло без ошибок
+    if (textAndErrorCode.second == kav::ErrorCode::no_error)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Прочитанное из файла должно соответствовать
+    result = result && textAndErrorCode.first == testConstants::fileFirstLineContents;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл отсутствует)
+TEST(TestReadFirstLineFromTextFile, fileNotExist)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Удалить проверяемый файл
+    std::filesystem::remove(testConstants::textFileMultylines);
+
+    //Прочитать файл
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readFirstLineFromTextFile(testConstants::textFileMultylines)).second};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если файл отсутствует
+    if (errorCode == kav::ErrorCode::error_file_missing)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл не открыт)
+TEST(TestReadFirstLineFromTextFile, fileNotOpen)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Создать объект для записи. Запретить чтение
+    HANDLE hFile=CreateFile(testConstants::textFileMultylines.c_str(), // file to open
+                            GENERIC_WRITE, // open for writing
+                            FILE_SHARE_WRITE, // share for writing
+                            nullptr, // default security
+                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                            FILE_ATTRIBUTE_NORMAL, // normal file
+                            nullptr // no attr. template
+    );
+
+    //Прочитать файл
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readFirstLineFromTextFile(testConstants::textFileMultylines)).second};
+
+    //Закрыть дескриптор. Освободить файл
+    CloseHandle(hFile);
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если открыть файл на чтение не удалось
+    if (errorCode == kav::ErrorCode::error_file_not_open_read)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл не читается)
+/*TEST(TestReadFirstLineFromTextFile, fileNotRead)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Подключить диск с проверяемым файлом
+    system("connectDisk.bat");
+
+    //Прочитать файл
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readFirstLineFromTextFile("w:\\" + testConstants::textFileMultylines)).second};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если файл не читается
+    if (errorCode == kav::ErrorCode::error_file_not_read)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}*/
+
+
+
+//Запустить проверку на чтение первой строки текстового файла (файл присутствует, открыт, читается)
+TEST(TestReadLastLineFromTextFile, fileExist)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Прочитать файл
+    std::pair<std::string, kav::ErrorCode> textAndErrorCode{kav::OperationFileAndJSON::readLastLineFromTextFile(testConstants::textFileMultylines)};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если чтение файла прошло без ошибок
+    if (textAndErrorCode.second == kav::ErrorCode::no_error)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Прочитанное из файла должно соответствовать
+    result = result && textAndErrorCode.first == testConstants::fileLastLineContents;
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл отсутствует)
+TEST(TestReadLastLineFromTextFile, fileNotExist)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Удалить проверяемый файл
+    std::filesystem::remove(testConstants::textFileMultylines);
+
+    //Прочитать файл
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readLastLineFromTextFile(testConstants::textFileMultylines)).second};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если файл отсутствует
+    if (errorCode == kav::ErrorCode::error_file_missing)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл не открыт)
+TEST(TestReadLastLineFromTextFile, fileNotOpen)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Создать объект для записи. Запретить чтение
+    HANDLE hFile=CreateFile(testConstants::textFileMultylines.c_str(), // file to open
+                            GENERIC_WRITE, // open for writing
+                            FILE_SHARE_WRITE, // share for writing
+                            nullptr, // default security
+                            OPEN_ALWAYS, // OPEN_EXISTING // existing file only
+                            FILE_ATTRIBUTE_NORMAL, // normal file
+                            nullptr // no attr. template
+    );
+
+    //Прочитать файл
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readLastLineFromTextFile(testConstants::textFileMultylines)).second};
+
+    //Закрыть дескриптор. Освободить файл
+    CloseHandle(hFile);
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если открыть файл на чтение не удалось
+    if (errorCode == kav::ErrorCode::error_file_not_open_read)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл не читается)
+/*TEST(TestReadLastLineFromTextFile, fileNotRead)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Подключить диск с проверяемым файлом
+    system("connectDisk.bat");
+
+    //Прочитать файл
+    kav::ErrorCode errorCode{(kav::OperationFileAndJSON::readLastLineFromTextFile("w:\\" + testConstants::textFileMultylines)).second};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если файл не читается
+    if (errorCode == kav::ErrorCode::error_file_not_read)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}*/
 
 
 
