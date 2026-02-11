@@ -15,20 +15,11 @@
 
 
 
-//Константы переменных
-namespace Constants
-{
-
-    const std::string configLoggerMonitorFilePath{"messageQueue.json"};
-
-    const std::string stop{"Stop"};
-}
-
 //Запустить монитор логирования
 void runLoggerMonitor()
 {
     //Создать объект класса логирования событий в монитор
-    kav::LoggerMonitor loggerMonitor(Constants::configLoggerMonitorFilePath);
+    kav::LoggerMonitor loggerMonitor(ProgramArguments::configLoggerMonitorFilePath());
 
     //Запустить монитор
     loggerMonitor.run();

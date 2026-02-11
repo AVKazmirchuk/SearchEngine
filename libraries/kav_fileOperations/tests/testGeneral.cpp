@@ -9,7 +9,7 @@
 
 namespace testConstants {
 
-    const std::string configFilePath{"config.json"};
+    //const std::string configFilePath{"config.json"};
 
     const std::string configNotValid{"configNotValid.json"};
 
@@ -29,7 +29,7 @@ namespace testConstants {
 
     const std::string files{"files"};
 
-    const kav::JSON configTemplate = kav::JSON::parse(R"(
+    /*const kav::JSON configTemplate = kav::JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -42,9 +42,9 @@ namespace testConstants {
        "resources/file003.txt"
      ]
     }
-    )");
+    )");*/
 
-    const kav::JSON configNotMatchTemplate = kav::JSON::parse(R"(
+    /*const kav::JSON configNotMatchTemplate = kav::JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -56,9 +56,9 @@ namespace testConstants {
        "resources/file003.txt"
      ]
     }
-    )");
+    )");*/
 
-    const kav::JSON configArrayEmptyTemplate = kav::JSON::parse(R"(
+    /*const kav::JSON configArrayEmptyTemplate = kav::JSON::parse(R"(
     {
       "config": {
         "name": "SkillboxSearchEngine",
@@ -69,7 +69,7 @@ namespace testConstants {
 
      ]
     }
-    )");
+    )");*/
 
 }
 

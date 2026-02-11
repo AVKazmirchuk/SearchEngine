@@ -14,6 +14,41 @@
 
 
 
+/**
+ * Класс хранения переменных программы
+ */
+class ProgramArguments
+{
+
+public:
+
+    ProgramArguments() = delete;
+
+    /**
+     * Прочитать имя файла конфигурации
+     * @return Ссылка на переменную
+     */
+    static const std::string& configLoggerMonitorFilePath()
+    {
+        //Значение по умолчанию
+        static const std::string variable{"messageQueue.json"};
+        return variable;
+    }
+
+    /**
+     * Прочитать идентификатор остановки цикла получения сообщений из очереди
+     * @return Ссылка на переменную
+     */
+    static const std::string& stop()
+    {
+        //Значение по умолчанию
+        static const std::string variable{"Stop"};
+        return variable;
+    }
+
+};
+
+
 namespace kav
 {
 

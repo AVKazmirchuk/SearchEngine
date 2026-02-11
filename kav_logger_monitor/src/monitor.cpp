@@ -81,7 +81,7 @@ void kav::LoggerMonitor::stop()
     for (auto& queue : queuesInUse)
     {
         //Создать сообщение о завершении работы
-        std::string messageStop{queue + "Stop"};
+        std::string messageStop{queue + ProgramArguments::stop()};
         //Открыть существующую текущую очередь сообщений
         boost::interprocess::message_queue mq(boost::interprocess::open_only, queue.c_str());
         //Послать в очередь сообщение о заверешении работы
