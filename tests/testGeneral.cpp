@@ -1874,7 +1874,7 @@ std::string getLastFilePath()
     //Ожидать
     waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
-    std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
+    //std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
     //Для каждого файла директории
     for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
@@ -1904,11 +1904,11 @@ std::string getLastFilePath()
             directoryEntry = currentDirectoryEntry;
         }
 
-        std::cout << '\n' << "getLastFilePath" << '\n';
-        std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
+        //std::cout << '\n' << "getLastFilePath" << '\n';
+        //std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
     }
-    std::cout << '\n' << "getLastFilePath" << '\n';
-    std::cout << "lastFile: " << directoryEntry.path().filename();
+    //std::cout << '\n' << "getLastFilePath" << '\n';
+    //std::cout << "lastFile: " << directoryEntry.path().filename();
     //Вернуть путь файла
     return directoryEntry.path().string();
     //return kav::Logger::getCurrentLogPath().string();
@@ -1956,7 +1956,7 @@ std::string  getTimePoint()
 bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strErrorLevel)
 {
     //Получить путь текущего лог-файла
-    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
+    std::string fileName{getLastFilePath()};//std::cout << '\n' << "fileName: " << fileName << '\n';
 
     //std::ofstream out(fileName, std::ios::app);
     //out << "\n--- New Test ---\n";
@@ -2003,7 +2003,7 @@ bool isMatchingErrorLevel(const std::string& timePoint, const std::string& strEr
 bool isMatchingErrorLevelForEachFile(const std::string& timePoint, const std::string& strErrorLevel, std::size_t maximumAllowableErrorsNumber)
 {
     //Получить путь текущего лог-файла
-    std::string fileName{getLastFilePath()};std::cout << '\n' << "fileName: " << fileName << '\n';
+    std::string fileName{getLastFilePath()};//std::cout << '\n' << "fileName: " << fileName << '\n';
 
     //std::ofstream out(fileName, std::ios::app);
     //out << "\n--- New Test ---\n";

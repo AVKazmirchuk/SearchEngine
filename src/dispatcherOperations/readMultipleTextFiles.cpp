@@ -31,7 +31,7 @@ std::pair<ErrorCode, ErrorLevel> DispatcherOperations::determineErrorCodeAndErro
         error = ErrorCode::error_any_files_not_read;
     }
 
-std::cout << getStringFromErrorLevel(errorLevelOneFile) << ' ' << getStringFromErrorLevel(errorLevelMultipleFiles) << ' ' << errorNumber << ' ' << maximumAllowableErrorsNumber;
+//std::cout << getStringFromErrorLevel(errorLevelOneFile) << ' ' << getStringFromErrorLevel(errorLevelMultipleFiles) << ' ' << errorNumber << ' ' << maximumAllowableErrorsNumber;
 
     if (isFatalForOneFile)
     {
@@ -61,7 +61,7 @@ std::cout << getStringFromErrorLevel(errorLevelOneFile) << ' ' << getStringFromE
         else if (errorLevelOneFile != ErrorLevel::fatal && errorLevelMultipleFiles == ErrorLevel::fatal) errorLevelMultipleFiles = ErrorLevel::error;
     }//*/
 
-std::cout << getStringFromErrorLevel(errorLevelMultipleFiles);
+//std::cout << getStringFromErrorLevel(errorLevelMultipleFiles);
     return {error, errorLevelMultipleFiles};
 }
 
@@ -71,7 +71,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readTextFileFromMultiple
         ErrorLevel errorLevel,
         const boost::source_location &callingFunction)
 {
-    std::cout << "errorLevel: " << getStringFromErrorLevel(errorLevel);
+    //std::cout << "errorLevel: " << getStringFromErrorLevel(errorLevel);
     return DispatcherOperations::readTextFile(filePath, message, errorLevel, callingFunction);
 }
 

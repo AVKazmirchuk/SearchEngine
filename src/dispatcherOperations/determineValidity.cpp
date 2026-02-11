@@ -147,7 +147,7 @@ void DispatcherOperations::determineValidity(
         completedMessage = DescriptionErrorCode::descriptionErrorCode(errorCode) + ". " +
                            static_cast<std::string>("Calling function: ") + callingFunctionStr + ". " + message;
     }
-std::cout << DescriptionErrorCode::descriptionErrorCode(errorCode) << static_cast<int>(errorLevel);
+//std::cout << DescriptionErrorCode::descriptionErrorCode(errorCode) << static_cast<int>(errorLevel);
     //Если при операции с файлом или JSON-объектом произошла ошибка
     if (errorCode != ErrorCode::no_error)
     {
@@ -155,7 +155,7 @@ std::cout << DescriptionErrorCode::descriptionErrorCode(errorCode) << static_cas
         switch (errorLevel)
         {
             case ErrorLevel::fatal:
-                kav::Logger::fatal(completedMessage);std::cout << "from determine, throw";
+                kav::Logger::fatal(completedMessage);//std::cout << "from determine, throw";
                 //Выбросить исключение
                 throw OperationException(completedMessage);
             case ErrorLevel::error:

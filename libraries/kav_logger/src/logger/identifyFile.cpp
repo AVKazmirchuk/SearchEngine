@@ -64,12 +64,12 @@ void kav::Logger::identifyFilesByLastModification()
     //Сделать файл для записи текущим
     file = logs.back().first;
 
-    std::cout << '\n' << "identifyFilesByLastModification" << '\n';
-    std::cout << "logs size: " << logs.size() << '\n';
-    for (auto& elem : logs)
+    //std::cout << '\n' << "identifyFilesByLastModification" << '\n';
+    //std::cout << "logs size: " << logs.size() << '\n';
+    /*for (auto& elem : logs)
     {
         std::cout << "path: " << elem.first << ", " << "time: " << elem.second << '\n';
-    }
+    }*/
 }
 
 void kav::Logger::identifyNewFile()
@@ -89,8 +89,8 @@ void kav::Logger::identifyNewFile()
     //Получить имя файла с наносекундами
     file = configLogger.filesDirectory() + ts + '_' + strNanosecondsCount + ".log";
 
-    std::cout << '\n' << "identifyNewFile" << '\n';
-    std::cout << "current log: " << file;
+    //std::cout << '\n' << "identifyNewFile" << '\n';
+    //std::cout << "current log: " << file;
     logger(Constants::messageNewFileCreate());
 }
 
@@ -99,8 +99,8 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
     //В директории файлов нет
     if (std::filesystem::is_empty(directoryPath))
     {
-        std::cout << '\n' << "identifyFile (is_empty)" << '\n';
-        std::cout << "\nDirectory is empty\n";
+        //std::cout << '\n' << "identifyFile (is_empty)" << '\n';
+        //std::cout << "\nDirectory is empty\n";
         //Заменить файл
         identifyNewFile();
         return;
@@ -108,7 +108,7 @@ void kav::Logger::identifyFile(const std::string& directoryPath)
 
     //Определить файлы по последнему изменению
     identifyFilesByLastModification();
-std::cout << "after identifyFilesByLastModification" << '\n';
+//std::cout << "after identifyFilesByLastModification" << '\n';
     //Размер файла больше допустимого
     if (std::filesystem::file_size(file) >= configLogger.fileSizeLimit())
     {

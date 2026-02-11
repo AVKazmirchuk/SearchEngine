@@ -4,15 +4,12 @@
 
 
 
-#include <iostream>
 #include <string>
-#include <fstream>
 #include <thread>
 
 #include "boost/interprocess/ipc/message_queue.hpp"
 
 #include "monitor.h"
-#include "monitorReceiver.h"
 
 
 

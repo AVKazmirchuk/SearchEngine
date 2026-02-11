@@ -71,7 +71,7 @@ void kav::Logger::fatal(const std::string& message, const std::exception& except
 
 void kav::Logger::reset(const std::string &in_configLoggerFilePath)
 {
-    std::cout << '\n' << "reset" << '\n';
+    //std::cout << '\n' << "reset" << '\n';
     while (ptrToLogger->recordingMessage.load())
     {
         //Ожидать

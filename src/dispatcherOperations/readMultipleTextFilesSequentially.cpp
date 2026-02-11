@@ -112,7 +112,7 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
 
     //Увеличить количество прочитанных документов
     ++currentErrorsNumber[getFunctionName(callingFunction)][packageID].first;
-    std::cout << '\n' << "current errorNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].second << ", " << "current fileNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].first << '\n';
+    //std::cout << '\n' << "current errorNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].second << ", " << "current fileNumber: " << currentErrorsNumber[getFunctionName(callingFunction)][packageID].first << '\n';
 
     //Если все документы прочитаны
     if (currentErrorsNumber[getFunctionName(callingFunction)][packageID].first == filesNumber || isFatalForOneFile)
@@ -129,24 +129,24 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         //Для тестов
         for (auto& elem : currentErrorsNumber)
         {
-            std::cout << "1: " << elem.first << " ";
+            //std::cout << "1: " << elem.first << " ";
             for (auto& elem2 : elem.second)
             {
-                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                //std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
             }
-            std::cout << " before delete ID of package" << '\n';
+            //std::cout << " before delete ID of package" << '\n';
         }//Для тестов*/
         //Удалить записи этого пакета для этой функции
         currentErrorsNumber[getFunctionName(callingFunction)].erase(packageID);
         //Для тестов
         for (auto& elem : currentErrorsNumber)
         {
-            std::cout << "1: " << elem.first << " ";
+            //std::cout << "1: " << elem.first << " ";
             for (auto& elem2 : elem.second)
             {
-                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                //std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
             }
-            std::cout << " after delete ID of package" << '\n';
+            //std::cout << " after delete ID of package" << '\n';
         }//Для тестов*/
         //Если записей пакетов для этой функции нет
         if (currentErrorsNumber[getFunctionName(callingFunction)].empty())
@@ -154,12 +154,12 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
             //Для тестов
             for (auto& elem : currentErrorsNumber)
             {
-                std::cout << "1: " << elem.first << " ";
+                //std::cout << "1: " << elem.first << " ";
                 for (auto& elem2 : elem.second)
                 {
-                    std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                    //std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
                 }
-                std::cout << " before delete name of function" << '\n';
+                //std::cout << " before delete name of function" << '\n';
             }//Для тестов*/
             //Удалить запись этой функции
             currentErrorsNumber.erase(getFunctionName(callingFunction));
@@ -167,14 +167,14 @@ std::pair<std::string, ErrorCode> DispatcherOperations::readMultipleTextFilesSeq
         //Для тестов
         for (auto& elem : currentErrorsNumber)
         {
-            std::cout << "1: " << elem.first << " ";
+            //std::cout << "1: " << elem.first << " ";
             for (auto& elem2 : elem.second)
             {
-                std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
+                //std::cout << "2: " << elem2.first << " " << elem2.second.first << " " << elem2.second.second;
             }
-            std::cout << " after delete name of function" << '\n';
+            //std::cout << " after delete name of function" << '\n';
         }//Для тестов*/
-std::cout << '\n' << "errorNumber: " << errorNumber << ", " << "filesNumber: " << filesNumber << ", " << "errorLevelMultipleFiles: " << getStringFromErrorLevel(errorLevelMultipleFiles) << '\n';
+//std::cout << '\n' << "errorNumber: " << errorNumber << ", " << "filesNumber: " << filesNumber << ", " << "errorLevelMultipleFiles: " << getStringFromErrorLevel(errorLevelMultipleFiles) << '\n';
         //Определить уровни логирования. Используется ли соответствие имени вызывающей функции и уровня логирования
         errorLevelOneFile = determineErrorLevel(errorLevelOneFile, BOOST_CURRENT_LOCATION);
 

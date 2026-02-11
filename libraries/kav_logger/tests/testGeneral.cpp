@@ -537,7 +537,7 @@ std::string getLastFilePath()
     //Ожидать
     waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
 
-std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
+//std::cout << "------------------------------------------------------------------------timePoint: " << timePoint;
     //Для каждого файла директории
     for (const auto &currentDirectoryEntry: std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
@@ -567,11 +567,11 @@ std::cout << "------------------------------------------------------------------
             directoryEntry = currentDirectoryEntry;
         }
 
-        std::cout << '\n' << "getLastFilePath" << '\n';
-        std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
+        //std::cout << '\n' << "getLastFilePath" << '\n';
+        //std::cout << currentDirectoryEntry.path().filename() << " " << tpCurrent << '\n';
     }
-    std::cout << '\n' << "getLastFilePath" << '\n';
-    std::cout << "lastFile: " << directoryEntry.path().filename();
+    //std::cout << '\n' << "getLastFilePath" << '\n';
+    //std::cout << "lastFile: " << directoryEntry.path().filename();
     //Вернуть путь файла
     return directoryEntry.path().string();
     //return kav::Logger::getCurrentLogPath().string();

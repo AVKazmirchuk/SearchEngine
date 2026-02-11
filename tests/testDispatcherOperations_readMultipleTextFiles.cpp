@@ -174,7 +174,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAll
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -417,7 +417,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllF
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -472,7 +472,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForEac
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
     try
     {
         //Прочитать несколько текстовых файлов одновременно в разных потоках
@@ -532,7 +532,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForEac
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
     try
     {
         //Прочитать несколько текстовых файлов одновременно в разных потоках
@@ -631,7 +631,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForAll
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -937,7 +937,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorMoreErrorsForAllF
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -1008,7 +1008,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalFatalFewerErrorsForEac
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
     try
     {
         //Прочитать несколько текстовых файлов одновременно в разных потоках
@@ -1085,7 +1085,7 @@ TEST(TestDispatcherOperations_readMultipleTextFiles, fatalErrorFewerErrorsForEac
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
     try
     {
         //Прочитать несколько текстовых файлов одновременно в разных потоках

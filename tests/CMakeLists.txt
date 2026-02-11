@@ -110,7 +110,7 @@ target_link_libraries(${Application_Name_Test} PRIVATE gtest_main)
 #Загрузить и запустить код CMake из файла или модуля
 include(GoogleTest)
 #Автоматически добавить тесты с помощью CTest, запрашивая у скомпилированного исполняемого файла теста информацию о доступных тестах
-gtest_discover_tests(${Application_Name_Test})
+gtest_discover_tests(${Application_Name_Test} PROPERTIES TEST_DISCOVERY_TIMEOUT 180)
 
 
 

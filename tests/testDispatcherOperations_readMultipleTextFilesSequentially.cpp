@@ -59,7 +59,7 @@ std::pair <std::vector<std::string>, std::vector<ErrorCode>> readFilePathsSequen
                                                                                     packageID, messageOneFile, messageMultipleFiles, errorLevelOneFile, errorLevelMultipleFiles)};
         //Скопировать (переместить) результаты в контейнер прочитанных документов
         documents.first[currentDocID] = std::move(tmp.first);
-        documents.second[currentDocID] = tmp.second;std::cout << '\n' << "currentDocID: " << currentDocID << '\n';
+        documents.second[currentDocID] = tmp.second;//std::cout << '\n' << "currentDocID: " << currentDocID << '\n';
     }
 
     //Вернуть прочитанные документы
@@ -182,7 +182,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalFewer
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
     //Прочитать несколько текстовых файлов последовательно
     std::pair <std::vector<std::string>, std::vector<ErrorCode>> textsAndErrorCodes = readFilePathsSequentially(Bases::paths_file001_002_missing(), Bases::paths_file001_002_missing().size(),
                                                                                                     ProgramArguments::maximumAllowableErrorsNumber_2(), ProgramArguments::packageID_0(),
@@ -208,7 +208,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalFatalFewer
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -345,7 +345,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, errorFatalMoreE
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
     try
     {
         //Прочитать несколько текстовых файлов последовательно
@@ -462,7 +462,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorMoreE
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -679,7 +679,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalFatalFewer
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {
@@ -991,7 +991,7 @@ TEST(TestDispatcherOperations_readMultipleTextFilesSequentially, fatalErrorMoreE
 
     //Отметка времени для всех файлов
     std::string timePointForAllFiles{getTimePoint()};
-    std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
+    //std::cout << timePointForEachFile << ' ' << timePointForAllFiles << '\n';
 
     try
     {

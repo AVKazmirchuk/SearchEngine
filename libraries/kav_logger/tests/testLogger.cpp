@@ -54,7 +54,7 @@ bool checkFileUsageTime(const std::string &configLoggerFilePath, std::chrono::du
     std::chrono::system_clock::time_point timePointBeforeResetting{getFirstTimePointFromFile(pathOfLogBeforeResetting)};
     std::chrono::system_clock::time_point timePointAfterResetting{getFirstTimePointFromFile(pathOfLogAfterResetting)};
 
-    std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
+    //std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
     //Если пути файлов разные и количество лог-файлов равно 2 и время создания файлов отличаются
     if (pathOfLogBeforeResetting != pathOfLogAfterResetting && filesNumber == 2 &&
             (timePointAfterResetting - timePointBeforeResetting) > seconds)
@@ -109,7 +109,7 @@ bool checkFileStorageTime(const std::string &configLoggerFilePath, std::chrono::
         ++filesNumber;
     }
 
-    std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
+    //std::cout << "pathOfLogBeforeResetting: " << pathOfLogBeforeResetting << ", " << "pathOfLogAfterChecking: " << pathOfLogAfterResetting;
     //Если пути файлов разные и количество лог-файлов равно 2 и время создания файлов отличаются
     if (filesNumber == 1 && (timePointAfterResetting - timePointBeforeResetting) > seconds)
     {
@@ -541,7 +541,7 @@ TEST(TestLogger, size_200_bytes)
 
     for (int i{}; i < numberOfIterations; ++i)
     {
-        std::cout << "\ni: " << i;
+        //std::cout << "\ni: " << i;
         //Изменить конфигурацию логгера. Создать новый файл для записи.
         kav::Logger::reset(ProgramArguments::configLoggerFilePath_size_200_bytes());
         //Изменить конфигурацию логгера. Создать новый файл для записи.
@@ -550,11 +550,11 @@ TEST(TestLogger, size_200_bytes)
 
     //Подсчитать количество лог-файлов в директории
     int filesNumber{};
-    std::cout << '\n';
+    //std::cout << '\n';
     waitFileWrite(ProgramArguments::waitFileWrite_micro_10());
     for (const auto& currentDirectoryEntry : std::filesystem::directory_iterator(ProgramArguments::logsFolderName()))
     {
-        ++filesNumber;std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
+        ++filesNumber;//std::cout << "currentDirectoryEntry: " << currentDirectoryEntry.path() << '\n';
     }
 
     //Если количество файлов равно требуемого
