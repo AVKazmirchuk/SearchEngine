@@ -27,7 +27,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeJSONFile(const std::string& fileP
     if (errorCode == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время записи раскомментировать
-        //system("disconnectDisk.bat");
+        KAV_SYSTEM_DISCONNECT_DISK
 
         //Записать JSON-объект в файл
         outFile << std::setw(formatByWidth) << objectJSON;
@@ -63,7 +63,7 @@ std::pair<kav::JSON, kav::ErrorCode> kav::OperationFileAndJSON::readJSONFile(con
     if (objectJSON.second == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
-        //system("disconnectDisk.bat");
+        KAV_SYSTEM_DISCONNECT_DISK
 
         try
         {
@@ -104,7 +104,7 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readTextFile(c
     if (tmp.second == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
-        //system("disconnectDisk.bat");
+        KAV_SYSTEM_DISCONNECT_DISK
 
         try
         {
@@ -143,45 +143,45 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
     if (tmp.second == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
-        //system("disconnectDisk.bat");
+        KAV_SYSTEM_DISCONNECT_DISK
 
         //Читать последнюю строку
-        try
-        {
-            //Передвинуть указатель, чтобы прочитать последний символ
-            inFile.seekg(-1, std::ios::end);
 
-            char ch;
-            //Прочитать последний символ
-            inFile.get(ch);
-            //Если прочитан символ новой строки - перейти на чтение последнего символа
-            if (ch == '\n') inFile.seekg(-3, std::ios::cur);
+        //Передвинуть указатель, чтобы прочитать последний символ
+        inFile.seekg(-1, std::ios::end);
+
+        char ch;
+        //Прочитать последний символ
+        inFile.get(ch);
+        //Если прочитан символ новой строки - перейти на чтение последнего символа
+        if (ch == '\n') inFile.seekg(-3, std::ios::cur);
             //Перейти на чтение последнего символа
-            else inFile.seekg(-1, std::ios::cur);
+        else inFile.seekg(-1, std::ios::cur);
 
-            //Пока читается
-            while (inFile.get(ch))
-            {
-                //Если прочитанный символ новой строки - указатель стоит в начале строки
-                if (ch == '\n') break;
+        //Пока читается
+        while (inFile.get(ch))
+        {
+            //Если прочитанный символ новой строки - указатель стоит в начале строки
+            if (ch == '\n') break;
                 //Если указатель на второй позиции
-                else if (inFile.tellg() == 1)
-                {
-                    //Перейти на начало строки
-                    inFile.seekg(-1, std::ios::cur);
-                    break;
-                }
-
-                //Перейти для чтения предыдущего символа
-                inFile.seekg(-3, std::ios::cur);
+            else if (inFile.tellg() == 1)
+            {
+                //Перейти на начало строки
+                inFile.seekg(-1, std::ios::cur);
+                break;
             }
 
-            //Прочитать строку целиком
-            std::getline(inFile, tmp.first);
+            //Перейти для чтения предыдущего символа
+            inFile.seekg(-2, std::ios::cur);
         }
-        catch (const std::exception& e)
+
+        //Прочитать строку целиком
+        std::getline(inFile, tmp.first);
+
+        //Если при чтении произошла ошибка
+        if (inFile.fail())
         {
-            //Если при чтении произошла ошибка - установить соответствующий код ошибки
+            //Установить соответствующий код ошибки
             tmp.second = ErrorCode::error_file_not_read;
         }
     }
@@ -210,17 +210,17 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readFirstLineF
     if (tmp.second == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
-        //system("disconnectDisk.bat");
+        KAV_SYSTEM_DISCONNECT_DISK
 
         //Читать последнюю строку
-        try
+
+        //Прочитать строку целиком
+        std::getline(inFile, tmp.first);
+
+        //Если при чтении произошла ошибка
+        if (inFile.fail())
         {
-            //Прочитать строку целиком
-            std::getline(inFile, tmp.first);
-        }
-        catch (const std::exception& e)
-        {
-            //Если при чтении произошла ошибка - установить соответствующий код ошибки
+            //Установить соответствующий код ошибки
             tmp.second = ErrorCode::error_file_not_read;
         }
     }
@@ -244,7 +244,7 @@ kav::ErrorCode kav::OperationFileAndJSON::writeTextFile(const std::string &fileP
     if (errorCode == ErrorCode::no_error)
     {
         //Для прохождения теста на эмуляцию ошибки во время записи раскомментировать
-        //system("disconnectDisk.bat");
+        KAV_SYSTEM_DISCONNECT_DISK
 
         //Записать текст в файл
         outFile << text;

@@ -1,1 +1,1 @@
-net use w: \\a-kazmirchuk2\test
+net use w: \\a-kazmirchuk2\temp
