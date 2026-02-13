@@ -737,7 +737,8 @@ TEST(TestReadLastLineFromTextFile, fileExistEmpty)
 
     //Прочитанное из файла должно соответствовать
     result = result && textAndErrorCode.first == ProgramArguments::fileLastLineContents_2();
-std::cout << kav::DescriptionErrorCode::descriptionErrorCode(textAndErrorCode.second);
+    std::cout << textAndErrorCode.first << '\n';
+    std::cout << kav::DescriptionErrorCode::descriptionErrorCode(textAndErrorCode.second) << '\n';
     //Проверить утверждение
     ASSERT_TRUE(result);
 }

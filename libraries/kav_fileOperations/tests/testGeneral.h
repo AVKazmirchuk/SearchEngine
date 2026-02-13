@@ -210,7 +210,7 @@ public:
     static const std::string& fileLastLineContents_2()
     {
         //Значение по умолчанию
-        static const std::string variable{"qqq"};
+        static const std::string variable{"qwerty"};
         return variable;
     }
 
