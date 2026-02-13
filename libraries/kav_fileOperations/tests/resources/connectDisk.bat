@@ -1,1 +1,1 @@
-net use w: \\a-kazmirchuk2\temp
+net use w: \\localhost\tests

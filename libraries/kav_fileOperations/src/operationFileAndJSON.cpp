@@ -145,6 +145,9 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
         //Для прохождения теста на эмуляцию ошибки во время чтения раскомментировать
         KAV_SYSTEM_DISCONNECT_DISK
 
+        //Признак присутствия символа перевода каретки в конце файла
+        bool lineFeed{};
+
         //Переместить указатель в конец файла
         inFile.seekg(0, std::ios::end);
 
@@ -165,6 +168,9 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
                 //Если прочитан символ новой строки
                 if (ch == '\n')
                 {
+                    //Установить признак присутствия символа перевода каретки в конце файла
+                    lineFeed = true;
+
                     //Передвинуть указатель для чтения последнего не управляющего символа
                     inFile.seekg(-3, std::ios::cur);
                 }
@@ -193,9 +199,10 @@ std::pair<std::string, kav::ErrorCode> kav::OperationFileAndJSON::readLastLineFr
         //Прочитать строку целиком
         std::getline(inFile, tmp.first);
 
-        if (!tmp.first.empty())
+        //Если строка не пустая и символ перевода каретки присутствует в конце файла
+        if (!tmp.first.empty() && lineFeed)
         {
-            std::cout << static_cast<int>(tmp.first.back()) << '\n';
+            //Удалить символ перевода каретки
             tmp.first.pop_back();
         }
 
