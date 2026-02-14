@@ -16,7 +16,7 @@
  * Поэтому эти функции проверки отключены.
  */
 
-#define KAV_ENABLE_ERROR_CHECKING_DURING_THE_OPERATION
+//#define KAV_ENABLE_ERROR_CHECKING_DURING_THE_OPERATION
 
 #ifdef KAV_ENABLE_ERROR_CHECKING_DURING_THE_OPERATION
     #define KAV_SYSTEM_DISCONNECT_DISK system("disconnectDisk.bat");
