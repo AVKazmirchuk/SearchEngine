@@ -1,1 +1,1 @@
-search_engine.exe /t 14
+search_engine.exe /t 14 /c config-test.json /r requests-test.json /a answers-test.json /p 3 /e 1
