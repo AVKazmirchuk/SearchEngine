@@ -82,6 +82,31 @@ public:
     }
 
     /**
+     * Прочитать несоответствующий структуре JSON-шаблон файла конфигурации (несовпадение типа)
+     * @return Ссылка на переменную
+     */
+    static const kav::JSON &configNotMatchNotTypeTemplate()
+    {
+        //Значение по умолчанию
+        static const kav::JSON variable = kav::JSON::parse(R"(
+    {
+      "config": {
+        "name": "SkillboxSearchEngine",
+        "version": "0.1",
+        "max_responses": 0.5
+      },
+     "files": [
+       "resources/file001.txt",
+       "resources/file002.txt",
+       "resources/file003.txt"
+     ]
+    }
+    )");
+
+        return variable;
+    }
+
+    /**
      * Прочитать JSON-шаблон файла конфигурации с пустым массивом
      * @return Ссылка на переменную
      */
@@ -141,10 +166,21 @@ public:
      * Путь текстового файла со строками
      * @return Ссылка на переменную
      */
-    static const std::string& textFileMultylines_2()
+    static const std::string& textFileOneLine_withLineFeed()
     {
         //Значение по умолчанию
-        static const std::string variable{"fileMultylines-2.txt"};
+        static const std::string variable{"fileOneLine-withLineFeed.txt"};
+        return variable;
+    }
+
+    /**
+     * Путь текстового файла со строками
+     * @return Ссылка на переменную
+     */
+    static const std::string& textFileOneLine_withoutLineFeed()
+    {
+        //Значение по умолчанию
+        static const std::string variable{"fileOneLine-withoutLineFeed.txt"};
         return variable;
     }
 
@@ -210,7 +246,7 @@ public:
     static const std::string& fileLastLineContents_2()
     {
         //Значение по умолчанию
-        static const std::string variable{"qwerty"};
+        static const std::string variable{"actions  people of the new american generation have a great opportunity to watch what is going on inside them in the movies shot outside"};
         return variable;
     }
 

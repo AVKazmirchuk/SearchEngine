@@ -7,6 +7,26 @@
 
 
 
+/*
+ * Для прохождения тестов на запись-чтение файлов (в процессе) для эмуляции ошибки используется сетевой диск. При записи-чтении
+ * диск отключается. Перед запуском тестов надо расшарить директорию (не которую использует IDE по умолчанию) с правами на запись,
+ * положить файлы config.json, file001.txt, fileMultylines.txt, и поправить файлы: connectDisk.bat,
+ * disconnectDisk.bat. Раскомментировать макрос KAV_ENABLE_ERROR_CHECKING_DURING_THE_OPERATION. Есть вариант использовать для
+ * этого Windows API, но там всё не так просто. Другого автоматического способа не нашёл для эмуляции ошибки. Пока хоть что-то.
+ * Поэтому эти функции проверки отключены.
+ */
+
+#define KAV_ENABLE_ERROR_CHECKING_DURING_THE_OPERATION
+
+#ifdef KAV_ENABLE_ERROR_CHECKING_DURING_THE_OPERATION
+    #define KAV_SYSTEM_DISCONNECT_DISK system("disconnectDisk.bat");
+    #define KAV_SYSTEM_CONNECT_DISK system("connectDisk.bat");
+#else
+    #define KAV_SYSTEM_DISCONNECT_DISK //system("disconnectDisk.bat");
+    #define KAV_SYSTEM_CONNECT_DISK //system("connectDisk.bat");
+#endif
+
+
 #include <fstream>
 #include <string>
 #include <thread>

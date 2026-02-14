@@ -13,7 +13,8 @@ void putFiles()
     std::filesystem::remove("configNotValid.json");
     std::filesystem::remove("file001.txt");
     std::filesystem::remove("fileMultylines.txt");
-    std::filesystem::remove("fileMultylines-2.txt");
+    std::filesystem::remove("fileOneLine-withLineFeed.txt");
+    std::filesystem::remove("fileOneLine-withoutLineFeed.txt");
     std::filesystem::remove("connectDisk.bat");
     std::filesystem::remove("disconnectDisk.bat");
 
@@ -21,7 +22,8 @@ void putFiles()
     std::filesystem::copy("../../tests/resources/configNotValid.json", "configNotValid.json");
     std::filesystem::copy("../../tests/resources/file001.txt", "file001.txt");
     std::filesystem::copy("../../tests/resources/fileMultylines.txt", "fileMultylines.txt");
-    std::filesystem::copy("../../tests/resources/fileMultylines-2.txt", "fileMultylines-2.txt");
+    std::filesystem::copy("../../tests/resources/fileOneLine-withLineFeed.txt", "fileOneLine-withLineFeed.txt");
+    std::filesystem::copy("../../tests/resources/fileOneLine-withoutLineFeed.txt", "fileOneLine-withoutLineFeed.txt");
     std::filesystem::copy("../../tests/resources/connectDisk.bat", "connectDisk.bat");
     std::filesystem::copy("../../tests/resources/disconnectDisk.bat", "disconnectDisk.bat");
 }

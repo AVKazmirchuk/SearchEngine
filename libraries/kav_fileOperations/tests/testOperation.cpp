@@ -524,6 +524,29 @@ TEST(TestCheckJSONStructureMatch, JSONStructureNotMatch)
     ASSERT_TRUE(result);
 }
 
+//Запустить проверку JSON-структуры на соответствие шаблону (файл не соответствует)
+TEST(TestCheckJSONStructureMatch, JSONStructureNotMatchNotType)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Проверить JSON-структуру на соответствие шаблону
+    kav::ErrorCode errorCode{kav::OperationFileAndJSON::checkJSONStructureMatch(ProgramArguments::configNotMatchNotTypeTemplate(), ProgramArguments::configTemplate())};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если JSON-структура не соответствует шаблону
+    if (errorCode == kav::ErrorCode::error_json_structure_not_match)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
 //Проверить массив на заполненность
 TEST(TestCheckArray, arrayFilled)
 {
@@ -717,13 +740,13 @@ TEST(TestReadLastLineFromTextFile, fileExist)
 }
 
 //Запустить проверку на чтение первой строки текстового файла (файл присутствует, открыт, читается)
-TEST(TestReadLastLineFromTextFile, fileExistEmpty)
+TEST(TestReadLastLineFromTextFile, fileExist_OneLineWithLineFeed)
 {
     //Записать файлы для тестирования
     putFiles();
 
     //Прочитать файл
-    std::pair<std::string, kav::ErrorCode> textAndErrorCode{kav::OperationFileAndJSON::readLastLineFromTextFile(ProgramArguments::textFileMultylines_2())};
+    std::pair<std::string, kav::ErrorCode> textAndErrorCode{kav::OperationFileAndJSON::readLastLineFromTextFile(ProgramArguments::textFileOneLine_withLineFeed())};
 
     //Обнулить результат операции
     bool result{};
@@ -736,9 +759,34 @@ TEST(TestReadLastLineFromTextFile, fileExistEmpty)
     }
 
     //Прочитанное из файла должно соответствовать
-    result = result && textAndErrorCode.first == ProgramArguments::fileLastLineContents_2();
-    std::cout << textAndErrorCode.first << '\n';
-    std::cout << kav::DescriptionErrorCode::descriptionErrorCode(textAndErrorCode.second) << '\n';
+    result = result && textAndErrorCode.first == ProgramArguments::fileLastLineContents();
+
+    //Проверить утверждение
+    ASSERT_TRUE(result);
+}
+
+//Запустить проверку на чтение первой строки текстового файла (файл присутствует, открыт, читается)
+TEST(TestReadLastLineFromTextFile, fileExist_OneLineWithoutLineFeed)
+{
+    //Записать файлы для тестирования
+    putFiles();
+
+    //Прочитать файл
+    std::pair<std::string, kav::ErrorCode> textAndErrorCode{kav::OperationFileAndJSON::readLastLineFromTextFile(ProgramArguments::textFileOneLine_withoutLineFeed())};
+
+    //Обнулить результат операции
+    bool result{};
+
+    //Если чтение файла прошло без ошибок
+    if (textAndErrorCode.second == kav::ErrorCode::no_error)
+    {
+        //Установить результат операции
+        result = true;
+    }
+
+    //Прочитанное из файла должно соответствовать
+    result = result && textAndErrorCode.first == ProgramArguments::fileLastLineContents();
+
     //Проверить утверждение
     ASSERT_TRUE(result);
 }
