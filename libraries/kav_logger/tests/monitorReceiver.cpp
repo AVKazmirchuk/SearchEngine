@@ -29,7 +29,7 @@ std::string kav::MonitorReceiver::receive(const boost::interprocess::message_que
     return message;
 }
 
-bool kav::MonitorReceiver::RemoveMessageQueue::isProcessRun(const char * const processName)
+/*bool kav::MonitorReceiver::RemoveMessageQueue::isProcessRun(const char * const processName)
 {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
@@ -54,5 +54,5 @@ bool kav::MonitorReceiver::RemoveMessageQueue::isProcessRun(const char * const p
     CloseHandle(hSnapshot);
 
     return result;
-}
+}*/
 

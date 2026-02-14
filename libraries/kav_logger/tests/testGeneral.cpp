@@ -8,110 +8,110 @@
 
 
 
-const std::string& ProgramArguments::configFilePath()
+/*const std::string& ProgramArguments::configFilePath()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/config-test.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::configFilePath_2()
+/*const std::string& ProgramArguments::configFilePath_2()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/config-test-2.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::configFilePath_missing()
+/*const std::string& ProgramArguments::configFilePath_missing()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/config-test-missing.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::configFilePath_filesEmpty()
+/*const std::string& ProgramArguments::configFilePath_filesEmpty()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/config-test-files-empty.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::configFilePath_file003_missing()
+/*const std::string& ProgramArguments::configFilePath_file003_missing()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/config-test-file003-missing.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::requestsFilePath()
+/*const std::string& ProgramArguments::requestsFilePath()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/requests-test.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::requestsFilePath_missing()
+/*const std::string& ProgramArguments::requestsFilePath_missing()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/requests-test-missing.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::requestsFilePath_requestsEmpty()
+/*const std::string& ProgramArguments::requestsFilePath_requestsEmpty()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/requests-test-requests-empty.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::answersFilePath()
+/*const std::string& ProgramArguments::answersFilePath()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/answers-test.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::readJSONFile()
+/*const std::string& ProgramArguments::readJSONFile()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/readJSONFile.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::readMissingJSONFile()
+/*const std::string& ProgramArguments::readMissingJSONFile()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/readJSONFile-missing.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::readTextFile()
+/*const std::string& ProgramArguments::readTextFile()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/readTextFile.txt"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::readMissingTextFile()
+/*const std::string& ProgramArguments::readMissingTextFile()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/readTextFile-missing.txt"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::checkRequestsArray()
+/*const std::string& ProgramArguments::checkRequestsArray()
 {
     //Значение по умолчанию
     static const std::string variable{"../../tests/resources/checkRequestsArray.json"};
     return variable;
-}
+}*/
 
-const std::string& ProgramArguments::answersFilePath_empty()
+/*const std::string& ProgramArguments::answersFilePath_empty()
 {
     //Значение по умолчанию
     static const std::string variable;
     return variable;
-}
+}*/
 
 const std::string& ProgramArguments::configLoggerFilePath()
 {
@@ -260,12 +260,12 @@ const std::string& ProgramArguments::logsFolderName()
     return variable;
 }
 
-const std::string& ProgramArguments::jsonFileName()
+/*const std::string& ProgramArguments::jsonFileName()
 {
     //Значение по умолчанию
     static const std::string variable{"writeJSONFile.json"};
     return variable;
-}
+}*/
 
 const std::string& ProgramArguments::messageForException()
 {
@@ -295,26 +295,26 @@ const std::string& ProgramArguments::stop()
     return variable;
 }
 
-boost::interprocess::message_queue::size_type ProgramArguments::maxNumberOfMessages_100()
+/*boost::interprocess::message_queue::size_type ProgramArguments::maxNumberOfMessages_100()
 {
     //Значение по умолчанию
     static const boost::interprocess::message_queue::size_type variable{100};
     return variable;
-}
+}*/
 
-boost::interprocess::message_queue::size_type ProgramArguments::maxMessageSize_1024()
+/*boost::interprocess::message_queue::size_type ProgramArguments::maxMessageSize_1024()
 {
     //Значение по умолчанию
     static const boost::interprocess::message_queue::size_type variable{1024};
     return variable;
-}
+}*/
 
-const std::string &ProgramArguments::fileNameOfMonitor()
+/*const std::string &ProgramArguments::fileNameOfMonitor()
 {
     //Значение по умолчанию
     static const std::string variable{"logger_monitor.exe"};
     return variable;
-}
+}*/
 
 const std::string& ProgramArguments::errorLevel_debug()
 {
@@ -358,12 +358,12 @@ const std::string& ProgramArguments::dateTimeFormat()
     return variable;
 }
 
-const std::string& ProgramArguments::launchConsole_yes()
+/*const std::string& ProgramArguments::launchConsole_yes()
 {
     //Значение по умолчанию
     static const std::string variable{"yes"};
     return variable;
-}
+}*/
 
 const std::string& ProgramArguments::queue_only()
 {
@@ -449,82 +449,82 @@ std::chrono::duration<double, std::ratio<60 * 60 * 24 * 7>> ProgramArguments::se
     return variable;
 }
 
-const unsigned int& ProgramArguments::precision()
+/*const unsigned int& ProgramArguments::precision()
 {
     //Значение по умолчанию
     static const unsigned int variable{6};
     return variable;
-}
+}*/
 
-const unsigned int& ProgramArguments::precision_3()
+/*const unsigned int& ProgramArguments::precision_3()
 {
     //Значение по умолчанию
     static const unsigned int variable{3};
     return variable;
-}
+}*/
 
-const int& ProgramArguments::formatByWidth()
+/*const int& ProgramArguments::formatByWidth()
 {
     //Значение по умолчанию
     static const int variable{2};
     return variable;
-}
+}*/
 
-unsigned int ProgramArguments::desiredNumberOfThreads()
+/*unsigned int ProgramArguments::desiredNumberOfThreads()
 {
     //Значение по умолчанию
     static const unsigned int variable{std::thread::hardware_concurrency() - 1};
     return variable;
-}
+}*/
 
-unsigned int ProgramArguments::desiredNumberOfThreads_1()
+/*unsigned int ProgramArguments::desiredNumberOfThreads_1()
 {
     //Значение по умолчанию
     static const unsigned int variable{1};
     return variable;
-}
+}*/
 
-unsigned int ProgramArguments::desiredNumberOfThreads_3()
+/*unsigned int ProgramArguments::desiredNumberOfThreads_3()
 {
     //Значение по умолчанию
     static const unsigned int variable{3};
     return variable;
-}
+}*/
 
-const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_0()
+/*const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_0()
 {
     //Значение по умолчанию
     static const std::size_t variable{0};
     return variable;
-}
+}*/
 
-const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_1()
+/*const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_1()
 {
     //Значение по умолчанию
     static const std::size_t variable{1};
     return variable;
-}
+}*/
 
-const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_2()
+/*const std::size_t& ProgramArguments::maximumAllowableErrorsNumber_2()
 {
     //Значение по умолчанию
     static const std::size_t variable{2};
     return variable;
-}
+}*/
 
-const std::size_t& ProgramArguments::packageID_0()
+/*const std::size_t& ProgramArguments::packageID_0()
 {
     //Значение по умолчанию
     static const std::size_t variable{0};
     return variable;
-}
+}*/
 
-unsigned int ProgramArguments::maxResponses()
+/*unsigned int ProgramArguments::maxResponses()
 {
     //Значение по умолчанию
     static const unsigned int variable{5};
     return variable;
-}
+}*/
 
 
 
@@ -637,7 +637,7 @@ std::string getLogLine(const std::string& timePoint)
     std::string::size_type found{log.rfind(timePoint)};
 
     //Строка лог-файла
-    std::string logLine{""};
+    std::string logLine;
 
     //Если отметка присутствует
     if (found != std::string::npos)
