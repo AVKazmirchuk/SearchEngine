@@ -4,18 +4,20 @@
       "result": "false"
     },
     "request002": {
-      "result": "false"
+      "result": "true",
+      "docid": 0,
+      "rank": 0.017544
     },
     "request003": {
       "result": "true",
       "relevance": [
         {
-          "docid": 2,
+          "docid": 0,
           "rank": 1.0
         },
         {
           "docid": 1,
-          "rank": 0.815
+          "rank": 0.77193
         }
       ]
     }
